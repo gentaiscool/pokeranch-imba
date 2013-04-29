@@ -7,9 +7,12 @@ public class Skill {
 	private String name;
 	private Status damage, cost;
 	private Element element;
+	private Skill nextSkill;
+	private int nextSkillLevel;
 	
 	public void load(Scanner scan) {
 		// element harus diisi manual
+		// nextSkill dan levelnya harus diisi manual
 		try{
 			name = scan.next();
 			damage.load(scan);
@@ -51,6 +54,22 @@ public class Skill {
 
 	public void setElement(Element element) {
 		this.element = element;
+	}
+
+	public Skill getNextSkill() {
+		return nextSkill;
+	}
+
+	public void setNextSkill(Skill nextSkill) {
+		this.nextSkill = nextSkill;
+	}
+
+	public int getNextSkillLevel() {
+		return nextSkillLevel;
+	}
+
+	public void setNextSkillLevel(int nextSkillLevel) {
+		this.nextSkillLevel = nextSkillLevel;
 	}
 
 }
