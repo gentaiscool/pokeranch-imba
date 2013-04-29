@@ -30,152 +30,90 @@ public class DBLoader {
 	
 	//getter
 	
-		public Element getElement(String name){
-			return elements.get(name);
-		}
-		
-		public Species getSpecies(String name){
-			return species.get(name);
-		}
-		
-		public Skill getSkill(String name){
-			return skills.get(name);
-		}
-		
-		public Species getRandomSpecies(){
-			Object[] names = species.keySet().toArray();
-			Random rand = new Random();
-			return getSpecies((String) names[rand.nextInt(names.length)]);
-		}
+	public Element getElement(String name){
+		return elements.get(name);
+	}
+	
+	public Species getSpecies(String name){
+		return species.get(name);
+	}
+	
+	public Skill getSkill(String name){
+		return skills.get(name);
+	}
+	
+	public Species getRandomSpecies(){
+		Object[] names = species.keySet().toArray();
+		Random rand = new Random();
+		return getSpecies((String) names[rand.nextInt(names.length)]);
+	}
 	
 	//fungsi2 load
 	
-	public void loadElement(){
-		try{
-			String line;
-			StringBuilder str=new StringBuilder();
-			BufferedReader buf = new BufferedReader(new InputStreamReader(assets.open("elements.dat")));
-			while ((line = buf.readLine()) != null){
-				str.append(line);
-				str.append("\n");
-			}
-			
-			//build semua elementnya dulu
-			Scanner scan = new Scanner(str.toString());
-			while(scan.hasNext()){
-				String s = scan.next();
-				if (s.charAt(0)!='#'){
-					Element e = new Element(s);
-					elements.put(s, e);
-				}
-				scan.nextLine();
-			}
-			
-			//load data2 nya
-			scan = new Scanner(str.toString());
-			while(scan.hasNext()){
-				String s = scan.next();
-				if (s.charAt(0)!='#'){
-					Element e = getElement(s);
-					e.load(scan);
-				}else{
-					scan.nextLine();
-				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
-	public void loadSkills(){
-		try{
-			String line;
-			StringBuilder str=new StringBuilder();
-			BufferedReader buf = new BufferedReader(new InputStreamReader(assets.open("skills.dat")));
-			while ((line = buf.readLine()) != null){
-				str.append(line);
-				str.append("\n");
-			}
-			
-			//build semua skillnya dulu
-			Scanner scan = new Scanner(str.toString());
-			while(scan.hasNext()){
-				String s = scan.next();
-				if (s.charAt(0)!='#'){
-					Skill e = new Skill(s);
-					skills.put(s, e);
-				}
-				scan.nextLine();
-			}
-			
-			//load data2 nya
-			scan = new Scanner(str.toString());
-			while(scan.hasNext()){
-				String s = scan.next();
-				if (s.charAt(0)!='#'){
-					Skill e = getSkill(s);
-					e.load(scan);
-				}else{
-					scan.nextLine();
-				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
-	public void loadSpecies(){
-		
-		//TODO blom bener
-		
-		try{
-			String line;
-			StringBuilder str=new StringBuilder();
-			BufferedReader buf = new BufferedReader(new InputStreamReader(assets.open("species.dat")));
-			while ((line = buf.readLine()) != null){
-				str.append(line);
-				str.append("\n");
-			}
-			
-			//build semua elementnya dulu
-			Scanner scan = new Scanner(str.toString());
-			while(scan.hasNext()){
-				String s = scan.next();
-				if (s.charAt(0)!='#'){
-					Species e = new Species(s);
-					species.put(s, e);
-				}
-				scan.nextLine();
-			}
-			
-			//load data2 nya
-			scan = new Scanner(str.toString());
-			while(scan.hasNext()){
-				String s = scan.next();
-				if (s.charAt(0)!='#'){
-					Species e = getSpecies(s);
-					e.load(scan);
-				}else{
-					scan.nextLine();
-				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
 	public void loadAll(){
-		loadElement();
-		loadSkills();
-		loadSpecies();
+		load(Element.class, elements, "elements.dat");
+		load(Skill.class, skills, "skills.dat");
+		load(Species.class, species, "species.dat");
+	}
+	
+	//load generic
+	private <E extends ILoadable> void load(Class<E> c, HashMap<String, E> map, String assetFile){
+		try{
+			String line;
+			StringBuilder str=new StringBuilder();
+			BufferedReader buf = new BufferedReader(new InputStreamReader(assets.open(assetFile)));
+			while ((line = buf.readLine()) != null){
+				str.append(line);
+				str.append("\n");
+			}
+			
+			//build semua elementnya dulu
+			Scanner scan = new Scanner(str.toString());
+			while(scan.hasNext()){
+				String s = scan.next();
+				if (s.charAt(0)!='#'){
+					E e = build(c, s);
+					map.put(s, e);
+				}
+				scan.nextLine();
+			}
+			
+			//load data2 nya
+			scan = new Scanner(str.toString());
+			while(scan.hasNext()){
+				String s = scan.next();
+				if (s.charAt(0)!='#'){
+					E e = get(map, s);
+					e.load(scan);
+				}else{
+					scan.nextLine();
+				}
+			}
+			//Log.d("POKE 1", map.toString());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	private <E extends ILoadable> E build(Class<E> c, String name){
+		try {
+			E e = c.newInstance();
+			e.setName(name);
+			return e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private <E> E get(HashMap<String, E> map, String key){
+		return map.get(key);
 	}
 	
 	//statics
 	
 	public static void initialize(AssetManager assets){
 		instance = new DBLoader(assets);
-		
-		//TODO fungsi2 loadnya blom semua
 		instance.loadAll();
 	}
 	

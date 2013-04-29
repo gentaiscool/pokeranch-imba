@@ -3,7 +3,7 @@ package com.pokeranch.game.object;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Species {
+public class Species implements ILoadable{
 	private String name;
 	private Element element;
 	private int evoLevel;
@@ -12,8 +12,7 @@ public class Species {
 	private Status baseStat;
 	private ArrayList<Skill> baseSkill;
 	
-	public Species(String name){
-		this.name = name;
+	public Species(){
 		baseStat = new Status();
 		baseSkill = new ArrayList<Skill>();
 	}

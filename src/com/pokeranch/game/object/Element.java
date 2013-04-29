@@ -3,12 +3,11 @@ package com.pokeranch.game.object;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Element{
+public class Element implements ILoadable{
 	private String name;
 	private ArrayList<Element> strong, weak, immune;
 	
-	public Element(String name){
-		this.name = name;
+	public Element(){
 		strong = new ArrayList<Element>();
 		weak = new ArrayList<Element>();
 		immune = new ArrayList<Element>();

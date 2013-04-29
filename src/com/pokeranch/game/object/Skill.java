@@ -3,15 +3,14 @@ import java.util.Scanner;
 
 
 
-public class Skill {
+public class Skill implements ILoadable{
 	private String name;
 	private Status damage, cost;
 	private Element element;
 	private int nextSkillLevel;
 	private Skill nextSkill;
 	
-	public Skill(String name){
-		this.name = name;
+	public Skill(){
 		damage = new Status();
 		cost = new Status();
 	}
