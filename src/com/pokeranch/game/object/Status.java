@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Status {
 
-	public enum Effect {POISON, PARLYZ, SLEEP, BURN, NONE}
+	public enum Effect {POISON, PARLYZ, SLEEP, BURN, NONE, HEALING}
 	private int hp, mp, attack, defense;
 	private Effect effect;
 	
@@ -35,6 +35,26 @@ public class Status {
 	}
 	
 	//getter setter
+	
+	public void set(int hp, int mp, int attack, int defense, Effect effect){
+		this.hp = hp;
+		this.mp = mp;
+		this.attack = attack;
+		this.defense = defense;
+		this.effect = effect;
+	}
+	
+	public void updateBy(int hp, int mp, int attack, int defense, Effect effect){
+		this.hp += hp;
+		this.mp += mp;
+		this.attack += attack;
+		this.defense += defense;
+		if (effect == Effect.HEALING){
+			this.effect = Effect.NONE;
+		}else if(effect != Effect.NONE){
+			this.effect = effect;
+		}
+	}
 	
 	public int getHP() {
 		return hp;
