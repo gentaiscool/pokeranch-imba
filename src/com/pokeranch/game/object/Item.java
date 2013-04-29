@@ -1,8 +1,27 @@
 package com.pokeranch.game.object;
 
-public class Item {
+import java.util.Scanner;
+
+public class Item implements ILoadable{
 	protected String name;
 	protected int price;
+	
+	@Override
+	public void load(Scanner scan) {
+		// TODO Auto-generated method stub
+		try{
+			name = scan.next();
+			price = scan.nextInt();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+			this.name = name;
+	}
 	
 	//konstruktor
 	public Item() {
@@ -27,9 +46,7 @@ public class Item {
 	String getName(){
 		return this.name;
 	}
-	void setName(String _name){
-		this.name = _name;
-	}
+	
 	int getPrice(){
 		return price;
 	}
@@ -46,6 +63,6 @@ public class Item {
 	}
 	int itemType(){
 		return 0;
-	}
+	}	
 	
 }
