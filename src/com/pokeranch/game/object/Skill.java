@@ -7,16 +7,18 @@ public class Skill {
 	private String name;
 	private Status damage, cost;
 	private Element element;
-	private Skill nextSkill;
 	private int nextSkillLevel;
+	private Skill nextSkill;
+	
 	
 	public void load(Scanner scan) {
-		// element harus diisi manual
-		// nextSkill dan levelnya harus diisi manual
+		// skill dan element harus sudah di built sebelumnya
 		try{
-			name = scan.next();
 			damage.load(scan);
 			cost.load(scan);
+			element = DBLoader.getInstance().getElement(scan.next());
+			nextSkillLevel = scan.nextInt();
+			nextSkill = DBLoader.getInstance().getSkill(scan.next());
 		}catch(Exception e){
 			e.printStackTrace();
 		}

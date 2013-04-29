@@ -13,7 +13,20 @@ public class Species {
 	private ArrayList<Skill> baseSkill;
 	
 	public void load(Scanner scan) {
-		// TODO Auto-generated method stub
+		//skill, species dan element harus diload dulu sebelumnya
+		try{
+			element = DBLoader.getInstance().getElement(scan.next());
+			evoLevel = scan.nextInt();
+			evoSpecies = DBLoader.getInstance().getSpecies(scan.next());
+			combineRating = scan.nextInt();
+			baseStat.load(scan);
+			
+			for (int i = 0; i < 4; i++){
+				addBaseSkill(DBLoader.getInstance().getSkill(scan.next()));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void addBaseSkill(Skill sk){

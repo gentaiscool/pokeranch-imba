@@ -11,6 +11,10 @@ public class Element{
 		return name;
 	}
 	
+	public void setName(String name){
+		this.name = name;
+	}
+	
 	public boolean equals(Element e){
 		return name.equals(e.name);
 	}
@@ -34,8 +38,25 @@ public class Element{
 		immune.add(e);
 	}
 	
-	
 	public void load(Scanner scan){
-		//TODO implement
+		//element harus sudah dibuilt sebelumnya
+		try{
+			int num = scan.nextInt();
+			for (int i = 0; i < num; i++){
+				addStrong(DBLoader.getInstance().getElement(scan.next()));
+			}
+			
+			num = scan.nextInt();
+			for (int i = 0; i < num; i++){
+				addWeak(DBLoader.getInstance().getElement(scan.next()));
+			}
+			
+			num = scan.nextInt();
+			for (int i = 0; i < num; i++){
+				addImmune(DBLoader.getInstance().getElement(scan.next()));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }
