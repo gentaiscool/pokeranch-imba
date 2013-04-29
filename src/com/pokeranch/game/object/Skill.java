@@ -10,6 +10,12 @@ public class Skill {
 	private int nextSkillLevel;
 	private Skill nextSkill;
 	
+	public Skill(String name){
+		this.name = name;
+		damage = new Status();
+		cost = new Status();
+	}
+	
 	
 	public void load(Scanner scan) {
 		// skill dan element harus sudah di built sebelumnya
@@ -24,6 +30,14 @@ public class Skill {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	public String toString(){
+		String s = name + " " + damage.toString() + " " + cost.toString() + " " + element.getName();
+		if(nextSkillLevel!=-1){
+			s+= " " + nextSkill.getName();
+		}
+		return s;
 	}
 	
 	//getter setter

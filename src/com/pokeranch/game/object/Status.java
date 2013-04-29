@@ -34,6 +34,16 @@ public class Status {
 		}
 	}
 	
+	public String toString(){
+		StringBuilder s = new StringBuilder();
+		s.append(hp + " ");
+		s.append(mp + " ");
+		s.append(attack + " ");
+		s.append(defense + " ");
+		s.append(effect);
+		return s.toString();
+	}
+	
 	//getter setter
 	
 	public void set(int hp, int mp, int attack, int defense, Effect effect){

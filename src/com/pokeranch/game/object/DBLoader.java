@@ -87,13 +87,57 @@ public class DBLoader {
 		}
 	}
 	
+	public void loadSkills(){
+		try{
+			String line;
+			StringBuilder str=new StringBuilder();
+			BufferedReader buf = new BufferedReader(new InputStreamReader(assets.open("skills.dat")));
+			while ((line = buf.readLine()) != null){
+				str.append(line);
+				str.append("\n");
+			}
+			
+			//build semua elementnya dulu
+			Scanner scan = new Scanner(str.toString());
+			while(scan.hasNext()){
+				String s = scan.next();
+				if (s.charAt(0)!='#'){
+					Skill e = new Skill(s);
+					skills.put(s, e);
+				}
+				scan.nextLine();
+			}
+			
+			//load data2 nya
+			scan = new Scanner(str.toString());
+			while(scan.hasNext()){
+				String s = scan.next();
+				if (s.charAt(0)!='#'){
+					Skill e = getSkill(s);
+					e.load(scan);
+				}else{
+					scan.nextLine();
+				}
+			}
+			
+			Log.d("POKE", skills.toString());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadAll(){
+		loadElement();
+		loadSkills();
+	}
+	
 	//statics
 	
 	public static void initialize(AssetManager assets){
 		instance = new DBLoader(assets);
 		
 		//TODO fungsi2 loadnya blom semua
-		instance.loadElement();
+		instance.loadAll();
 	}
 	
 	public static DBLoader getInstance(){
