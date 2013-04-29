@@ -9,6 +9,9 @@ public class Element{
 	
 	public Element(String name){
 		this.name = name;
+		strong = new ArrayList<Element>();
+		weak = new ArrayList<Element>();
+		immune = new ArrayList<Element>();
 	}
 	
 	public String getName(){
@@ -45,6 +48,7 @@ public class Element{
 	public void load(Scanner scan){
 		//element harus sudah dibuilt sebelumnya
 		try{
+			
 			int num = scan.nextInt();
 			for (int i = 0; i < num; i++){
 				addStrong(DBLoader.getInstance().getElement(scan.next()));
@@ -62,5 +66,9 @@ public class Element{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

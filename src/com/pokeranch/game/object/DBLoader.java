@@ -2,13 +2,12 @@ package com.pokeranch.game.object;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 public class DBLoader {
 	
@@ -27,7 +26,6 @@ public class DBLoader {
 		elements = new HashMap<String, Element>();
 		skills = new HashMap<String, Skill>();
 		species = new HashMap<String, Species>();
-		//fungsi2 loadnya blom
 	}
 	
 	//fungsi2 load
@@ -60,10 +58,10 @@ public class DBLoader {
 				if (s.charAt(0)!='#'){
 					Element e = getElement(s);
 					e.load(scan);
+				}else{
 					scan.nextLine();
 				}
 			}
-			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -93,6 +91,9 @@ public class DBLoader {
 	
 	public static void initialize(AssetManager assets){
 		instance = new DBLoader(assets);
+		
+		//TODO fungsi2 loadnya blom semua
+		instance.loadElement();
 	}
 	
 	public static DBLoader getInstance(){
