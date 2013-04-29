@@ -2,19 +2,19 @@ package com.pokeranch.game.object;
 
 public class Egg extends Item{
 	
-	Time hatchTime;
-	Species species;
+	private Time hatchTime;
+	private Species species;
 	
 	//ctor
 	public Egg(Time ht) {
 		// TODO Auto-generated constructor stub
-		species = DBLoader.getInstance().getRandomSpecies();
-		hatchTime = ht;
+		setSpecies(DBLoader.getInstance().getRandomSpecies());
+		setHatchTime(ht);
 	}
 	
 	public boolean isHatch(){
-		if((hatchTime.getYear() == 0) && (hatchTime.getMonth() == 0) && (hatchTime.getDay() == 0) && 
-				(hatchTime.getHour() == 0) && (hatchTime.getMinute() == 0)){
+		if((getHatchTime().getYear() == 0) && (getHatchTime().getMonth() == 0) && (getHatchTime().getDay() == 0) && 
+				(getHatchTime().getHour() == 0) && (getHatchTime().getMinute() == 0)){
 			return true;
 		}
 		else
@@ -24,7 +24,24 @@ public class Egg extends Item{
 	//hatch
 	public void updateHatchTime(int m)
 	{
-		hatchTime.decMinute(m);
+		getHatchTime().decMinute(m);
+	}
+
+	//getter dan setter
+	public Species getSpecies() {
+		return species;
+	}
+
+	public void setSpecies(Species species) {
+		this.species = species;
+	}
+
+	public Time getHatchTime() {
+		return hatchTime;
+	}
+
+	public void setHatchTime(Time hatchTime) {
+		this.hatchTime = hatchTime;
 	}
 	
 }
