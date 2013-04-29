@@ -28,6 +28,26 @@ public class DBLoader {
 		species = new HashMap<String, Species>();
 	}
 	
+	//getter
+	
+		public Element getElement(String name){
+			return elements.get(name);
+		}
+		
+		public Species getSpecies(String name){
+			return species.get(name);
+		}
+		
+		public Skill getSkill(String name){
+			return skills.get(name);
+		}
+		
+		public Species getRandomSpecies(){
+			Object[] names = species.keySet().toArray();
+			Random rand = new Random();
+			return getSpecies((String) names[rand.nextInt(names.length)]);
+		}
+	
 	//fungsi2 load
 	
 	public void loadElement(){
@@ -65,26 +85,6 @@ public class DBLoader {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	}
-	
-	//getter
-	
-	public Element getElement(String name){
-		return elements.get(name);
-	}
-	
-	public Species getSpecies(String name){
-		return species.get(name);
-	}
-	
-	public Skill getSkill(String name){
-		return skills.get(name);
-	}
-	
-	public Species getRandomSpecies(){
-		Object[] names = species.keySet().toArray();
-		Random rand = new Random();
-		return getSpecies((String) names[rand.nextInt(names.length)]);
 	}
 	
 	//statics
