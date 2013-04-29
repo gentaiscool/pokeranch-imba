@@ -24,9 +24,7 @@ public class Skill {
 			cost.load(scan);
 			element = DBLoader.getInstance().getElement(scan.next());
 			nextSkillLevel = scan.nextInt();
-			if (nextSkillLevel > -1){
-				nextSkill = DBLoader.getInstance().getSkill(scan.next());
-			}
+			nextSkill = nextSkillLevel > -1 ? DBLoader.getInstance().getSkill(scan.next()) : null;
 		}catch(Exception e){
 			e.printStackTrace();
 		}

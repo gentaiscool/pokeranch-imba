@@ -97,7 +97,7 @@ public class DBLoader {
 				str.append("\n");
 			}
 			
-			//build semua elementnya dulu
+			//build semua skillnya dulu
 			Scanner scan = new Scanner(str.toString());
 			while(scan.hasNext()){
 				String s = scan.next();
@@ -119,8 +119,46 @@ public class DBLoader {
 					scan.nextLine();
 				}
 			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadSpecies(){
+		
+		//TODO blom bener
+		
+		try{
+			String line;
+			StringBuilder str=new StringBuilder();
+			BufferedReader buf = new BufferedReader(new InputStreamReader(assets.open("species.dat")));
+			while ((line = buf.readLine()) != null){
+				str.append(line);
+				str.append("\n");
+			}
 			
-			Log.d("POKE", skills.toString());
+			//build semua elementnya dulu
+			Scanner scan = new Scanner(str.toString());
+			while(scan.hasNext()){
+				String s = scan.next();
+				if (s.charAt(0)!='#'){
+					Species e = new Species(s);
+					species.put(s, e);
+				}
+				scan.nextLine();
+			}
+			
+			//load data2 nya
+			scan = new Scanner(str.toString());
+			while(scan.hasNext()){
+				String s = scan.next();
+				if (s.charAt(0)!='#'){
+					Species e = getSpecies(s);
+					e.load(scan);
+				}else{
+					scan.nextLine();
+				}
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -129,6 +167,7 @@ public class DBLoader {
 	public void loadAll(){
 		loadElement();
 		loadSkills();
+		loadSpecies();
 	}
 	
 	//statics

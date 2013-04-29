@@ -12,14 +12,23 @@ public class Species {
 	private Status baseStat;
 	private ArrayList<Skill> baseSkill;
 	
+	public Species(String name){
+		this.name = name;
+		baseStat = new Status();
+		baseSkill = new ArrayList<Skill>();
+	}
+	
 	public void load(Scanner scan) {
 		//skill, species dan element harus diload dulu sebelumnya
 		try{
-			element = DBLoader.getInstance().getElement(scan.next());
-			evoLevel = scan.nextInt();
-			evoSpecies = DBLoader.getInstance().getSpecies(scan.next());
 			combineRating = scan.nextInt();
 			baseStat.load(scan);
+			String s = scan.next();
+			evoSpecies = s.equals("NULL") ? null : DBLoader.getInstance().getSpecies(s);
+			evoLevel = scan.nextInt();
+			element = DBLoader.getInstance().getElement(scan.next());
+			
+			//nunggu database
 			
 			for (int i = 0; i < 4; i++){
 				addBaseSkill(DBLoader.getInstance().getSkill(scan.next()));
@@ -31,6 +40,18 @@ public class Species {
 	
 	public void addBaseSkill(Skill sk){
 		baseSkill.add(sk);
+	}
+	
+	public String toString(){
+		StringBuilder s = new StringBuilder();
+		s.append(name + " ");
+		s.append(combineRating+ " ");
+		s.append(baseStat.toString()+ " ");
+		s.append(evoSpecies==null ? "NULL" : evoSpecies.getName());
+		s.append(" " + evoLevel + " ");
+		s.append(element.getName() + " ");
+		for(Skill sk : baseSkill) s.append(sk.getName()+ " ");
+		return s.toString();
 	}
 	
 	//getter setter
