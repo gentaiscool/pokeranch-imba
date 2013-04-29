@@ -42,6 +42,47 @@ public class Time {
 		minute = t;
 	}
 		
+	public void decMinute(int x){
+		int i = 0;
+		while(i < x){
+			if((minute == 0) && (hour == 0) && (day == 0) && (month == 0) && (year == 0)){
+				break;
+			}
+			else{
+				if(minute > 0)
+					minute--;
+				else if(minute == 0){
+					minute = 59;
+					if(hour>0){
+						hour--;
+					}
+					else if(hour == 0){
+						hour = 23;
+						if(day>0){
+							day--;
+						}
+						else if(day==0){
+							day = 30;
+							if(month>0){
+								month--;
+							}
+							else if(month == 0){
+								month = 12;
+								if(year>0){
+									year--;
+								}
+								else{
+									year = 0;
+								}
+							}
+						}	
+					}
+				}
+			}
+			i++;
+		}
+	}
+	
 	public void addMinute(int x){
 		int i = 0;
 		while (i < x){

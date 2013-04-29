@@ -12,15 +12,6 @@ public class StatItem extends Item{
 		permanent = false;
 	}
 	
-	//equals
-	public boolean equals(StatItem comparedStat)
-	{
-		if(this.permanent == comparedStat.permanent && this.cureStatus.equals(comparedStat.cureStatus) && this.itemEffect.equals(comparedStat.itemEffect)){
-			return true;
-		}
-		else return false;
-	}
-	
 	//getter dan setter
 	boolean getPermanent()
 	{

@@ -16,15 +16,6 @@ public class MonsterBall extends Item
 		catchRate = x;
 	}
 	
-	//equals
-	boolean equals(MonsterBall comparedBall)
-	{
-		if(this.catchRate == comparedBall.catchRate){
-			return true;
-		}
-		else return false;
-	}
-	
 	//getter dan setter
 	float getCatchRate()
 	{
