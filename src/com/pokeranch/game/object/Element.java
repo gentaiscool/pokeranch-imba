@@ -7,6 +7,10 @@ public class Element{
 	private String name;
 	private ArrayList<Element> strong, weak, immune;
 	
+	public Element(String name){
+		this.name = name;
+	}
+	
 	public String getName(){
 		return name;
 	}
