@@ -9,6 +9,19 @@ public class Status {
 	private int hp, mp, attack, defense;
 	private Effect effect;
 	
+	public Status() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	//ctor berparameter
+	public Status(int _hp, int _mp, int _attack, int _defense, Effect _effect) {
+		hp = _hp;
+		mp = _mp;
+		attack = _attack;
+		defense = _defense;
+		effect = _effect;
+	}
+	
 	
 	public void save(BufferedWriter buf) {
 		try{
