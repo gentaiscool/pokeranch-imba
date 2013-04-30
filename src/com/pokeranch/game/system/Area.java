@@ -14,6 +14,7 @@ public class Area implements IScene{
 	private int field[][], row, column;
 	//private ArrayList<Area>
 	private boolean move = false;
+	private boolean isUp = true;
 	private int direction = 0;
 	public Area(int r, int c){
 		field = new int[r][c];
@@ -73,6 +74,12 @@ public class Area implements IScene{
 	}
 	
 	public void getButtonInput(ButtonClick click){
+		
+		if(click == ButtonClick.NONE)
+			isUp = true;
+		else
+			isUp = false;
+		
 		if(!move){
 			move = true;
 			switch(click){
@@ -122,7 +129,7 @@ public class Area implements IScene{
 	public void update(){
 		if(move){ 
 			monster.move(direction,1);
-			if(monster.getX() % 32 == 0 && monster.getY() % 32 == 0){
+			if(monster.getX() % 32 == 0 && monster.getY() % 32 == 0 && isUp){
 				move = false;
 			}
 		}

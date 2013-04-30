@@ -125,8 +125,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 			
 			@Override
 			public void onTouchUp() {
-				area.getButtonInput(ButtonClick.NONE);	
-			}		
+				area.getButtonInput(ButtonClick.NONE);
+			}
 		});
 		
 		touches.add(buttonDown);
