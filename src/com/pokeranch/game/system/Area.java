@@ -1,17 +1,25 @@
 package com.pokeranch.game.system;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 
 import com.pokeranch.game.system.MainGameView.ButtonClick;
 
 public class Area implements IScene{
-	private Sprite monster, bg;
+	private Sprite monster,bg;
+	private int field[][], row, column;
 	//private ArrayList<Area>
 	private boolean move = false;
 	private int direction = 0;
-	public Area(){
+	public Area(int r, int c){
+		field = new int[r][c];
+		row = r;
+		column = c;
+		
 		monster = new Sprite(BitmapManager.getInstance().get("landmonster"),4,2,2, new SpriteCounter(){
 			@Override
 			public Point getImgPos(int direction, int frame, int width, int height) {
@@ -89,8 +97,22 @@ public class Area implements IScene{
 		}
 	}
 	
+	public void setVal(int i, int j, int val){
+		field[i][j] = val;
+	}
+	
 	public void draw(Canvas canvas){
-		bg.draw(canvas);
+		//gambar belakang
+		float mag = 1; //magnifikasi tile, bisa 1.5f, 2, dkk
+		for(int i=0;i<row;i++){
+			for(int j=0;j<column;j++){
+				//Log.d("harits", "tile yg kepake: " + field[i][j]);
+				
+				canvas.drawBitmap(BitmapManager.getInstance().get("43"), null, new RectF(j*16*mag, i*16*mag, j*16*mag + 16*mag, i*16*mag + 16*mag), null);
+				
+				//canvas.drawBitmap(BitmapManager.getInstance().get("43"), j*16, i*16, null);
+			}
+		}
 		monster.draw(canvas);
 	}
 	

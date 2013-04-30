@@ -2,6 +2,8 @@ package com.pokeranch.game.system;
 
 import java.util.ArrayList;
 
+import com.pokeranch.game.object.DBLoader;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -35,6 +37,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		super(context);
 		getHolder().addCallback(this);
 		setFocusable(true);
+		
+		
 		BitmapManager.initialize(context.getApplicationContext().getResources());
 		BitmapManager.getInstance().put("landmonster", R.drawable.landmonster);
 		BitmapManager.getInstance().put("test", R.drawable.ic_launcher);
@@ -43,17 +47,27 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("left", R.drawable.left);
 		BitmapManager.getInstance().put("right", R.drawable.right);
 		BitmapManager.getInstance().put("down", R.drawable.down);
+		//Log.d("harits", "mulaiiii akan memotong2");
+		BitmapManager.getInstance().putMap(R.drawable.sprite);
 		
-		area = new Area();
+		DBLoader.initialize(context.getAssets());
+		DBLoader.getInstance().loadMap("map.dat");
+		
+		//Log.d("harits", "berhasil inisiasi");
+		//if(DBLoader.getInstance() == null)
+		//	Log.d("harits", "DBLoader null");
+		area = DBLoader.getInstance().getArea("FIELD");
+		//Log.d("harits", "berhasil bikin Area");
+		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);
-		paint.setColor(Color.WHITE);
+		paint.setColor(Color.BLACK);
 		
 		touches = new ArrayList<TouchListener>();
 		
 		butLeftestX = 25;
 		butDist = 50;
-		butY = 270;
+		butY = screenHeight - 60;
 		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), butLeftestX, butY);
 		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), butLeftestX + butDist, butY);
 		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), butLeftestX + 2*butDist, butY);
@@ -168,7 +182,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 
 	public void render(Canvas canvas) {
 		canvas.setMatrix(matrix);
-		canvas.drawColor(Color.WHITE);
+		canvas.drawColor(Color.BLACK);
 		area.draw(canvas);
 		buttonDown.draw(canvas);
 		buttonUp.draw(canvas);

@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.pokeranch.game.system.Area;
+
 import android.content.res.AssetManager;
 import android.util.Log;
 
@@ -20,6 +22,7 @@ public class DBLoader {
 	private HashMap<String, Element> elements;
 	private HashMap<String, Species> species;
 	private HashMap<String, Skill> skills;
+	private HashMap<String, Area> areas;
 	private AssetManager assets;
 	
 	
@@ -28,6 +31,7 @@ public class DBLoader {
 		elements = new HashMap<String, Element>();
 		skills = new HashMap<String, Skill>();
 		species = new HashMap<String, Species>();
+		areas = new HashMap<String, Area>();
 	}
 	
 	//getter
@@ -42,6 +46,14 @@ public class DBLoader {
 	
 	public Skill getSkill(String name){
 		return skills.get(name);
+	}
+	
+	public Area getArea(String name){
+		if(areas.get(name) == null)
+			Log.d("harits", "areanya kosong cuy");
+		else
+			Log.d("harits", "areanya gak kosong");
+		return areas.get(name);
 	}
 	
 	public Species getCombinedSpecies(Element e, int rating){
@@ -79,6 +91,38 @@ public class DBLoader {
 		load(Element.class, elements, "elements.dat");
 		load(Skill.class, skills, "skills.dat");
 		load(Species.class, species, "species.dat");
+		loadMap("map.dat");
+	}
+	
+	public void loadMap(String assetFile){
+		//Log.d("harits", "mulai ngeload");
+		try{
+			String line;
+			StringBuilder str=new StringBuilder();
+			BufferedReader buf = new BufferedReader(new InputStreamReader(assets.open(assetFile)));
+			while ((line = buf.readLine()) != null){
+				str.append(line);
+				str.append("\n");
+			}
+			
+			//build semua elementnya dulu
+			Scanner scan = new Scanner(str.toString());
+			String nama = scan.next();
+			//Log.d("harits", "nama: " + nama);
+			int r = scan.nextInt();
+			int c = scan.nextInt();
+			//Log.d("harits", r + " " + c);
+			Area a = new Area(r, c);
+			for(int i=0;i<r;i++){
+				for(int j=0;j<c;j++){
+					a.setVal(i, j, scan.nextInt());
+				}
+			}
+			
+			areas.put(nama, a);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	//load generic
