@@ -2,7 +2,6 @@ package com.pokeranch.game.object;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Random;
 
 import com.pokeranch.game.object.Status.Effect;
@@ -10,7 +9,6 @@ import com.pokeranch.game.object.Status.Effect;
 import android.graphics.Point;
 
 public class Monster{
-	// TODO Auto-generated constructor stub
 	private String name;
 	private int level, exp, evoExp, bonusCash, bonusExp;
 	private Status status, fullStatus;
@@ -36,8 +34,6 @@ public class Monster{
 		evoExp = (int) ((2.7*level+17) * 3 * Math.pow (1.02,(level-1))); //--> 50 - 6058 (3 - 21 x lawan selvl)
 		bonusCash = 5*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(15);//--> max 500
 		bonusExp = 3*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(9);//--> max 300
-		
-		int l = level;
 
 		fullStatus = species.getBaseStat();
 		
@@ -83,7 +79,7 @@ public class Monster{
 			Status delta = new Status(10, 10, 10, 10, Effect.NONE); //rumus?
 			
 			fullStatus.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
-			//status += delta;
+			status.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
 			
 			if(getSpecies().getEvoLevel() == level){//sudah saatnya berubah!!!
 					evolve();
@@ -117,7 +113,6 @@ public class Monster{
 	
 	void updateStatusBy(Status st){
 		status.updateBy(st.getHP(), st.getMP(), st.getAttack(), st.getDefense(), st.getEffect());
-		
 		if(status.getHP()>fullStatus.getHP()) 
 			status.setHP(fullStatus.getHP());
 		if(status.getMP()>fullStatus.getMP()) 
@@ -143,7 +138,6 @@ public class Monster{
 		Status damage = sk.getDamage();
 		
 		//critical hit
-		
 		random.setSeed(1);
 		float critical = 1.f;
 		if(random.nextInt(100)<10) 
@@ -157,7 +151,6 @@ public class Monster{
 		status.updateBy(damage.getHP(), damage.getMP(), damage.getAttack(), damage.getDefense(), damage.getEffect());
 		
 		//HP calculation
-		
 		status.setHP( (int) (hp + ((float)(damage.getHP()) * ((float)(lawan.getAttack()) /  (float)(status.getDefense())) * critical + 0.5f)));
 		if(status.getHP() <= 0)
 			status.setHP(0);
@@ -204,7 +197,6 @@ public class Monster{
 	}
 	
 	Skill getSkill(String name){
-		ArrayList<Skill> s = (ArrayList<Skill>) skills.values();
 		return skills.get(name);
 	}
 	
@@ -232,18 +224,14 @@ public class Monster{
 	boolean evolve(){
 		if (species.getEvoLevel() > level) 
 			return false;
-		//console.readKey();
-		//cout<<"What's this? "<<getName()<<" is evolving!"<<endl;
-		//console.readKey();
-		//String evo = species.getEvolution();
-		//cout<<"Your "<<getName()<<" is evolving into "<<evo<<"!"<<endl;
-		//Species evolution = global::database.getSpecies(evo);
-		//Status diffstat = evolution.getBaseStat() - species.getBaseStat();
+		Species evo = species.getEvoSpecies();
+		Status diffstat = new Status();
+		diffstat.substractStatus(evo.getBaseStat(), species.getBaseStat());
 		
-		//status+=diffstat;
-		//fullStatus+=diffstat;
+		status.updateBy(diffstat.getHP(), diffstat.getMP(), diffstat.getAttack(), diffstat.getDefense(), diffstat.getEffect());
+		fullStatus.updateBy(diffstat.getHP(), diffstat.getMP(), diffstat.getAttack(), diffstat.getDefense(), diffstat.getEffect());
 		
-		//species = evolution;
+		species = evo;
 		
 		return true;
 	}
@@ -253,7 +241,7 @@ public class Monster{
 	}
 	
 	void giveItem(StatItem item){
-		//fullStatus = fullStatus + item.getItemEffect();
+		fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
 	}
 }
 	

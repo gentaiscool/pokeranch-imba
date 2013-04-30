@@ -80,6 +80,16 @@ public class Status {
 		}
 	}
 	
+	public Status substractStatus(Status s1, Status s2){
+		Status s = new Status();
+		s.setAttack(s1.getAttack() - s2.getAttack());
+		s.setDefense(s1.getDefense() - s2.getDefense());
+		s.setHP(s1.getHP() - s2.getHP());
+		s.setMP(s1.getMP() - s2.getMP());
+		s.setEffect(Effect.NONE);
+		return s;
+	}
+	
 	public int getHP() {
 		return hp;
 	}
