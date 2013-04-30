@@ -56,11 +56,13 @@ public class Item implements ILoadable{
 		Status s = null;
 		return s;
 	}
+	
 	float getCatchRate()
 	{
 		float f = 0f;
 		return f;
 	}
+	
 	int itemType(){
 		return 0;
 	}	
