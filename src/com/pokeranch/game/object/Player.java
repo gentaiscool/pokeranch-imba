@@ -88,6 +88,10 @@ public class Player {
 		return monsters;
 	}
 	
+	public Monster getMonster(String name){
+		return monsters.get(name);
+	}
+	
 	public String getCurrentMonster() {
 		return currentMonster;
 	}	

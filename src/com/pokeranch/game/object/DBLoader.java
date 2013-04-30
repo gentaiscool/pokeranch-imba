@@ -2,7 +2,9 @@ package com.pokeranch.game.object;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -42,10 +44,33 @@ public class DBLoader {
 		return skills.get(name);
 	}
 	
-	public Species getRandomSpecies(){
+	public Species getCombinedSpecies(Element e, int rating){
+		Collection<Species> sp = species.values();
+		
+		Iterator<Species> it = sp.iterator();
+		while(it.hasNext()){
+			Species s = it.next();
+			if(s.getElement().equals(e) && s.getCombineRating()==rating){
+				return s;
+			}
+		}
+		return null;
+	}
+	
+	public Species getRandomSpecies(int maxRating){
 		Object[] names = species.keySet().toArray();
 		Random rand = new Random();
-		return getSpecies((String) names[rand.nextInt(names.length)]);
+		Species s;
+		do{
+			s = getSpecies((String) names[rand.nextInt(names.length)]);
+		}while(s.getCombineRating()<=maxRating);
+		return s;
+	}
+	
+	public Element getRandomElement(){
+		Object[] names = elements.keySet().toArray();
+		Random rand = new Random();
+		return getElement((String) names[rand.nextInt(names.length)]);
 	}
 	
 	//fungsi2 load

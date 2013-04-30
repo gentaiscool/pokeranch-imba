@@ -243,5 +243,38 @@ public class Monster{
 	void giveItem(StatItem item){
 		fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
 	}
-}
 	
+	public Monster getRandomMonster(int level, int maxRating){
+		Species ss;
+		ss = DBLoader.getInstance().getRandomSpecies(maxRating);
+		return new Monster(ss.getName(), ss, level);
+	}
+	
+	public static Monster combineMonster(Player player1, String nmonster1, String nmonster2) throws Exception{	
+		Element elem3;
+		//kode dibawah digunakan karena database species tidak mempunyai 
+		//monster dengan tipe elemen normal
+		//sehingga ketika dicombine tidak mendapatkan apa-apa
+		do{
+			elem3 = DBLoader.getInstance().getRandomElement();
+		}while(elem3.getName() == "Normal");
+		
+		Monster monster1 = player1.getMonster(nmonster1);
+		Monster monster2 = player1.getMonster(nmonster2);
+		
+		if(monster1 == null || monster2 == null){
+			throw new Exception();
+		}
+		else{
+			int rate1 = monster1.getSpecies().getCombineRating();
+			int rate2 = monster2.getSpecies().getCombineRating();
+			int rate3 = (int) Math.floor(Math.sqrt(rate1*rate1 + rate2*rate2));
+			
+			Species spec3 = DBLoader.getInstance().getCombinedSpecies(elem3, rate3);
+			
+			int lvl3 = (monster1.getLevel()+ monster2.getLevel())/2;
+			
+			return new Monster("", spec3, lvl3);
+		}
+	}
+}

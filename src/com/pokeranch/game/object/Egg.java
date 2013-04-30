@@ -8,7 +8,7 @@ public class Egg extends Item{
 	//ctor
 	public Egg(Time ht) {
 		// TODO Auto-generated constructor stub
-		setSpecies(DBLoader.getInstance().getRandomSpecies());
+		setSpecies(DBLoader.getInstance().getRandomSpecies(1));
 		setHatchTime(ht);
 	}
 	
