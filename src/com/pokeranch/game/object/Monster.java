@@ -86,7 +86,7 @@ public class Monster{
 			//status += delta;
 			
 			if(getSpecies().getEvoLevel() == level){//sudah saatnya berubah!!!
-					//evolve();
+					evolve();
 				}
 				
 				return true;
