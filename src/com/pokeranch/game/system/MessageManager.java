@@ -1,10 +1,12 @@
 package com.pokeranch.game.system;
 
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 public class MessageManager {
@@ -39,6 +41,20 @@ public class MessageManager {
 		alert.show();
 	}
 	
+	//alert nampilin list pake tombol ok
+		public static void alertList(String message, CharSequence[] c){
+			AlertDialog.Builder alert = new AlertDialog.Builder(context);
+			alert.setTitle(message);
+			alert.setAdapter(new ArrayAdapter<CharSequence>(context, R.layout.textview, c), null);
+			alert.setNeutralButton("OK", new DialogInterface.OnClickListener() {  
+			    @Override  
+			    public void onClick(DialogInterface dialog, int which) {  
+			        dialog.dismiss();                      
+			    }  
+			}); 
+			alert.show();
+		}
+	
 	//confirm ok cancel
 	public static void confirm(String message, Action action){
 		AlertDialog.Builder alert = new AlertDialog.Builder(context);
@@ -49,7 +65,7 @@ public class MessageManager {
 		    @Override  
 		    public void onClick(DialogInterface dialog, int which) {  
 		        dialog.dismiss();
-		        act.proceed(null);
+		        if(act!=null) act.proceed(null);
 		    }  
 		});
 		
@@ -57,7 +73,7 @@ public class MessageManager {
 		    @Override  
 		    public void onClick(DialogInterface dialog, int which) {  
 		        dialog.dismiss();
-		        act.cancel();
+		        if(act!=null) act.cancel();
 		    }  
 		});
 		
@@ -76,7 +92,7 @@ public class MessageManager {
 		    @Override  
 		    public void onClick(DialogInterface dialog, int which) {  
 		        dialog.dismiss();
-		        act.proceed(input.getText());
+		        if(act!=null) act.proceed(input.getText());
 		    }  
 		});
 		
@@ -84,7 +100,7 @@ public class MessageManager {
 		    @Override  
 		    public void onClick(DialogInterface dialog, int which) {  
 		        dialog.dismiss();
-		        act.cancel();
+		        if(act!=null) act.cancel();
 		    }  
 		});
 		
@@ -110,7 +126,7 @@ public class MessageManager {
 		    @Override  
 		    public void onClick(DialogInterface dialog, int which) {  
 		        dialog.dismiss();
-		        act.proceed(choice);
+		        if(act!=null) act.proceed(choice);
 		    }  
 		});
 		
@@ -118,7 +134,7 @@ public class MessageManager {
 		    @Override  
 		    public void onClick(DialogInterface dialog, int which) {  
 		        dialog.dismiss();
-		        act.cancel();
+		        if(act!=null) act.cancel();
 		    }  
 		});
 		
@@ -142,7 +158,7 @@ public class MessageManager {
 		    @Override  
 		    public void onClick(DialogInterface dialog, int which) {  
 		        dialog.dismiss();
-		        act.proceed(sChoice);
+		        if(act!=null) act.proceed(sChoice);
 		    }  
 		});
 		
@@ -150,7 +166,7 @@ public class MessageManager {
 		    @Override  
 		    public void onClick(DialogInterface dialog, int which) {  
 		        dialog.dismiss();
-		        act.cancel();
+		        if(act!=null) act.cancel();
 		    }  
 		});
 		

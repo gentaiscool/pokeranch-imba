@@ -134,5 +134,4 @@ public class Area implements IScene{
 			}
 		}
 	}
-	
 }
