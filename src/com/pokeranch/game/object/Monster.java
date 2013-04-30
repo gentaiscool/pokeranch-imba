@@ -235,6 +235,22 @@ public class Monster{
 		
 		return true;
 	}
+	
+	boolean evolveSkill(){
+		boolean found = false;
+		for(int i=0; i<=3; i++){
+			if(skills.get(i).getNextSkillLevel() < level){
+				continue;
+			}
+			else{
+				found = true;
+				Skill skill = skills.get(i);
+				this.delSkill(skill);
+				this.addSkill(skill.getNextSkill());
+			}
+		}
+		return found;
+	}
 
 	boolean isMaxNumSkill(){
 		return maxNumSkill == skills.size();
