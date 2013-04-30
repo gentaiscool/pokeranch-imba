@@ -44,7 +44,8 @@ public class Area implements IScene{
 				return new Point(x,y);
 			}
 		});
-
+		
+		//monster.setX(5);
 		bg = new Sprite(BitmapManager.getInstance().get("images"), 1,1,1, new SpriteCounter(){
 			@Override
 			public Point getImgPos(int direction, int frame, int width, int height) {
@@ -72,28 +73,31 @@ public class Area implements IScene{
 	}
 	
 	public void getButtonInput(ButtonClick click){
-		switch(click){
-		case LEFT:
+		if(!move){
 			move = true;
-			direction = 3;
-		break;
-		case RIGHT:
-			move = true;
-			direction = 1;
-		break;
-		case DOWN:
-			move = true;
-			direction = 2;
-		break;
-		case UP:
-			move = true;
-			direction = 0;
-		break;
-		case NONE:
-			move = false;
-		break;
-		default:
+			switch(click){
+			case LEFT:
+				move = true;
+				direction = 3;
 			break;
+			case RIGHT:
+				move = true;
+				direction = 1;
+			break;
+			case DOWN:
+				move = true;
+				direction = 2;
+			break;
+			case UP:
+				move = true;
+				direction = 0;
+			break;
+			case NONE:
+				move = false;
+			break;
+			default:
+				break;
+			}
 		}
 	}
 	
@@ -103,12 +107,11 @@ public class Area implements IScene{
 	
 	public void draw(Canvas canvas){
 		//gambar belakang
-		float mag = 1; //magnifikasi tile, bisa 1.5f, 2, dkk
+		float mag = 2; //magnifikasi tile, bisa 1.5f, 2, dkk
 		for(int i=0;i<row;i++){
 			for(int j=0;j<column;j++){
 				//Log.d("harits", "tile yg kepake: " + field[i][j]);
-				
-				canvas.drawBitmap(BitmapManager.getInstance().get("43"), null, new RectF(j*16*mag, i*16*mag, j*16*mag + 16*mag, i*16*mag + 16*mag), null);
+				canvas.drawBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j])), null, new RectF(j*16*mag, i*16*mag, j*16*mag + 16*mag, i*16*mag + 16*mag), null);
 				
 				//canvas.drawBitmap(BitmapManager.getInstance().get("43"), j*16, i*16, null);
 			}
@@ -117,8 +120,12 @@ public class Area implements IScene{
 	}
 	
 	public void update(){
-		if(move) 
+		if(move){ 
 			monster.move(direction,1);
+			if(monster.getX() % 32 == 0 && monster.getY() % 32 == 0){
+				move = false;
+			}
+		}
 	}
 	
 }

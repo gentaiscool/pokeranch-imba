@@ -17,18 +17,18 @@ public class Sprite {
 	private SpriteCounter scount;
 	
 	public Sprite(Bitmap bitmap, int row, int col, int frameNum,SpriteCounter scount){
-		Log.d("harits", "konstruktor sprite start");
+		//Log.d("harits", "konstruktor sprite start");
 		this.bitmap = bitmap;
 		this.scount = scount;
 		this.frameNum = frameNum;
-		Log.d("harits", "konstruktor sprite sebelum ngambil size");
+		//Log.d("harits", "konstruktor sprite sebelum ngambil size");
 		if(bitmap == null)
 			Log.d("harits", "bitmap null lho");
 		width = bitmap.getWidth() / col;
 		height = bitmap.getHeight() / row;
 		x = 0;
 		y = 0;
-		Log.d("harits", "konstruktor sprite end");
+		//Log.d("harits", "konstruktor sprite end");
 	}
 	
 	public void move(int dir, int dist){
@@ -67,6 +67,22 @@ public class Sprite {
 	public boolean onTouchEvent(MotionEvent event) {
 		Log.d("testanim", "adasd");
 		return true;
+	}
+	
+	public int getX(){
+		return x;
+	}
+	
+	public int getY(){
+		return y;
+	}
+	
+	public void setX(int _x){
+		x = _x;
+	}
+	
+	public void setY(int _y){
+		y = _y;
 	}
 	
 }
