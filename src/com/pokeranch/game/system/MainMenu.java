@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MainMenu extends Activity {
 	
 	private ImageButton newGame, loadGame, helpGame, exitGame; 
 	private int state;
+	TextView tf;
 	//private Bitmap newgame;
 	//private Resources res;
 	
@@ -38,6 +42,7 @@ public class MainMenu extends Activity {
 				// TODO Auto-generated method stub
 				state = 1; // new game
 				setContentView(R.layout.main_welcome_story);
+				onStory();
 			}
 		});
 		loadGame = (ImageButton) findViewById(R.id.imageButtonLoadGame);
@@ -62,7 +67,33 @@ public class MainMenu extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				state = 4; // exit game
+				finish();
+			}
+		});
+	}
+	
+	public void onStory(){
+		tf = (TextView)findViewById(R.id.textViewDesc);
+		RelativeLayout rl = (RelativeLayout)findViewById(R.id.relativeLayoutStory);
+		switch(state){
+			case 1:tf.setText("Welcome to PokeRancher World!. An amazing journey is waiting you.");
+					break;
+		}
+		rl.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				// TODO Auto-generated method stub
+				switch(state){
+					case 1 :
+						tf.setText("Please introduce yourself!");
+						state = 11;
+							break;
+					case 11 :
+						setContentView(R.layout.main_write_name);
+						state = 12;
+						break;
+				}
+				return false;
 			}
 		});
 	}

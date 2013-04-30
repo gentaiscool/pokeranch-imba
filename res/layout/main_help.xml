@@ -4,10 +4,12 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout1"
+        android:layout_width="400sp"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1"
+        android:layout_marginLeft="60sp"
         android:orientation="vertical"
         android:scrollbars="vertical" >
 
@@ -15,11 +17,9 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageButtonNewGame"
-            android:layout_alignParentRight="true"
             android:fontFamily="Museo 300"
-            android:text="Help"
-            android:textSize="30dp" />
+            android:text="Here are the controls inside this game:"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/textView1"
@@ -28,8 +28,8 @@
             android:layout_alignBottom="@+id/imageButtonNewGame"
             android:layout_alignParentRight="true"
             android:fontFamily="Museo 300"
-            android:text="Help"
-            android:textSize="30dp" />
+            android:text="Eat"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/textView1"
@@ -38,8 +38,8 @@
             android:layout_alignBottom="@+id/imageButtonNewGame"
             android:layout_alignParentRight="true"
             android:fontFamily="Museo 300"
-            android:text="Help"
-            android:textSize="30dp" />
+            android:text="Sleep"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/textView1"
@@ -48,8 +48,8 @@
             android:layout_alignBottom="@+id/imageButtonNewGame"
             android:layout_alignParentRight="true"
             android:fontFamily="Museo 300"
-            android:text="Help"
-            android:textSize="30dp" />
+            android:text="Bingung"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/textView1"
@@ -58,18 +58,17 @@
             android:layout_alignBottom="@+id/imageButtonNewGame"
             android:layout_alignParentRight="true"
             android:fontFamily="Museo 300"
-            android:text="Help"
-            android:textSize="30dp" />
+            android:text="Makan lagi"
+            android:textSize="15dp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignLeft="@+id/linearLayout1"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="108dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginLeft="160dp"
         android:fontFamily="Museo 300"
         android:text="Help"
         android:textSize="30dp" />
