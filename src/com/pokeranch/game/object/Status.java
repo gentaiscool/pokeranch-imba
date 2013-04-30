@@ -9,6 +9,20 @@ public class Status {
 	private int hp, mp, attack, defense;
 	private Effect effect;
 	
+	public Status() {
+		// TODO Auto-generated constructor stub
+		
+	}
+	
+	//ctor berparameter
+	public Status(int _hp, int _mp, int _attack, int _defense, Effect _effect) {
+		hp = _hp;
+		mp = _mp;
+		attack = _attack;
+		defense = _defense;
+		effect = _effect;
+	}
+	
 	
 	public void save(BufferedWriter buf) {
 		try{
@@ -64,6 +78,16 @@ public class Status {
 		}else if(effect != Effect.NONE){
 			this.effect = effect;
 		}
+	}
+	
+	public Status substractStatus(Status s1, Status s2){
+		Status s = new Status();
+		s.setAttack(s1.getAttack() - s2.getAttack());
+		s.setDefense(s1.getDefense() - s2.getDefense());
+		s.setHP(s1.getHP() - s2.getHP());
+		s.setMP(s1.getMP() - s2.getMP());
+		s.setEffect(Effect.NONE);
+		return s;
 	}
 	
 	public int getHP() {
