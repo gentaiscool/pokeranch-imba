@@ -176,6 +176,7 @@ public class Area {
 	
 	public void draw(Canvas canvas){
 		//gambar belakang
+
 		
 		float mag = 2; //magnifikasi tile, bisa 1.5f, 2, dkk
 		for(int i=0;i<row;i++){

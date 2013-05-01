@@ -94,6 +94,8 @@ public class MainMenu extends Activity {
 				else{
 					//send data to other activity
 					Intent i = new Intent(getBaseContext(),MainTest.class);
+					i.putExtra("characterName", characterName);
+					i.putExtra("monsterName", monsterName); 
 					startActivity(i);
 					finish();
 				}
@@ -132,6 +134,10 @@ public class MainMenu extends Activity {
 				}
 			}
 		});
+	}
+	
+	public void onLoad(){
+		
 	}
 	
 	public void onWriteName(){

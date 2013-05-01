@@ -23,6 +23,10 @@ public class DBLoader {
 	private HashMap<String, Species> species;
 	private HashMap<String, Skill> skills;
 	private HashMap<String, Area> areas;
+	private HashMap<String, MonsterBall> balls;
+	private HashMap<String, StatItem> statitems;
+	private HashMap<String, TM> tms;
+	//private HashMap<String, Egg> eggs;
 	private AssetManager assets;
 	
 	
@@ -32,6 +36,9 @@ public class DBLoader {
 		skills = new HashMap<String, Skill>();
 		species = new HashMap<String, Species>();
 		areas = new HashMap<String, Area>();
+		balls = new HashMap<String, MonsterBall>();
+		statitems = new HashMap<String, StatItem>();
+		tms = new HashMap<String, TM>();
 	}
 	
 	//getter
@@ -46,6 +53,32 @@ public class DBLoader {
 	
 	public Skill getSkill(String name){
 		return skills.get(name);
+	}
+	
+	public Item getItem(String name){
+		Item item;
+		item = getMonsterBall(name);
+		if (item!=null) return item;
+		
+		item = getStatItem(name);
+		if (item!=null) return item;
+		
+		item = getTM(name);
+		if (item!=null) return item;
+		
+		return null;
+	}
+	
+	public MonsterBall getMonsterBall(String name){
+		return balls.get(name);
+	}
+	
+	public StatItem getStatItem(String name){
+		return statitems.get(name);
+	}
+	
+	public TM getTM(String name){
+		return tms.get(name);
 	}
 	
 	public Area getArea(String name){
@@ -91,6 +124,11 @@ public class DBLoader {
 		load(Element.class, elements, "elements.dat");
 		load(Skill.class, skills, "skills.dat");
 		load(Species.class, species, "species.dat");
+		load(MonsterBall.class, balls, "balls.dat");
+		load(StatItem.class, statitems, "statitems.dat");
+		load(TM.class, tms, "tm.dat");
+		
+		Log.d("POKE", balls.toString());
 		loadMap("map.dat");
 	}
 	
