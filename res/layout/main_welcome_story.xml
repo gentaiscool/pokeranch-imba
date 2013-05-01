@@ -23,25 +23,22 @@
         android:src="@drawable/professoroak" />
 
     <TextView
+        android:id="@+id/textViewDesc"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="165dp"
+        android:text="hhe"
+        android:textSize="12dp"/>
+
+    <TextView
         android:id="@+id/textViewTap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="28dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/textViewDesc"
         android:text="Tap to continue"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textViewDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="19dp"
-        android:layout_toRightOf="@+id/imageViewProfessorOak"
-        android:text="a"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textSize="9dp" />
 
 </RelativeLayout>
