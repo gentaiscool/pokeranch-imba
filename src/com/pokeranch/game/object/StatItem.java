@@ -1,5 +1,7 @@
 package com.pokeranch.game.object;
 
+import java.util.Scanner;
+
 public class StatItem extends Item{
 	
 	private boolean permanent;
@@ -10,6 +12,20 @@ public class StatItem extends Item{
 	public StatItem()
 	{
 		permanent = false;
+		itemEffect = new Status();
+	}
+	
+	@Override
+	public void load(Scanner scan) {
+		try{
+			permanent = scan.nextInt() == 1;
+			itemEffect.load(scan);
+			cureStatus = Status.Effect.valueOf(scan.next());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		super.load(scan);
 	}
 	
 	//getter dan setter

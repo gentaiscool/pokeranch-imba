@@ -1,0 +1,13 @@
+# effect: POISON, PARLYZ, SLEEP, BURN, NONE, HEALING
+# formatnya: nama, isItemEffectPermanent, statusmod(hp,mp,att,def,eff), cure-effect, price
+
+Potion 		0 20 0 0 0 NONE NONE	100
+ManaPotion	0 0 10 0 0 NONE NONE  100
+Antidote	0 0 0 0 0 NONE  POISON	150
+ParalyzCure	0 0 0 0 0 NONE  PARLYZ	150
+Awakening	0 0 0 0 0 NONE  SLEEP	150
+BurnHeal	0 0 0 0 0 NONE  BURN	150
+HPBoost		1 20 0 0 0 NONE NONE	3000
+MPBoost		1 0 20 0 0 NONE NONE	3000
+Protein		1 0 0 20 0 NONE NONE	3000
+Calcium		1 0 0 0 20 NONE NONE	3000
