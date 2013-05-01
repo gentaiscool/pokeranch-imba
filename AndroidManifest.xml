@@ -16,18 +16,18 @@
 
         <activity
             android:screenOrientation="landscape"
-            android:name="com.pokeranch.game.system.MainMenu"
+            android:name=".MainMenu"
             android:label="@string/title_activity_main_menu"> 
-            
+            "
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity 
-            android:name=".MainTest"> 
-            </activity>
+        <activity
+            android:name=".MainTest">
+        </activity>
     </application>
 
 </manifest>

@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.pokeranch.game.system.MainGameView.ButtonClick;
 
-public class Area implements IScene{
+public class Area {
 	private Sprite monster,bg;
 	private int field[][], row, column;
 	//private ArrayList<Area>

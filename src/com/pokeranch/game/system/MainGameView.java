@@ -23,7 +23,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	public GameLoop thread;
 	private Matrix matrix = new Matrix();	
 	private Paint paint = new Paint();
-	private IScene area;
+	private Area area;
 	ArrayList<TouchListener> touches;
 	private BitmapButton buttonDown;
 	private BitmapButton buttonUp;
