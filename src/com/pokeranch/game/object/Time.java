@@ -22,7 +22,13 @@ public class Time {
 		}
 	}
 	
-	public void save(BufferedWriter buf){
+	public String toString(){
+		StringBuilder str=new StringBuilder();	
+		str.append(year+" "+month+" "+day+" "+hour+" "+minute);
+		return str.toString();
+	}
+	
+/*	public void save(BufferedWriter buf){
 		try{
 			buf.write(year + " ");
 			buf.write(month + " ");
@@ -32,7 +38,7 @@ public class Time {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public void set(int p,int q,int r,int s,int t) {
 		year = p;
