@@ -112,10 +112,13 @@ public class DBLoader {
 			int r = scan.nextInt();
 			int c = scan.nextInt();
 			//Log.d("harits", r + " " + c);
-			Area a = new Area(r, c);
+			Area a = new Area(r, c, 1);
 			for(int i=0;i<r;i++){
 				for(int j=0;j<c;j++){
-					a.setVal(i, j, scan.nextInt());
+					int tmp = scan.nextInt();
+					//buat ngetes boundary
+					//kalo pagardia ga bisa dilewati
+					a.createTile(i, j, tmp, (tmp == 272?false:true));
 				}
 			}
 			

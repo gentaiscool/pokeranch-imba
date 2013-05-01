@@ -21,7 +21,7 @@ public class ScreenManager {
 	}
 	
 	public void draw(Canvas canvas){
-		for(IScreen s : screens) s.draw(canvas);
+		for(IScreen s : screens) s.draw(canvas, 1);
 	}
 	
 	public void update(){
