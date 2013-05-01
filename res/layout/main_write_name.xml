@@ -10,18 +10,14 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:shadowColor="@color/black"
-        android:shadowDx="5"
-        android:shadowDy="5"
-        android:shadowRadius="2" />
-
+        android:inputType="textPersonName"/>
+    
     <TextView
         android:id="@+id/textViewHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:layout_marginLeft="120dp"
-		android:layout_marginTop="60dp"
+		android:layout_marginTop="80dp"
         android:layout_marginBottom="32dp"
         android:layout_marginRight="69dp"
         android:text="@string/write_name"
@@ -35,5 +31,13 @@
         android:layout_marginTop="180dp"
         android:text="Continue"
         android:textSize="10dp" />
+
+    <ImageView
+        android:id="@+id/imageViewLogo2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="320dp"
+        android:layout_marginTop="-70dp"
+        android:src="@drawable/logo" />
 
 </RelativeLayout>

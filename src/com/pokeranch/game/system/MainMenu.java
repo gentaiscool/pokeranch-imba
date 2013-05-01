@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,17 +22,14 @@ public class MainMenu extends Activity {
 	
 	private ImageButton newGame, loadGame, helpGame, exitGame; 
 	private int state;
-	TextView tf;
+	private TextView tf;
 	private String characterName, monsterName;
-	//private Bitmap newgame;
-	//private Resources res;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_menu);
-		//newgame = BitmapFactory.decodeResource(res, R.drawable.newgamebutton2);
 		onUpdate();
 	}
 	@Override
@@ -42,7 +40,6 @@ public class MainMenu extends Activity {
 	}
 	public void onUpdate(){
 		state = 0; //main menu
-		
 		newGame = (ImageButton) findViewById(R.id.imageButtonNewGame);
 		newGame.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -59,6 +56,7 @@ public class MainMenu extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				state = 2; // load game
+				setContentView(R.layout.main_load_pick_character);
 			}
 		});
 		helpGame = (ImageButton) findViewById(R.id.imageButtonHelpGame);
@@ -84,40 +82,53 @@ public class MainMenu extends Activity {
 		final RadioButton b1 = (RadioButton)findViewById(R.id.RadioButtonBulba);
 		final RadioButton b2 = (RadioButton)findViewById(R.id.RadioButtonSquir);
 		final RadioButton b3 = (RadioButton)findViewById(R.id.RadioButtonCharchar);
+		final Button button = (Button)findViewById(R.id.buttonMonsterPicked);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if(!b1.isChecked()&&!b2.isChecked()&&!b3.isChecked()){
+					AlertDialog ad = makeAndShowDialogBox("Gotcha!", "You haven't pick your starter monster");
+					ad.show();
+				}
+				else{
+					//send data to other activity
+					Intent i = new Intent(getBaseContext(),MainTest.class);
+					startActivity(i);
+					finish();
+				}
+			}
+		});
 		b1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Log.d("he", "click");
 				if(b1.isChecked()){
 					b2.setChecked(false);
 					b3.setChecked(false);
+					monsterName = "Bulba";
 				}
-				
 			}
 		});
 		b2.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Log.d("he", "click2a");
 				if(b2.isChecked()){
 					b1.setChecked(false);
 					b3.setChecked(false);
+					monsterName="Squir";
 				}
 			}
 		});
 		b3.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				Log.d("he", "click3");
 				if(b3.isChecked()){
 					b1.setChecked(false);
 					b2.setChecked(false);
+					monsterName="Charchar";
 				}
 			}
 		});
@@ -130,22 +141,35 @@ public class MainMenu extends Activity {
 		final EditText et = (EditText)findViewById(R.id.editTextName);
 		Button b = (Button)findViewById(R.id.buttonContinue);
 		tv.setTypeface(face);
+		et.setTypeface(face);
 		b.setTypeface(face);
 		b.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(et.getText().length()!=0){
-					state = 13; // help game
+					state = 13; // pick monster
+					characterName = et.getText().toString();
 					setContentView(R.layout.main_pick_monster);
 					onPickMonster();
 				}
 				else{
-					
+					AlertDialog ad = makeAndShowDialogBox("Gotcha!","You haven't type your name!");
+					ad.show();
 				}
 			}
 		});
 	}
+	
+private AlertDialog makeAndShowDialogBox(String title, String message){
+        AlertDialog myDialogBox = 
+        	new AlertDialog.Builder(this) 
+        	//set message, title, and icon
+        	.setTitle(title) 
+        	.setMessage(message) 
+        	.create(); 	
+        	return myDialogBox;
+    }
 	
 	public void onStory(){
 		Typeface face = Typeface.createFromAsset(getAssets(),
@@ -183,7 +207,7 @@ public class MainMenu extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-	        Log.d(this.getClass().getName(), "back button pressed");
+	        //Log.d(this.getClass().getName(), "back button pressed");
 	    }
 	   // return super.onKeyDown(keyCode, event);	   
 	    switch(state){
@@ -192,10 +216,25 @@ public class MainMenu extends Activity {
 	    	case 1 :
 	    		//nothing to do
 	    		break;
+	    	case 2 :
+	    		state = 0;
+	    		setContentView(R.layout.main_menu);
+	    		onUpdate();
+	    		break;
 	    	case 3 :
 	    		state = 0;
 	    		setContentView(R.layout.main_menu);
 	    		onUpdate();
+	    		break;
+	    	case 12 :
+	    		state = 0;
+	    		setContentView(R.layout.main_menu);
+	    		onUpdate();
+	    		break;
+	    	case 13 :
+	    		state = 12;
+	    		setContentView(R.layout.main_write_name);
+	    		onWriteName();
 	    		break;
 	    }
 	    return false;

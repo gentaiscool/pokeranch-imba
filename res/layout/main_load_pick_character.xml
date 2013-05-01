@@ -7,8 +7,10 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
+        android:layout_height="wrap_content" 
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="40dp">
+		
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
@@ -17,26 +19,15 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </ScrollView>
+ 
+	<ImageView
+        android:id="@+id/imageViewLogo2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="320dp"
+        android:layout_marginTop="-140dp"
+        android:src="@drawable/logo" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="50sp" >
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </LinearLayout>
+	
 
 </LinearLayout>
