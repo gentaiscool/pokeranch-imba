@@ -26,7 +26,7 @@ public class PlayerSaveLoader {
 	private String name;
 	private int money;
 	private int nbattle, nwin, nlose;
-	
+	//private string ampas;
 	private Time playingTime;
 	private HashMap<String, Monster> monsters;
 	private HashMap<String, Integer> items;
