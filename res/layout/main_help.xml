@@ -28,7 +28,7 @@
             android:layout_alignBottom="@+id/imageButtonNewGame"
             android:layout_alignParentRight="true"
             android:fontFamily="Museo 300"
-            android:text="Eat"
+            android:text="There 4 button controls inside this game"
             android:textSize="15dp" />
 
         <TextView

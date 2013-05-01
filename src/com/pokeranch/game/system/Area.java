@@ -114,15 +114,19 @@ public class Area {
 	
 	public void draw(Canvas canvas){
 		//gambar belakang
-		float mag = 2; //magnifikasi tile, bisa 1.5f, 2, dkk
+		float mag = 4; //magnifikasi tile, bisa 1.5f, 2, dkk
+		//int w = BitmapManager.getInstance().get("1").getWidth();
+		//canvas.drawBitmap(BitmapManager.getInstance().get("1"), new Rect(0,0,w,w), new RectF(0,0,w*3,w*3), null);
+		
 		for(int i=0;i<row;i++){
 			for(int j=0;j<column;j++){
-				//Log.d("harits", "tile yg kepake: " + field[i][j]);
-				canvas.drawBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j])), null, new RectF(j*16*mag, i*16*mag, j*16*mag + 16*mag, i*16*mag + 16*mag), null);
-				
+				int w = BitmapManager.getInstance().get(String.valueOf(field[i][j])).getWidth();
+				Log.d("harits", "lebar: " + j*w*mag + " " + i*w*mag + " " + (j*w*mag + w*mag) + " " + (i*w*mag + w*mag));
+				canvas.drawBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j])), new Rect(0,0,w,w), new RectF(j*w*mag, i*w*mag, j*w*mag + w*mag, i*w*mag + w*mag), null);
 				//canvas.drawBitmap(BitmapManager.getInstance().get("43"), j*16, i*16, null);
 			}
 		}
+		
 		monster.draw(canvas);
 	}
 	
