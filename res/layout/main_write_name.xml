@@ -3,36 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="44dp"
-        android:text="@string/write_name"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/editTextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
+        android:layout_centerVertical="true"
         android:ems="10"
-        android:inputType="textPersonName" >
+        android:inputType="textPersonName"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="2" />
 
-        <requestFocus />
-    </EditText>
+    <TextView
+        android:id="@+id/textViewHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_marginLeft="120dp"
+		android:layout_marginTop="60dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginRight="69dp"
+        android:text="@string/write_name"
+        android:textSize="15dp" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/buttonContinue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/editText1"
-        android:layout_below="@+id/editText1"
-        android:layout_marginTop="18dp"
-        android:text="Continue" />
+        android:layout_marginLeft="330dp"
+        android:layout_marginTop="180dp"
+        android:text="Continue"
+        android:textSize="10dp" />
 
 </RelativeLayout>
