@@ -13,6 +13,7 @@ public class Player {
 	private String currentMonster;
 	
 	Player(){
+		name ="";
 		money = 1000;
 		playingTime = new Time();
 		currentMonster = "";
@@ -133,9 +134,11 @@ public class Player {
 	public void setPlayingTime(Time t) {
 		playingTime=t;
 	}
+	
 	public int getNbattle() {
 		return nbattle;
 	}
+	
 	public void setNbattle(int nbattle) {
 		this.nbattle = nbattle;
 	}
@@ -147,6 +150,7 @@ public class Player {
 	public int getNwin() {
 		return nwin;
 	}
+	
 	public void setNwin(int nwin) {
 		this.nwin = nwin;
 	}
@@ -154,9 +158,11 @@ public class Player {
 	public void addWin(int nwin) {
 		this.nwin+=nwin;
 	}
+	
 	public int getNlose() {
 		return nlose;
 	}
+	
 	public void setNlose(int nlose) {
 		this.nlose = nlose;
 	}
@@ -168,13 +174,17 @@ public class Player {
 	public int getMoney() {
 		return money;
 	}
+	
 	public void setMoney(int money) {
 		this.money = money;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+
 }
