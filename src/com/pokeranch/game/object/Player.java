@@ -12,7 +12,7 @@ public class Player {
 	private HashMap<String, Integer> items;
 	private String currentMonster;
 	
-	Player(){
+	public Player(){
 		name ="";
 		money = 1000;
 		playingTime = new Time();
@@ -96,8 +96,8 @@ public class Player {
 		return monsters.get(currentMonster);
 	}	
 	
-	public void setCurrentMonster(String currMons) {
-		this.currentMonster = currMons;
+	public void setCurrentMonster(Monster currMons) {
+		this.currentMonster = currMons.getName();
 	}
 	
 	public Monster getNextMonster() throws Exception {

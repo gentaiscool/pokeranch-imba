@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import java.util.ArrayList;
 
 import com.pokeranch.game.object.DBLoader;
+import com.pokeranch.game.object.*;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -32,6 +33,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		super(context);
 		getHolder().addCallback(this);
 		setFocusable(true);
+		
+		MessageManager.setContext(context);
 		
 		/*loading image*/
 		BitmapManager.initialize(context.getApplicationContext().getResources());
@@ -64,7 +67,14 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,0));
-		manager.push(am);
+		//manager.push(am);
+		
+		Player pl = new Player();
+		Monster m = Monster.getRandomMonster(2, 1);
+		pl.addMonster(m);
+		pl.setCurrentMonster(m);
+		
+		manager.push(new BattleScreen(pl,null));
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

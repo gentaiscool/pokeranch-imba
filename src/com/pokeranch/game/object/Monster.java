@@ -10,6 +10,7 @@ import java.util.Set;
 import com.pokeranch.game.object.Status.Effect;
 
 import android.graphics.Point;
+import android.util.Log;
 
 public class Monster{
 	private String name;
@@ -28,11 +29,12 @@ public class Monster{
 
 	//cctor
 	public Monster(String name, Species species, int level){
-		random.setSeed(1);
 		
 		this.name = name;
 		this.species = species;
 		this.level = level;
+		skills = new HashMap<String, Skill>();
+		
 		exp = 0;
 		evoExp = (int) ((2.7*level+17) * 3 * Math.pow (1.02,(level-1))); //--> 50 - 6058 (3 - 21 x lawan selvl)
 		bonusCash = 5*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(15);//--> max 500
@@ -45,6 +47,9 @@ public class Monster{
 		for (int i = 2; i <=level; i++){
 			fullStatus.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
 		}
+		
+		for (int i = 0; i < species.getBaseSkillNum(); i++)
+			addSkill(species.getBaseSkill(i));
 		status = fullStatus;
 	}
 
@@ -67,7 +72,6 @@ public class Monster{
 	
 	public boolean addExp(int x){
 		Random random = new Random();
-		random.setSeed(1);
 		exp+=x;
 		if (exp>=evoExp){
 			if (level==100){
@@ -141,7 +145,6 @@ public class Monster{
 		Status damage = sk.getDamage();
 		
 		//critical hit
-		random.setSeed(1);
 		float critical = 1.f;
 		if(random.nextInt(100)<10) 
 			critical = 2.f;
@@ -195,8 +198,8 @@ public class Monster{
 		return skills.size();
 	}
 	public Skill getSkill(int num){
-		ArrayList<Skill> s = (ArrayList<Skill>) skills.values();
-		return s.get(num);
+		Object[] s = (skills.values()).toArray();
+		return (Skill) s[num];
 	}
 	
 	public Skill getSkill(String name){
@@ -207,7 +210,6 @@ public class Monster{
 	/* Asumsi: List skill yang ada pada Monster ini sudah 
 	   ada didefinisikan didatabase skill */
 		int num;
-		random.setSeed(1);
 		ArrayList<Skill> s = (ArrayList<Skill>) skills.values();
 		num = random.nextInt(skills.size());
 		return s.get(num);	
@@ -263,7 +265,7 @@ public class Monster{
 		fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
 	}
 	
-	public Monster getRandomMonster(int level, int maxRating){
+	public static Monster getRandomMonster(int level, int maxRating){
 		Species ss;
 		ss = DBLoader.getInstance().getRandomSpecies(maxRating);
 		return new Monster(ss.getName(), ss, level);
