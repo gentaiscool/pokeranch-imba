@@ -23,9 +23,9 @@ public class BattleScreen implements IScreen {
 		touch = new ArrayList<TouchListener>();
 		
 		attack = new BitmapButton(BitmapManager.getInstance().get("attackbutton"), 0, 0);
-		useItem = new BitmapButton(BitmapManager.getInstance().get("itembutton"), 0, 100);
-		change = new BitmapButton(BitmapManager.getInstance().get("changebutton"), 0, 200);
-		escape = new BitmapButton(BitmapManager.getInstance().get("escapebutton"), 0, 300);
+		useItem = new BitmapButton(BitmapManager.getInstance().get("itembutton"), 0, 70);
+		change = new BitmapButton(BitmapManager.getInstance().get("changebutton"), 0, 140);
+		escape = new BitmapButton(BitmapManager.getInstance().get("escapebutton"), 0, 210);
 		
 		attack.addTouchAction(new TouchAction() {
 			@Override
