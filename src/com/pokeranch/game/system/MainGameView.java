@@ -47,6 +47,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
 		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
 		
+		//animasi skill
+		BitmapManager.getInstance().put("Swim", R.drawable.swim);
+		
 		//potong map
 		BitmapManager.getInstance().putMap(R.drawable.sprite);
 		
@@ -54,9 +57,12 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		DBLoader.initialize(context.getAssets());
 		DBLoader.getInstance().loadMap("map.dat");
 		
+		System.gc();
+		
 		manager = new ScreenManager();
-		AreaManager am = new AreaManager(context, screenWidth, screenHeight);
-		manager.push(am);
+		//manager.push(new AreaManager(context, screenWidth, screenHeight));
+		manager.push(new BattleScreen(null, null));
+		
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

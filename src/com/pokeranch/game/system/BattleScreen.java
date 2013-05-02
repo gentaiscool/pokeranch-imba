@@ -1,8 +1,8 @@
 package com.pokeranch.game.system;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-import android.R.color;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
@@ -13,6 +13,7 @@ public class BattleScreen implements IScreen {
 	private Player player1, player2, current, enemy;
 	private BitmapButton attack, useItem, change, escape;
 	private ArrayList<TouchListener> touch;
+	private ArrayList<SkillAnimation> animation;
 	
 	public BattleScreen(Player player1, Player player2){
 		this.player1 = player1;
@@ -21,6 +22,7 @@ public class BattleScreen implements IScreen {
 		enemy = player2;
 		
 		touch = new ArrayList<TouchListener>();
+		animation = new ArrayList<SkillAnimation>();
 		
 		attack = new BitmapButton(BitmapManager.getInstance().get("attackbutton"), 0, 0);
 		useItem = new BitmapButton(BitmapManager.getInstance().get("itembutton"), 0, 70);
@@ -72,7 +74,12 @@ public class BattleScreen implements IScreen {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-
+		Iterator<SkillAnimation> it = animation.iterator();
+		while(it.hasNext()){
+			SkillAnimation a = it.next();
+			a.update();
+			if(a.finished()) animation.remove(a);
+		}
 	}
 
 	
@@ -84,11 +91,12 @@ public class BattleScreen implements IScreen {
 		useItem.draw(canvas);
 		change.draw(canvas);
 		escape.draw(canvas);
-		
+		for(SkillAnimation a : animation) a.draw(canvas, mag);
 	}
 	
 	private void selectAttack(){
-		Log.d("POKE", "attack");
+		//Log.d("POKE", "attack");
+		animation.add(new SkillAnimation(BitmapManager.getInstance().get("Swim"), 3, 200, 100, 4));
 	}
 	
 	private void selectItem(){
