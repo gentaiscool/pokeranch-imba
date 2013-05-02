@@ -1,8 +1,11 @@
 package com.pokeranch.game.object;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 import com.pokeranch.game.object.Status.Effect;
 
@@ -15,7 +18,7 @@ public class Monster{
 	private Species species;
 	private HashMap<String, Skill> skills; 
 	private Time age;
-	private static int maxNumSkill; //jumlah skill maksimal
+	private int maxNumSkill;
 	private Random random = new Random();
 	
 	//ctor
@@ -252,11 +255,11 @@ public class Monster{
 		return found;
 	}
 
-	boolean isMaxNumSkill(){
-		return maxNumSkill == skills.size();
+	public boolean isMaxNumSkill(){
+		return maxNumSkill == 4;
 	}
 	
-	void giveItem(StatItem item){
+	public void giveItem(StatItem item){
 		fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
 	}
 	
@@ -292,5 +295,22 @@ public class Monster{
 			
 			return new Monster("", spec3, lvl3);
 		}
+	}
+	
+	public String toString(StringBuilder str){
+		str.append( "NamaMonster: "+name+"\n"+
+					"Umur: "+age.toString()+"\n"+
+					"Spesies: "+species.getName()+" Level: "+level+"\n"+
+					"Exp: "+exp+" EvoExp: "+evoExp+"\n"+
+					"BonusCash: "+bonusCash+" bonusExp"+bonusExp+"\n"+
+					"Status(hp,mp,att,def,eff):"+ status.toString()+" / "+fullStatus.toString()+"\n");
+	    Set namaSkill = skills.keySet();
+	      // Get an iterator
+	    Iterator<Skill>i = namaSkill.iterator();
+	    str.append("Skill:\n");
+	    while(i.hasNext()) {
+	    	str.append(i.next().toString()+"\n");
+	    }
+	    return str.toString();
 	}
 }

@@ -119,9 +119,9 @@ public class Player {
 	
 	public void restoreAllMonster(){
 		//mengembalikan semua atribut setiap Monster yang dimiliki player
-	    Collection values = monsters.entrySet();
+	    Collection monster = monsters.values();
 	      // Get an iterator
-	    Iterator<Monster>i = values.iterator();
+	    Iterator<Monster>i = monster.iterator();
 	    while(i.hasNext()) {
 	         i.next().restoreStatus();
 	    }

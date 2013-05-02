@@ -10,8 +10,10 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +28,6 @@ public class PlayerSaveLoader {
 	private String name;
 	private int money;
 	private int nbattle, nwin, nlose;
-	//private string ampas;
 	private Time playingTime;
 	private HashMap<String, Monster> monsters;
 	private HashMap<String, Integer> items;
@@ -102,12 +103,6 @@ public class PlayerSaveLoader {
 
 	public void loadPlayer(String playername){
 		 String myData="";
-		 if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {  
-			   setAbleToSave(false);
-		 } else { 
-			fileSave = new File(context.getExternalFilesDir(filepath), playername+".sav");
-			  }
-
 		try{
 			FileInputStream fis = new FileInputStream(filename);
 			DataInputStream in = new DataInputStream(fis);
@@ -138,12 +133,20 @@ public class PlayerSaveLoader {
 		playingTime.load(scan);
 		useless = scan.next();
 		setCurrentMonster(scan.next());
-		//items =  DBLoader.getInstance.loadItem();
-		//monsters = DBLoader		
+		useless = scan.next();
+	    while(scan.next!="Item:"){
+	    	monsters.put(key, value)
+	    }
+		
 	}
 	
 	public void savePlayer(Player player){
 		try {
+			 if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {  
+				   setAbleToSave(false);
+			 } else { 
+				fileSave = new File(context.getExternalFilesDir(filepath),player.getName()+".sav");
+				  }
 			FileOutputStream fos = new FileOutputStream(fileSave);
 			StringBuilder str=new StringBuilder();	
 			str.append(	"Nama: "+name+"\n"+
@@ -153,9 +156,22 @@ public class PlayerSaveLoader {
 						"JumlahKalah: "+nlose+"\n"+
 						"WaktuBermain(Tahun,bulan,hari,jam,menit): "+playingTime.toString()+"\n"+
 						"MonsterSekarang: "+currentMonster);
+		    Collection monster = monsters.values();
+		      // Get an iterator
+		    Iterator<Monster>i = monster.iterator();
+		    while(i.hasNext()) {
+		         str.append(i.next().toString()+"\n");
+		    }
+		    Set item = items.entrySet();
+		      // Get an iterator
+		    Iterator<Item>j = item.iterator();
+		    while(j.hasNext()){
+		    	Map.Entry me= (Map.Entry)j.next();
+		    	str.append(me.getKey()+" "+me.getValue()+"\n");
+		    }
 			fos.write(str.toString().getBytes());
 			fos.close();
-	   } catch (IOException e) {
+	   } catch (Exception e) {
 		    e.printStackTrace();
 	   }
 	}
