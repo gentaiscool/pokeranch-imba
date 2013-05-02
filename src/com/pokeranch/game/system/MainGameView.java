@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -60,7 +61,10 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//	Log.d("harits", "DBLoader null");
 		//Log.d("harits", "berhasil bikin Area");
 		
+		
 		am = new AreaManager(context, screenWidth, screenHeight);
+		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
+		am.setPlayerCord(new Point(0,0));
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

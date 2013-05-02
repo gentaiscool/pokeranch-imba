@@ -27,16 +27,16 @@ public class AreaManager implements IScreen{
 				int x = 0, y = 0;
 				switch(direction){
 					case 0: //up
-						x = 3*width + frame*width; y = 0;
-					break;
-					case 1: //right
 						x = 6*width + frame*width; y = 0;
 					break;
-					case 2: //down
+					case 1: //right
 						x = 9*width + frame*width; y = 0;
 					break;
-					case 3: //left
+					case 2: //down
 						x = 0*width + frame*width; y = 0;
+					break;
+					case 3: //left
+						x = 3*width + frame*width; y = 0;
 					break;
 				}
 				//Log.d("harits", "w: " + width);
@@ -52,16 +52,16 @@ public class AreaManager implements IScreen{
 				int x = 0, y = 0;
 				switch(direction){
 					case 0: //up --dirotasi 90 derajat searah jarum jam jadi kanan
-						x = 3*width + frame*width; y = height;
-					break;
-					case 1: //right --dst
 						x = 6*width + frame*width; y = height;
 					break;
-					case 2: //down
+					case 1: //right --dst
 						x = 9*width + frame*width; y = height;
 					break;
-					case 3: //left
+					case 2: //down
 						x = 0*width + frame*width; y = height;
+					break;
+					case 3: //left
+						x = 3*width + frame*width; y = height;
 					break;
 				}
 				//Log.d("harits", "w: " + width);
@@ -70,13 +70,11 @@ public class AreaManager implements IScreen{
 			}
 		});
 		
-		curArea = DBLoader.getInstance().getArea("FIELD");
-		curArea.setBody(body);
-		curArea.setHead(head);
+		
 		
 		buttons = new ArrayList<BitmapButton>();
 		butLeftestX = 25;
-		butDist = 50;
+		butDist = BitmapManager.getInstance().get("left").getWidth()*2;
 		butY = screenHeight - 60;
 		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), butLeftestX, butY);
 		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), butLeftestX + butDist, butY);
@@ -145,10 +143,20 @@ public class AreaManager implements IScreen{
 		buttons.add(buttonRight);
 	}
 	
+	public void setPlayerCord(Point p){
+		//32 ~ ukuran tilenya (32x32)
+		body.setX(p.x*32);
+		body.setY(p.y*32); 
+		head.setX(p.x*32-32);
+		head.setY(p.y*32);
+	}
+	
+	
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 		curArea.update();
+		//update head & body diurusi area
 	}
 
 	@Override
@@ -169,5 +177,15 @@ public class AreaManager implements IScreen{
 			b.onTouchEvent(e);
 		}
 	}
-
+	
+	public Area getCurArea(){
+		return curArea;
+	}
+	
+	public void setCurArea(Area a) {
+		curArea = a;
+		curArea.setAreaManager(this);
+		curArea.setBody(body);
+		curArea.setHead(head);
+	}
 }

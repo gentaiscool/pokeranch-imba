@@ -18,6 +18,8 @@ public class Sprite {
 	private Matrix mtx;
 	private SpriteCounter scount;
 	
+	
+	//sprite X dan Y nya merupakan row dan colums saat landscape
 	public Sprite(int _x, int _y, Bitmap bitmap, int row, int col, int frameNum,SpriteCounter scount){
 		//Log.d("harits", "konstruktor sprite start");
 		this.bitmap = bitmap;
@@ -30,8 +32,8 @@ public class Sprite {
 			Log.d("harits", "bitmap null lho");
 		width = bitmap.getWidth() / col;
 		height = bitmap.getHeight() / row;
-		x = _x;
-		y = _y;
+		x = _y;
+		y = _x;
 		//Log.d("harits", "konstruktor sprite end");
 	}
 	
@@ -70,10 +72,10 @@ public class Sprite {
 		//Log.d("harits", "bitmap asli: 0,0," + bitmap.getWidth() + ", " + bitmap.getHeight());
 		//Log.d("harits", "yg dipotong: "+ sx + ", "+sy+", "+(sx+width)+", "+(sy+height));
 		
-		Bitmap newB = Bitmap.createBitmap(bitmap, sx, sy, width, height, mtx, false);
+		//Bitmap newB = Bitmap.createBitmap(bitmap, sx, sy, width, height, mtx, false);
 		//Log.d("harits", "berhasil motong");
 		//Bitmap newB = bitmap;
-		canvas.drawBitmap(newB, new Rect(0, 0, newB.getWidth(), newB.getHeight()), new RectF(x, y, x+width*magnification, y+height*magnification), null);
+		canvas.drawBitmap(bitmap, new Rect(sx, sy, sx+width, sy+height), new RectF(x, y, x+width*magnification, y+height*magnification), null);
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {
@@ -82,19 +84,19 @@ public class Sprite {
 	}
 	
 	public int getX(){
-		return x;
-	}
-	
-	public int getY(){
 		return y;
 	}
 	
+	public int getY(){
+		return x;
+	}
+	
 	public void setX(int _x){
-		x = _x;
+		y = _x;
 	}
 	
 	public void setY(int _y){
-		y = _y;
+		x = _y;
 	}
 	
 }
