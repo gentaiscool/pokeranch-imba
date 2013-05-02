@@ -194,10 +194,7 @@ public class PlayerSaveLoader {
 			BonusCash: 20 BonusExp+50
 			Status(hp,mp,att,def,eff): 28 36 47 64 POISON / 30 40 50 70
 			Skill:
-			Razor 70 20 Grass Razorga
-			Vine_Whip 80 30 Grass 
-			Cut 70 25 Normal
-			Tackle 50 14 Normal
+			Razor Vine_Whip Cut	Tackle
 			NamaMonster: Imba2
 			Umur: 0 0 0 5 3
 			Spesies: Bulba Level: 14
@@ -205,10 +202,7 @@ public class PlayerSaveLoader {
 			BonusCash: 20 BonusExp+50
 			Status(hp,mp,att,def,eff): 28 36 47 64 POISON / 30 40 50 70
 			Skill:
-			Razor 70 20 Grass Razorga
-			Vine_Whip 80 30 Grass 
-			Cut 70 25 Normal
-			Tackle 50 14 Normal
+			Razor Vine_Whip Cut Tackle
 			DaftarItem:
 			Potion 2
 			MonsterBall 4

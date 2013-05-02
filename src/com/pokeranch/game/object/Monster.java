@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 
 import com.pokeranch.game.object.Status.Effect;
@@ -297,6 +298,39 @@ public class Monster{
 		}
 	}
 	
+	public void load(Scanner scan){
+		String useless;
+		useless=scan.next();
+		name=scan.next();
+		useless=scan.next();
+		age=new Time();
+		age.load(scan);
+		useless=scan.next();
+		species=DBLoader.getInstance().getSpecies(scan.next());
+		useless=scan.next();
+		level=scan.nextInt();
+		useless=scan.next();
+		exp=scan.nextInt();
+		useless=scan.next();
+		evoExp=scan.nextInt();
+		useless=scan.next();
+		bonusCash=scan.nextInt();
+		useless=scan.next();
+		bonusExp=scan.nextInt();
+		useless=scan.next();
+		status=new Status();
+		status.load(scan);
+		fullStatus=new Status();
+		fullStatus.load(scan);
+		useless=scan.next();
+		String skillName;
+		int i;
+		for(i=0;i<4;i++){
+			skillName=scan.next();
+			skills.put(skillName, DBLoader.getInstance().getSkill(skillName));
+		}	
+	}
+	
 	public String toString(StringBuilder str){
 		str.append( "NamaMonster: "+name+"\n"+
 					"Umur: "+age.toString()+"\n"+
@@ -309,7 +343,7 @@ public class Monster{
 	    Iterator<String>i = namaSkill.iterator();
 	    str.append("Skill:\n");
 	    while(i.hasNext()) {
-	    	str.append(i.next()+"\n");
+	    	str.append(i.next()+" ");
 	    }
 	    return str.toString();
 	}
