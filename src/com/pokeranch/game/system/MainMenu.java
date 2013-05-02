@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 public class MainMenu extends Activity {
 	
-	private ImageButton newGame, loadGame, helpGame, exitGame; 
+	private ImageButton newGame, loadGame, helpGame, exitGame, pokedexButton; 
 	private int state;
 	private TextView tf;
 	private String characterName, monsterName;
@@ -66,6 +66,11 @@ public class MainMenu extends Activity {
 				// TODO Auto-generated method stub
 				state = 3; // help game
 				setContentView(R.layout.main_help);
+				//Intent i = new Intent(getBaseContext(),PokeDex.class);
+				//i.putExtra("characterName", characterName);
+				//i.putExtra("monsterName", monsterName); 
+				//startActivity(i);
+				//finish();
 			}
 		});
 		exitGame = (ImageButton) findViewById(R.id.imageButtonExitGame);
@@ -74,6 +79,16 @@ public class MainMenu extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				finish();
+			}
+		});
+		pokedexButton = (ImageButton) findViewById(R.id.imageButtonPokeDex);
+		pokedexButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				state = 4;
+				setContentView(R.layout.pokedex);
 			}
 		});
 	}
@@ -232,6 +247,11 @@ private AlertDialog makeAndShowDialogBox(String title, String message){
 	    		setContentView(R.layout.main_menu);
 	    		onUpdate();
 	    		break;
+	    	case 4 :
+	    		state = 0;
+	    		setContentView(R.layout.main_menu);
+	    		onUpdate();
+	    		break;
 	    	case 12 :
 	    		state = 0;
 	    		setContentView(R.layout.main_menu);
@@ -245,5 +265,5 @@ private AlertDialog makeAndShowDialogBox(String title, String message){
 	    }
 	    return false;
 	}
-	
 }
+

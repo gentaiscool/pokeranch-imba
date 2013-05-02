@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-240sp"
+        android:src="@drawable/pokedex" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/pokedexlogo" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView2"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="90dp" >
+		<TableLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/tableLayoutPokeDex"
+	        android:stretchColumns="1">
+	        <!-- everything you already have -->
+	        <TableRow 
+	            android:layout_width="500dp"
+	            android:layout_height="300dp">
+	        </TableRow>
+	    </TableLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="32dp"
+        android:src="@drawable/bulba" />
+
+    <TextView
+        android:id="@+id/textViewNamaMonster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="100dp"
+        android:text="Bulba"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/textViewTypeMonster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="180dp"
+        android:text="Grass"
+        android:textSize="10dp"/>
+
+    <TextView
+        android:id="@+id/textViewMonsterNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="178dp"
+        android:text="001"
+        android:textSize="40dp" />
+	
+</RelativeLayout>

@@ -29,6 +29,10 @@
             android:screenOrientation="landscape"
             android:name=".MainTest">
         </activity>
+        <activity
+            android:screenOrientation="landscape"
+            android:name=".PokeDex">
+        </activity>
     </application>
 
 </manifest>

@@ -60,7 +60,7 @@ public class Sprite {
 	}
 	
 	
-	public void draw(Canvas canvas, int magnification){
+	public void draw(Canvas canvas, float magnification){
 		//mag= 1,2,3,4
 		Point p = scount.getImgPos(direction, frame, width, height);
 		int sx = p.x;

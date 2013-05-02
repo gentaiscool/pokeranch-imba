@@ -95,8 +95,8 @@ public class PlayerSaveLoader {
 		return isAbleToSave;
 	}
 
-	public void setAbleToSave(boolean isAbleToSave) {
-		this.isAbleToSave = isAbleToSave;
+	public void setAbleToSave(boolean status) {
+		isAbleToSave = status;
 	}
 
 
