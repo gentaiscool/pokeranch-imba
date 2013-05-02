@@ -20,8 +20,8 @@ public class ScreenManager {
 		screens.remove(screens.size()-1);
 	}
 	
-	public void draw(Canvas canvas){
-		for(IScreen s : screens) s.draw(canvas, 1);
+	public void draw(Canvas canvas, int magnify){
+		for(IScreen s : screens) s.draw(canvas, magnify);
 	}
 	
 	public void update(){
