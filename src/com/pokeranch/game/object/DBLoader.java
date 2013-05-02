@@ -159,7 +159,7 @@ public class DBLoader {
 				int r = scan.nextInt();
 				int c = scan.nextInt();
 				//Log.d("harits", r + " " + c);
-				Area a = new Area(nama, r, c, 1, null, null); //belum ada sprite player
+				Area a = new Area(nama, r, c, null, null); //belum ada sprite player
 				
 				//ambil id gambar1, id gambar2, passability tile
 				for(int i=0;i<r;i++){

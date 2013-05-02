@@ -26,6 +26,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private Matrix matrix = new Matrix();	
 	private Paint paint = new Paint();
 	private ScreenManager manager;
+	private Player curPlayer;
 	float magnification;
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	
@@ -69,12 +70,13 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		DBLoader.getInstance().loadMap("map.dat");
 		
 		System.gc();
-		//masukin player ke areamanager dan area
-		//ngurusin waktunya
+		//ngurusin animasi kalo malam2
+		//ngurusin movement yg masih ngebug/ganti cara ngemove
 		manager = new ScreenManager();
 		magnification = screenHeight/240;
 		matrix.setScale(magnification, magnification);
-		AreaManager am = new AreaManager(context, screenWidth, screenHeight);
+		curPlayer = new Player();
+		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,0));
 		manager.push(am);

@@ -2,7 +2,11 @@ package com.pokeranch.game.system;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -16,7 +20,7 @@ public class Area {
 	private String name;
 	private Sprite body,head;
 	private Tile field[][];
-	private int row, column, mag, curX, curY, nextX, nextY;;
+	private int row, column, curX, curY, nextX, nextY;;
 	//private ArrayList<Area>
 	private Matrix mtx;
 	private ButtonClick lastClick;
@@ -25,13 +29,12 @@ public class Area {
 	private boolean startMoving = false;
 	private boolean isUp = true;
 	private int direction = 0;
-	public Area(String n, int r, int c, int m, Sprite _head, Sprite _body){
+	public Area(String n, int r, int c, Sprite _head, Sprite _body){
 		name = n;
 		field = new Tile[r][c];
 		curX = curY = nextX = nextY = 0;
 		row = r; //jumlah baris
 		column = c; //jumlah kolom
-		mag = m; //magnifikasi
 		mtx = new Matrix();
 		mtx.setRotate(90);
 	}
@@ -95,7 +98,6 @@ public class Area {
 				//bitmap dirotasi 90 derajat searah jarum jam dengan matrix mtx
 				//Bitmap drawnBitmap = Bitmap.createBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j].getSpriteCode())), 0, 0, 16, 16, mtx, false);
 				//gambar bitmap ke layar
-				
 				canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeBG()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16), null);	
 				if(!field[i][j].getSpriteCodeObj().equals("-1"))
 					canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeObj()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16), null);	
@@ -104,10 +106,12 @@ public class Area {
 	}
 	
 	public void update(){
+		Log.d("harits", "time player: " + am.getCurPlayer().getPlayingTime() + " m");
 		//Log.d("harits", "sekarang ada di: " + curX + " " + curY);
 		nextX = curX;
 		nextY = curY;
 		if(move){
+			am.getCurPlayer().addTime(1);
 			if(!startMoving){
 				switch(direction){
 					case 0:{ //up
@@ -132,20 +136,22 @@ public class Area {
 				//Log.d("harits", "bakal ke: "+ nextX + " " + nextY);
 				if(!outOfBounds){
 					if(field[nextX][nextY].getTeleportTarget() != null){
-						Log.d("harits", "di sini bisa teleport: " + nextX +" "+ nextY);
+						//Log.d("harits", "di sini bisa teleport: " + nextX +" "+ nextY);
 						//Log.d("harits", "di teleport ke: " + field[nextX][nextY].getTeleportTarget());
 						am.setCurArea(DBLoader.getInstance().getArea(field[nextX][nextY].getTeleportTarget()));
 						//Log.d("harits", "berhasil memindahkan");
 						//ngeset koordinat sprite player
 						am.setPlayerCord(field[nextX][nextY].getArrivalCord());				
 						//ngeset koordinat player pada array field
-						am.getCurArea().setCurCord(field[nextX][nextY].getArrivalCord());
+						//am.getCurArea().setCurCord(field[nextX][nextY].getArrivalCord());
 						move = startMoving = false;
 						//Log.d("harits", "berhasil menentukan koord baru");
 					} else if(field[nextX][nextY].isPassable()){
 						startMoving = true;
 						curX = nextX;
 						curY = nextY;
+						head.move(direction,2);
+						body.move(direction,2);
 						//Log.d("harits", "posisi sekarang: " + curX + " " + curY);
 					} else {
 						move = false;
@@ -155,7 +161,7 @@ public class Area {
 			} else {
 				head.move(direction,2);
 				body.move(direction,2);
-				if(body.getX() % 16*mag == 0 && body.getY() % 16*mag == 0){
+				if(body.getX() % 16 == 0 && body.getY() % 16 == 0){
 					if(isUp)
 						move = startMoving = false;
 					else {//masih bergerak

@@ -3,10 +3,16 @@ package com.pokeranch.game.system;
 import java.util.ArrayList;
 
 import com.pokeranch.game.object.DBLoader;
+import com.pokeranch.game.object.Player;
 import com.pokeranch.game.system.MainGameView.ButtonClick;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.MaskFilter;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -18,8 +24,10 @@ public class AreaManager implements IScreen{
 	private BitmapButton buttonLeft, buttonUp, buttonDown, buttonRight;
 	private int butLeftestX, butDist, butY;
 	private int screenHeight, screenWidth;
-	Context context;
-	AreaManager(Context con, int scw, int sch){	
+	private Player curPlayer;
+	private Context context;
+	AreaManager(Context con, int scw, int sch, Player p){  
+		curPlayer = p;
 		screenHeight = sch;
 		screenWidth = scw;
 		head = new Sprite(32,0, BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
@@ -145,11 +153,14 @@ public class AreaManager implements IScreen{
 	}
 	
 	public void setPlayerCord(Point p){
-		//32 ~ ukuran tilenya (32x32)
+		//16 ~ ukuran tilenya (16x16)
+		//lokasi fisik
 		body.setX(p.x*16);
 		body.setY(p.y*16); 
 		head.setX(p.x*16-16);
 		head.setY(p.y*16);
+		//lokasi logika
+		getCurArea().setCurCord(p);
 	}
 	
 	
@@ -163,14 +174,14 @@ public class AreaManager implements IScreen{
 	@Override
 	public void draw(Canvas canvas) {
 		// TODO Auto-generated method stub
-		Log.d("harits", "drawing area...");
+		//Log.d("harits", "drawing area...");
 		curArea.draw(canvas);
 		head.draw(canvas);
 		body.draw(canvas);
 		for(BitmapButton b : buttons){
 			b.draw(canvas);
 		}
-		Log.d("harits", "done drawing area...");
+		//Log.d("harits", "done drawing area...");
 	}
 
 	@Override
@@ -190,5 +201,13 @@ public class AreaManager implements IScreen{
 		curArea.setAreaManager(this);
 		curArea.setBody(body);
 		curArea.setHead(head);
+	}
+
+	public Player getCurPlayer() {
+		return curPlayer;
+	}
+
+	public void setCurPlayer(Player curPlayer) {
+		this.curPlayer = curPlayer;
 	}
 }
