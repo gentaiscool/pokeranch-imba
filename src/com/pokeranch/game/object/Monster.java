@@ -25,6 +25,9 @@ public class Monster{
 	//ctor
 	public Monster(){
 		name = "";
+		status = new Status();
+		fullStatus = new Status();
+		//Time = 
 	}
 
 	//cctor
@@ -50,7 +53,9 @@ public class Monster{
 		
 		for (int i = 0; i < species.getBaseSkillNum(); i++)
 			addSkill(species.getBaseSkill(i));
-		status = fullStatus;
+		
+		status = new Status();
+		status.set(fullStatus.getHP(), fullStatus.getMP(), fullStatus.getAttack(), fullStatus.getDefense(), fullStatus.getEffect());
 	}
 
 	//setter getter
@@ -157,7 +162,7 @@ public class Monster{
 		status.updateBy(damage.getHP(), damage.getMP(), damage.getAttack(), damage.getDefense(), damage.getEffect());
 		
 		//HP calculation
-		status.setHP( (int) (hp + ((float)(damage.getHP()) * ((float)(lawan.getAttack()) /  (float)(status.getDefense())) * critical + 0.5f)));
+		//status.setHP( (int) (hp + ((float)(damage.getHP()) * ((float)(lawan.getAttack()) /  (float)(status.getDefense())) * critical + 0.5f)));
 		if(status.getHP() <= 0)
 			status.setHP(0);
 			

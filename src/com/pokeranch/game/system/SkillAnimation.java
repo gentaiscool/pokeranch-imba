@@ -1,19 +1,23 @@
 package com.pokeranch.game.system;
 
+import com.pokeranch.game.object.Skill;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
 public class SkillAnimation {
 	private Bitmap source;	
+	private Skill skill;
 	private int updatePerImage;
 	private int currentUpdate, currentFrame;
 	private int x,y, totalFrame;
 	private int width, height;
 	private boolean finish = false;
 	
-	public SkillAnimation(Bitmap source, int updatePerImage, int x, int y, int totalFrame){
-		this.source = source;
+	public SkillAnimation(Skill skill, int updatePerImage, int x, int y, int totalFrame){
+		this.skill = skill;
+		this.source = BitmapManager.getInstance().get(skill.getName());
 		this.updatePerImage = updatePerImage;
 		this.x=x;
 		this.y=y;
@@ -44,6 +48,9 @@ public class SkillAnimation {
 	public void draw(Canvas canvas, int mag){
 		canvas.drawBitmap(source, new Rect(currentFrame*width,0,(currentFrame+1)*width,height), new Rect(x,y,x+width*mag,y+height*mag), null);
 	}
-	
+
+	public Skill getSkill() {
+		return skill;
+	}
 	
 }

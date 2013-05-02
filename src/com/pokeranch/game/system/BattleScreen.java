@@ -7,13 +7,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
+
 import com.pokeranch.game.object.*;
+import com.pokeranch.game.system.MessageManager.Action;
 
 public class BattleScreen implements IScreen {
 	private Player player1, player2, current, enemy;
 	private BitmapButton attack, useItem, change, escape;
 	private ArrayList<TouchListener> touch;
-	private ArrayList<SkillAnimation> animation;
+	private SkillAnimation animation;
+	private boolean animating = false;
+	private int turn;
 	
 	public BattleScreen(Player player1, Player player2){
 		this.player1 = player1;
@@ -21,8 +25,10 @@ public class BattleScreen implements IScreen {
 		current = player1;
 		enemy = player2;
 		
+		turn = 1;
+		
 		touch = new ArrayList<TouchListener>();
-		animation = new ArrayList<SkillAnimation>();
+		animation = null;
 		
 		attack = new BitmapButton(BitmapManager.getInstance().get("attackbutton"), 0, 0);
 		useItem = new BitmapButton(BitmapManager.getInstance().get("itembutton"), 0, 70);
@@ -73,16 +79,19 @@ public class BattleScreen implements IScreen {
 	
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		Iterator<SkillAnimation> it = animation.iterator();
-		while(it.hasNext()){
-			SkillAnimation a = it.next();
-			a.update();
-			if(a.finished()) animation.remove(a);
+		if(animation!=null){
+			animation.update();
+			if(animation.finished()) {
+				//StringBuilder s = new StringBuilder();
+				//s.append((enemy==null) + " ");
+				//s.append(b)
+				//Log.d("POKE", s.toString());
+				enemy.getCurrentMonster().inflictDamage(animation.getSkill(), current.getCurrentMonster().getStatus());
+				animation=null;
+				nextTurn();
+			}
 		}
 	}
-
-	
 	
 	@Override
 	public void draw(Canvas canvas, int mag) {
@@ -91,27 +100,60 @@ public class BattleScreen implements IScreen {
 		useItem.draw(canvas);
 		change.draw(canvas);
 		escape.draw(canvas);
-		for(SkillAnimation a : animation) a.draw(canvas, mag);
+		if(animation!=null) animation.draw(canvas, mag);
 	}
 	
+	
+	
+	private void attack(int choice){
+		Skill s = current.getCurrentMonster().getSkill(choice);
+		animation = new SkillAnimation(s, 3, 200, 100, 4);
+		animating = true;
+	}
+	
+	
+	
+	private void nextTurn(){
+		//turn = turn==1 ? 2 : 1;
+		//Player temp = current;
+		//current = enemy;
+		//enemy = temp;
+		animating = false;
+		Log.d("POKE",player2.getCurrentMonster().getStatus() + "/" + player2.getCurrentMonster().getFullStatus());
+	}
+	
+	
+	//terkait human player
 	private void selectAttack(){
+		if(animating) return;
+		
 		String[] selects = new String[4];
 		for(int i = 0; i < 4; i++)
-			selects[i] = current.getCurrentMonster().getSkill(i).toString();
+			selects[i] = current.getCurrentMonster().getSkill(i).getName();
 		
-		MessageManager.alertList("Skill", selects);
-		//animation.add(new SkillAnimation(BitmapManager.getInstance().get("Swim"), 3, 200, 100, 4));
+		MessageManager.singleChoice("Select a skill to attack", selects, new Action(){
+			@Override
+			public void proceed(Object o) {
+				attack(((Integer) o).intValue());
+			}
+			@Override
+			public void cancel() {}
+			
+		});
 	}
 	
 	private void selectItem(){
+		if(animating) return;
 		Log.d("POKE", "item");
 	}
 	
 	private void changeMonster(){
+		if(animating) return;
 		Log.d("POKE", "change");
 	}
 	
 	private void tryEscape(){
+		if(animating) return;
 		Log.d("POKE", "escape");
 	}
 	
