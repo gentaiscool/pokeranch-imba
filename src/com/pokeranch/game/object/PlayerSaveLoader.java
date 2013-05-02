@@ -11,15 +11,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.res.AssetManager;
-import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 
@@ -32,7 +27,6 @@ public class PlayerSaveLoader {
 	private HashMap<String, Monster> monsters;
 	private HashMap<String, Integer> items;
 	private String currentMonster;
-	private String filename;
 	private String filepath = "SavedGames";
 	private boolean isAbleToSave=true;
 	private Context context;
@@ -44,11 +38,11 @@ public class PlayerSaveLoader {
 		this.context=context;
 	}
 	
-	public void initialize(Context context){
+	public static void initialize(Context context){
 		instance=new PlayerSaveLoader(context);
 	}
 	
-	public PlayerSaveLoader getInstance() {
+	public static PlayerSaveLoader getInstance() {
 		return instance;
 	}
 	
@@ -102,9 +96,9 @@ public class PlayerSaveLoader {
 
 
 	public void loadPlayer(String playername){
-		 String myData="";
+		String myData="";
 		try{
-			FileInputStream fis = new FileInputStream(filename);
+			FileInputStream fis = new FileInputStream(context.getExternalFilesDir(filepath).toString()+playername+".sav");
 			DataInputStream in = new DataInputStream(fis);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
@@ -119,7 +113,6 @@ public class PlayerSaveLoader {
 		Scanner scan = new Scanner(myData);
 		useless = scan.next();
 		name = scan.next();
-	    Log.d("pandu", "nama: " + name);
 		useless = scan.next();
 		setMoney(scan.nextInt());
 		useless = scan.next();
@@ -132,13 +125,60 @@ public class PlayerSaveLoader {
 		playingTime = new Time();
 		playingTime.load(scan);
 		useless = scan.next();
+		int jumlah=scan.nextInt();
+		useless = scan.next();
 		setCurrentMonster(scan.next());
 		useless = scan.next();
 		useless = scan.next();
+		Monster monster=new Monster();
+		int k;
+		for(k=0;k<jumlah;k++) {
+			monster.load(scan);
+			monsters.put(monster.getName(), monster);
+		}
+		useless = scan.next();
+		jumlah=scan.nextInt();
+		k = 0;
+		String item;
+		int jumlahItem;
+		for(k=0;k<jumlah;k++){
+			item=scan.next();
+			jumlahItem=scan.nextInt();
+			items.put(item, jumlahItem);
+		}
 		
-	/*    while(scan.next!="Item:"){
-	    	monsters.put(key, value)
-	    }
+		
+		/*harusnya jadinya contohnya kayak gini
+		Nama: Pandu
+		JumlahUang: 10000
+		JumlahBattle: 3
+		JumlahMenang: 8
+		JumlahKalah: 4
+		WaktuBermain(Tahun,bulan,hari,jam,menit): 0 0 2 6 7
+		MonsterSekarang: Imba
+		DaftarMonster:
+		NamaMonster: Imba
+		Umur: 0 0 0 5 3
+		Spesies: Bulba Level: 14
+		Exp: 900 EvoExp: 1000
+		BonusCash: 20 BonusExp+50
+		Status(hp,mp,att,def,eff): 28 36 47 64 POISON / 30 40 50 70 NONE
+		Skill:
+		Razor Vine_Whip Cut	Tackle
+		NamaMonster: Imba2
+		Umur: 0 0 0 5 3
+		Spesies: Bulba Level: 14
+		Exp: 900 EvoExp: 1000
+		BonusCash: 20 BonusExp+50
+		Status(hp,mp,att,def,eff): 28 36 47 64 POISON / 30 40 50 70
+		Skill:
+		Razor Vine_Whip Cut Tackle
+		JumlahItem: 2
+		DaftarItem:
+		Potion 2
+		MonsterBall 4
+		Cut 5
+				
 		*/
 	}
 	
@@ -157,6 +197,7 @@ public class PlayerSaveLoader {
 						"JumlahMenang: "+nwin+"\n"+
 						"JumlahKalah: "+nlose+"\n"+
 						"WaktuBermain(Tahun,bulan,hari,jam,menit): "+playingTime.toString()+"\n"+
+						"JumlahMonster: "+monsters.size()+"\n"+
 						"MonsterSekarang: "+currentMonster);
 		    Collection monster = monsters.values();
 		      // Get an iterator
@@ -166,6 +207,7 @@ public class PlayerSaveLoader {
 		    while(i.hasNext()) {
 		         str.append(i.next().toString()+"\n");
 		    }
+		    str.append("JumlahItem: "+items.size()+"\n");
 		    Set item = items.entrySet();
 		      // Get an iterator
 		    //nulis item, nama sama jumlahnya
@@ -185,6 +227,7 @@ public class PlayerSaveLoader {
 			JumlahMenang: 8
 			JumlahKalah: 4
 			WaktuBermain(Tahun,bulan,hari,jam,menit): 0 0 2 6 7
+			JumlahMonster: 2
 			MonsterSekarang: Imba
 			DaftarMonster:
 			NamaMonster: Imba
@@ -203,6 +246,7 @@ public class PlayerSaveLoader {
 			Status(hp,mp,att,def,eff): 28 36 47 64 POISON / 30 40 50 70
 			Skill:
 			Razor Vine_Whip Cut Tackle
+			JumlahItem: 3
 			DaftarItem:
 			Potion 2
 			MonsterBall 4

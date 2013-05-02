@@ -322,6 +322,7 @@ public class Monster{
 		useless=scan.next();
 		status=new Status();
 		status.load(scan);
+		useless=scan.next();
 		fullStatus=new Status();
 		fullStatus.load(scan);
 		useless=scan.next();
