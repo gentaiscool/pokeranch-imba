@@ -16,9 +16,10 @@ public class AreaManager implements IScreen{
 	private ArrayList<BitmapButton> buttons;
 	private BitmapButton buttonLeft, buttonUp, buttonDown, buttonRight;
 	private int butLeftestX, butDist, butY;
-	private int screenHeight, screenWidth;
+	private int screenHeight, screenWidth, mag;
 	Context context;
-	AreaManager(Context con, int scw, int sch){		
+	AreaManager(Context con, int scw, int sch, int mag){	
+		this.mag = mag;
 		screenHeight = sch;
 		screenWidth = scw;
 		head = new Sprite(32,0, BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
@@ -51,10 +52,10 @@ public class AreaManager implements IScreen{
 				
 				int x = 0, y = 0;
 				switch(direction){
-					case 0: //up --dirotasi 90 derajat searah jarum jam jadi kanan
+					case 0: //up 
 						x = 6*width + frame*width; y = height;
 					break;
-					case 1: //right --dst
+					case 1: //right
 						x = 9*width + frame*width; y = height;
 					break;
 					case 2: //down
@@ -145,10 +146,10 @@ public class AreaManager implements IScreen{
 	
 	public void setPlayerCord(Point p){
 		//32 ~ ukuran tilenya (32x32)
-		body.setX(p.x*32);
-		body.setY(p.y*32); 
-		head.setX(p.x*32-32);
-		head.setY(p.y*32);
+		body.setX(p.x*16*mag);
+		body.setY(p.y*16*mag); 
+		head.setX(p.x*16*mag-16*mag);
+		head.setY(p.y*16*mag);
 	}
 	
 	
@@ -162,9 +163,9 @@ public class AreaManager implements IScreen{
 	@Override
 	public void draw(Canvas canvas, int mag) {
 		// TODO Auto-generated method stub
-		curArea.draw(canvas, 2);
-		head.draw(canvas, 2);
-		body.draw(canvas, 2);
+		curArea.draw(canvas, mag);
+		head.draw(canvas, mag);
+		body.draw(canvas, mag);
 		for(BitmapButton b : buttons){
 			b.draw(canvas);
 		}

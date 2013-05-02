@@ -97,7 +97,7 @@ public class Area {
 	}
 	
 	public void update(){
-		Log.d("harits", "sekarang ada di: " + curX + " " + curY);
+		//Log.d("harits", "sekarang ada di: " + curX + " " + curY);
 		nextX = curX;
 		nextY = curY;
 		if(move){
@@ -148,7 +148,7 @@ public class Area {
 			} else {
 				head.move(direction,2);
 				body.move(direction,2);
-				if(body.getX() % 32 == 0 && body.getY() % 32 == 0){
+				if(body.getX() % 16*mag == 0 && body.getY() % 16*mag == 0){
 					if(isUp)
 						move = startMoving = false;
 					else {//masih bergerak

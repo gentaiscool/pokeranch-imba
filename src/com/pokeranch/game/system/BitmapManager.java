@@ -18,19 +18,16 @@ public class BitmapManager {
 		bitmaps = new HashMap<String, Bitmap>();
 	}
 	
-	public void putMap(int id){
+	public void putMap(int id, int r, int c, int border, int pixelSize){
 		//untuk tile peta, asumsinya langsung dirotate 90 derajat searah jarum jam
-		int border = 1;
-		int pixelSize = 16;
-		Matrix mtx = new Matrix();
-		mtx.setRotate(90);
+		//int border = 1;
+		//int pixelSize = 16;
 		Bitmap src = BitmapFactory.decodeResource(res, id);
-		//Log.d("harits", src.getHeight() + " " + src.getWidth());
-		for(int i=0;i<13;i++){
-			for(int j=0;j<43;j++){
+		Log.d("harits", src.getHeight() + " " + src.getWidth());
+		for(int i=0;i<r;i++){
+			for(int j=0;j<c;j++){
 			//	Log.d("harits", "motong " + i + " dan " + j);
-				Integer key = i*43+j;
-				
+				Integer key = i*c+j;	
 				bitmaps.put(key.toString(), Bitmap.createBitmap(src, border+((border+pixelSize)*j), border+((border+pixelSize)*i), pixelSize, pixelSize));
 			}
 		}

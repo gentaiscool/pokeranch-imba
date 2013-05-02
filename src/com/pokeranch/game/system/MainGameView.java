@@ -49,14 +49,15 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
 		
 		//potong map
-		BitmapManager.getInstance().putMap(R.drawable.sprite);
+		BitmapManager.getInstance().putMap(R.drawable.spritefull, 45, 43, 1, 16);
 		
 		/*load database, agak lama ternyata*/
 		DBLoader.initialize(context.getAssets());
 		DBLoader.getInstance().loadMap("map.dat");
 		
 		manager = new ScreenManager();
-		AreaManager am = new AreaManager(context, screenWidth, screenHeight);
+		int magnification = 1;
+		AreaManager am = new AreaManager(context, screenWidth, screenHeight, magnification);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,0));
 		manager.push(am);
