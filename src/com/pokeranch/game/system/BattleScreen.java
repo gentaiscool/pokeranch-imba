@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -103,7 +104,7 @@ public class BattleScreen implements IScreen {
 	}
 	
 	@Override
-	public void draw(Canvas canvas, int mag) {
+	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.WHITE);
 		attack.draw(canvas);
 		useItem.draw(canvas);
@@ -115,9 +116,9 @@ public class BattleScreen implements IScreen {
 		int x2 = 400;
 		int y2 = 100;
 		
-		if(poke1!=null) canvas.drawBitmap(poke1,new Rect(0,0,poke1.getWidth(),poke1.getHeight()), new Rect(x1,y1,x1+poke1.getWidth()*2*mag,y1+poke1.getHeight()*2*mag),null);
-		if(poke2!=null) canvas.drawBitmap(poke2,new Rect(0,0,poke2.getWidth(),poke2.getHeight()), new Rect(x2,y2,x2+poke2.getWidth()*2*mag,y2+poke2.getHeight()*2*mag),null);
-		if(animation!=null) animation.draw(canvas, mag);
+		if(poke1!=null) canvas.drawBitmap(poke1,new Rect(0,0,poke1.getWidth(), poke1.getHeight()), new RectF(x1,y1,x1+poke1.getWidth()*2,y1+poke1.getHeight()*2),null);
+		if(poke2!=null) canvas.drawBitmap(poke2,new Rect(0,0,poke2.getWidth(), poke2.getHeight()), new RectF(x2,y2,x2+poke2.getWidth()*2,y2+poke2.getHeight()*2),null);
+		if(animation!=null) animation.draw(canvas);
 	}
 	
 	
@@ -175,7 +176,7 @@ public class BattleScreen implements IScreen {
 	}
 	
 	@Override
-	public void onTouchEvent(MotionEvent e) {
-		for(TouchListener t : touch) t.onTouchEvent(e);
+	public void onTouchEvent(MotionEvent e, float mag) {
+		for(TouchListener t : touch) t.onTouchEvent(e, mag);
 	}
 }

@@ -20,16 +20,16 @@ public class ScreenManager {
 		screens.remove(screens.size()-1);
 	}
 	
-	public void draw(Canvas canvas, int magnify){
-		for(IScreen s : screens) s.draw(canvas, magnify);
+	public void draw(Canvas canvas){
+		for(IScreen s : screens) s.draw(canvas);
 	}
 	
 	public void update(){
 		for(IScreen s : screens) s.update();
 	}
 	
-	public void onTouchEvent(MotionEvent e){
-		screens.get(screens.size()-1).onTouchEvent(e);
+	public void onTouchEvent(MotionEvent e, float mag){
+		screens.get(screens.size()-1).onTouchEvent(e, mag);
 	}
 	
 }

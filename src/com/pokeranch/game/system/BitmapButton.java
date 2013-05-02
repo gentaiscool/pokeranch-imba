@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 public class BitmapButton implements TouchListener {
@@ -18,7 +19,7 @@ public class BitmapButton implements TouchListener {
 	}
 	
 	public void draw(Canvas canvas){
-		canvas.drawBitmap(bitmap, x, y, null);
+		canvas.drawBitmap(bitmap, new Rect(0,0,bitmap.getWidth(), bitmap.getHeight()), new RectF(x,y,x+bitmap.getWidth(),y+bitmap.getHeight()), null);
 	}
 	
 	public void addTouchAction(TouchAction action){
@@ -26,12 +27,12 @@ public class BitmapButton implements TouchListener {
 	}
 	
 	@Override
-	public void onTouchEvent(MotionEvent event) {
+	public void onTouchEvent(MotionEvent event, float mag) {
 		final int actioncode = event.getAction() & MotionEvent.ACTION_MASK;	
 		
-		Rect r = new Rect((int) x, (int) y, (int) x + bitmap.getWidth(),  (int) y + bitmap.getHeight() );
+		RectF r = new RectF(x*mag, y*mag, (x + bitmap.getWidth())*mag,  (y + bitmap.getHeight())*mag);
 		
-		if (r.contains((int) event.getX(), (int) event.getY())){
+		if (r.contains(event.getX(), event.getY())){
 			switch (actioncode) {
 				case MotionEvent.ACTION_DOWN:
 					action.onTouchDown();

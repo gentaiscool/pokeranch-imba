@@ -5,13 +5,14 @@ import android.graphics.Point;
 
 public class Tile {
 	//ukuran tile bitmap yg masuk diasumsikan selalu berukuran 16x16 per tile
-	private int spriteCode;
+	private String spriteCodeBG, spriteCodeObj;
 	private String teleportTarget; //nama area teleportasi
 	private boolean passable;
 	private Point arrivalCord;
 
-	Tile(int b, boolean pass){
-		spriteCode = b;
+	Tile(String b, String c, boolean pass){
+		spriteCodeBG = b;
+		spriteCodeObj = c;
 		passable = pass;
 	}
 	
@@ -30,14 +31,22 @@ public class Tile {
 		this.teleportTarget = teleportTarget;
 	}
 
-	public int getSpriteCode() {
-		return spriteCode;
+	public String getSpriteCodeBG() {
+		return spriteCodeBG;
+	}
+	
+	public String getSpriteCodeObj() {
+		return spriteCodeObj;
 	}
 
-	public void setSpriteCode(int spriteCode) {
-		this.spriteCode = spriteCode;
+	public void setSpriteCodeBG(String spriteCode) {
+		this.spriteCodeBG = spriteCode;
 	}
 
+	public void setSpriteCodeObj(String spriteCode) {
+		this.spriteCodeObj = spriteCode;
+	}	
+	
 	public void setArrivalCord(Point arrivalCord) {
 		this.arrivalCord = arrivalCord;
 	}

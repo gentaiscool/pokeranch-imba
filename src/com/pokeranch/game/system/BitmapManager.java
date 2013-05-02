@@ -23,7 +23,7 @@ public class BitmapManager {
 		//int border = 1;
 		//int pixelSize = 16;
 		Bitmap src = BitmapFactory.decodeResource(res, id);
-		Log.d("harits", src.getHeight() + " " + src.getWidth());
+		//Log.d("harits", src.getHeight() + " " + src.getWidth());
 		for(int i=0;i<r;i++){
 			for(int j=0;j<c;j++){
 			//	Log.d("harits", "motong " + i + " dan " + j);

@@ -160,24 +160,21 @@ public class DBLoader {
 				int c = scan.nextInt();
 				//Log.d("harits", r + " " + c);
 				Area a = new Area(nama, r, c, 1, null, null); //belum ada sprite player
+				
+				//ambil id gambar1, id gambar2, passability tile
 				for(int i=0;i<r;i++){
 					for(int j=0;j<c;j++){
-						int tmp = scan.nextInt();
+						String tmp = scan.next();
+						String[] tmp2 = tmp.split("/");
 						//buat tile di i,j, defaultnya bisa dilewati
-						a.createTile(i, j, tmp, true);
+						if(tmp2.length == 3)
+							a.createTile(i, j, tmp2[0], tmp2[1], (tmp2[2].equals("1") ? false : true));
+						else
+							a.createTile(i, j, tmp2[0], "-1", (tmp2[1].equals("1") ? false : true));
 					}
 				}
-				
-				for(int i=0;i<r;i++){
-					for(int j=0;j<c;j++){
-						int tmp = scan.nextInt();
-						//buat ngetes boundary
-						//kalo 1 artinya dia ga bisa dilewati
-						a.getTile(i, j).setPassable(tmp == 1 ? false : true);
-					}
-				}
-				
-				
+								
+				//ambil titik2 teleport
 				int k = scan.nextInt();
 				for(int i=0;i<k;i++){
 					int x = scan.nextInt();

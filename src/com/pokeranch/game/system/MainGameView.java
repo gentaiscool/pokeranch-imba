@@ -26,14 +26,13 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private Matrix matrix = new Matrix();	
 	private Paint paint = new Paint();
 	private ScreenManager manager;
-	
+	float magnification;
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	
 	public MainGameView(Context context, int screenWidth, int screenHeight) {
 		super(context);
 		getHolder().addCallback(this);
 		setFocusable(true);
-		
 		MessageManager.setContext(context);
 		
 		/*loading image*/
@@ -73,8 +72,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//masukin player ke areamanager dan area
 		//ngurusin waktunya
 		manager = new ScreenManager();
-		int magnification = 1;
-		AreaManager am = new AreaManager(context, screenWidth, screenHeight, magnification);
+		magnification = screenHeight/240;
+		matrix.setScale(magnification, magnification);
+		AreaManager am = new AreaManager(context, screenWidth, screenHeight);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,0));
 		manager.push(am);
@@ -142,8 +142,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 
 	public void render(Canvas canvas) {
 		canvas.setMatrix(matrix);
-		canvas.drawColor(Color.BLACK);
-		manager.draw(canvas, 1);
+		canvas.drawColor(Color.WHITE);
+		manager.draw(canvas);
 	}
 
 	public void update() {
@@ -151,7 +151,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {	
-		manager.onTouchEvent(event);
+		manager.onTouchEvent(event, magnification);
 		return true;
 	}	
 }

@@ -5,6 +5,7 @@ import com.pokeranch.game.object.Skill;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 public class SkillAnimation {
 	private Bitmap source;	
@@ -45,8 +46,8 @@ public class SkillAnimation {
 		return finish;
 	}
 	
-	public void draw(Canvas canvas, int mag){
-		canvas.drawBitmap(source, new Rect(currentFrame*width,0,(currentFrame+1)*width,height), new Rect(x,y,x+width*mag,y+height*mag), null);
+	public void draw(Canvas canvas){
+		canvas.drawBitmap(source, new Rect(currentFrame*width,0,(currentFrame+1)*width,height), new RectF(x,y,x+width,y+height), null);
 	}
 
 	public Skill getSkill() {

@@ -76,22 +76,29 @@ public class Area {
 		return field[i][j];
 	}
 	
-	public void createTile(int i, int j, int code, boolean pass){
-		field[i][j] = new Tile(code, pass);
+	public void createTile(int i, int j, String code1, String code2, boolean pass){
+		field[i][j] = new Tile(code1, code2, pass);
 	}
 	
-	public void setVal(int i, int j, int val){
-		field[i][j].setSpriteCode(val);
+	public void setValBG(int i, int j, String val){
+		field[i][j].setSpriteCodeBG(val);
 	}
 	
-	public void draw(Canvas canvas, float mag){
+	public void setValObj(int i, int j, String val){
+		field[i][j].setSpriteCodeObj(val);
+	}
+	
+	public void draw(Canvas canvas){
 		//gambar belakang
 		for(int i=0;i<row;i++){
 			for(int j=0;j<column;j++){
 				//bitmap dirotasi 90 derajat searah jarum jam dengan matrix mtx
 				//Bitmap drawnBitmap = Bitmap.createBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j].getSpriteCode())), 0, 0, 16, 16, mtx, false);
 				//gambar bitmap ke layar
-				canvas.drawBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j].getSpriteCode())), null, new RectF(j*16*mag, i*16*mag, j*16*mag + 16*mag, i*16*mag + 16*mag), null);				
+				
+				canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeBG()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16), null);	
+				if(!field[i][j].getSpriteCodeObj().equals("-1"))
+					canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeObj()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16), null);	
 			}
 		}
 	}
