@@ -150,7 +150,7 @@ public class DBLoader {
 			int r = scan.nextInt();
 			int c = scan.nextInt();
 			//Log.d("harits", r + " " + c);
-			Area a = new Area(r, c, 1);
+			Area a = new Area(nama, r, c, 1, null, null); //belum ada sprite player
 			for(int i=0;i<r;i++){
 				for(int j=0;j<c;j++){
 					int tmp = scan.nextInt();

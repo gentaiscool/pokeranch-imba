@@ -11,17 +11,20 @@ import android.util.Log;
 import com.pokeranch.game.system.MainGameView.ButtonClick;
 
 public class Area {
-	private Sprite monster,bg,body,head;
+	private String name;
+	private Sprite body,head;
 	private Tile field[][];
 	private int row, column, mag, curX, curY, nextX, nextY;;
 	//private ArrayList<Area>
 	private Matrix mtx;
+	private ButtonClick lastClick;
 	private boolean outOfBounds;
 	private boolean move = false;
 	private boolean startMoving = false;
 	private boolean isUp = true;
 	private int direction = 0;
-	public Area(int r, int c, int m){
+	public Area(String n, int r, int c, int m, Sprite _head, Sprite _body){
+		name = n;
 		field = new Tile[r][c];
 		curX = curY = nextX = nextY = 0;
 		row = r; //jumlah baris
@@ -29,115 +32,16 @@ public class Area {
 		mag = m; //magnifikasi
 		mtx = new Matrix();
 		mtx.setRotate(90);
-		head = new Sprite(32,0, BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
-			@Override
-			public Point getImgPos(int direction, int frame, int width, int height) {
-				int x = 0, y = 0;
-				switch(direction){
-					case 0: //up
-						x = 3*width + frame*width; y = 0;
-					break;
-					case 1: //right
-						x = 6*width + frame*width; y = 0;
-					break;
-					case 2: //down
-						x = 9*width + frame*width; y = 0;
-					break;
-					case 3: //left
-						x = 0*width + frame*width; y = 0;
-					break;
-				}
-				//Log.d("harits", "w: " + width);
-				//Log.d("harits", "x: " + x + ", y: " + y);
-				return new Point(x,y);
-			}
-		});
-		
-		body = new Sprite(0,0,BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
-			@Override
-			public Point getImgPos(int direction, int frame, int width, int height) {
-				
-				int x = 0, y = 0;
-				switch(direction){
-					case 0: //up --dirotasi 90 derajat searah jarum jam jadi kanan
-						x = 3*width + frame*width; y = height;
-					break;
-					case 1: //right --dst
-						x = 6*width + frame*width; y = height;
-					break;
-					case 2: //down
-						x = 9*width + frame*width; y = height;
-					break;
-					case 3: //left
-						x = 0*width + frame*width; y = height;
-					break;
-				}
-				//Log.d("harits", "w: " + width);
-				//Log.d("harits", "x: " + x + ", y: " + y);
-				return new Point(x,y);
-			}
-		});
-		
-		monster = new Sprite(0,0,BitmapManager.getInstance().get("landmonster"),4,2,2, new SpriteCounter(){
-			@Override
-			public Point getImgPos(int direction, int frame, int width, int height) {
-				int x = 0, y = 0;
-				switch(direction){
-					case 0: //up
-						x = 0; y = 0;
-					break;
-					case 1: //right
-						x = width; y = height * 2;
-					break;
-					case 2: //down
-						x = 0; y = height * 2;
-					break;
-					case 3: //left
-						x = width; y = 0;
-					break;
-				}
-				
-				if (frame>0) y+=height;
-				
-				return new Point(x,y);
-			}
-		});
-		
-		//monster.setX(5);
-		
-		bg = new Sprite(0,0,BitmapManager.getInstance().get("images"), 1,1,1, new SpriteCounter(){
-			@Override
-			public Point getImgPos(int direction, int frame, int width, int height) {
-				int x = 0, y = 0;
-				switch(direction){
-					case 0: //up
-						x = 0; y = 0;
-					break;
-					case 1: //right
-						x = width; y = height * 2;
-					break;
-					case 2: //down
-						x = 0; y = height * 2;
-					break;
-					case 3: //left
-						x = width; y = 0;
-					break;
-				}
-				
-				if (frame>0) y+=height;
-				
-				return new Point(x,y);
-			}
-		});
 	}
 	
 	public void getButtonInput(ButtonClick click){
-		
+		Log.d("harits", lastClick + " " + click);
 		if(click == ButtonClick.NONE)
 			isUp = true;
 		else
 			isUp = false;
-		
+		if(click != ButtonClick.NONE)
+			lastClick = click;
 		if(!move){
 			move = true;
 			switch(click){
@@ -174,23 +78,16 @@ public class Area {
 		field[i][j].setSpriteCode(val);
 	}
 	
-	public void draw(Canvas canvas){
+	public void draw(Canvas canvas, float mag){
 		//gambar belakang
-
-		
-		float mag = 2; //magnifikasi tile, bisa 1.5f, 2, dkk
 		for(int i=0;i<row;i++){
 			for(int j=0;j<column;j++){
 				//bitmap dirotasi 90 derajat searah jarum jam dengan matrix mtx
 				//Bitmap drawnBitmap = Bitmap.createBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j].getSpriteCode())), 0, 0, 16, 16, mtx, false);
 				//gambar bitmap ke layar
-				canvas.drawBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j].getSpriteCode())), null, new RectF(j*16*mag, i*16*mag, j*16*mag + 16*mag, i*16*mag + 16*mag), null);
-				
+				canvas.drawBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j].getSpriteCode())), null, new RectF(j*16*mag, i*16*mag, j*16*mag + 16*mag, i*16*mag + 16*mag), null);				
 			}
 		}
-		
-		head.draw(canvas, 2);
-		body.draw(canvas, 2);
 	}
 	
 	public void update(){
@@ -224,7 +121,7 @@ public class Area {
 						startMoving = true;
 						curX = nextX;
 						curY = nextY;
-						Log.d("harits", "posisi sekarang: " + curX + " " + curY);
+						//Log.d("harits", "posisi sekarang: " + curX + " " + curY);
 					} else {
 						move = false;
 					}
@@ -242,5 +139,29 @@ public class Area {
 				}
 			}
 		} 
+	}
+
+	public Sprite getHead() {
+		return head;
+	}
+
+	public void setHead(Sprite head) {
+		this.head = head;
+	}
+
+	public Sprite getBody() {
+		return body;
+	}
+
+	public void setBody(Sprite body) {
+		this.body = body;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

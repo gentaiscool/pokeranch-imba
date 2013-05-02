@@ -23,13 +23,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	public GameLoop thread;
 	private Matrix matrix = new Matrix();	
 	private Paint paint = new Paint();
-	private Area area;
-	ArrayList<TouchListener> touches;
-	private BitmapButton buttonDown;
-	private BitmapButton buttonUp;
-	private BitmapButton buttonLeft;
-	private BitmapButton buttonRight;
-	private int butLeftestX, butDist, butY;
+	private AreaManager am;
 	
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	
@@ -37,7 +31,6 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		super(context);
 		getHolder().addCallback(this);
 		setFocusable(true);
-		
 		
 		BitmapManager.initialize(context.getApplicationContext().getResources());
 		BitmapManager.getInstance().put("landmonster", R.drawable.landmonster);
@@ -57,83 +50,14 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//Log.d("harits", "berhasil inisiasi");
 		//if(DBLoader.getInstance() == null)
 		//	Log.d("harits", "DBLoader null");
-		area = DBLoader.getInstance().getArea("FIELD");
 		//Log.d("harits", "berhasil bikin Area");
+		
+		am = new AreaManager(context, screenWidth, screenHeight);
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);
 		paint.setColor(Color.BLACK);
 		
-		touches = new ArrayList<TouchListener>();
-		
-		butLeftestX = 25;
-		butDist = 50;
-		butY = screenHeight - 60;
-		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), butLeftestX, butY);
-		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), butLeftestX + butDist, butY);
-		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), butLeftestX + 2*butDist, butY);
-		buttonRight= new BitmapButton(BitmapManager.getInstance().get("right"), butLeftestX + 3*butDist, butY);
-		
-		buttonDown.addTouchAction(new TouchAction(){
-			@Override
-			public void onTouchDown() {
-				area.getButtonInput(ButtonClick.DOWN);
-			}
-			@Override
-			public void onTouchMove() {}
-			
-			@Override
-			public void onTouchUp() {
-				area.getButtonInput(ButtonClick.NONE);	
-			}		
-		});
-		
-		buttonUp.addTouchAction(new TouchAction(){
-			@Override
-			public void onTouchDown() {
-				area.getButtonInput(ButtonClick.UP);
-			}
-			@Override
-			public void onTouchMove() {}
-			
-			@Override
-			public void onTouchUp() {
-				area.getButtonInput(ButtonClick.NONE);	
-			}		
-		});
-		
-		buttonLeft.addTouchAction(new TouchAction(){
-			@Override
-			public void onTouchDown() {
-				area.getButtonInput(ButtonClick.LEFT);
-			}
-			@Override
-			public void onTouchMove() {}
-			
-			@Override
-			public void onTouchUp() {
-				area.getButtonInput(ButtonClick.NONE);	
-			}		
-		});
-		
-		buttonRight.addTouchAction(new TouchAction(){
-			@Override
-			public void onTouchDown() {
-				area.getButtonInput(ButtonClick.RIGHT);
-			}
-			@Override
-			public void onTouchMove() {}
-			
-			@Override
-			public void onTouchUp() {
-				area.getButtonInput(ButtonClick.NONE);
-			}
-		});
-		
-		touches.add(buttonDown);
-		touches.add(buttonUp);
-		touches.add(buttonLeft);
-		touches.add(buttonRight);
 	}
 	
 	@Override
@@ -184,21 +108,15 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	public void render(Canvas canvas) {
 		canvas.setMatrix(matrix);
 		canvas.drawColor(Color.BLACK);
-		area.draw(canvas);
-		buttonDown.draw(canvas);
-		buttonUp.draw(canvas);
-		buttonLeft.draw(canvas);
-		buttonRight.draw(canvas);
+		am.draw(canvas, 1);
 	}
 
 	public void update() {
-		area.update();
+		am.update();
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {	
-		for(TouchListener t : touches){
-			t.onTouchEvent(event);
-		}
+		am.onTouchEvent(event);
 		return true;
 	}	
 }
