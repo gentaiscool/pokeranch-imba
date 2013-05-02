@@ -10,6 +10,14 @@ public class Time {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Time(Time source){
+		year = source.year;
+		month = source.month;
+		day = source.day;
+		hour = source.hour;
+		minute = source.minute;
+	}
+	
 	public void load(Scanner scan){
 		try{
 			year = scan.nextInt();

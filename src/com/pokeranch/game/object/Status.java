@@ -23,6 +23,14 @@ public class Status {
 		effect = _effect;
 	}
 	
+	public Status(Status source){
+		hp = source.hp;
+		mp = source.mp;
+		attack = source.attack;
+		defense = source.defense;
+		effect = source.effect;
+	}
+	
 	
 	public void save(BufferedWriter buf) {
 		try{
