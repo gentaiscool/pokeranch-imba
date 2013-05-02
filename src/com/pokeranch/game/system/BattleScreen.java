@@ -25,15 +25,15 @@ public class BattleScreen implements IScreen {
 	}
 
 	@Override
-	public void draw(Canvas canvas) {
+	public void onTouchEvent(MotionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onTouchEvent(MotionEvent e) {
+	public void draw(Canvas canvas, int mag) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
