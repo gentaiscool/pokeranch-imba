@@ -1,4 +1,5 @@
 package com.pokeranch.game.system;
+import com.pokeranch.game.object.*;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -31,6 +32,41 @@ public class MainMenu extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_menu);
 		onUpdate();
+		//ngecek save
+		Player P=new Player();
+		P.setName("Pandu");
+		Log.d("POKE","gfg1");
+		P.setCurrentMonster("Ampun");
+		Log.d("POKE","gfg2");
+		P.setMoney(10000);
+		Log.d("POKE","gfg3");
+		P.setNbattle(10);
+		Log.d("POKE","gfg4");
+		P.setNlose(5);
+		Log.d("POKE","gfg5");
+		P.setNwin(5);
+		Log.d("POKE","gfg6");
+		Time t=new Time();
+		Log.d("POKE","gfg7");
+		t.set(1,5,6,4,3);
+		Log.d("POKE","gfg8");
+		P.setPlayingTime(t);
+		Log.d("POKE","gfg9");
+		Monster monster=Monster.getRandomMonster(3, 2);
+		Log.d("POKE","gfg10");
+		P.addMonster(monster);
+		Log.d("POKE","gfg11");
+		Item item1=DBLoader.getInstance().getItem("Potion");
+		Log.d("POKE","gfg12");
+		Item item2=DBLoader.getInstance().getItem("MonsterBall");
+		Log.d("POKE","gfg13");
+		P.addItem(item1, 2);
+		Log.d("POKE","gfg14");
+		P.addItem(item2, 5);
+		Log.d("POKE","gfg15");
+		PlayerSaveLoader.getInstance().savePlayer(P);
+		Log.d("POKE","gfg16");
+		//end of ngecek save
 	}
 	@Override
 	public void onContentChanged() {

@@ -74,10 +74,10 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		Monster m = Monster.getRandomMonster(2, 1);
 		Monster m2 = Monster.getRandomMonster(2, 1);
 		pl.addMonster(m);
-		pl.setCurrentMonster(m);
+		pl.setCurrentMonster(m.getName());
 		
 		pl2.addMonster(m2);
-		pl2.setCurrentMonster(m2);
+		pl2.setCurrentMonster(m2.getName());
 		
 		manager.push(new BattleScreen(pl,pl2));
 		

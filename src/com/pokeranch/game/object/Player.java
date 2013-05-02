@@ -96,8 +96,8 @@ public class Player {
 		return monsters.get(currentMonster);
 	}	
 	
-	public void setCurrentMonster(Monster currMons) {
-		this.currentMonster = currMons.getName();
+	public void setCurrentMonster(String currMons) {
+		this.currentMonster = currMons;
 	}
 	
 	public Monster getNextMonster() throws Exception {
