@@ -134,10 +134,10 @@ public class PlayerSaveLoader {
 		useless = scan.next();
 		setCurrentMonster(scan.next());
 		useless = scan.next();
-	    while(scan.next!="Item:"){
+	/*    while(scan.next!="Item:"){
 	    	monsters.put(key, value)
 	    }
-		
+		*/
 	}
 	
 	public void savePlayer(Player player){
@@ -159,11 +159,15 @@ public class PlayerSaveLoader {
 		    Collection monster = monsters.values();
 		      // Get an iterator
 		    Iterator<Monster>i = monster.iterator();
+		    str.append("DaftarMonster:\n");
+		    //nulis monster(lengkap)--lihat to String di monster
 		    while(i.hasNext()) {
 		         str.append(i.next().toString()+"\n");
 		    }
-		    Set item = items.entrySet();
+		    Set item = items.keySet();
 		      // Get an iterator
+		    //nulis item, nama sama jumlahnya
+		    str.append("DaftarItem:\n");
 		    Iterator<Item>j = item.iterator();
 		    while(j.hasNext()){
 		    	Map.Entry me= (Map.Entry)j.next();
@@ -171,6 +175,43 @@ public class PlayerSaveLoader {
 		    }
 			fos.write(str.toString().getBytes());
 			fos.close();
+			
+			/*harusnya jadinya contohnya kayak gini
+			Nama: Pandu
+			JumlahUang: 10000
+			JumlahBattle: 3
+			JumlahMenang: 8
+			JumlahKalah: 4
+			WaktuBermain(Tahun,bulan,hari,jam,menit): 0 0 2 6 7
+			MonsterSekarang: Imba
+			DaftarMonster:
+			NamaMonster: Imba
+			Umur: 0 0 0 5 3
+			Spesies: Bulba Level: 14
+			Exp: 900 EvoExp: 1000
+			BonusCash: 20 BonusExp+50
+			Status(hp,mp,att,def,eff): 28 36 47 64 POISON / 30 40 50 70
+			Skill:
+			Razor 70 20 Grass Razorga
+			Vine_Whip 80 30 Grass 
+			Cut 70 25 Normal
+			Tackle 50 14 Normal
+			NamaMonster: Imba2
+			Umur: 0 0 0 5 3
+			Spesies: Bulba Level: 14
+			Exp: 900 EvoExp: 1000
+			BonusCash: 20 BonusExp+50
+			Status(hp,mp,att,def,eff): 28 36 47 64 POISON / 30 40 50 70
+			Skill:
+			Razor 70 20 Grass Razorga
+			Vine_Whip 80 30 Grass 
+			Cut 70 25 Normal
+			Tackle 50 14 Normal
+			DaftarItem:
+			
+						
+			
+			*/
 	   } catch (Exception e) {
 		    e.printStackTrace();
 	   }

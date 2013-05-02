@@ -302,14 +302,14 @@ public class Monster{
 					"Umur: "+age.toString()+"\n"+
 					"Spesies: "+species.getName()+" Level: "+level+"\n"+
 					"Exp: "+exp+" EvoExp: "+evoExp+"\n"+
-					"BonusCash: "+bonusCash+" bonusExp"+bonusExp+"\n"+
-					"Status(hp,mp,att,def,eff):"+ status.toString()+" / "+fullStatus.toString()+"\n");
+					"BonusCash: "+bonusCash+" BonusExp: "+bonusExp+"\n"+
+					"Status(hp,mp,att,def,eff): "+ status.toString()+" / "+fullStatus.toString()+"\n");
 	    Set namaSkill = skills.keySet();
 	      // Get an iterator
-	    Iterator<Skill>i = namaSkill.iterator();
+	    Iterator<String>i = namaSkill.iterator();
 	    str.append("Skill:\n");
 	    while(i.hasNext()) {
-	    	str.append(i.next().toString()+"\n");
+	    	str.append(i.next()+"\n");
 	    }
 	    return str.toString();
 	}
