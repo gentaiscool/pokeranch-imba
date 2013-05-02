@@ -95,8 +95,12 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void selectAttack(){
-		//Log.d("POKE", "attack");
-		animation.add(new SkillAnimation(BitmapManager.getInstance().get("Swim"), 3, 200, 100, 4));
+		String[] selects = new String[4];
+		for(int i = 0; i < 4; i++)
+			selects[i] = current.getCurrentMonster().getSkill(i).toString();
+		
+		MessageManager.alertList("Skill", selects);
+		//animation.add(new SkillAnimation(BitmapManager.getInstance().get("Swim"), 3, 200, 100, 4));
 	}
 	
 	private void selectItem(){
