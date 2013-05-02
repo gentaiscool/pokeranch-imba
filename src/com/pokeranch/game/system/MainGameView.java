@@ -41,6 +41,14 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("right", R.drawable.right);
 		BitmapManager.getInstance().put("down", R.drawable.down);
 		BitmapManager.getInstance().put("chara", R.drawable.chara);
+		
+		/* tambahan dari gw*/
+		BitmapManager.getInstance().put("attackbutton", R.drawable.attackbutton);
+		BitmapManager.getInstance().put("changebutton", R.drawable.changebutton);
+		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
+		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
+		
+		
 		//Log.d("harits", "mulaiiii akan memotong2");
 		BitmapManager.getInstance().putMap(R.drawable.sprite);
 		
