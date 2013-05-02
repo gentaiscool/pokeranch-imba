@@ -43,6 +43,11 @@ public class DBLoader {
 	
 	//getter
 	
+	public Collection<Species> getAllSpecies(){
+		//WARNING! Ini reference, jadi perubahan di collection bakal ngubah data spesies juga!
+		return species.values();
+	}
+	
 	public Element getElement(String name){
 		return elements.get(name);
 	}
