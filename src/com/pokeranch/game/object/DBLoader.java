@@ -11,6 +11,7 @@ import java.util.Scanner;
 import com.pokeranch.game.system.Area;
 
 import android.content.res.AssetManager;
+import android.graphics.Point;
 import android.util.Log;
 
 public class DBLoader {
@@ -150,22 +151,44 @@ public class DBLoader {
 			
 			//build semua elementnya dulu
 			Scanner scan = new Scanner(str.toString());
-			String nama = scan.next();
-			//Log.d("harits", "nama: " + nama);
-			int r = scan.nextInt();
-			int c = scan.nextInt();
-			//Log.d("harits", r + " " + c);
-			Area a = new Area(nama, r, c, 1, null, null); //belum ada sprite player
-			for(int i=0;i<r;i++){
-				for(int j=0;j<c;j++){
-					int tmp = scan.nextInt();
-					//buat ngetes boundary
-					//kalo pagardia ga bisa dilewati
-					a.createTile(i, j, tmp, (tmp == 272?false:true));
+			while(scan.hasNext()){
+				String nama = scan.next();
+				//Log.d("harits", "nama: " + nama);
+				int r = scan.nextInt();
+				int c = scan.nextInt();
+				//Log.d("harits", r + " " + c);
+				Area a = new Area(nama, r, c, 1, null, null); //belum ada sprite player
+				for(int i=0;i<r;i++){
+					for(int j=0;j<c;j++){
+						int tmp = scan.nextInt();
+						//buat tile di i,j, defaultnya bisa dilewati
+						a.createTile(i, j, tmp, true);
+					}
 				}
+				
+				for(int i=0;i<r;i++){
+					for(int j=0;j<c;j++){
+						int tmp = scan.nextInt();
+						//buat ngetes boundary
+						//kalo 1 artinya dia ga bisa dilewati
+						a.getTile(i, j).setPassable(tmp == 1 ? false : true);
+					}
+				}
+				
+				
+				int k = scan.nextInt();
+				for(int i=0;i<k;i++){
+					int x = scan.nextInt();
+					int y = scan.nextInt();
+					String z = scan.next();
+					int v = scan.nextInt();
+					int w = scan.nextInt();
+					a.getTile(x, y).setTeleportTarget(z);
+					a.getTile(x, y).setArrivalCord(new Point(v, w));
+				}
+				
+				areas.put(nama, a);
 			}
-			
-			areas.put(nama, a);
 		} catch(Exception e){
 			e.printStackTrace();
 		}

@@ -8,9 +8,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 
+import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.system.MainGameView.ButtonClick;
 
 public class Area {
+	private AreaManager am;
 	private String name;
 	private Sprite body,head;
 	private Tile field[][];
@@ -35,7 +37,7 @@ public class Area {
 	}
 	
 	public void getButtonInput(ButtonClick click){
-		Log.d("harits", lastClick + " " + click);
+		//Log.d("harits", lastClick + " " + click);
 		if(click == ButtonClick.NONE)
 			isUp = true;
 		else
@@ -70,6 +72,10 @@ public class Area {
 		}
 	}
 	
+	public Tile getTile(int i, int j){
+		return field[i][j];
+	}
+	
 	public void createTile(int i, int j, int code, boolean pass){
 		field[i][j] = new Tile(code, pass);
 	}
@@ -91,6 +97,7 @@ public class Area {
 	}
 	
 	public void update(){
+		Log.d("harits", "sekarang ada di: " + curX + " " + curY);
 		nextX = curX;
 		nextY = curY;
 		if(move){
@@ -115,9 +122,20 @@ public class Area {
 				if(nextX < 0 || nextY < 0 || nextX >= row || nextY >= column)
 					outOfBounds = true;
 				
-				//Log.d("harits", field[nextX][nextY].getSpriteCode() + " " + field[nextX][nextY].isPassable());
+				//Log.d("harits", "bakal ke: "+ nextX + " " + nextY);
 				if(!outOfBounds){
-					if(field[nextX][nextY].isPassable()){
+					if(field[nextX][nextY].getTeleportTarget() != null){
+						Log.d("harits", "di sini bisa teleport: " + nextX +" "+ nextY);
+						//Log.d("harits", "di teleport ke: " + field[nextX][nextY].getTeleportTarget());
+						am.setCurArea(DBLoader.getInstance().getArea(field[nextX][nextY].getTeleportTarget()));
+						//Log.d("harits", "berhasil memindahkan");
+						//ngeset koordinat sprite player
+						am.setPlayerCord(field[nextX][nextY].getArrivalCord());				
+						//ngeset koordinat player pada array field
+						am.getCurArea().setCurCord(field[nextX][nextY].getArrivalCord());
+						move = startMoving = false;
+						//Log.d("harits", "berhasil menentukan koord baru");
+					} else if(field[nextX][nextY].isPassable()){
 						startMoving = true;
 						curX = nextX;
 						curY = nextY;
@@ -128,8 +146,8 @@ public class Area {
 				} else
 					move = false;
 			} else {
-				head.move(direction,1);
-				body.move(direction,1);
+				head.move(direction,2);
+				body.move(direction,2);
 				if(body.getX() % 32 == 0 && body.getY() % 32 == 0){
 					if(isUp)
 						move = startMoving = false;
@@ -163,5 +181,14 @@ public class Area {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setAreaManager(AreaManager am) {
+		this.am = am;
+	}
+	
+	public void setCurCord(Point p){
+		curX = p.x;
+		curY = p.y;
 	}
 }

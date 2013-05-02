@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -60,9 +61,10 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		System.gc();
 		
 		manager = new ScreenManager();
-		//manager.push(new AreaManager(context, screenWidth, screenHeight));
-		manager.push(new BattleScreen(null, null));
-		
+		AreaManager am = new AreaManager(context, screenWidth, screenHeight);
+		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
+		am.setPlayerCord(new Point(0,0));
+		manager.push(am);
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

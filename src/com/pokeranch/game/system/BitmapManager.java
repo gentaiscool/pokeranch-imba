@@ -31,7 +31,7 @@ public class BitmapManager {
 			//	Log.d("harits", "motong " + i + " dan " + j);
 				Integer key = i*43+j;
 				
-				bitmaps.put(key.toString(), Bitmap.createBitmap(src, border+((border+pixelSize)*j), border+((border+pixelSize)*i), pixelSize, pixelSize, mtx, false));
+				bitmaps.put(key.toString(), Bitmap.createBitmap(src, border+((border+pixelSize)*j), border+((border+pixelSize)*i), pixelSize, pixelSize));
 			}
 		}
 		//Log.d("harits", "berhasil motong2 bitmap");
