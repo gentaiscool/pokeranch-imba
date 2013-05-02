@@ -265,5 +265,4 @@ private AlertDialog makeAndShowDialogBox(String title, String message){
 	    }
 	    return false;
 	}
-	
 }

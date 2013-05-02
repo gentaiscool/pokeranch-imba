@@ -1,5 +1,7 @@
 package com.pokeranch.game.object;
 
+import java.util.Scanner;
+
 public class MonsterBall extends Item
 {
 	private float catchRate;	
@@ -8,6 +10,17 @@ public class MonsterBall extends Item
 	public MonsterBall(){
 		// TODO Auto-generated constructor stub
 		catchRate = 0;
+	}
+	
+	@Override
+	public void load(Scanner scan) {
+		try{
+			catchRate = scan.nextInt();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		super.load(scan);
 	}
 	
 	//ctor berparameter

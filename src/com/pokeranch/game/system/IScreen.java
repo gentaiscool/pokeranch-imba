@@ -7,7 +7,7 @@ import com.pokeranch.game.system.MainGameView.ButtonClick;
 
 public interface IScreen {
 	public void update();
-	public void draw(Canvas canvas);
+	public void draw(Canvas canvas, int mag);
 	public void onTouchEvent(MotionEvent e);
 	
 	//public void getButtonInput(ButtonClick b);
