@@ -50,11 +50,7 @@ public class Status {
 	
 	public String toString(){
 		StringBuilder s = new StringBuilder();
-		s.append(hp + " ");
-		s.append(mp + " ");
-		s.append(attack + " ");
-		s.append(defense + " ");
-		s.append(effect);
+		s.append(hp + " "+mp + " "+attack + " "+defense + " "+effect);
 		return s.toString();
 	}
 	

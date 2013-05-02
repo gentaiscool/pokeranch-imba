@@ -1,12 +1,17 @@
 package com.pokeranch.game.object;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.Set;
 
 import com.pokeranch.game.object.Status.Effect;
 
 import android.graphics.Point;
+import android.util.Log;
 
 public class Monster{
 	private String name;
@@ -15,7 +20,7 @@ public class Monster{
 	private Species species;
 	private HashMap<String, Skill> skills; 
 	private Time age;
-	private static int maxNumSkill; //jumlah skill maksimal
+	private int maxNumSkill;
 	private Random random = new Random();
 	
 	//ctor
@@ -25,11 +30,12 @@ public class Monster{
 
 	//cctor
 	public Monster(String name, Species species, int level){
-		random.setSeed(1);
 		
 		this.name = name;
 		this.species = species;
 		this.level = level;
+		skills = new HashMap<String, Skill>();
+		
 		exp = 0;
 		evoExp = (int) ((2.7*level+17) * 3 * Math.pow (1.02,(level-1))); //--> 50 - 6058 (3 - 21 x lawan selvl)
 		bonusCash = 5*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(15);//--> max 500
@@ -42,29 +48,31 @@ public class Monster{
 		for (int i = 2; i <=level; i++){
 			fullStatus.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
 		}
+		
+		for (int i = 0; i < species.getBaseSkillNum(); i++)
+			addSkill(species.getBaseSkill(i));
 		status = fullStatus;
 	}
 
 	//setter getter
-	String getName(){
+	public String getName(){
 		return name;
 	}
 	
-	void setName(String nm){
+	public void setName(String nm){
 		name = nm;
 	}
 	
-	int getLevel(){
+	public int getLevel(){
 		return level;
 	}
 	
-	int getExp(){
+	public int getExp(){
 		return exp;
 	}
 	
-	boolean addExp(int x){
+	public boolean addExp(int x){
 		Random random = new Random();
-		random.setSeed(1);
 		exp+=x;
 		if (exp>=evoExp){
 			if (level==100){
@@ -91,27 +99,27 @@ public class Monster{
 		return false;
 	}
 	
-	int getEvoExp(){
+	public int getEvoExp(){
 		return evoExp;
 	}
 	
-	int getBonusCash(){
+	public int getBonusCash(){
 		return bonusCash;
 	}
 	
-	int getBonusExp(){
+	public int getBonusExp(){
 		return bonusExp;
 	}
 	
-	Status getFullStatus(){
+	public Status getFullStatus(){
 		return fullStatus;
 	}
 	
-	Status getStatus(){
+	public Status getStatus(){
 		return status;
 	}
 	
-	void updateStatusBy(Status st){
+	public void updateStatusBy(Status st){
 		status.updateBy(st.getHP(), st.getMP(), st.getAttack(), st.getDefense(), st.getEffect());
 		if(status.getHP()>fullStatus.getHP()) 
 			status.setHP(fullStatus.getHP());
@@ -133,12 +141,11 @@ public class Monster{
 	}
 	
 	
-	Point inflictDamage(Skill sk, Status lawan){
+	public Point inflictDamage(Skill sk, Status lawan){
 		Point newPoint = new Point();
 		Status damage = sk.getDamage();
 		
 		//critical hit
-		random.setSeed(1);
 		float critical = 1.f;
 		if(random.nextInt(100)<10) 
 			critical = 2.f;
@@ -172,56 +179,55 @@ public class Monster{
 		return newPoint;
 	}
 	
-	void restoreStatus(){
+	public void restoreStatus(){
 		status = fullStatus;
 	}
 	
-	Species getSpecies(){
+	public Species getSpecies(){
 		return species;
 	}
 	
-	Time getAge(){
+	public Time getAge(){
 		return age;
 	}
 	
-	void addAgeByMinute(int minute){
+	public void addAgeByMinute(int minute){
 		age.addMinute(minute);
 	}
 	
-	int getSkillNum(){
+	public int getSkillNum(){
 		return skills.size();
 	}
-	Skill getSkill(int num){
-		ArrayList<Skill> s = (ArrayList<Skill>) skills.values();
-		return s.get(num);
+	public Skill getSkill(int num){
+		Object[] s = (skills.values()).toArray();
+		return (Skill) s[num];
 	}
 	
-	Skill getSkill(String name){
+	public Skill getSkill(String name){
 		return skills.get(name);
 	}
 	
-	Skill getRandomSkill(){
+	public Skill getRandomSkill(){
 	/* Asumsi: List skill yang ada pada Monster ini sudah 
 	   ada didefinisikan didatabase skill */
 		int num;
-		random.setSeed(1);
 		ArrayList<Skill> s = (ArrayList<Skill>) skills.values();
 		num = random.nextInt(skills.size());
 		return s.get(num);	
 	}
 	
-	void addSkill(Skill sk){
+	public void addSkill(Skill sk){
 		if (!isMaxNumSkill()){
 			skills.put(sk.getName(), sk);
 		}
 	}
 	
-	void delSkill(Skill sk){
+	public void delSkill(Skill sk){
 		skills.remove(sk.getName());
 	}
 
 
-	boolean evolve(){
+	public boolean evolve(){
 		if (species.getEvoLevel() > level) 
 			return false;
 		Species evo = species.getEvoSpecies();
@@ -236,7 +242,7 @@ public class Monster{
 		return true;
 	}
 	
-	boolean evolveSkill(){
+	public boolean evolveSkill(){
 		boolean found = false;
 		for(int i=0; i<=3; i++){
 			if(skills.get(i).getNextSkillLevel() < level){
@@ -252,15 +258,15 @@ public class Monster{
 		return found;
 	}
 
-	boolean isMaxNumSkill(){
-		return maxNumSkill == skills.size();
+	public boolean isMaxNumSkill(){
+		return maxNumSkill == 4;
 	}
 	
-	void giveItem(StatItem item){
+	public void giveItem(StatItem item){
 		fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
 	}
 	
-	public Monster getRandomMonster(int level, int maxRating){
+	public static Monster getRandomMonster(int level, int maxRating){
 		Species ss;
 		ss = DBLoader.getInstance().getRandomSpecies(maxRating);
 		return new Monster(ss.getName(), ss, level);
@@ -292,5 +298,55 @@ public class Monster{
 			
 			return new Monster("", spec3, lvl3);
 		}
+	}
+	
+	public void load(Scanner scan){
+		String useless;
+		useless=scan.next();
+		name=scan.next();
+		useless=scan.next();
+		age=new Time();
+		age.load(scan);
+		useless=scan.next();
+		species=DBLoader.getInstance().getSpecies(scan.next());
+		useless=scan.next();
+		level=scan.nextInt();
+		useless=scan.next();
+		exp=scan.nextInt();
+		useless=scan.next();
+		evoExp=scan.nextInt();
+		useless=scan.next();
+		bonusCash=scan.nextInt();
+		useless=scan.next();
+		bonusExp=scan.nextInt();
+		useless=scan.next();
+		status=new Status();
+		status.load(scan);
+		fullStatus=new Status();
+		fullStatus.load(scan);
+		useless=scan.next();
+		String skillName;
+		int i;
+		for(i=0;i<4;i++){
+			skillName=scan.next();
+			skills.put(skillName, DBLoader.getInstance().getSkill(skillName));
+		}	
+	}
+	
+	public String toString(StringBuilder str){
+		str.append( "NamaMonster: "+name+"\n"+
+					"Umur: "+age.toString()+"\n"+
+					"Spesies: "+species.getName()+" Level: "+level+"\n"+
+					"Exp: "+exp+" EvoExp: "+evoExp+"\n"+
+					"BonusCash: "+bonusCash+" BonusExp: "+bonusExp+"\n"+
+					"Status(hp,mp,att,def,eff): "+ status.toString()+" / "+fullStatus.toString()+"\n");
+	    Set namaSkill = skills.keySet();
+	      // Get an iterator
+	    Iterator<String>i = namaSkill.iterator();
+	    str.append("Skill:\n");
+	    while(i.hasNext()) {
+	    	str.append(i.next()+" ");
+	    }
+	    return str.toString();
 	}
 }
