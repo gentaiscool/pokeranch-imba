@@ -4,7 +4,7 @@
     <string name="app_name">Pokeranch</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="title_activity_main_menu">Pokeranch</string>
     <string name="write_name">What is your name?</string>
 
 </resources>

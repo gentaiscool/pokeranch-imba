@@ -121,15 +121,15 @@ public class DBLoader {
 	//fungsi2 load
 	
 	public void loadAll(){
+
 		load(Element.class, elements, "elements.dat");
 		load(Skill.class, skills, "skills.dat");
 		load(Species.class, species, "species.dat");
 		load(MonsterBall.class, balls, "balls.dat");
 		load(StatItem.class, statitems, "statitems.dat");
 		load(TM.class, tms, "tm.dat");
-		
-		Log.d("POKE", balls.toString());
 		loadMap("map.dat");
+		
 	}
 	
 	public void loadMap(String assetFile){

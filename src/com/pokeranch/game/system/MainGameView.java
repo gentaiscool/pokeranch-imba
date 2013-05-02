@@ -30,6 +30,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private BitmapButton buttonLeft;
 	private BitmapButton buttonRight;
 	private int butLeftestX, butDist, butY;
+	private IScreen battle;
 	
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	
@@ -39,6 +40,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		setFocusable(true);
 		
 		
+				
 		BitmapManager.initialize(context.getApplicationContext().getResources());
 		BitmapManager.getInstance().put("landmonster", R.drawable.landmonster);
 		BitmapManager.getInstance().put("test", R.drawable.ic_launcher);
@@ -49,12 +51,12 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("down", R.drawable.down);
 		BitmapManager.getInstance().put("chara", R.drawable.chara);
 		
+		
 		/* tambahan dari gw*/
 		BitmapManager.getInstance().put("attackbutton", R.drawable.attackbutton);
 		BitmapManager.getInstance().put("changebutton", R.drawable.changebutton);
 		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
 		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
-		
 		
 		//Log.d("harits", "mulaiiii akan memotong2");
 		BitmapManager.getInstance().putMap(R.drawable.sprite);
@@ -66,7 +68,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//if(DBLoader.getInstance() == null)
 		//	Log.d("harits", "DBLoader null");
 		area = DBLoader.getInstance().getArea("FIELD");
-		//Log.d("harits", "berhasil bikin Area");
+		//Log.d("POKE", "berhasil bikin Area");
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);
@@ -81,6 +83,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), butLeftestX + butDist, butY);
 		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), butLeftestX + 2*butDist, butY);
 		buttonRight= new BitmapButton(BitmapManager.getInstance().get("right"), butLeftestX + 3*butDist, butY);
+		
 		
 		buttonDown.addTouchAction(new TouchAction(){
 			@Override
@@ -142,6 +145,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		touches.add(buttonUp);
 		touches.add(buttonLeft);
 		touches.add(buttonRight);
+		
+		battle = new BattleScreen(null, null);
 	}
 	
 	@Override
@@ -192,21 +197,25 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	public void render(Canvas canvas) {
 		canvas.setMatrix(matrix);
 		canvas.drawColor(Color.BLACK);
-		area.draw(canvas);
-		buttonDown.draw(canvas);
-		buttonUp.draw(canvas);
-		buttonLeft.draw(canvas);
-		buttonRight.draw(canvas);
+		//area.draw(canvas);
+		//buttonDown.draw(canvas);
+		//buttonUp.draw(canvas);
+		//buttonLeft.draw(canvas);
+		//buttonRight.draw(canvas);
+		
+		battle.draw(canvas, 1);
 	}
 
 	public void update() {
-		area.update();
+		//area.update();
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {	
 		for(TouchListener t : touches){
-			t.onTouchEvent(event);
+			//t.onTouchEvent(event);
 		}
+		battle.onTouchEvent(event);
+		
 		return true;
 	}	
 }
