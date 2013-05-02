@@ -12,10 +12,10 @@ public class BattleScreen implements IScreen {
 		this.player1 = player1;
 		this.player2 = player2;
 		
-		attack = new BitmapButton(BitmapManager.getInstance().get("attackButton"), 0, 0);
-		useItem = new BitmapButton(BitmapManager.getInstance().get("itemButton"), 0, 0);
-		change = new BitmapButton(BitmapManager.getInstance().get("changeButton"), 0, 0);
-		escape = new BitmapButton(BitmapManager.getInstance().get("escapeButton"), 0, 0);
+		attack = new BitmapButton(BitmapManager.getInstance().get("attackbutton"), 0, 0);
+		useItem = new BitmapButton(BitmapManager.getInstance().get("itembutton"), 0, 0);
+		change = new BitmapButton(BitmapManager.getInstance().get("changebutton"), 0, 0);
+		escape = new BitmapButton(BitmapManager.getInstance().get("escapebutton"), 0, 0);
 	}
 	
 	@Override
