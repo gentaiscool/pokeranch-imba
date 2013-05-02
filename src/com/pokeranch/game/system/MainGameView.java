@@ -54,6 +54,14 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//animasi skill
 		BitmapManager.getInstance().put("Swim", R.drawable.swim);
 		
+		//battle avatar
+		BitmapManager.getInstance().put("Squir_back", R.drawable.squir_back);
+		BitmapManager.getInstance().put("Squir_front", R.drawable.squir_front);
+		BitmapManager.getInstance().put("Bulba_back", R.drawable.bulba_back);
+		BitmapManager.getInstance().put("Bulba_front", R.drawable.bulba_front);
+		BitmapManager.getInstance().put("Charchar_back", R.drawable.charchar_back);
+		BitmapManager.getInstance().put("Charchar_front", R.drawable.charchar_front);
+		
 		//potong map
 		BitmapManager.getInstance().putMap(R.drawable.sprite);
 		

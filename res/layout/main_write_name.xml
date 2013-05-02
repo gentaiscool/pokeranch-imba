@@ -3,41 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:inputType="textPersonName"/>
-    
-    <TextView
-        android:id="@+id/textViewHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:layout_marginLeft="120dp"
-		android:layout_marginTop="80dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginRight="69dp"
-        android:text="@string/write_name"
-        android:textSize="15dp" />
-
-    <Button
-        android:id="@+id/buttonContinue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="330dp"
-        android:layout_marginTop="180dp"
-        android:text="Continue"
-        android:textSize="10dp" />
-
-    <ImageView
-        android:id="@+id/imageViewLogo2"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="320dp"
-        android:layout_marginTop="0dp"
-        android:src="@drawable/logo" />
+	<TableLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" >
+		<TableRow
+	        android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" >
+	        <ImageView
+	            android:id="@+id/imageViewLogo2"
+	            android:layout_width="200dp"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="320dp"
+	            android:layout_marginTop="0dp"
+	            android:src="@drawable/logo" />
+	    </TableRow>
+	    <TableRow
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content" >
+	        <TextView
+	            android:id="@+id/textViewHint"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textAlignment="center"
+	            android:text="@string/write_name"
+	            android:textSize="15dp" />
+	    </TableRow>
+		<TableRow
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	>
+	        <EditText
+	            android:id="@+id/editTextName"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:ems="10"
+	            android:inputType="textPersonName" />
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" >
+	        <Button
+	            android:id="@+id/buttonContinue"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="330dp"
+	            android:text="Continue"
+	            android:textSize="10dp" />
+	    </TableRow>
+	    
+	</TableLayout>
 
 </RelativeLayout>

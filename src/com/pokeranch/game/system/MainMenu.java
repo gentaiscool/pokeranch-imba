@@ -187,8 +187,10 @@ public class MainMenu extends Activity {
 		Typeface face = Typeface.createFromAsset(getAssets(),
 	            "fonts/Pokemon GB.ttf");
 		TextView tv = (TextView)findViewById(R.id.textViewHint);
-		final EditText et = (EditText)findViewById(R.id.editTextName);
+		EditText et = (EditText)findViewById(R.id.editTextName);
 		Button b = (Button)findViewById(R.id.buttonContinue);
+		
+	
 		tv.setTypeface(face);
 		et.setTypeface(face);
 		b.setTypeface(face);
@@ -196,7 +198,7 @@ public class MainMenu extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(et.getText().length()!=0){
+				/*if(et.getText().length()!=0){
 					state = 13; // pick monster
 					characterName = et.getText().toString();
 					setContentView(R.layout.main_pick_monster);
@@ -205,7 +207,7 @@ public class MainMenu extends Activity {
 				else{
 					AlertDialog ad = makeAndShowDialogBox("Gotcha!","You haven't type your name!");
 					ad.show();
-				}
+				}*/
 			}
 		});
 	}
