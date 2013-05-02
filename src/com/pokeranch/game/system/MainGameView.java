@@ -48,12 +48,17 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
 		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
 		
+		//animasi skill
+		BitmapManager.getInstance().put("Swim", R.drawable.swim);
+		
 		//potong map
 		BitmapManager.getInstance().putMap(R.drawable.sprite);
 		
 		/*load database, agak lama ternyata*/
 		DBLoader.initialize(context.getAssets());
 		DBLoader.getInstance().loadMap("map.dat");
+		
+		System.gc();
 		
 		manager = new ScreenManager();
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight);
