@@ -39,7 +39,7 @@ public class Monster{
 		this.species = species;
 		this.level = level;
 		skills = new HashMap<String, Skill>();
-		
+		age = new Time();
 		exp = 0;
 		evoExp = (int) ((2.7*level+17) * 3 * Math.pow (1.02,(level-1))); //--> 50 - 6058 (3 - 21 x lawan selvl)
 		bonusCash = 5*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(15);//--> max 500
@@ -206,6 +206,9 @@ public class Monster{
 		return (Skill) s[num];
 	}
 	
+	public HashMap<String,Skill> getAllSkill(){
+		return skills;
+	}
 	public Skill getSkill(String name){
 		return skills.get(name);
 	}
@@ -337,17 +340,24 @@ public class Monster{
 		}	
 	}
 	
-	public String toString(StringBuilder str){
-		str.append( "NamaMonster: "+name+"\n"+
-					"Umur: "+age.toString()+"\n"+
-					"Spesies: "+species.getName()+" Level: "+level+"\n"+
-					"Exp: "+exp+" EvoExp: "+evoExp+"\n"+
-					"BonusCash: "+bonusCash+" BonusExp: "+bonusExp+"\n"+
-					"Status(hp,mp,att,def,eff): "+ status.toString()+" / "+fullStatus.toString()+"\n");
-	    Set namaSkill = skills.keySet();
+	public String toString(){
+	    Log.d("POKE","tostring monster");
+		StringBuilder str = new StringBuilder();
+	    Log.d("POKE","tostring monster2");
+		str.append( "NamaMonster: "+getName()+"\n"+
+					"Umur: "+getAge().toString()+"\n"+
+					"Spesies: "+getSpecies().getName()+" Level: "+level+"\n"+
+					"Exp: "+getExp()+" EvoExp: "+getEvoExp()+"\n"+
+					"BonusCash: "+getBonusCash()+" BonusExp: "+getBonusExp()+"\n"+
+					"Status(hp,mp,att,def,eff): "+ getStatus().toString()+" / "+getFullStatus().toString()+"\n");
+	    Log.d("POKE","tostring monster3");
+	    Set namaSkill = getAllSkill().keySet();
+	    Log.d("POKE","tostring monster4");
 	      // Get an iterator
 	    Iterator<String>i = namaSkill.iterator();
+	    Log.d("POKE","tostring monster5");
 	    str.append("Skill:\n");
+	    Log.d("POKE","tostring monster");
 	    while(i.hasNext()) {
 	    	str.append(i.next()+" ");
 	    }

@@ -183,40 +183,56 @@ public class PlayerSaveLoader {
 	}
 	
 	public void savePlayer(Player player){
+		Log.d("POKE","gfg0");
 		try {
 			 if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {  
 				   setAbleToSave(false);
+					Log.d("POKE","gfg-2");  
 			 } else { 
 				fileSave = new File(context.getExternalFilesDir(filepath),player.getName()+".sav");
+				Log.d("POKE",context.getExternalFilesDir(filepath).toString());
 				  }
+			Log.d("POKE","gfg1");
 			FileOutputStream fos = new FileOutputStream(fileSave);
+			Log.d("POKE","gfg2");
 			StringBuilder str=new StringBuilder();	
-			str.append(	"Nama: "+name+"\n"+
-						"JumlahUang: "+money+"\n"+
-						"JumlahBattle: "+nbattle+"\n"+
-						"JumlahMenang: "+nwin+"\n"+
-						"JumlahKalah: "+nlose+"\n"+
-						"WaktuBermain(Tahun,bulan,hari,jam,menit): "+playingTime.toString()+"\n"+
-						"JumlahMonster: "+monsters.size()+"\n"+
-						"MonsterSekarang: "+currentMonster);
-		    Collection monster = monsters.values();
+			Log.d("POKE","gfg3");
+			str.append(	"Nama: "+player.getName()+"\n"+
+						"JumlahUang: "+player.getMoney()+"\n"+
+						"JumlahBattle: "+player.getNbattle()+"\n"+
+						"JumlahMenang: "+player.getNwin()+"\n"+
+						"JumlahKalah: "+player.getNlose()+"\n"+
+						"WaktuBermain(Tahun,bulan,hari,jam,menit): "+player.getPlayingTime().toString()+"\n"+
+						"JumlahMonster: "+player.getNMonster()+"\n"+
+						"MonsterSekarang: "+player.getCurrentMonster().getName()+"\n");
+			Log.d("POKE","gfg4");
 		      // Get an iterator
-		    Iterator<Monster>i = monster.iterator();
-		    str.append("DaftarMonster:\n");
+			str.append("DaftarMonster:\n");
+			Log.d("POKE","gfg5");
+			Collection monster = player.getAllMonster().values();
+			Log.d("POKE","gfg6");
+			Iterator<Monster>i = monster.iterator();
 		    //nulis monster(lengkap)--lihat to String di monster
-		    while(i.hasNext()) {
+			Log.d("POKE","gfg7");
+			while(i.hasNext()) {
 		         str.append(i.next().toString()+"\n");
 		    }
-		    str.append("JumlahItem: "+items.size()+"\n");
-		    Set item = items.entrySet();
+			Log.d("POKE","gfg8");
+			str.append("JumlahItem: "+player.getAllItem().size()+"\n");
+			Log.d("POKE","gfg9");
+			Set item = player.getAllItem().entrySet();
 		      // Get an iterator
 		    //nulis item, nama sama jumlahnya
+			Log.d("POKE","gfg10");
 		    str.append("DaftarItem:\n");
+			Log.d("POKE","gfg11");
 		    Iterator j = item.iterator();
+			Log.d("POKE","gfg12");    
 		    while(j.hasNext()){
 		    	Map.Entry me= (Map.Entry)j.next();
 		    	str.append(me.getKey()+" "+me.getValue()+"\n");
 		    }
+			Log.d("POKE","gfg13");
 			fos.write(str.toString().getBytes());
 			fos.close();
 			
