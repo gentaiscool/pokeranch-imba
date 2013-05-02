@@ -3,8 +3,10 @@ package com.pokeranch.game.system;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -18,12 +20,19 @@ public class BattleScreen implements IScreen {
 	private SkillAnimation animation;
 	private boolean animating = false;
 	private int turn;
+	private Bitmap poke1, poke2;
 	
 	public BattleScreen(Player player1, Player player2){
 		this.player1 = player1;
 		this.player2 = player2;
 		current = player1;
 		enemy = player2;
+		
+		//load gambar
+		poke1 = BitmapManager.getInstance().get(player1.getCurrentMonster().getSpecies().getName()+"_back");
+		poke2 = BitmapManager.getInstance().get(player2.getCurrentMonster().getSpecies().getName()+"_front");
+		
+		//Log.d("POKE", player1.getCurrentMonster().getSpecies().getName()+"_back");
 		
 		turn = 1;
 		
@@ -100,6 +109,14 @@ public class BattleScreen implements IScreen {
 		useItem.draw(canvas);
 		change.draw(canvas);
 		escape.draw(canvas);
+		int x1 = 200;
+		int y1 = 100;
+		
+		int x2 = 400;
+		int y2 = 100;
+		
+		if(poke1!=null) canvas.drawBitmap(poke1,new Rect(0,0,poke1.getWidth(),poke1.getHeight()), new Rect(x1,y1,x1+poke1.getWidth()*2*mag,y1+poke1.getHeight()*2*mag),null);
+		if(poke2!=null) canvas.drawBitmap(poke2,new Rect(0,0,poke2.getWidth(),poke2.getHeight()), new Rect(x2,y2,x2+poke2.getWidth()*2*mag,y2+poke2.getHeight()*2*mag),null);
 		if(animation!=null) animation.draw(canvas, mag);
 	}
 	
