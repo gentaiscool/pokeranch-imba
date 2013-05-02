@@ -121,7 +121,7 @@ public class Area {
 		for(int i=0;i<row;i++){
 			for(int j=0;j<column;j++){
 				int w = BitmapManager.getInstance().get(String.valueOf(field[i][j])).getWidth();
-				Log.d("harits", "lebar: " + j*w*mag + " " + i*w*mag + " " + (j*w*mag + w*mag) + " " + (i*w*mag + w*mag));
+				//Log.d("harits", "lebar: " + j*w*mag + " " + i*w*mag + " " + (j*w*mag + w*mag) + " " + (i*w*mag + w*mag));
 				canvas.drawBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j])), new Rect(0,0,w,w), new RectF(j*w*mag, i*w*mag, j*w*mag + w*mag, i*w*mag + w*mag), null);
 				//canvas.drawBitmap(BitmapManager.getInstance().get("43"), j*16, i*16, null);
 			}

@@ -6,6 +6,7 @@ import com.pokeranch.game.object.DBLoader;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -133,6 +134,10 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		touches.add(buttonUp);
 		touches.add(buttonLeft);
 		touches.add(buttonRight);
+		
+		Context context2 = getContext(); // from MySurfaceView/Activity
+		Intent intent = new Intent(context, PokeDex.class);
+		context.startActivity(intent);
 	}
 	
 	@Override
