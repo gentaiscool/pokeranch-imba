@@ -70,13 +70,14 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		DBLoader.getInstance().loadMap("map.dat");
 		
 		System.gc();
-		
+		//masukin player ke areamanager dan area
+		//ngurusin waktunya
 		manager = new ScreenManager();
 		int magnification = 1;
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, magnification);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,0));
-		//manager.push(am);
+		manager.push(am);
 		
 		Player pl = new Player();
 		Player pl2 = new Player();
@@ -88,7 +89,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
 		
-		manager.push(new BattleScreen(pl,pl2));
+		//manager.push(new BattleScreen(pl,pl2));
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);
