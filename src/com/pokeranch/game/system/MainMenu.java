@@ -88,7 +88,10 @@ public class MainMenu extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				state = 4;
-				setContentView(R.layout.pokedex);
+				//setContentView(R.layout.pokedex);
+				Intent i = new Intent(getBaseContext(),PokeDex.class);
+				startActivity(i);
+				finish();
 			}
 		});
 	}
