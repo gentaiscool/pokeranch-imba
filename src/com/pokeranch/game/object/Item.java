@@ -10,7 +10,6 @@ public class Item implements ILoadable{
 	public void load(Scanner scan) {
 		// TODO Auto-generated method stub
 		try{
-			name = scan.next();
 			price = scan.nextInt();
 		}catch(Exception e){
 			e.printStackTrace();
