@@ -109,7 +109,7 @@ public class PlayerSaveLoader {
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
 			while ((strLine = br.readLine()) != null)  {
-				myData = myData + strLine;
+				myData = myData + strLine + " ";
 			}
 			in.close();
 		} catch (IOException e) {
@@ -134,6 +134,8 @@ public class PlayerSaveLoader {
 		useless = scan.next();
 		setCurrentMonster(scan.next());
 		useless = scan.next();
+		useless = scan.next();
+		
 	/*    while(scan.next!="Item:"){
 	    	monsters.put(key, value)
 	    }
@@ -164,11 +166,11 @@ public class PlayerSaveLoader {
 		    while(i.hasNext()) {
 		         str.append(i.next().toString()+"\n");
 		    }
-		    Set item = items.keySet();
+		    Set item = items.entrySet();
 		      // Get an iterator
 		    //nulis item, nama sama jumlahnya
 		    str.append("DaftarItem:\n");
-		    Iterator<Item>j = item.iterator();
+		    Iterator j = item.iterator();
 		    while(j.hasNext()){
 		    	Map.Entry me= (Map.Entry)j.next();
 		    	str.append(me.getKey()+" "+me.getValue()+"\n");
@@ -208,9 +210,9 @@ public class PlayerSaveLoader {
 			Cut 70 25 Normal
 			Tackle 50 14 Normal
 			DaftarItem:
-			
-						
-			
+			Potion 2
+			MonsterBall 4
+			Cut 5		
 			*/
 	   } catch (Exception e) {
 		    e.printStackTrace();
