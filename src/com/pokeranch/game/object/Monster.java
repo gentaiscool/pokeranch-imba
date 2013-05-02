@@ -28,7 +28,8 @@ public class Monster{
 		name = "";
 		status = new Status();
 		fullStatus = new Status();
-		//Time = 
+		age = new Time();
+		skills = new HashMap<String, Skill>();
 	}
 
 	//cctor
@@ -44,19 +45,16 @@ public class Monster{
 		bonusCash = 5*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(15);//--> max 500
 		bonusExp = 3*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(9);//--> max 300
 
-		fullStatus = species.getBaseStat();
-		
-		Status delta = new Status(10, 10, 10, 10, Effect.NONE); //rumus?
+		fullStatus = new Status(species.getBaseStat());
 		
 		for (int i = 2; i <=level; i++){
-			fullStatus.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
+			fullStatus.updateBy(10, 10, 10, 10, Effect.NONE); //rumus?
 		}
 		
 		for (int i = 0; i < species.getBaseSkillNum(); i++)
 			addSkill(species.getBaseSkill(i));
 		
-		status = new Status();
-		status.set(fullStatus.getHP(), fullStatus.getMP(), fullStatus.getAttack(), fullStatus.getDefense(), fullStatus.getEffect());
+		status = new Status(fullStatus);
 	}
 
 	//setter getter
@@ -163,7 +161,7 @@ public class Monster{
 		status.updateBy(damage.getHP(), damage.getMP(), damage.getAttack(), damage.getDefense(), damage.getEffect());
 		
 		//HP calculation
-		//status.setHP( (int) (hp + ((float)(damage.getHP()) * ((float)(lawan.getAttack()) /  (float)(status.getDefense())) * critical + 0.5f)));
+		status.setHP( (int) (hp + ((float)(damage.getHP()) * ((float)(lawan.getAttack()) /  (float)(status.getDefense())) * critical + 0.5f)));
 		if(status.getHP() <= 0)
 			status.setHP(0);
 			
@@ -185,7 +183,7 @@ public class Monster{
 	}
 	
 	public void restoreStatus(){
-		status = fullStatus;
+		status = new Status(fullStatus);
 	}
 	
 	public Species getSpecies(){
