@@ -49,23 +49,23 @@ public class Monster{
 	}
 
 	//setter getter
-	String getName(){
+	public String getName(){
 		return name;
 	}
 	
-	void setName(String nm){
+	public void setName(String nm){
 		name = nm;
 	}
 	
-	int getLevel(){
+	public int getLevel(){
 		return level;
 	}
 	
-	int getExp(){
+	public int getExp(){
 		return exp;
 	}
 	
-	boolean addExp(int x){
+	public boolean addExp(int x){
 		Random random = new Random();
 		random.setSeed(1);
 		exp+=x;
@@ -94,27 +94,27 @@ public class Monster{
 		return false;
 	}
 	
-	int getEvoExp(){
+	public int getEvoExp(){
 		return evoExp;
 	}
 	
-	int getBonusCash(){
+	public int getBonusCash(){
 		return bonusCash;
 	}
 	
-	int getBonusExp(){
+	public int getBonusExp(){
 		return bonusExp;
 	}
 	
-	Status getFullStatus(){
+	public Status getFullStatus(){
 		return fullStatus;
 	}
 	
-	Status getStatus(){
+	public Status getStatus(){
 		return status;
 	}
 	
-	void updateStatusBy(Status st){
+	public void updateStatusBy(Status st){
 		status.updateBy(st.getHP(), st.getMP(), st.getAttack(), st.getDefense(), st.getEffect());
 		if(status.getHP()>fullStatus.getHP()) 
 			status.setHP(fullStatus.getHP());
@@ -136,7 +136,7 @@ public class Monster{
 	}
 	
 	
-	Point inflictDamage(Skill sk, Status lawan){
+	public Point inflictDamage(Skill sk, Status lawan){
 		Point newPoint = new Point();
 		Status damage = sk.getDamage();
 		
@@ -175,35 +175,35 @@ public class Monster{
 		return newPoint;
 	}
 	
-	void restoreStatus(){
+	public void restoreStatus(){
 		status = fullStatus;
 	}
 	
-	Species getSpecies(){
+	public Species getSpecies(){
 		return species;
 	}
 	
-	Time getAge(){
+	public Time getAge(){
 		return age;
 	}
 	
-	void addAgeByMinute(int minute){
+	public void addAgeByMinute(int minute){
 		age.addMinute(minute);
 	}
 	
-	int getSkillNum(){
+	public int getSkillNum(){
 		return skills.size();
 	}
-	Skill getSkill(int num){
+	public Skill getSkill(int num){
 		ArrayList<Skill> s = (ArrayList<Skill>) skills.values();
 		return s.get(num);
 	}
 	
-	Skill getSkill(String name){
+	public Skill getSkill(String name){
 		return skills.get(name);
 	}
 	
-	Skill getRandomSkill(){
+	public Skill getRandomSkill(){
 	/* Asumsi: List skill yang ada pada Monster ini sudah 
 	   ada didefinisikan didatabase skill */
 		int num;
@@ -213,18 +213,18 @@ public class Monster{
 		return s.get(num);	
 	}
 	
-	void addSkill(Skill sk){
+	public void addSkill(Skill sk){
 		if (!isMaxNumSkill()){
 			skills.put(sk.getName(), sk);
 		}
 	}
 	
-	void delSkill(Skill sk){
+	public void delSkill(Skill sk){
 		skills.remove(sk.getName());
 	}
 
 
-	boolean evolve(){
+	public boolean evolve(){
 		if (species.getEvoLevel() > level) 
 			return false;
 		Species evo = species.getEvoSpecies();
@@ -239,7 +239,7 @@ public class Monster{
 		return true;
 	}
 	
-	boolean evolveSkill(){
+	public boolean evolveSkill(){
 		boolean found = false;
 		for(int i=0; i<=3; i++){
 			if(skills.get(i).getNextSkillLevel() < level){
