@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import java.util.ArrayList;
 
 import com.pokeranch.game.object.DBLoader;
+import com.pokeranch.game.object.*;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -33,6 +34,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		getHolder().addCallback(this);
 		setFocusable(true);
 		
+		MessageManager.setContext(context);
+		
 		/*loading image*/
 		BitmapManager.initialize(context.getApplicationContext().getResources());
 		BitmapManager.getInstance().put("landmonster", R.drawable.landmonster);
@@ -48,6 +51,17 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
 		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
 		
+		//animasi skill
+		BitmapManager.getInstance().put("Swim", R.drawable.swim);
+		
+		//battle avatar
+		BitmapManager.getInstance().put("Squir_back", R.drawable.squir_back);
+		BitmapManager.getInstance().put("Squir_front", R.drawable.squir_front);
+		BitmapManager.getInstance().put("Bulba_back", R.drawable.bulba_back);
+		BitmapManager.getInstance().put("Bulba_front", R.drawable.bulba_front);
+		BitmapManager.getInstance().put("Charchar_back", R.drawable.charchar_back);
+		BitmapManager.getInstance().put("Charchar_front", R.drawable.charchar_front);
+		
 		//potong map
 		BitmapManager.getInstance().putMap(R.drawable.spritefull, 45, 43, 1, 16);
 		
@@ -55,12 +69,26 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		DBLoader.initialize(context.getAssets());
 		DBLoader.getInstance().loadMap("map.dat");
 		
+		System.gc();
+		
 		manager = new ScreenManager();
 		int magnification = 1;
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, magnification);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,0));
-		manager.push(am);
+		//manager.push(am);
+		
+		Player pl = new Player();
+		Player pl2 = new Player();
+		Monster m = Monster.getRandomMonster(2, 1);
+		Monster m2 = Monster.getRandomMonster(2, 1);
+		pl.addMonster(m);
+		pl.setCurrentMonster(m.getName());
+		
+		pl2.addMonster(m2);
+		pl2.setCurrentMonster(m2.getName());
+		
+		manager.push(new BattleScreen(pl,pl2));
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

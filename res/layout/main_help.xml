@@ -5,11 +5,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="400sp"
+        android:layout_width="400dp"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1"
-        android:layout_marginLeft="60sp"
+        android:layout_marginLeft="60dp"
         android:orientation="vertical"
         android:scrollbars="vertical" >
 

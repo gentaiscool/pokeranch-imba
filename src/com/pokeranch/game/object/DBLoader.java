@@ -113,8 +113,10 @@ public class DBLoader {
 		Random rand = new Random();
 		Species s;
 		do{
-			s = getSpecies((String) names[rand.nextInt(names.length)]);
-		}while(s.getCombineRating()<=maxRating);
+			String nm = (String) names[rand.nextInt(names.length)];
+			s = getSpecies(nm);
+		}while(s.getCombineRating()>maxRating);
+		
 		return s;
 	}
 	

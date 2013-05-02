@@ -23,6 +23,14 @@ public class Status {
 		effect = _effect;
 	}
 	
+	public Status(Status source){
+		hp = source.hp;
+		mp = source.mp;
+		attack = source.attack;
+		defense = source.defense;
+		effect = source.effect;
+	}
+	
 	
 	public void save(BufferedWriter buf) {
 		try{
@@ -50,11 +58,7 @@ public class Status {
 	
 	public String toString(){
 		StringBuilder s = new StringBuilder();
-		s.append(hp + " ");
-		s.append(mp + " ");
-		s.append(attack + " ");
-		s.append(defense + " ");
-		s.append(effect);
+		s.append(hp + " "+mp + " "+attack + " "+defense + " "+effect);
 		return s.toString();
 	}
 	

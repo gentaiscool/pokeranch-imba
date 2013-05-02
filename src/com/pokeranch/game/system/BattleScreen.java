@@ -1,18 +1,26 @@
 package com.pokeranch.game.system;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-import android.R.color;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
+
 import com.pokeranch.game.object.*;
+import com.pokeranch.game.system.MessageManager.Action;
 
 public class BattleScreen implements IScreen {
 	private Player player1, player2, current, enemy;
 	private BitmapButton attack, useItem, change, escape;
 	private ArrayList<TouchListener> touch;
+	private SkillAnimation animation;
+	private boolean animating = false;
+	private int turn;
+	private Bitmap poke1, poke2;
 	
 	public BattleScreen(Player player1, Player player2){
 		this.player1 = player1;
@@ -20,7 +28,16 @@ public class BattleScreen implements IScreen {
 		current = player1;
 		enemy = player2;
 		
+		//load gambar
+		poke1 = BitmapManager.getInstance().get(player1.getCurrentMonster().getSpecies().getName()+"_back");
+		poke2 = BitmapManager.getInstance().get(player2.getCurrentMonster().getSpecies().getName()+"_front");
+		
+		//Log.d("POKE", player1.getCurrentMonster().getSpecies().getName()+"_back");
+		
+		turn = 1;
+		
 		touch = new ArrayList<TouchListener>();
+		animation = null;
 		
 		attack = new BitmapButton(BitmapManager.getInstance().get("attackbutton"), 0, 0);
 		useItem = new BitmapButton(BitmapManager.getInstance().get("itembutton"), 0, 70);
@@ -71,11 +88,19 @@ public class BattleScreen implements IScreen {
 	
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
+		if(animation!=null){
+			animation.update();
+			if(animation.finished()) {
+				//StringBuilder s = new StringBuilder();
+				//s.append((enemy==null) + " ");
+				//s.append(b)
+				//Log.d("POKE", s.toString());
+				enemy.getCurrentMonster().inflictDamage(animation.getSkill(), current.getCurrentMonster().getStatus());
+				animation=null;
+				nextTurn();
+			}
+		}
 	}
-
-	
 	
 	@Override
 	public void draw(Canvas canvas, int mag) {
@@ -84,22 +109,68 @@ public class BattleScreen implements IScreen {
 		useItem.draw(canvas);
 		change.draw(canvas);
 		escape.draw(canvas);
+		int x1 = 200;
+		int y1 = 100;
 		
+		int x2 = 400;
+		int y2 = 100;
+		
+		if(poke1!=null) canvas.drawBitmap(poke1,new Rect(0,0,poke1.getWidth(),poke1.getHeight()), new Rect(x1,y1,x1+poke1.getWidth()*2*mag,y1+poke1.getHeight()*2*mag),null);
+		if(poke2!=null) canvas.drawBitmap(poke2,new Rect(0,0,poke2.getWidth(),poke2.getHeight()), new Rect(x2,y2,x2+poke2.getWidth()*2*mag,y2+poke2.getHeight()*2*mag),null);
+		if(animation!=null) animation.draw(canvas, mag);
 	}
 	
+	
+	
+	private void attack(int choice){
+		Skill s = current.getCurrentMonster().getSkill(choice);
+		animation = new SkillAnimation(s, 3, 200, 100, 4);
+		animating = true;
+	}
+	
+	
+	
+	private void nextTurn(){
+		//turn = turn==1 ? 2 : 1;
+		//Player temp = current;
+		//current = enemy;
+		//enemy = temp;
+		animating = false;
+		Log.d("POKE",player2.getCurrentMonster().getStatus() + "/" + player2.getCurrentMonster().getFullStatus());
+	}
+	
+	
+	//terkait human player
 	private void selectAttack(){
-		Log.d("POKE", "attack");
+		if(animating) return;
+		
+		String[] selects = new String[4];
+		for(int i = 0; i < 4; i++)
+			selects[i] = current.getCurrentMonster().getSkill(i).getName();
+		
+		MessageManager.singleChoice("Select a skill to attack", selects, new Action(){
+			@Override
+			public void proceed(Object o) {
+				attack(((Integer) o).intValue());
+			}
+			@Override
+			public void cancel() {}
+			
+		});
 	}
 	
 	private void selectItem(){
+		if(animating) return;
 		Log.d("POKE", "item");
 	}
 	
 	private void changeMonster(){
+		if(animating) return;
 		Log.d("POKE", "change");
 	}
 	
 	private void tryEscape(){
+		if(animating) return;
 		Log.d("POKE", "escape");
 	}
 	

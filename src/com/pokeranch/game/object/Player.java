@@ -12,11 +12,10 @@ public class Player {
 	private HashMap<String, Integer> items;
 	private String currentMonster;
 	
-	Player(){
+	public Player(){
 		name ="";
 		money = 1000;
 		playingTime = new Time();
-		currentMonster = "";
 		nbattle = 0;
 		nwin = 0;
 		nlose = 0;
@@ -56,11 +55,11 @@ public class Player {
 	public void addTime(int minute){
 		//menambah jumlah playingTime, currentTime dan umur monster player
 		playingTime.addMinute(minute);
-	    Collection values = monsters.entrySet();
+	    Collection monster = monsters.values();
 	      // Get an iterator
-	    Iterator<Monster>i = values.iterator();
+	    Iterator<Monster>i = monster.iterator();
 	    while(i.hasNext()) {
-	         i.next().addAgeByMinute(minute);
+		     i.next().addAgeByMinute(minute);
 	    }
 	}
 	
@@ -93,8 +92,8 @@ public class Player {
 		return monsters.get(name);
 	}
 	
-	public String getCurrentMonster() {
-		return currentMonster;
+	public Monster getCurrentMonster() {
+		return monsters.get(currentMonster);
 	}	
 	
 	public void setCurrentMonster(String currMons) {
@@ -102,7 +101,7 @@ public class Player {
 	}
 	
 	public Monster getNextMonster() throws Exception {
-	    Collection values = monsters.entrySet();
+	    Collection values = monsters.values();
 	      // Get an iterator
 	    Iterator<Monster> i = values.iterator();
 	    while(i.hasNext()) {
@@ -119,9 +118,9 @@ public class Player {
 	
 	public void restoreAllMonster(){
 		//mengembalikan semua atribut setiap Monster yang dimiliki player
-	    Collection values = monsters.entrySet();
+	    Collection monster = monsters.values();
 	      // Get an iterator
-	    Iterator<Monster>i = values.iterator();
+	    Iterator<Monster>i = monster.iterator();
 	    while(i.hasNext()) {
 	         i.next().restoreStatus();
 	    }

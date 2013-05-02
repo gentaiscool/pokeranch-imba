@@ -6,17 +6,17 @@
 
     <ImageView
         android:id="@+id/imageViewFrame"
-        android:layout_width="400sp"
-        android:layout_height="300sp"
-        android:layout_marginTop="150sp"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/frame" />
 
     <ImageView
         android:id="@+id/imageViewProfessorOak"
-        android:layout_width="70sp"
-        android:layout_height="350sp"
+        android:layout_width="70dp"
+        android:layout_height="350dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="27dp"
@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/textViewDesc"
-        android:layout_width="300sp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="130dp"
         android:layout_marginTop="165dp"

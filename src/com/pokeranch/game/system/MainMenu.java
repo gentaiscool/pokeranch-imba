@@ -1,4 +1,5 @@
 package com.pokeranch.game.system;
+import com.pokeranch.game.object.*;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -30,7 +31,31 @@ public class MainMenu extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_menu);
+		DBLoader.initialize(getAssets());
+		PlayerSaveLoader.initialize(this);
+		
+		//ngecek save
+		Player P=new Player();
+		P.setName("Pandu");
+		P.setCurrentMonster("Ampun");
+		P.setMoney(10000);
+		P.setNbattle(10);
+		P.setNlose(5);
+		P.setNwin(5);
+		Time t=new Time();
+		t.set(1,5,6,4,3);
+		P.setPlayingTime(t);
+		Monster monster=Monster.getRandomMonster(1,1);
+		P.addMonster(monster);
+		P.setCurrentMonster(monster.getName());
+		Item item1=DBLoader.getInstance().getItem("Potion");
+		Item item2=DBLoader.getInstance().getItem("Normal_Ball");
+		P.addItem(item1, 2);
+		P.addItem(item2, 5);
+		PlayerSaveLoader.getInstance().savePlayer(P);
+		//end of ngecek save
 		onUpdate();
+
 	}
 	@Override
 	public void onContentChanged() {
@@ -88,7 +113,10 @@ public class MainMenu extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				state = 4;
-				setContentView(R.layout.pokedex);
+				//setContentView(R.layout.pokedex);
+				Intent i = new Intent(getBaseContext(),PokeDex.class);
+				startActivity(i);
+				finish();
 			}
 		});
 	}
@@ -161,6 +189,8 @@ public class MainMenu extends Activity {
 		TextView tv = (TextView)findViewById(R.id.textViewHint);
 		final EditText et = (EditText)findViewById(R.id.editTextName);
 		Button b = (Button)findViewById(R.id.buttonContinue);
+		
+	
 		tv.setTypeface(face);
 		et.setTypeface(face);
 		b.setTypeface(face);
