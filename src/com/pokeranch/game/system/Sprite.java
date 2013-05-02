@@ -2,6 +2,7 @@ package com.pokeranch.game.system;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -14,20 +15,23 @@ public class Sprite {
 	private int frame = 0, frameNum;
 	private int width, height;
 	private int x, y;
+	private Matrix mtx;
 	private SpriteCounter scount;
 	
-	public Sprite(Bitmap bitmap, int row, int col, int frameNum,SpriteCounter scount){
+	public Sprite(int _x, int _y, Bitmap bitmap, int row, int col, int frameNum,SpriteCounter scount){
 		//Log.d("harits", "konstruktor sprite start");
 		this.bitmap = bitmap;
 		this.scount = scount;
 		this.frameNum = frameNum;
+		mtx = new Matrix();
+		mtx.setRotate(90);
 		//Log.d("harits", "konstruktor sprite sebelum ngambil size");
 		if(bitmap == null)
 			Log.d("harits", "bitmap null lho");
 		width = bitmap.getWidth() / col;
 		height = bitmap.getHeight() / row;
-		x = 0;
-		y = 0;
+		x = _x;
+		y = _y;
 		//Log.d("harits", "konstruktor sprite end");
 	}
 	
@@ -56,12 +60,20 @@ public class Sprite {
 	}
 	
 	
-	public void draw(Canvas canvas){
+	public void draw(Canvas canvas, int magnification){
+		//mag= 1,2,3,4
 		Point p = scount.getImgPos(direction, frame, width, height);
 		int sx = p.x;
 		int sy = p.y;
+		//
 		
-		canvas.drawBitmap(bitmap, new Rect(sx, sy, sx+width, sy+height), new RectF(x, y, x+width, y+height), null);
+		//Log.d("harits", "bitmap asli: 0,0," + bitmap.getWidth() + ", " + bitmap.getHeight());
+		//Log.d("harits", "yg dipotong: "+ sx + ", "+sy+", "+(sx+width)+", "+(sy+height));
+		
+		Bitmap newB = Bitmap.createBitmap(bitmap, sx, sy, width, height, mtx, false);
+		//Log.d("harits", "berhasil motong");
+		//Bitmap newB = bitmap;
+		canvas.drawBitmap(newB, new Rect(0, 0, newB.getWidth(), newB.getHeight()), new RectF(x, y, x+width*magnification, y+height*magnification), null);
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {
