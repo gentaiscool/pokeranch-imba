@@ -311,6 +311,7 @@ public class Monster{
 		useless=scan.next();
 		name=scan.next();
 		useless=scan.next();
+		Log.d("POKE",useless);
 		age=new Time();
 		age.load(scan);
 		useless=scan.next();
@@ -341,23 +342,17 @@ public class Monster{
 	}
 	
 	public String toString(){
-	    Log.d("POKE","tostring monster");
 		StringBuilder str = new StringBuilder();
-	    Log.d("POKE","tostring monster2");
 		str.append( "NamaMonster: "+getName()+"\n"+
 					"Umur: "+getAge().toString()+"\n"+
 					"Spesies: "+getSpecies().getName()+" Level: "+level+"\n"+
 					"Exp: "+getExp()+" EvoExp: "+getEvoExp()+"\n"+
 					"BonusCash: "+getBonusCash()+" BonusExp: "+getBonusExp()+"\n"+
 					"Status(hp,mp,att,def,eff): "+ getStatus().toString()+" / "+getFullStatus().toString()+"\n");
-	    Log.d("POKE","tostring monster3");
 	    Set namaSkill = getAllSkill().keySet();
-	    Log.d("POKE","tostring monster4");
 	      // Get an iterator
 	    Iterator<String>i = namaSkill.iterator();
-	    Log.d("POKE","tostring monster5");
 	    str.append("Skill:\n");
-	    Log.d("POKE","tostring monster");
 	    while(i.hasNext()) {
 	    	str.append(i.next()+" ");
 	    }

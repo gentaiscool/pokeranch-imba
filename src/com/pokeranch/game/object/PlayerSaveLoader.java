@@ -20,17 +20,11 @@ import android.util.Log;
 
 public class PlayerSaveLoader {
 	
-	private String name;
-	private int money;
-	private int nbattle, nwin, nlose;
-	private Time playingTime;
-	private HashMap<String, Monster> monsters;
-	private HashMap<String, Integer> items;
-	private String currentMonster;
 	private String filepath = "SavedGames";
 	private boolean isAbleToSave=true;
 	private Context context;
 	private String useless;
+	private Player player;
 	private static PlayerSaveLoader instance = null;
 	File fileSave;	
 	
@@ -46,46 +40,14 @@ public class PlayerSaveLoader {
 		return instance;
 	}
 	
-	public int getNwin() {
-		return nwin;
-	}
-
-	public void setNwin(int nwin) {
-		this.nwin = nwin;
-	}
-
-	public int getMoney() {
-		return money;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
+	public Player getPlayer() {
+		return player;
 	}
 	
-	public int getNlose() {
-		return nlose;
+	public void setPlayer(Player player) {
+		this.player=player;
 	}
-
-	public void setNlose(int nlose) {
-		this.nlose = nlose;
-	}  
 	
-	public int getNbattle() {
-		return nbattle;
-	}
-
-	public void setNbattle(int nbattle) {
-		this.nbattle = nbattle;
-	}
-
-	public String getCurrentMonster() {
-		return currentMonster;
-	}
-
-	public void setCurrentMonster(String currentMonster) {
-		this.currentMonster = currentMonster;
-	}
-
 	public boolean isAbleToSave() {
 		return isAbleToSave;
 	}
@@ -95,56 +57,82 @@ public class PlayerSaveLoader {
 	}
 
 
-	public void loadPlayer(String playername){
+	public Player loadPlayer(String playername){
+		player=new Player();
+		Log.d("POKE","load1");
 		String myData="";
+		Log.d("POKE","load2");
 		try{
-			FileInputStream fis = new FileInputStream(context.getExternalFilesDir(filepath).toString()+playername+".sav");
+			FileInputStream fis = new FileInputStream(context.getExternalFilesDir(filepath).toString()+"/"+playername+".sav");
+			Log.d("POKE","load3");
 			DataInputStream in = new DataInputStream(fis);
+			Log.d("POKE","load4");
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			Log.d("POKE","load5");
 			String strLine;
+			Log.d("POKE","load6");
 			while ((strLine = br.readLine()) != null)  {
 				myData = myData + strLine + " ";
+				Log.d("POKE","load7");
 			}
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		 		 
-		
+		Log.d("POKE","load8");
 		Scanner scan = new Scanner(myData);
-		useless = scan.next();
-		name = scan.next();
-		useless = scan.next();
-		setMoney(scan.nextInt());
-		useless = scan.next();
-		setNbattle(scan.nextInt());
-		useless = scan.next();
-		setNwin(scan.nextInt());
-		useless = scan.next();
-		setNlose(scan.nextInt());
-		useless = scan.next();
-		playingTime = new Time();
-		playingTime.load(scan);
-		useless = scan.next();
+		Log.d("POKE","load9");
+		setUseless(scan.next());
+		player.setName(scan.next());
+		Log.d("POKE","load10");
+		setUseless(scan.next());
+		player.setMoney(scan.nextInt());
+		Log.d("POKE","load11");
+		setUseless(scan.next());
+		player.setNbattle(scan.nextInt());
+		Log.d("POKE","load12");
+		setUseless(scan.next());
+		player.setNwin(scan.nextInt());
+		Log.d("POKE","load13");
+		setUseless(scan.next());
+		player.setNlose(scan.nextInt());
+		Log.d("POKE","load14");
+		setUseless(scan.next());
+		player.setPlayingTime(new Time());
+		Log.d("POKE","load15");
+		player.getPlayingTime().load(scan);
+		Log.d("POKE","load16");
+		setUseless(scan.next());
 		int jumlah=scan.nextInt();
-		useless = scan.next();
-		setCurrentMonster(scan.next());
-		useless = scan.next();
-		useless = scan.next();
-		Monster monster=new Monster();
+		setUseless(scan.next());
+		player.setCurrentMonster(scan.next());
+		Log.d("POKE","load17");
+		setUseless(scan.next());
+		Monster monster;
+		Log.d("POKE","load18");
 		int k;
 		for(k=0;k<jumlah;k++) {
+			monster=new Monster();
 			monster.load(scan);
-			monsters.put(monster.getName(), monster);
+			Log.d("POKE","load19");
+			player.getAllMonster().put(monster.getName(), monster);
+			Log.d("POKE","load20");
 		}
-		useless = scan.next();
-		jumlah=scan.nextInt();
+		setUseless(scan.next());
+		Log.d("POKE","habis monter"+getUseless());
 		k = 0;
+		jumlah=scan.nextInt();
+		Log.d("POKE",Integer.valueOf(jumlah).toString());
+		setUseless(scan.next());
 		String item;
 		int jumlahItem;
 		for(k=0;k<jumlah;k++){
 			item=scan.next();
+			Log.d("POKE","load22");
 			jumlahItem=scan.nextInt();
-			items.put(item, jumlahItem);
+			Log.d("POKE","load23");
+			player.getAllItem().put(item, jumlahItem);
+			Log.d("POKE","load24");
 		}
 		
 		
@@ -180,23 +168,19 @@ public class PlayerSaveLoader {
 		Cut 5
 				
 		*/
+		
+		return player; 
 	}
 	
 	public void savePlayer(Player player){
-		Log.d("POKE","gfg0");
 		try {
 			 if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {  
 				   setAbleToSave(false);
-					Log.d("POKE","gfg-2");  
 			 } else { 
 				fileSave = new File(context.getExternalFilesDir(filepath),player.getName()+".sav");
-				Log.d("POKE",context.getExternalFilesDir(filepath).toString());
 				  }
-			Log.d("POKE","gfg1");
 			FileOutputStream fos = new FileOutputStream(fileSave);
-			Log.d("POKE","gfg2");
 			StringBuilder str=new StringBuilder();	
-			Log.d("POKE","gfg3");
 			str.append(	"Nama: "+player.getName()+"\n"+
 						"JumlahUang: "+player.getMoney()+"\n"+
 						"JumlahBattle: "+player.getNbattle()+"\n"+
@@ -205,34 +189,24 @@ public class PlayerSaveLoader {
 						"WaktuBermain(Tahun,bulan,hari,jam,menit): "+player.getPlayingTime().toString()+"\n"+
 						"JumlahMonster: "+player.getNMonster()+"\n"+
 						"MonsterSekarang: "+player.getCurrentMonster().getName()+"\n");
-			Log.d("POKE","gfg4");
 		      // Get an iterator
 			str.append("DaftarMonster:\n");
-			Log.d("POKE","gfg5");
 			Collection monster = player.getAllMonster().values();
-			Log.d("POKE","gfg6");
 			Iterator<Monster>i = monster.iterator();
 		    //nulis monster(lengkap)--lihat to String di monster
-			Log.d("POKE","gfg7");
 			while(i.hasNext()) {
 		         str.append(i.next().toString()+"\n");
 		    }
-			Log.d("POKE","gfg8");
 			str.append("JumlahItem: "+player.getAllItem().size()+"\n");
-			Log.d("POKE","gfg9");
 			Set item = player.getAllItem().entrySet();
 		      // Get an iterator
 		    //nulis item, nama sama jumlahnya
-			Log.d("POKE","gfg10");
 		    str.append("DaftarItem:\n");
-			Log.d("POKE","gfg11");
 		    Iterator j = item.iterator();
-			Log.d("POKE","gfg12");    
 		    while(j.hasNext()){
 		    	Map.Entry me= (Map.Entry)j.next();
 		    	str.append(me.getKey()+" "+me.getValue()+"\n");
 		    }
-			Log.d("POKE","gfg13");
 			fos.write(str.toString().getBytes());
 			fos.close();
 			
@@ -287,6 +261,14 @@ public class PlayerSaveLoader {
 		   return true;  
 		  }  
 		  return false;  
-		 }	 
+		 }
+
+		public String getUseless() {
+			return useless;
+		}
+
+		public void setUseless(String useless) {
+			this.useless = useless;
+		}	 
 	
 }
