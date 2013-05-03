@@ -36,66 +36,6 @@ public class MenuActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_menu);
-		DBLoader.initialize(getAssets());
-		Log.d("POKE", "cek-2");
-		
-		PlayerSaveLoader.initialize(this);
-		Log.d("POKE", "cek-1");
-			
-		//ngecek save
-		/*Player P=new Player();
-		P.setName("Pandu");
-		P.setCurrentMonster("Ampun");
-		P.setMoney(10000);
-		P.setNbattle(10);
-		P.setNlose(5);
-		P.setNwin(5);
-		Time t=new Time();
-		t.set(1,5,6,4,3);
-		P.setPlayingTime(t);
-		Monster monster=Monster.getRandomMonster(1,1);
-		Monster monster3= Monster.getRandomMonster(1,2);
-		P.addMonster(monster);
-		P.addMonster(monster3);
-		P.setCurrentMonster(monster.getName());
-		Item item1=DBLoader.getInstance().getItem("Potion");
-		Item item2=DBLoader.getInstance().getItem("Normal_Ball");
-		P.addItem(item1, 2);
-		P.addItem(item2, 5);
-		Log.d("POKE", "cek0");
-		PlayerSaveLoader.getInstance().savePlayer(P);*/
-		Log.d("POKE", "cek1");
-		Log.d("POKE", "cek2");
-		Log.d("POKE", "cek3");
-		Player P3 = PlayerSaveLoader.getInstance().loadPlayer("Pandu");
-		P3.setName("Faiz");
-/*		Log.d("POKE",P3.getName());
-		Log.d("POKE",P3.getCurrentMonster().toString());
-		Log.d("POKE",Integer.valueOf(P3.getMoney()).toString());
-		Log.d("POKE",Integer.valueOf(P3.getNbattle()).toString());
-		Log.d("POKE",Integer.valueOf(P3.getNwin()).toString());
-		Log.d("POKE",Integer.valueOf(P3.getNlose()).toString());
-		Log.d("POKE",P3.getPlayingTime().toString());
-		
-		Collection monster2 = P3.getAllMonster().values();
-		Iterator<Monster>i = monster2.iterator();
-	    //nulis monster(lengkap)--lihat to String di monster
-		while(i.hasNext()) {
-	         Log.d("POKE", i.next().toString());
-	    }
-		Set item = P3.getAllItem().entrySet();
-	      // Get an iterator
-	    //nulis item, nama sama jumlahnya
-	    Iterator j = item.iterator();
-	    while(j.hasNext()){
-	    	Map.Entry me= (Map.Entry)j.next();
-	    	Log.d("POKE",me.getKey().toString()+me.getValue());
-	    }
-		Log.d("POKE","end of cek load");*/
-		PlayerSaveLoader.getInstance().savePlayer(P3);
-	
-		
-		//end of ngecek save
 		onUpdate();
 
 	}

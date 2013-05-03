@@ -311,7 +311,6 @@ public class Monster{
 		useless=scan.next();
 		name=scan.next();
 		useless=scan.next();
-		Log.d("POKE",useless);
 		age=new Time();
 		age.load(scan);
 		useless=scan.next();
