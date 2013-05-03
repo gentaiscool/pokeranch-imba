@@ -84,7 +84,7 @@ public class AreaManager implements IScreen{
 		buttons = new ArrayList<BitmapButton>();
 		butLeftestX = 25;
 		butDist = (int) (BitmapManager.getInstance().get("left").getWidth()*2);
-		butY = screenHeight - 60;
+		butY = 180;
 		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), butLeftestX, butY);
 		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), butLeftestX + butDist, butY);
 		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), butLeftestX + 2*butDist, butY);
