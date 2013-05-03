@@ -16,7 +16,7 @@
 
         <activity
             android:screenOrientation="landscape"
-            android:name=".MainMenu"
+            android:name=".MenuActivity"
             android:label="@string/title_activity_main_menu"> 
             "
             <intent-filter>
@@ -27,11 +27,11 @@
         </activity>
         <activity
             android:screenOrientation="landscape"
-            android:name=".MainTest">
+            android:name=".MainGameActivity">
         </activity>
         <activity
             android:screenOrientation="landscape"
-            android:name=".PokeDex">
+            android:name=".PokeDexActivity">
         </activity>
     </application>
 

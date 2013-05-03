@@ -26,7 +26,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class PokeDex extends Activity{
+public class PokeDexActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -123,7 +123,7 @@ public class PokeDex extends Activity{
 					
 					tv.setTypeface(face);
 					typeMonster.setTypeface(face);
-					Drawable d = getImageByName(sp.getName().toString().toLowerCase(), PokeDex.this);
+					Drawable d = getImageByName(sp.getName().toString().toLowerCase(), PokeDexActivity.this);
 					monsterImage.setImageDrawable(d);
 					Integer ii2 = ii+1;
 					if(ii2>9){

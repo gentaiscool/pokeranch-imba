@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class MainTest extends Activity {
+public class MainGameActivity extends Activity {
 	private DisplayMetrics metrics;	
 	private MainGameView mainGameView;
 	
