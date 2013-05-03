@@ -145,10 +145,10 @@ public class BattleScreen implements IScreen {
 	private void selectAttack(){
 		if(animating) return;
 		
-		String[] selects = new String[4];
-		for(int i = 0; i < 4; i++)
-			selects[i] = current.getCurrentMonster().getSkill(i).getName();
-		
+		String[] selects = new String[4];  
+				
+		current.getCurrentMonster().getAllSkill().keySet().toArray(selects);// .toArray();// new String[4];
+				
 		MessageManager.singleChoice("Select a skill to attack", selects, new Action(){
 			@Override
 			public void proceed(Object o) {
