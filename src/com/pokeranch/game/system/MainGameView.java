@@ -79,7 +79,10 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,0));
-		manager.push(am);
+		//manager.push(am);
+		
+		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
+		manager.push(mm);
 		
 		Player pl = new Player();
 		Player pl2 = new Player();

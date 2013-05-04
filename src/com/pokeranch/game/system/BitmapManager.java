@@ -34,6 +34,12 @@ public class BitmapManager {
 		//Log.d("harits", "berhasil motong2 bitmap");
 	}
 	
+	public void putImage(String key, int id, int width, int height){
+		Bitmap src = BitmapFactory.decodeResource(res, id);	
+		bitmaps.put(key.toString(), Bitmap.createScaledBitmap(src, width, height, true));
+
+	}
+	
 	public static void initialize(Resources res){
 		instance = new BitmapManager(res);
 	}
