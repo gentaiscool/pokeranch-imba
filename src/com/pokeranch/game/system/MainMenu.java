@@ -16,6 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 public class MainMenu implements IScreen{
 	
@@ -31,6 +33,7 @@ public class MainMenu implements IScreen{
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	int curScreenWidth, curScreenHeight;
 	Context curContext;
+	ScrollView sc;
 	
 		@SuppressLint("NewApi")
 		public MainMenu(Context context, int screenWidth, int screenHeight) {
@@ -168,7 +171,18 @@ public class MainMenu implements IScreen{
 			paint.setTypeface(Typeface.MONOSPACE);
 			paint.setColor(Color.BLACK);	
 			
-			
+			  sc=new ScrollView(context);
+			  sc.measure(200, 10);
+			          int width = sc.getMeasuredWidth();
+			          int height = sc.getMeasuredHeight();
+			          int left = 0;
+			          int top = 0;
+			             sc.layout(0, 0, 500, 500);
+			             sc.setBackgroundColor(Color.WHITE);
+			           TextView tv = new TextView(context);
+			           
+			           tv.setText("hehe");
+			             sc.addView(tv);
 		}
 		
 		@Override
@@ -187,6 +201,7 @@ public class MainMenu implements IScreen{
 			pokeball.draw(canvas);
 			
 			logo.draw(canvas);
+			//sc.draw(canvas);
 		}
 
 		@Override
