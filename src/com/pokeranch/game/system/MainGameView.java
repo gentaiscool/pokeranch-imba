@@ -27,7 +27,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private Paint paint = new Paint();
 	private ScreenManager manager;
 	private Player curPlayer;
-	float magnification;
+	float magnificationX, magnificationY;
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	
 	public MainGameView(Context context, int screenWidth, int screenHeight) {
@@ -70,9 +70,13 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		System.gc();
 		
-		manager = new ScreenManager();
-		magnification = screenHeight/240;
-		matrix.setScale(magnification, magnification);
+		ScreenManager.initialize();
+		
+		manager = ScreenManager.getInstance();
+		
+		magnificationX = screenHeight/240;
+		magnificationY = screenWidth/360;
+		matrix.setScale(magnificationX, magnificationY);
 		curPlayer = new Player();
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
@@ -130,6 +134,10 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	public void pauseThread(){
 		if(thread!=null) thread.setRunning(false);
 	}
+	
+	public void continueThread(){
+		if(thread!=null) thread.setRunning(true);
+	}
 	 
 	private void releaseThread() {
 		boolean retry = true;
@@ -154,7 +162,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {	
-		manager.onTouchEvent(event, magnification);
+		manager.onTouchEvent(event, magnificationX);
 		return true;
 	}	
 }

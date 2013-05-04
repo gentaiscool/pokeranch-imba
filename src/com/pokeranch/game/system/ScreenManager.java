@@ -7,9 +7,18 @@ import android.view.MotionEvent;
 
 public class ScreenManager {
 	private ArrayList<IScreen> screens;
+	private static ScreenManager manager;
 	
-	public ScreenManager(){
+	private ScreenManager(){
 		screens = new ArrayList<IScreen>();
+	}
+	
+	public static void initialize(){
+		manager = new ScreenManager();
+	}
+	
+	public static ScreenManager getInstance(){
+		return manager;
 	}
 	
 	public void push(IScreen screen){

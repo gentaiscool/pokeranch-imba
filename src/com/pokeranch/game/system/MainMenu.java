@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -28,10 +29,17 @@ public class MainMenu implements IScreen{
 	private Matrix matrix = new Matrix();	
 	float magnification;
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
+	int curScreenWidth, curScreenHeight;
+	Context curContext;
 	
 		@SuppressLint("NewApi")
 		public MainMenu(Context context, int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
+			manager = ScreenManager.getInstance();
+			
+			curContext = context;
+			curScreenWidth = screenWidth;
+			curScreenHeight = screenHeight;
 			
 			BitmapManager.getInstance().put("newgame", R.drawable.newgamebutton2);
 			BitmapManager.getInstance().put("loadgame", R.drawable.loadgamebutton2);
@@ -41,14 +49,13 @@ public class MainMenu implements IScreen{
 			
 			BitmapManager.getInstance().put("logo", R.drawable.logo);
 			
-			
-			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),255,60);
+			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),253,66);
 			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  265, 105);
-			helpgame = new BitmapButton(BitmapManager.getInstance().get("helpgame"), 255, 150);
+			helpgame = new BitmapButton(BitmapManager.getInstance().get("helpgame"), 253, 144);
 			exitbutton = new BitmapButton(BitmapManager.getInstance().get("exitbutton"), 20, 150);
 			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),100,32);
-			logo = new BitmapButton(BitmapManager.getInstance().get("logo"),30,32);
-			
+			logo = new BitmapButton(BitmapManager.getInstance().get("logo"),20,32);
+			 
 			logo.addTouchAction(new TouchAction() {
 				@Override
 				public void onTouchUp() {
@@ -84,7 +91,8 @@ public class MainMenu implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					
+					MainStory ms = new MainStory(curContext, curScreenHeight, curScreenHeight);
+					manager.push(ms);
 				}
 			});
 			
@@ -156,9 +164,6 @@ public class MainMenu implements IScreen{
 			buttons.add(helpgame);
 			buttons.add(exitbutton);
 			
-			manager = new ScreenManager();
-			
-			
 			paint.setTextSize(40);
 			paint.setTypeface(Typeface.MONOSPACE);
 			paint.setColor(Color.BLACK);	
@@ -175,18 +180,13 @@ public class MainMenu implements IScreen{
 		@Override
 		public void draw(Canvas canvas) {
 			// TODO Auto-generated method stub
-			//Log.d("harits", "drawing area...");
-			//buttons.get(0).draw(canvas);
-			logo.draw(canvas);
-			
+			canvas.drawColor(Color.WHITE);
 			for(BitmapButton b : buttons){
 				b.draw(canvas);
 			}
 			pokeball.draw(canvas);
-			//canvas.drawBitmap(b, matrix, paint)
-			//head.draw(canvas);
-			//pokeball.draw(canvas);
-			//Log.d("harits", "done drawing area...");
+			
+			logo.draw(canvas);
 		}
 
 		@Override

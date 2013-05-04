@@ -82,6 +82,10 @@ public class MessageManager {
 	
 	//minta input string
 	public static void prompt(String message, Action action){
+		prompt(message, action, false);
+	}
+	
+	public static void prompt(String message, Action action, boolean noCancel){
 		AlertDialog.Builder alert = new AlertDialog.Builder(context);
 		final Action act = action;
 		alert.setTitle(title);
@@ -96,13 +100,14 @@ public class MessageManager {
 		    }  
 		});
 		
-		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {  
-		    @Override  
-		    public void onClick(DialogInterface dialog, int which) {  
-		        dialog.dismiss();
-		        if(act!=null) act.cancel();
-		    }  
-		});
+		if(!noCancel)
+			alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {  
+			    @Override  
+			    public void onClick(DialogInterface dialog, int which) {  
+			        dialog.dismiss();
+			        if(act!=null) act.cancel();
+			    }  
+			});
 		
 		alert.show();
 	}
