@@ -168,9 +168,9 @@ public class DBLoader {
 						String[] tmp2 = tmp.split("/");
 						//buat tile di i,j, defaultnya bisa dilewati
 						if(tmp2.length == 3)
-							a.createTile(i, j, tmp2[0], tmp2[1], (tmp2[2].equals("1") ? false : true));
+							a.createTile(i, j, tmp2[0], tmp2[1], Integer.valueOf(tmp2[2]));
 						else
-							a.createTile(i, j, tmp2[0], "-1", (tmp2[1].equals("1") ? false : true));
+							a.createTile(i, j, tmp2[0], null, Integer.valueOf(tmp2[1]));
 					}
 				}
 								

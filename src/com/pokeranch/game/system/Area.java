@@ -96,7 +96,7 @@ public class Area {
 		return field[i][j];
 	}
 	
-	public void createTile(int i, int j, String code1, String code2, boolean pass){
+	public void createTile(int i, int j, String code1, String code2, int pass){
 		field[i][j] = new Tile(code1, code2, pass);
 	}
 	
@@ -108,16 +108,24 @@ public class Area {
 		field[i][j].setSpriteCodeObj(val);
 	}
 	
-	public void draw(Canvas canvas){
+	public void drawBG(Canvas canvas){
 		//gambar belakang
-		
 		for(int i=0;i<row;i++){
 			for(int j=0;j<column;j++){
 				//gambar bitmap ke layar
 				//terapkan paint pada koordinat yg bukan user
-				canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeBG()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16), ( (i == curX && j == curY) ? null : am.getPaint()));	
-				if(!field[i][j].getSpriteCodeObj().equals("-1"))
-					canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeObj()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16),  ( (i == curX && j == curY) ? null : am.getPaint()));	
+				field[i][j].drawBG(canvas, i, j, curX, curY, am);
+			}
+		}
+	}
+	
+	public void drawObj(Canvas canvas){
+		//gambar belakang
+		for(int i=0;i<row;i++){
+			for(int j=0;j<column;j++){
+				//gambar bitmap ke layar
+				//terapkan paint pada koordinat yg bukan user
+				field[i][j].drawObj(canvas, i, j, curX, curY, am);
 			}
 		}
 	}

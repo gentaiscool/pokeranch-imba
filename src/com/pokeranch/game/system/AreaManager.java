@@ -175,6 +175,7 @@ public class AreaManager implements IScreen{
 		// TODO Auto-generated method stub
 		curArea.update();
 		//malam cupu, sementara pake ini dulu
+		Log.d("harits", "" + getCurPlayer().getPlayingTime().getHour());
 		if(getCurPlayer().getPlayingTime().getHour() > 18){
 			paint.setColorFilter(new LightingColorFilter(0x00000000, 0));
 		} else
@@ -186,8 +187,7 @@ public class AreaManager implements IScreen{
 	public void draw(Canvas canvas) {
 		// TODO Auto-generated method stub
 		//Log.d("harits", "drawing area...");
-		curArea.draw(canvas);
-		
+		curArea.drawBG(canvas);
 		//asumsi udah malem
 //		Path p = new Path();
 //		p.addCircle(getCurArea().getCurX()*16 + 8, getCurArea().getCurY()*16 + 8, 12, Path.Direction.CCW);
@@ -195,6 +195,7 @@ public class AreaManager implements IScreen{
 //		canvas.drawBitmap(shade, null, new Rect(0,0,240,320), null);
 		head.draw(canvas);
 		body.draw(canvas);
+		curArea.drawObj(canvas);
 		for(BitmapButton b : buttons){
 			b.draw(canvas);
 		}
