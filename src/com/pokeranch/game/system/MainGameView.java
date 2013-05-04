@@ -50,7 +50,6 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("changebutton", R.drawable.changebutton);
 		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
 		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
-		
 		//animasi skill
 		BitmapManager.getInstance().put("Swim", R.drawable.swim);
 		
@@ -70,8 +69,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		DBLoader.getInstance().loadMap("map.dat");
 		
 		System.gc();
-		//ngurusin animasi kalo malam2
-		//ngurusin movement yg masih ngebug/ganti cara ngemove
+		
 		manager = new ScreenManager();
 		magnification = screenHeight/240;
 		matrix.setScale(magnification, magnification);

@@ -7,13 +7,17 @@ import com.pokeranch.game.object.Player;
 import com.pokeranch.game.system.MainGameView.ButtonClick;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.MaskFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -26,7 +30,9 @@ public class AreaManager implements IScreen{
 	private int screenHeight, screenWidth;
 	private Player curPlayer;
 	private Context context;
+	private Paint paint;
 	AreaManager(Context con, int scw, int sch, Player p){  
+		paint = new Paint();
 		curPlayer = p;
 		screenHeight = sch;
 		screenWidth = scw;
@@ -168,7 +174,12 @@ public class AreaManager implements IScreen{
 	public void update() {
 		// TODO Auto-generated method stub
 		curArea.update();
-		//update head & body diurusi area
+		//malam cupu, sementara pake ini dulu
+		if(getCurPlayer().getPlayingTime().getHour() > 18){
+			paint.setColorFilter(new LightingColorFilter(0x00000000, 0));
+		} else
+			paint.setColorFilter(null);
+		//update head & body diurusin area
 	}
 
 	@Override
@@ -176,6 +187,12 @@ public class AreaManager implements IScreen{
 		// TODO Auto-generated method stub
 		//Log.d("harits", "drawing area...");
 		curArea.draw(canvas);
+		
+		//asumsi udah malem
+//		Path p = new Path();
+//		p.addCircle(getCurArea().getCurX()*16 + 8, getCurArea().getCurY()*16 + 8, 12, Path.Direction.CCW);
+//		canvas.clipPath(p);
+//		canvas.drawBitmap(shade, null, new Rect(0,0,240,320), null);
 		head.draw(canvas);
 		body.draw(canvas);
 		for(BitmapButton b : buttons){
@@ -209,5 +226,13 @@ public class AreaManager implements IScreen{
 
 	public void setCurPlayer(Player curPlayer) {
 		this.curPlayer = curPlayer;
+	}
+
+	public Paint getPaint() {
+		return paint;
+	}
+
+	public void setPaint(Paint paint) {
+		this.paint = paint;
 	}
 }

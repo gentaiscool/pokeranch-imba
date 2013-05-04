@@ -29,6 +29,7 @@ public class Area {
 	private boolean startMoving = false;
 	private boolean isUp = true;
 	private int direction = 0;
+	private int newDirection;
 	public Area(String n, int r, int c, Sprite _head, Sprite _body){
 		name = n;
 		field = new Tile[r][c];
@@ -45,8 +46,24 @@ public class Area {
 			isUp = true;
 		else
 			isUp = false;
-		if(click != ButtonClick.NONE)
-			lastClick = click;
+			
+		switch(click){
+			case LEFT:
+				newDirection = 3;
+			break;
+			case RIGHT:
+				newDirection = 1;
+			break;
+			case DOWN:
+				newDirection = 2;
+			break;
+			case UP:
+				newDirection = 0;
+			break;
+			default:
+				break;
+		}
+		
 		if(!move){
 			move = true;
 			switch(click){
@@ -93,14 +110,14 @@ public class Area {
 	
 	public void draw(Canvas canvas){
 		//gambar belakang
+		
 		for(int i=0;i<row;i++){
 			for(int j=0;j<column;j++){
-				//bitmap dirotasi 90 derajat searah jarum jam dengan matrix mtx
-				//Bitmap drawnBitmap = Bitmap.createBitmap(BitmapManager.getInstance().get(String.valueOf(field[i][j].getSpriteCode())), 0, 0, 16, 16, mtx, false);
 				//gambar bitmap ke layar
-				canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeBG()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16), null);	
+				//terapkan paint pada koordinat yg bukan user
+				canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeBG()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16), ( (i == curX && j == curY) ? null : am.getPaint()));	
 				if(!field[i][j].getSpriteCodeObj().equals("-1"))
-					canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeObj()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16), null);	
+					canvas.drawBitmap(BitmapManager.getInstance().get(field[i][j].getSpriteCodeObj()), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16),  ( (i == curX && j == curY) ? null : am.getPaint()));	
 			}
 		}
 	}
@@ -113,6 +130,7 @@ public class Area {
 		if(move){
 			am.getCurPlayer().addTime(1);
 			if(!startMoving){
+				direction = newDirection;
 				switch(direction){
 					case 0:{ //up
 						nextX = curX - 1;
