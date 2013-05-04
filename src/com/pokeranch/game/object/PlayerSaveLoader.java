@@ -20,17 +20,11 @@ import android.util.Log;
 
 public class PlayerSaveLoader {
 	
-	private String name;
-	private int money;
-	private int nbattle, nwin, nlose;
-	private Time playingTime;
-	private HashMap<String, Monster> monsters;
-	private HashMap<String, Integer> items;
-	private String currentMonster;
 	private String filepath = "SavedGames";
 	private boolean isAbleToSave=true;
 	private Context context;
 	private String useless;
+	private Player player;
 	private static PlayerSaveLoader instance = null;
 	File fileSave;	
 	
@@ -46,46 +40,14 @@ public class PlayerSaveLoader {
 		return instance;
 	}
 	
-	public int getNwin() {
-		return nwin;
-	}
-
-	public void setNwin(int nwin) {
-		this.nwin = nwin;
-	}
-
-	public int getMoney() {
-		return money;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
+	public Player getPlayer() {
+		return player;
 	}
 	
-	public int getNlose() {
-		return nlose;
+	public void setPlayer(Player player) {
+		this.player=player;
 	}
-
-	public void setNlose(int nlose) {
-		this.nlose = nlose;
-	}  
 	
-	public int getNbattle() {
-		return nbattle;
-	}
-
-	public void setNbattle(int nbattle) {
-		this.nbattle = nbattle;
-	}
-
-	public String getCurrentMonster() {
-		return currentMonster;
-	}
-
-	public void setCurrentMonster(String currentMonster) {
-		this.currentMonster = currentMonster;
-	}
-
 	public boolean isAbleToSave() {
 		return isAbleToSave;
 	}
@@ -95,10 +57,11 @@ public class PlayerSaveLoader {
 	}
 
 
-	public void loadPlayer(String playername){
+	public Player loadPlayer(String playername){
+		player=new Player();
 		String myData="";
 		try{
-			FileInputStream fis = new FileInputStream(context.getExternalFilesDir(filepath).toString()+playername+".sav");
+			FileInputStream fis = new FileInputStream(context.getExternalFilesDir(filepath).toString()+"/"+playername+".sav");
 			DataInputStream in = new DataInputStream(fis);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
@@ -109,42 +72,42 @@ public class PlayerSaveLoader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		 		 
-		
 		Scanner scan = new Scanner(myData);
-		useless = scan.next();
-		name = scan.next();
-		useless = scan.next();
-		setMoney(scan.nextInt());
-		useless = scan.next();
-		setNbattle(scan.nextInt());
-		useless = scan.next();
-		setNwin(scan.nextInt());
-		useless = scan.next();
-		setNlose(scan.nextInt());
-		useless = scan.next();
-		playingTime = new Time();
-		playingTime.load(scan);
-		useless = scan.next();
+		setUseless(scan.next());
+		player.setName(scan.next());
+		setUseless(scan.next());
+		player.setMoney(scan.nextInt());
+		setUseless(scan.next());
+		player.setNbattle(scan.nextInt());
+		setUseless(scan.next());
+		player.setNwin(scan.nextInt());
+		setUseless(scan.next());
+		player.setNlose(scan.nextInt());
+		setUseless(scan.next());
+		player.setPlayingTime(new Time());
+		player.getPlayingTime().load(scan);
+		setUseless(scan.next());
 		int jumlah=scan.nextInt();
-		useless = scan.next();
-		setCurrentMonster(scan.next());
-		useless = scan.next();
-		useless = scan.next();
-		Monster monster=new Monster();
+		setUseless(scan.next());
+		player.setCurrentMonster(scan.next());
+		setUseless(scan.next());
+		Monster monster;
 		int k;
 		for(k=0;k<jumlah;k++) {
+			monster=new Monster();
 			monster.load(scan);
-			monsters.put(monster.getName(), monster);
+			player.getAllMonster().put(monster.getName(), monster);
 		}
-		useless = scan.next();
-		jumlah=scan.nextInt();
+		setUseless(scan.next());
 		k = 0;
+		jumlah=scan.nextInt();
+		setUseless(scan.next());
 		String item;
 		int jumlahItem;
 		for(k=0;k<jumlah;k++){
 			item=scan.next();
 			jumlahItem=scan.nextInt();
-			items.put(item, jumlahItem);
+			player.getAllItem().put(item, jumlahItem);
 		}
 		
 		
@@ -180,23 +143,19 @@ public class PlayerSaveLoader {
 		Cut 5
 				
 		*/
+		
+		return player; 
 	}
 	
 	public void savePlayer(Player player){
-		Log.d("POKE","gfg0");
 		try {
 			 if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {  
 				   setAbleToSave(false);
-					Log.d("POKE","gfg-2");  
 			 } else { 
 				fileSave = new File(context.getExternalFilesDir(filepath),player.getName()+".sav");
-				Log.d("POKE",context.getExternalFilesDir(filepath).toString());
 				  }
-			Log.d("POKE","gfg1");
 			FileOutputStream fos = new FileOutputStream(fileSave);
-			Log.d("POKE","gfg2");
 			StringBuilder str=new StringBuilder();	
-			Log.d("POKE","gfg3");
 			str.append(	"Nama: "+player.getName()+"\n"+
 						"JumlahUang: "+player.getMoney()+"\n"+
 						"JumlahBattle: "+player.getNbattle()+"\n"+
@@ -205,69 +164,27 @@ public class PlayerSaveLoader {
 						"WaktuBermain(Tahun,bulan,hari,jam,menit): "+player.getPlayingTime().toString()+"\n"+
 						"JumlahMonster: "+player.getNMonster()+"\n"+
 						"MonsterSekarang: "+player.getCurrentMonster().getName()+"\n");
-			Log.d("POKE","gfg4");
 		      // Get an iterator
 			str.append("DaftarMonster:\n");
-			Log.d("POKE","gfg5");
 			Collection monster = player.getAllMonster().values();
-			Log.d("POKE","gfg6");
 			Iterator<Monster>i = monster.iterator();
 		    //nulis monster(lengkap)--lihat to String di monster
-			Log.d("POKE","gfg7");
 			while(i.hasNext()) {
 		         str.append(i.next().toString()+"\n");
 		    }
-			Log.d("POKE","gfg8");
 			str.append("JumlahItem: "+player.getAllItem().size()+"\n");
-			Log.d("POKE","gfg9");
 			Set item = player.getAllItem().entrySet();
 		      // Get an iterator
 		    //nulis item, nama sama jumlahnya
-			Log.d("POKE","gfg10");
 		    str.append("DaftarItem:\n");
-			Log.d("POKE","gfg11");
 		    Iterator j = item.iterator();
-			Log.d("POKE","gfg12");    
 		    while(j.hasNext()){
 		    	Map.Entry me= (Map.Entry)j.next();
 		    	str.append(me.getKey()+" "+me.getValue()+"\n");
 		    }
-			Log.d("POKE","gfg13");
 			fos.write(str.toString().getBytes());
 			fos.close();
 			
-			/*harusnya jadinya contohnya kayak gini
-			Nama: Pandu
-			JumlahUang: 10000
-			JumlahBattle: 3
-			JumlahMenang: 8
-			JumlahKalah: 4
-			WaktuBermain(Tahun,bulan,hari,jam,menit): 0 0 2 6 7
-			JumlahMonster: 2
-			MonsterSekarang: Imba
-			DaftarMonster:
-			NamaMonster: Imba
-			Umur: 0 0 0 5 3
-			Spesies: Bulba Level: 14
-			Exp: 900 EvoExp: 1000
-			BonusCash: 20 BonusExp+50
-			Status(hp,mp,att,def,eff): 28 36 47 64 POISON / 30 40 50 70
-			Skill:
-			Razor Vine_Whip Cut	Tackle
-			NamaMonster: Imba2
-			Umur: 0 0 0 5 3
-			Spesies: Bulba Level: 14
-			Exp: 900 EvoExp: 1000
-			BonusCash: 20 BonusExp+50
-			Status(hp,mp,att,def,eff): 28 36 47 64 POISON / 30 40 50 70
-			Skill:
-			Razor Vine_Whip Cut Tackle
-			JumlahItem: 3
-			DaftarItem:
-			Potion 2
-			MonsterBall 4
-			Cut 5		
-			*/
 	   } catch (Exception e) {
 		    e.printStackTrace();
 	   }
@@ -287,6 +204,14 @@ public class PlayerSaveLoader {
 		   return true;  
 		  }  
 		  return false;  
-		 }	 
+		 }
+
+		public String getUseless() {
+			return useless;
+		}
+
+		public void setUseless(String useless) {
+			this.useless = useless;
+		}	 
 	
 }

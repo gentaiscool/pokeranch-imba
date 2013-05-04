@@ -1,4 +1,9 @@
 package com.pokeranch.game.system;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import com.pokeranch.game.object.*;
 
 import android.os.Bundle;
@@ -31,29 +36,6 @@ public class MenuActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_menu);
-		DBLoader.initialize(getAssets());
-		PlayerSaveLoader.initialize(this);
-		
-		//ngecek save
-		Player P=new Player();
-		P.setName("Pandu");
-		P.setCurrentMonster("Ampun");
-		P.setMoney(10000);
-		P.setNbattle(10);
-		P.setNlose(5);
-		P.setNwin(5);
-		Time t=new Time();
-		t.set(1,5,6,4,3);
-		P.setPlayingTime(t);
-		Monster monster=Monster.getRandomMonster(1,1);
-		P.addMonster(monster);
-		P.setCurrentMonster(monster.getName());
-		Item item1=DBLoader.getInstance().getItem("Potion");
-		Item item2=DBLoader.getInstance().getItem("Normal_Ball");
-		P.addItem(item1, 2);
-		P.addItem(item2, 5);
-		PlayerSaveLoader.getInstance().savePlayer(P);
-		//end of ngecek save
 		onUpdate();
 
 	}
