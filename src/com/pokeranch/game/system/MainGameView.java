@@ -1,8 +1,5 @@
 package com.pokeranch.game.system;
 
-import java.util.ArrayList;
-
-import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.*;
 
 import android.annotation.SuppressLint;
@@ -22,6 +19,9 @@ import android.view.SurfaceView;
 public class MainGameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private static final String TAG = "POKE";
+	public static final float standardWidth = 320.f;
+	public static final float standardHeight = 240.f;
+	
 	public GameLoop thread;
 	private Matrix matrix = new Matrix();	
 	private Paint paint = new Paint();
@@ -34,49 +34,16 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		super(context);
 		getHolder().addCallback(this);
 		setFocusable(true);
+		
 		MessageManager.setContext(context);
-		
-		/*loading image*/
-		BitmapManager.initialize(context.getApplicationContext().getResources());
-		BitmapManager.getInstance().put("landmonster", R.drawable.landmonster);
-		BitmapManager.getInstance().put("test", R.drawable.ic_launcher);
-		BitmapManager.getInstance().put("images", R.drawable.images);
-		BitmapManager.getInstance().put("up", R.drawable.up);
-		BitmapManager.getInstance().put("left", R.drawable.left);
-		BitmapManager.getInstance().put("right", R.drawable.right);
-		BitmapManager.getInstance().put("down", R.drawable.down);
-		BitmapManager.getInstance().put("chara", R.drawable.chara);
-		BitmapManager.getInstance().put("attackbutton", R.drawable.attackbutton);
-		BitmapManager.getInstance().put("changebutton", R.drawable.changebutton);
-		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
-		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
-		BitmapManager.getInstance().put("a", R.drawable.a);
-		//animasi skill
-		BitmapManager.getInstance().put("Swim", R.drawable.swim);
-		
-		//battle avatar
-		BitmapManager.getInstance().put("Squir_back", R.drawable.squir_back);
-		BitmapManager.getInstance().put("Squir_front", R.drawable.squir_front);
-		BitmapManager.getInstance().put("Bulba_back", R.drawable.bulba_back);
-		BitmapManager.getInstance().put("Bulba_front", R.drawable.bulba_front);
-		BitmapManager.getInstance().put("Charchar_back", R.drawable.charchar_back);
-		BitmapManager.getInstance().put("Charchar_front", R.drawable.charchar_front);
-		
-		//potong map
-		BitmapManager.getInstance().putMap(R.drawable.spritefull, 45, 43, 1, 16);
-		
-		/*load database, agak lama ternyata*/
-		DBLoader.initialize(context.getAssets());
-		DBLoader.getInstance().loadMap("map.dat");
-		
-		System.gc();
-		
 		ScreenManager.initialize();
+		System.gc();
 		
 		manager = ScreenManager.getInstance();
 		
-		magnificationX = screenHeight/240;
-		magnificationY = screenWidth/320;
+		magnificationY = ((float) screenHeight) / standardHeight;
+		magnificationX = ((float) screenWidth) / standardWidth;
+			
 		Log.d("harits", "sh: " + screenHeight +", sw: " + screenWidth);
 		Log.d("harits", "magX: " + magnificationX +", magY: " + magnificationY);
 		matrix.setScale(magnificationX, magnificationY,0,0);
@@ -103,7 +70,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);
-		paint.setColor(Color.BLACK);	
+		paint.setColor(Color.BLACK);
 	}
 	
 	@Override
@@ -165,7 +132,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {	
-		manager.onTouchEvent(event, magnificationX);
+		manager.onTouchEvent(event, magnificationX, magnificationY);
 		return true;
 	}	
 }

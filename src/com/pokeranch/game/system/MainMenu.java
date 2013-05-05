@@ -27,8 +27,6 @@ public class MainMenu implements IScreen{
 	private ArrayList<BitmapButton> buttons;
 	
 	private Sprite head;
-	
-	private Matrix matrix = new Matrix();	
 	float magnification;
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	int curScreenWidth, curScreenHeight;
@@ -43,14 +41,6 @@ public class MainMenu implements IScreen{
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
-			
-			BitmapManager.getInstance().put("newgame", R.drawable.newgamebutton2);
-			BitmapManager.getInstance().put("loadgame", R.drawable.loadgamebutton2);
-			BitmapManager.getInstance().put("helpgame", R.drawable.helpbutton);
-			BitmapManager.getInstance().put("exitbutton", R.drawable.exitbutton);
-			BitmapManager.getInstance().put("pokeball", R.drawable.pokeball);
-			
-			BitmapManager.getInstance().put("logo", R.drawable.logo);
 			
 			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),253,66);
 			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  265, 105);
@@ -205,10 +195,10 @@ public class MainMenu implements IScreen{
 		}
 
 		@Override
-		public void onTouchEvent(MotionEvent e, float mag) {
+		public void onTouchEvent(MotionEvent e, float magX, float magY) {
 			// TODO Auto-generated method stub
 			for(BitmapButton b : buttons){
-				b.onTouchEvent(e, mag);
+				b.onTouchEvent(e, magX, magY);
 			}
 		}
 }

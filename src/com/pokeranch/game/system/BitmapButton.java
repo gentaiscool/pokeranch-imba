@@ -27,10 +27,10 @@ public class BitmapButton implements TouchListener {
 	}
 	
 	@Override
-	public void onTouchEvent(MotionEvent event, float mag) {
+	public void onTouchEvent(MotionEvent event, float magX, float magY) {
 		final int actioncode = event.getAction() & MotionEvent.ACTION_MASK;	
 		
-		RectF r = new RectF(x*mag, y*mag, (x + bitmap.getWidth())*mag,  (y + bitmap.getHeight())*mag);
+		RectF r = new RectF(x*magX, y*magY, (x + bitmap.getWidth())*magX,  (y + bitmap.getHeight())*magY);
 		
 		if (r.contains(event.getX(), event.getY())){
 			switch (actioncode) {
