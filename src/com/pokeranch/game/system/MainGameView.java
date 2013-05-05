@@ -75,8 +75,13 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		manager = ScreenManager.getInstance();
 		
-		magnificationX = screenHeight/240;
-		magnificationY = screenWidth/320;
+		magnificationY = ((float) screenHeight) / 240.f;
+		magnificationX = ((float) screenWidth) / 320.f;
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(magnificationX + " " + magnificationY + " " + screenWidth + " " + screenHeight);
+		Log.d("POKE", sb.toString());
+		
 		Log.d("harits", "sh: " + screenHeight +", sw: " + screenWidth);
 		Log.d("harits", "magX: " + magnificationX +", magY: " + magnificationY);
 		matrix.setScale(magnificationX, magnificationY,0,0);
@@ -165,7 +170,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {	
-		manager.onTouchEvent(event, magnificationX);
+		manager.onTouchEvent(event, magnificationX, magnificationY);
 		return true;
 	}	
 }

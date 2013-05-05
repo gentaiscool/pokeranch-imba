@@ -37,8 +37,8 @@ public class ScreenManager {
 		for(IScreen s : screens) s.update();
 	}
 	
-	public void onTouchEvent(MotionEvent e, float mag){
-		screens.get(screens.size()-1).onTouchEvent(e, mag);
+	public void onTouchEvent(MotionEvent e, float magX, float magY){
+		screens.get(screens.size()-1).onTouchEvent(e, magX, magY);
 	}
 	
 }

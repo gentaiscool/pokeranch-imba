@@ -205,10 +205,10 @@ public class MainMenu implements IScreen{
 		}
 
 		@Override
-		public void onTouchEvent(MotionEvent e, float mag) {
+		public void onTouchEvent(MotionEvent e, float magX, float magY) {
 			// TODO Auto-generated method stub
 			for(BitmapButton b : buttons){
-				b.onTouchEvent(e, mag);
+				b.onTouchEvent(e, magX, magY);
 			}
 		}
 }

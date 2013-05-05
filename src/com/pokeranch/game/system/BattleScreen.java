@@ -176,7 +176,7 @@ public class BattleScreen implements IScreen {
 	}
 	
 	@Override
-	public void onTouchEvent(MotionEvent e, float mag) {
-		for(TouchListener t : touch) t.onTouchEvent(e, mag);
+	public void onTouchEvent(MotionEvent e, float magX, float magY) {
+		for(TouchListener t : touch) t.onTouchEvent(e, magX, magY);
 	}
 }
