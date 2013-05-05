@@ -22,6 +22,9 @@ import android.view.SurfaceView;
 public class MainGameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private static final String TAG = "POKE";
+	public static final float standardWidth = 320.f;
+	public static final float standardHeight = 240.f;
+	
 	public GameLoop thread;
 	private Matrix matrix = new Matrix();	
 	private Paint paint = new Paint();
@@ -51,6 +54,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
 		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
 		BitmapManager.getInstance().put("a_button", R.drawable.a);
+		
+		/******************* BATTLE RESOURCES **********************/
+		
 		//animasi skill
 		BitmapManager.getInstance().put("Swim", R.drawable.swim);
 		
@@ -61,6 +67,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("Bulba_front", R.drawable.bulba_front);
 		BitmapManager.getInstance().put("Charchar_back", R.drawable.charchar_back);
 		BitmapManager.getInstance().put("Charchar_front", R.drawable.charchar_front);
+		
+		//battle background
+		BitmapManager.getInstance().put("battle_day_land", R.drawable.battle_day_land);
 		
 		//potong map
 		BitmapManager.getInstance().putMap(R.drawable.spritefull, 45, 43, 1, 16);
@@ -75,13 +84,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		manager = ScreenManager.getInstance();
 		
-		magnificationY = ((float) screenHeight) / 240.f;
-		magnificationX = ((float) screenWidth) / 320.f;
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append(magnificationX + " " + magnificationY + " " + screenWidth + " " + screenHeight);
-		Log.d("POKE", sb.toString());
-		
+		magnificationY = ((float) screenHeight) / standardHeight;
+		magnificationX = ((float) screenWidth) / standardWidth;
+			
 		Log.d("harits", "sh: " + screenHeight +", sw: " + screenWidth);
 		Log.d("harits", "magX: " + magnificationX +", magY: " + magnificationY);
 		matrix.setScale(magnificationX, magnificationY,0,0);
@@ -89,10 +94,10 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,0));
-		manager.push(am);
+		//manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
-		//manager.push(mm);
+		manager.push(mm);
 		
 		Player pl = new Player();
 		Player pl2 = new Player();
@@ -104,7 +109,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
 		
-		//manager.push(new BattleScreen(pl,pl2));
+		manager.push(new BattleScreen(pl,pl2));
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

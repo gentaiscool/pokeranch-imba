@@ -18,6 +18,7 @@ public class BattleScreen implements IScreen {
 	private Player player1, player2, current, enemy;
 	private BitmapButton attack, useItem, change, escape;
 	private ArrayList<TouchListener> touch;
+	private Bitmap background;
 	private SkillAnimation animation;
 	private boolean animating = false;
 	private int turn;
@@ -28,6 +29,8 @@ public class BattleScreen implements IScreen {
 		this.player2 = player2;
 		current = player1;
 		enemy = player2;
+		
+		background = BitmapManager.getInstance().get("battle_day_land");
 		
 		//load gambar
 		poke1 = BitmapManager.getInstance().get(player1.getCurrentMonster().getSpecies().getName()+"_back");
@@ -106,6 +109,7 @@ public class BattleScreen implements IScreen {
 	@Override
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.WHITE);
+		drawBackground(canvas);
 		attack.draw(canvas);
 		useItem.draw(canvas);
 		change.draw(canvas);
@@ -119,6 +123,12 @@ public class BattleScreen implements IScreen {
 		if(poke1!=null) canvas.drawBitmap(poke1,new Rect(0,0,poke1.getWidth(), poke1.getHeight()), new RectF(x1,y1,x1+poke1.getWidth()*2,y1+poke1.getHeight()*2),null);
 		if(poke2!=null) canvas.drawBitmap(poke2,new Rect(0,0,poke2.getWidth(), poke2.getHeight()), new RectF(x2,y2,x2+poke2.getWidth()*2,y2+poke2.getHeight()*2),null);
 		if(animation!=null) animation.draw(canvas);
+	}
+	
+	private void drawBackground(Canvas canvas){
+		Rect src = new Rect(0,0,background.getWidth(),background.getHeight());
+		Rect dst = new Rect(0,0,(int) MainGameView.standardWidth, (int) MainGameView.standardHeight);
+		canvas.drawBitmap(background, src, dst, null);
 	}
 	
 	
