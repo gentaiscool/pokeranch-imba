@@ -1,8 +1,5 @@
 package com.pokeranch.game.system;
 
-import java.util.ArrayList;
-
-import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.*;
 
 import android.annotation.SuppressLint;
@@ -39,7 +36,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		setFocusable(true);
 		MessageManager.setContext(context);
 		
-		/*loading image*/
+		/*
+			
+		//*loading image* /
 		BitmapManager.initialize(context.getApplicationContext().getResources());
 		BitmapManager.getInstance().put("landmonster", R.drawable.landmonster);
 		BitmapManager.getInstance().put("test", R.drawable.ic_launcher);
@@ -51,7 +50,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("chara", R.drawable.chara);
 		BitmapManager.getInstance().put("a_button", R.drawable.a);
 		
-		/******************* BATTLE RESOURCES **********************/
+		// ******************* BATTLE RESOURCES ********************** /
 		
 		BitmapManager.getInstance().put("attackbutton", R.drawable.attackbutton);
 		BitmapManager.getInstance().put("changebutton", R.drawable.changebutton);
@@ -75,14 +74,16 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		//potong map
 		BitmapManager.getInstance().putMap(R.drawable.spritefull, 45, 43, 1, 16);
-		
-		/*load database, agak lama ternyata*/
+
+		//load database, agak lama ternyata/
 		DBLoader.initialize(context.getAssets());
+		
+		
 		DBLoader.getInstance().loadMap("map.dat");
 		
-		System.gc();
-		
 		ScreenManager.initialize();
+		*/
+		System.gc();
 		
 		manager = ScreenManager.getInstance();
 		
@@ -115,7 +116,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);
-		paint.setColor(Color.BLACK);	
+		paint.setColor(Color.BLACK);
 	}
 	
 	@Override
