@@ -193,9 +193,9 @@ public class AreaManager implements IScreen{
 //		p.addCircle(getCurArea().getCurX()*16 + 8, getCurArea().getCurY()*16 + 8, 12, Path.Direction.CCW);
 //		canvas.clipPath(p);
 //		canvas.drawBitmap(shade, null, new Rect(0,0,240,320), null);
-		head.draw(canvas);
 		body.draw(canvas);
 		curArea.drawObj(canvas);
+		head.draw(canvas);
 		for(BitmapButton b : buttons){
 			b.draw(canvas);
 		}
