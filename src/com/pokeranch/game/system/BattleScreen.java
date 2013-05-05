@@ -43,10 +43,14 @@ public class BattleScreen implements IScreen {
 		touch = new ArrayList<TouchListener>();
 		animation = null;
 		
-		attack = new BitmapButton(BitmapManager.getInstance().get("attackbutton"), 0, 0);
-		useItem = new BitmapButton(BitmapManager.getInstance().get("itembutton"), 0, 70);
-		change = new BitmapButton(BitmapManager.getInstance().get("changebutton"), 0, 140);
-		escape = new BitmapButton(BitmapManager.getInstance().get("escapebutton"), 0, 210);
+		int buttonTop = 30;
+		int buttonLeft = 5;
+		int marginTop = 5;
+		
+		attack = new BitmapButton(BitmapManager.getInstance().get("attackbutton"), buttonLeft, marginTop + buttonTop*0);
+		useItem = new BitmapButton(BitmapManager.getInstance().get("itembutton"), buttonLeft, marginTop + buttonTop*1);
+		change = new BitmapButton(BitmapManager.getInstance().get("changebutton"), buttonLeft, marginTop + buttonTop*2);
+		escape = new BitmapButton(BitmapManager.getInstance().get("escapebutton"), buttonLeft, marginTop + buttonTop*3);
 		
 		attack.addTouchAction(new TouchAction() {
 			@Override
@@ -114,11 +118,11 @@ public class BattleScreen implements IScreen {
 		useItem.draw(canvas);
 		change.draw(canvas);
 		escape.draw(canvas);
-		int x1 = 200;
-		int y1 = 100;
+		int x1 = 5;
+		int y1 = 120;
 		
-		int x2 = 400;
-		int y2 = 100;
+		int x2 = 170;
+		int y2 = 55;
 		
 		if(poke1!=null) canvas.drawBitmap(poke1,new Rect(0,0,poke1.getWidth(), poke1.getHeight()), new RectF(x1,y1,x1+poke1.getWidth()*2,y1+poke1.getHeight()*2),null);
 		if(poke2!=null) canvas.drawBitmap(poke2,new Rect(0,0,poke2.getWidth(), poke2.getHeight()), new RectF(x2,y2,x2+poke2.getWidth()*2,y2+poke2.getHeight()*2),null);
@@ -135,7 +139,7 @@ public class BattleScreen implements IScreen {
 	
 	private void attack(int choice){
 		Skill s = current.getCurrentMonster().getSkill(choice);
-		animation = new SkillAnimation(s, 3, 200, 100, 4);
+		animation = new SkillAnimation(s, 3, 170, 65, 4);
 		animating = true;
 	}
 	

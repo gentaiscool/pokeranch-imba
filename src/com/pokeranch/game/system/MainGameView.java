@@ -97,7 +97,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
-		manager.push(mm);
+		//manager.push(mm);
 		
 		Player pl = new Player();
 		Player pl2 = new Player();

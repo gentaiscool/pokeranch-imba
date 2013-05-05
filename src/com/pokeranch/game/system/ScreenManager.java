@@ -30,14 +30,17 @@ public class ScreenManager {
 	}
 	
 	public void draw(Canvas canvas){
+		//semuanya di draw
 		for(IScreen s : screens) s.draw(canvas);
 	}
 	
 	public void update(){
-		for(IScreen s : screens) s.update();
+		//yg diupdate cuma yg top
+		screens.get(screens.size()-1).update();
 	}
 	
 	public void onTouchEvent(MotionEvent e, float magX, float magY){
+		//yg diupdate cuma yg top
 		screens.get(screens.size()-1).onTouchEvent(e, magX, magY);
 	}
 	
