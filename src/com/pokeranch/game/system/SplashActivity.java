@@ -21,27 +21,43 @@ public class SplashActivity extends Activity {
 		new GameLoader(this).start();
 	}
 	
+	// load resource nya ada di thread
 	private class GameLoader extends Thread{
 		private Context context;
-		public GameLoader(Context context){
-			this.context = context;
-		}
 		
-		@Override
-		public void run(){
+		private void initImage(){
+			//init bitmap manager
+			
 			BitmapManager.initialize(context.getApplicationContext().getResources());
+			
+			/******************** Main Menu ******************/
+			BitmapManager.getInstance().put("newgame", R.drawable.newgamebutton2);
+			BitmapManager.getInstance().put("loadgame", R.drawable.loadgamebutton2);
+			BitmapManager.getInstance().put("helpgame", R.drawable.helpbutton);
+			BitmapManager.getInstance().put("exitbutton", R.drawable.exitbutton);
+			BitmapManager.getInstance().put("pokeball", R.drawable.pokeball);
+			
+			BitmapManager.getInstance().put("logo", R.drawable.logo);
+			
+			
+			/******************** Area **********************/
+			
+			//sprite
 			BitmapManager.getInstance().put("landmonster", R.drawable.landmonster);
+			BitmapManager.getInstance().put("chara", R.drawable.chara);
 			BitmapManager.getInstance().put("test", R.drawable.ic_launcher);
 			BitmapManager.getInstance().put("images", R.drawable.images);
+			
+			//button
 			BitmapManager.getInstance().put("up", R.drawable.up);
 			BitmapManager.getInstance().put("left", R.drawable.left);
 			BitmapManager.getInstance().put("right", R.drawable.right);
 			BitmapManager.getInstance().put("down", R.drawable.down);
-			BitmapManager.getInstance().put("chara", R.drawable.chara);
 			BitmapManager.getInstance().put("a_button", R.drawable.a);
 			
-			/******************* BATTLE RESOURCES **********************/
+			/******************* Battle **********************/
 			
+			//battle panel
 			BitmapManager.getInstance().put("attackbutton", R.drawable.attackbutton);
 			BitmapManager.getInstance().put("changebutton", R.drawable.changebutton);
 			BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
@@ -64,12 +80,19 @@ public class SplashActivity extends Activity {
 			
 			//potong map
 			BitmapManager.getInstance().putMap(R.drawable.spritefull, 45, 43, 1, 16);
+		}
+		
+		public GameLoader(Context context){
+			this.context = context;
+		}
+		
+		@Override
+		public void run(){
+			initImage();
 
-			//load database, agak lama ternyata/
+			//load database
 			DBLoader.initialize(context.getApplicationContext().getAssets());
 			DBLoader.getInstance().loadMap("map.dat");
-			
-			ScreenManager.initialize();
 			
 			Intent intent = new Intent(context, MainGameActivity.class);
 			startActivity(intent);

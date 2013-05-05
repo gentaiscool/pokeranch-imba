@@ -34,55 +34,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		super(context);
 		getHolder().addCallback(this);
 		setFocusable(true);
+		
 		MessageManager.setContext(context);
-		
-		/*
-			
-		//*loading image* /
-		BitmapManager.initialize(context.getApplicationContext().getResources());
-		BitmapManager.getInstance().put("landmonster", R.drawable.landmonster);
-		BitmapManager.getInstance().put("test", R.drawable.ic_launcher);
-		BitmapManager.getInstance().put("images", R.drawable.images);
-		BitmapManager.getInstance().put("up", R.drawable.up);
-		BitmapManager.getInstance().put("left", R.drawable.left);
-		BitmapManager.getInstance().put("right", R.drawable.right);
-		BitmapManager.getInstance().put("down", R.drawable.down);
-		BitmapManager.getInstance().put("chara", R.drawable.chara);
-		BitmapManager.getInstance().put("a_button", R.drawable.a);
-		
-		// ******************* BATTLE RESOURCES ********************** /
-		
-		BitmapManager.getInstance().put("attackbutton", R.drawable.attackbutton);
-		BitmapManager.getInstance().put("changebutton", R.drawable.changebutton);
-		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
-		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
-		BitmapManager.getInstance().put("battle_bar", R.drawable.bar);
-		
-		//animasi skill
-		BitmapManager.getInstance().put("Swim", R.drawable.swim);
-		
-		//battle avatar
-		BitmapManager.getInstance().put("Squir_back", R.drawable.squir_back);
-		BitmapManager.getInstance().put("Squir_front", R.drawable.squir_front);
-		BitmapManager.getInstance().put("Bulba_back", R.drawable.bulba_back);
-		BitmapManager.getInstance().put("Bulba_front", R.drawable.bulba_front);
-		BitmapManager.getInstance().put("Charchar_back", R.drawable.charchar_back);
-		BitmapManager.getInstance().put("Charchar_front", R.drawable.charchar_front);
-		
-		//battle background
-		BitmapManager.getInstance().put("battle_day_land", R.drawable.battle_day_land);
-		
-		//potong map
-		BitmapManager.getInstance().putMap(R.drawable.spritefull, 45, 43, 1, 16);
-
-		//load database, agak lama ternyata/
-		DBLoader.initialize(context.getAssets());
-		
-		
-		DBLoader.getInstance().loadMap("map.dat");
-		
 		ScreenManager.initialize();
-		*/
 		System.gc();
 		
 		manager = ScreenManager.getInstance();
@@ -97,7 +51,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,0));
-		//manager.push(am);
+		manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
@@ -112,7 +66,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
 		
-		manager.push(new BattleScreen(pl,pl2));
+		//manager.push(new BattleScreen(pl,pl2));
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);
