@@ -1,15 +1,7 @@
 package com.pokeranch.game.system;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.util.Log;
 
 import com.pokeranch.game.object.DBLoader;
@@ -21,23 +13,20 @@ public class Area {
 	private Sprite body,head;
 	private Tile field[][];
 	private int row, column, curX, curY, nextX, nextY;;
-	//private ArrayList<Area>
-	private Matrix mtx;
-	private ButtonClick lastClick;
 	private boolean outOfBounds;
 	private boolean move = false;
 	private boolean startMoving = false;
 	private boolean isUp = true;
 	private int direction = 0;
 	private int newDirection;
+	private boolean isAction;
 	public Area(String n, int r, int c, Sprite _head, Sprite _body){
 		name = n;
 		field = new Tile[r][c];
 		curX = curY = nextX = nextY = 0;
 		row = r; //jumlah baris
 		column = c; //jumlah kolom
-		mtx = new Matrix();
-		mtx.setRotate(90);
+		isAction = false;
 	}
 	
 	public void getButtonInput(ButtonClick click){
@@ -48,6 +37,9 @@ public class Area {
 			isUp = false;
 			
 		switch(click){
+			case ACTION:
+				isAction = true;
+			break;	
 			case LEFT:
 				newDirection = 3;
 			break;
@@ -64,7 +56,9 @@ public class Area {
 				break;
 		}
 		
-		if(!move){
+
+		
+		if(!move && !isAction){
 			move = true;
 			switch(click){
 			case LEFT:
@@ -131,7 +125,7 @@ public class Area {
 	}
 	
 	public void update(){
-		Log.d("harits", "time player: " + am.getCurPlayer().getPlayingTime() + " m");
+		//Log.d("harits", "time player: " + am.getCurPlayer().getPlayingTime() + " m");
 		//Log.d("harits", "sekarang ada di: " + curX + " " + curY);
 		nextX = curX;
 		nextY = curY;
@@ -195,7 +189,14 @@ public class Area {
 					}
 				}
 			}
-		} 
+		} else {
+			//aksi2 gajelas kayak swim, dorong batu, dkkdisini
+			if(isAction){
+				Log.d("boulder", "action performed");
+				am.pushBoulder(curX + am.dirX[direction], curY + am.dirY[direction], direction);
+				isAction = false;
+			}
+		}
 	}
 
 	public Sprite getHead() {
@@ -229,5 +230,13 @@ public class Area {
 	public void setCurCord(Point p){
 		curX = p.x;
 		curY = p.y;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public int getRow() {
+		return row;
 	}
 }

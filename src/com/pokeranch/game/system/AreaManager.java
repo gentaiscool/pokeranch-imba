@@ -25,12 +25,14 @@ public class AreaManager implements IScreen{
 	Area curArea;
 	private Sprite head, body;
 	private ArrayList<BitmapButton> buttons;
-	private BitmapButton buttonLeft, buttonUp, buttonDown, buttonRight;
+	private BitmapButton buttonLeft, buttonUp, buttonDown, buttonRight, buttonA;
 	private int butLeftestX, butDist, butY;
 	private int screenHeight, screenWidth;
 	private Player curPlayer;
 	private Context context;
 	private Paint paint;
+	public final int dirX[] = {-1, 0, 1, 0};
+	public final int dirY[] = {0, 1, 0, -1};
 	AreaManager(Context con, int scw, int sch, Player p){  
 		paint = new Paint();
 		curPlayer = p;
@@ -94,7 +96,22 @@ public class AreaManager implements IScreen{
 		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), butLeftestX, butY);
 		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), butLeftestX + butDist, butY);
 		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), butLeftestX + 2*butDist, butY);
-		buttonRight= new BitmapButton(BitmapManager.getInstance().get("right"), butLeftestX + 3*butDist, butY);
+		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), butLeftestX + 3*butDist, butY);
+		buttonA = new BitmapButton(BitmapManager.getInstance().get("left"), 0, 0);
+		Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
+		buttonA.addTouchAction(new TouchAction(){
+			@Override
+			public void onTouchDown() {
+				curArea.getButtonInput(ButtonClick.ACTION);
+			}
+			@Override
+			public void onTouchMove() {}
+			
+			@Override
+			public void onTouchUp() {
+				curArea.getButtonInput(ButtonClick.NONE);	
+			}
+		});
 		
 		buttonDown.addTouchAction(new TouchAction(){
 			@Override
@@ -156,6 +173,7 @@ public class AreaManager implements IScreen{
 		buttons.add(buttonUp);
 		buttons.add(buttonLeft);
 		buttons.add(buttonRight);
+		buttons.add(buttonA);
 	}
 	
 	public void setPlayerCord(Point p){
@@ -235,5 +253,38 @@ public class AreaManager implements IScreen{
 
 	public void setPaint(Paint paint) {
 		this.paint = paint;
+	}
+	
+	public boolean checkBounds(int newX, int newY){
+		if(newX < 0 || newY < 0 || newX >= getCurArea().getRow() || newY >= getCurArea().getColumn())
+			return false;
+		return true;
+	}
+	
+	public void pushBoulder(int x, int y, int dir){
+		int newX = x + dirX[dir];
+		int newY = y + dirY[dir];
+		
+		//salah satu dari koord boulder asal/koordinat boulder tujuan ga valid,
+		//gagal
+		if(!checkBounds(x, y) || !checkBounds(newX, newY))
+			return;
+		if(getCurArea().getTile(x, y).getSpriteCodeObj() == null)
+			return;
+		
+		if(getCurArea().getTile(x, y).getSpriteCodeObj().equals("692")){//sprite code buat boulder
+			if(getCurArea().getTile(newX, newY).getSpriteCodeObj() == null){
+				//bisa didorong soalnya gak ada objek
+				
+				//hilangin boulder di koordinat asal
+				getCurArea().getTile(x, y).setSpriteCodeObj(null);
+				//set passability di koordinat asal
+				getCurArea().getTile(x, y).setPassable(0);
+				
+				//kasih boulder di koordinat baru
+				getCurArea().getTile(newX, newY).setSpriteCodeObj("692");
+				getCurArea().getTile(newX, newY).setPassable(1);
+			}
+		}
 	}
 }

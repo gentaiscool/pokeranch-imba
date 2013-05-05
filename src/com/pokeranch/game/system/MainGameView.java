@@ -28,7 +28,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private ScreenManager manager;
 	private Player curPlayer;
 	float magnificationX, magnificationY;
-	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
+	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE, ACTION};
 	
 	public MainGameView(Context context, int screenWidth, int screenHeight) {
 		super(context);
@@ -50,6 +50,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BitmapManager.getInstance().put("changebutton", R.drawable.changebutton);
 		BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
 		BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
+		BitmapManager.getInstance().put("a", R.drawable.a);
 		//animasi skill
 		BitmapManager.getInstance().put("Swim", R.drawable.swim);
 		
