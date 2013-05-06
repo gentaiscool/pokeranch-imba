@@ -273,7 +273,7 @@ public class AreaManager implements IScreen{
 			return;
 		
 		if(getCurArea().getTile(x, y).getSpriteCodeObj().equals("692")){//sprite code buat boulder
-			if(getCurArea().getTile(newX, newY).getSpriteCodeObj() == null){
+			if(getCurArea().getTile(newX, newY).isPassable()){
 				//bisa didorong soalnya gak ada objek
 				
 				//hilangin boulder di koordinat asal

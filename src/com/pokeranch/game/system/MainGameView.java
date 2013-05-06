@@ -21,6 +21,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private static final String TAG = "POKE";
 	public static final float standardWidth = 320.f;
 	public static final float standardHeight = 240.f;
+	public static final int standardDensity = 160;
+	public static int screenDensity;
 	
 	public GameLoop thread;
 	private Matrix matrix = new Matrix();	
@@ -30,10 +32,12 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	float magnificationX, magnificationY;
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE, ACTION};
 	
-	public MainGameView(Context context, int screenWidth, int screenHeight) {
+	public MainGameView(Context context, int screenWidth, int screenHeight, int screenDensity) {
 		super(context);
 		getHolder().addCallback(this);
 		setFocusable(true);
+		
+		this.screenDensity = screenDensity;
 		
 		MessageManager.setContext(context);
 		ScreenManager.initialize();
@@ -62,8 +66,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		Player pl = new Player();
 		Player pl2 = new Player();
-		Monster m = Monster.getRandomMonster(2, 1);
-		Monster m2 = Monster.getRandomMonster(2, 1);
+		Monster m = Monster.getRandomMonster(10, 1);
+		Monster m2 = Monster.getRandomMonster(10, 1);
 		pl.addMonster(m);
 		pl.setCurrentMonster(m.getName());
 		
