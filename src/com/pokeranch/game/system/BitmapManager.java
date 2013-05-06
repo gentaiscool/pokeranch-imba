@@ -6,16 +6,19 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.util.Log;
 
 public class BitmapManager {
 	private Resources res;
 	private HashMap<String, Bitmap> bitmaps;
+	private Typeface typeface;
 	private static BitmapManager instance; 
 	
 	private BitmapManager(Resources res){
 		this.res = res;  
 		bitmaps = new HashMap<String, Bitmap>();
+		typeface = Typeface.createFromAsset(res.getAssets(), "fonts/Pokemon GB.ttf");
 	}
 	
 	public void putMap(int id, int r, int c, int border, int pixelSize){
@@ -50,6 +53,10 @@ public class BitmapManager {
 	
 	public void put(String key, int id){
 		bitmaps.put(key, BitmapFactory.decodeResource(res, id));
+	}
+	
+	public Typeface getTypeface(){
+		return typeface;
 	}
 	
 	public Bitmap get(String key){

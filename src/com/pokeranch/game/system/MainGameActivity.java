@@ -22,7 +22,7 @@ public class MainGameActivity extends Activity {
 		StringBuilder sb = new StringBuilder();
 		sb.append(metrics.densityDpi); //low = 120 160 240
 		Log.d("harits dpi", sb.toString());
-		mainGameView = new MainGameView(this,metrics.widthPixels,metrics.heightPixels);
+		mainGameView = new MainGameView(this, metrics.widthPixels, metrics.heightPixels, metrics.densityDpi);
 		setContentView(mainGameView);	
 		
 	}

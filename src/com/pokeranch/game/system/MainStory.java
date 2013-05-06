@@ -27,7 +27,8 @@ public class MainStory implements IScreen{
 	
 	private Sprite head;
 	private int state = 0;
-	private Matrix matrix = new Matrix();	
+	private Matrix matrix = new Matrix();
+	private TextComponent textcomponent;
 	float magnification;
 	int curScreenWidth, curScreenHeight;
 	Context curContext;
@@ -43,12 +44,11 @@ public class MainStory implements IScreen{
 			
 			BitmapManager.getInstance().put("professoroak", R.drawable.professoroak);
 			BitmapManager.getInstance().put("frame", R.drawable.frame);
+			textcomponent = new TextComponent("", 77, 172);
+			//Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/Pokemon GB.ttf");
 			
-			Typeface face = Typeface.createFromAsset(context.getAssets(),
-		            "fonts/Pokemon GB.ttf");
-			
-			paint.setTextSize(4);
-			paint.setTypeface(face);
+			paint.setTextSize(5);
+			paint.setTypeface(BitmapManager.getInstance().getTypeface());
 			paint.setColor(Color.BLACK);	
 			
 			BitmapManager.getInstance().putImage("transparent", R.drawable.transparent, screenWidth, screenHeight);
@@ -133,12 +133,15 @@ public class MainStory implements IScreen{
 			frame.draw(canvas);
 			canvas.drawText("tap to continue...", 200, 0, paint);
 			if(state == 0){
-				canvas.drawText("Welcome to PokeRancher World!. ", 77, 172, paint);
+				/*canvas.drawText("Welcome to PokeRancher World!. ", 77, 172, paint);
 				canvas.drawText("An amazing journey is waiting", 77, 180, paint);
-				canvas.drawText("you.", 77, 188, paint);
+				canvas.drawText("you.", 77, 188, paint);*/
+				textcomponent.setText("Welcome to PokeRancher World!.\nAn amazing journey is waiting\nyou.");
 			}
 			else
-				canvas.drawText("Please introduce yourself!", 77, 172, paint);
+				//canvas.drawText("Please introduce yourself!", 77, 172, paint);
+				textcomponent.setText("Please introduce yourself!");
+			textcomponent.draw(canvas);
 			
 		}
 
