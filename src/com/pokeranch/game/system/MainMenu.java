@@ -35,7 +35,7 @@ public class MainMenu implements IScreen{
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	int curScreenWidth, curScreenHeight;
 	Context curContext;
-	ScrollComponent ss = new ScrollComponent();
+	ScrollComponent ss = new ScrollComponent(100,0);
 	
 		@SuppressLint("NewApi")
 		public MainMenu(Context context, int screenWidth, int screenHeight) {
@@ -202,6 +202,7 @@ public class MainMenu implements IScreen{
 			for(BitmapButton b : buttons){
 				b.onTouchEvent(e, magX, magY);
 			}
+			ss.onTouchEvent(e, magX, magY);
 		}
 		
 		/*@Override
