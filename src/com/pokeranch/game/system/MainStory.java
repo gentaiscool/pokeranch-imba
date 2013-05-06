@@ -47,7 +47,7 @@ public class MainStory implements IScreen{
 			Typeface face = Typeface.createFromAsset(context.getAssets(),
 		            "fonts/Pokemon GB.ttf");
 			
-			paint.setTextSize(8);
+			paint.setTextSize(4);
 			paint.setTypeface(face);
 			paint.setColor(Color.BLACK);	
 			

@@ -41,12 +41,13 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		manager = ScreenManager.getInstance();
 		
-		magnificationY = ((float) screenHeight) / standardHeight;
-		magnificationX = ((float) screenWidth) / standardWidth;
+		magnificationY = (((float) screenHeight) / standardHeight);
+		magnificationX = (((float) screenWidth) / standardWidth);
 			
 		Log.d("harits", "sh: " + screenHeight +", sw: " + screenWidth);
 		Log.d("harits", "magX: " + magnificationX +", magY: " + magnificationY);
 		matrix.setScale(magnificationX, magnificationY,0,0);
+		
 		curPlayer = new Player();
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
