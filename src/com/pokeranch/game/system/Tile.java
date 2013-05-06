@@ -19,12 +19,12 @@ public class Tile {
 	}
 	
 	public void drawBG(Canvas canvas, int i, int j, int curX, int curY, AreaManager am){
-		canvas.drawBitmap(BitmapManager.getInstance().get(spriteCodeBG), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16),  ( (i == curX && j == curY) ? null : am.getPaint()));
+		canvas.drawBitmap(BitmapManager.getInstance().get(spriteCodeBG), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16),  am.getPaint());
 	}
 	
 	public void drawObj(Canvas canvas, int i, int j, int curX, int curY, AreaManager am){
 		if(spriteCodeObj != null)
-			canvas.drawBitmap(BitmapManager.getInstance().get(spriteCodeObj), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16),  ( (i == curX && j == curY) ? null : am.getPaint()));
+			canvas.drawBitmap(BitmapManager.getInstance().get(spriteCodeObj), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16),  am.getPaint());
 	}
 	
 	public void setPassable(int p){
