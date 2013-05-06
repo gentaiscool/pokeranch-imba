@@ -24,8 +24,10 @@ public class BattleScreen implements IScreen {
 	private int turn;
 	private Bitmap poke1, poke2;
 	private int geserTop = 58; //buat geser layout background ke atas
+	private TextComponent message;
+	private BattleStatusBar stat1, stat2;
 	
-	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, TURN1, TURN2, ANIMATING_SKILL, ANIMATING_HEALTH};
+	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, ANIMATING_SKILL, ANIMATING_HEALTH};
 	
 	private BattleState state;
 	
@@ -35,7 +37,10 @@ public class BattleScreen implements IScreen {
 		current = player1;
 		enemy = player2;
 		
-		state = BattleState.WAIT_INPUT;
+		StringBuilder ss = new StringBuilder("A Wild ");
+		ss.append(player2.getCurrentMonster().getName() + " Appear!");
+		message = new TextComponent(ss.toString(), 10, (int) MainGameView.standardHeight - 45);
+		state = BattleState.START;
 		
 		background = BitmapManager.getInstance().get("battle_day_land");
 		bar = BitmapManager.getInstance().get("battle_bar");
@@ -43,6 +48,8 @@ public class BattleScreen implements IScreen {
 		//load gambar
 		poke1 = BitmapManager.getInstance().get(player1.getCurrentMonster().getSpecies().getName()+"_back");
 		poke2 = BitmapManager.getInstance().get(player2.getCurrentMonster().getSpecies().getName()+"_front");
+		
+		//stat1 = new BattleStatusBar(player1.getCurrentMonster(),5,115 - geserTop);
 		
 		turn = 1;
 		
@@ -106,10 +113,6 @@ public class BattleScreen implements IScreen {
 		if(state==BattleState.ANIMATING_SKILL){
 			animation.update();
 			if(animation.finished()) {
-				//StringBuilder s = new StringBuilder();
-				//s.append((enemy==null) + " ");
-				//s.append(b)
-				//Log.d("POKE", s.toString());
 				enemy.getCurrentMonster().inflictDamage(animation.getSkill(), current.getCurrentMonster().getStatus());
 				nextTurn();
 			}
@@ -120,6 +123,7 @@ public class BattleScreen implements IScreen {
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		drawBackground(canvas);
+		
 		attack.draw(canvas);
 		useItem.draw(canvas);
 		change.draw(canvas);
@@ -133,7 +137,11 @@ public class BattleScreen implements IScreen {
 		if(poke1!=null) canvas.drawBitmap(poke1,new Rect(0,0,poke1.getWidth(), poke1.getHeight()), new RectF(x1,y1,x1+poke1.getWidth()*2,y1+poke1.getHeight()*2),null);
 		if(poke2!=null) canvas.drawBitmap(poke2,new Rect(0,0,poke2.getWidth(), poke2.getHeight()), new RectF(x2,y2,x2+poke2.getWidth()*2,y2+poke2.getHeight()*2),null);
 		
+		//stat1.draw(canvas);
+		
 		canvas.drawBitmap(bar, 0, (int) MainGameView.standardHeight - 58, null);
+		
+		message.draw(canvas);
 		if(state==BattleState.ANIMATING_SKILL) animation.draw(canvas);
 	}
 	
@@ -148,8 +156,10 @@ public class BattleScreen implements IScreen {
 	
 	private void attack(int choice){
 		Skill s = current.getCurrentMonster().getSkill(choice);
+
+		message.setText(current.getCurrentMonster().getName() + " use " + s.getName() + "!");
 		animation = new SkillAnimation(s, 3, 175, 0, 4);
-		state = BattleState.TURN1;
+		state = BattleState.ANIMATING_SKILL;
 	}
 	
 	
@@ -203,13 +213,14 @@ public class BattleScreen implements IScreen {
 	@Override
 	public void onTouchEvent(MotionEvent e, float magX, float magY) {
 		switch(state){
+		case START:
+			state = BattleState.WAIT_INPUT;
+		break;
+		
 		case WAIT_INPUT:
 			for(TouchListener t : touch) t.onTouchEvent(e, magX, magY);
 		break;
-		case TURN1:
-		case TURN2:
-			state = BattleState.ANIMATING_SKILL;
-		break;
+		
 		default:
 		}
 	}

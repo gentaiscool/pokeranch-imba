@@ -59,7 +59,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
-		manager.push(mm);
+		//manager.push(mm);
 		
 		Player pl = new Player();
 		Player pl2 = new Player();
@@ -71,7 +71,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
 		
-		//manager.push(new BattleScreen(pl,pl2));
+		manager.push(new BattleScreen(pl,pl2));
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

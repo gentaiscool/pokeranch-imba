@@ -34,10 +34,18 @@ public class TextComponent {
 		}
 	}
 	
+	public void setColor(int color){
+		paint.setColor(color);
+	}
+	
 	//getter setter
 
 	public void setText(String text) {
 		this.text.clear();
+		appendText(text);
+	}
+	
+	public void appendText(String text){
 		Scanner scan = new Scanner(text);
 		String line;
 		while(scan.hasNextLine()){
