@@ -66,6 +66,12 @@ public class SplashActivity extends Activity {
 			
 			//animasi skill
 			BitmapManager.getInstance().put("Swim", R.drawable.swim);
+			BitmapManager.getInstance().put("Cut", R.drawable.cut);
+			BitmapManager.getInstance().put("Vine", R.drawable.vine);
+			BitmapManager.getInstance().put("Flame", R.drawable.flame);
+			BitmapManager.getInstance().put("FireBall", R.drawable.fireball);
+			BitmapManager.getInstance().put("Waterfall", R.drawable.waterfall);
+			BitmapManager.getInstance().put("Push", R.drawable.push);
 			
 			//battle avatar
 			BitmapManager.getInstance().put("Squir_back", R.drawable.squir_back);
