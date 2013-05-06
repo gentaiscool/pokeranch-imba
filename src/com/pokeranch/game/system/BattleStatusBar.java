@@ -71,6 +71,10 @@ public class BattleStatusBar {
 					if (dMP < 0) displayMP = fetchMP;
 				}
 				
+				//selesain kalo emang udah
+				//if (displayHP == fetchHP && displayMP == fetchMP)
+					//updateCount=totalUpdate;
+				
 			}else{
 				displayHP = fetchHP;
 				displayMP = fetchMP;

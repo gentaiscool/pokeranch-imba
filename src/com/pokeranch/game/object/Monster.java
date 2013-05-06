@@ -155,15 +155,15 @@ public class Monster{
 			critical = 2.f;
 		
 		//element factor
-		float elmtFactor = species.getElement().getDamageFactor(sk.getElement()) * 1.3f;
+		float elmtFactor = species.getElement().getDamageFactor(sk.getElement());
 		
 		int hp = status.getHP();
 		
 		status.updateBy(damage.getHP(), damage.getMP(), damage.getAttack(), damage.getDefense(), damage.getEffect());
 		
 		//HP calculation
-		float lvl = 4.f * (float) level / (float) lawan.getLevel();
-		float hpcalc = ((float)(damage.getHP()) * ((float)(statlawan.getAttack()) /  (float)(status.getDefense())) * elmtFactor * critical + 0.5f) / lvl;
+		float lvl = (10.f / 3.f)* (float) level / (float) lawan.getLevel();
+		float hpcalc = ((float)(damage.getHP()) * ((float)(statlawan.getAttack()) /  (float)(status.getDefense())) * (elmtFactor) * critical + 0.5f) / lvl;
 		status.setHP( (int) (hp + hpcalc));
 		
 		Log.d("POKE inflict", sk.getName());

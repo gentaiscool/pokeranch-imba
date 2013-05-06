@@ -32,8 +32,7 @@ public class BattleScreen implements IScreen {
 	private int turn; //player no berapa yg sedang jalan
 	private BattleMode mode;
 	private BattleState state;
-	
-	private boolean rendered;
+
 	private DelayedAction delayAction = null;
 	
 	public BattleScreen(Player player1, Player player2, BattleMode mode){
@@ -92,14 +91,11 @@ public class BattleScreen implements IScreen {
 	@Override
 	public void update() {
 		if(delayAction!=null){
-			delayAction.run();
-			if (delayAction.isFinished()){
-				Log.d("POKE update", "update");
+			delayAction.update();
+			if (delayAction.finished()){
 				delayAction=null;
 			}
 		}
-		
-		rendered = false;
 		
 		if(state==BattleState.ANIMATING_SKILL){
 			animation.update();
@@ -144,33 +140,28 @@ public class BattleScreen implements IScreen {
 		Log.d("POKE",player2.getCurrentMonster().getStatus() + "/" + player2.getCurrentMonster().getFullStatus());
 		Log.d("POKE update", "update");
 		if(turn==2) {
-			delayAction = new DelayedAction(){
-				@Override
-				public void run() {	if(rendered) player2Turn();}
-				@Override
-				public boolean isFinished() {return rendered;}
-			};
+			if(mode==BattleMode.PVP) {
+				state = BattleState.WAIT_INPUT;
+			}
+			else {
+				state = BattleState.AI_MOVE;
+				delayAction = new DelayedAction(){
+					@Override
+					public void doAction() {player2Turn();}
+					@Override
+					public int getDelay() {return 35;}
+				};
+			}
+		} else {
+			state = BattleState.WAIT_INPUT;
 		}
-		else state = BattleState.WAIT_INPUT;
 	}
 	
 	private void player2Turn(){
-		if(mode==BattleMode.PVP) {
-			state = BattleState.WAIT_INPUT;
-			return;
-		}
-		else state = BattleState.AI_MOVE;
-		
-		try {
-			Thread.sleep(500);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		attack(player2.getCurrentMonster().getRandomSkill());
 	}
 	
-	// draw
+	//draw
 	
 	@Override
 	public void draw(Canvas canvas) {
@@ -192,8 +183,6 @@ public class BattleScreen implements IScreen {
 		
 		message.draw(canvas);
 		if(state==BattleState.ANIMATING_SKILL) animation.draw(canvas);
-		
-		rendered = true;
 	}
 	
 	private void drawBackground(Canvas canvas){
