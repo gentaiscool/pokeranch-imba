@@ -3,7 +3,6 @@ package com.pokeranch.game.system;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.pokeranch.game.object.Monster;
 
@@ -12,7 +11,6 @@ public class BattleStatusBar {
 	private boolean visible = true;
 	private int x, y;
 	private TextComponent name, hp, mp;
-	private boolean animating;
 	private int displayHP, maxHP;
 	private int displayMP, maxMP;
 	private int fetchHP, fetchMP, dHP, dMP;
@@ -43,14 +41,8 @@ public class BattleStatusBar {
 		else if(percent > 20) paint.setColor(Color.YELLOW);
 		else paint.setColor(Color.RED);
 		
-
-		//Log.d("POKE HPBAR", Integer.valueOf(percent).toString());
-		
 		float per = (float) displayHP/(float) maxHP;
 		if (per < 0) per = 0;
-		
-		//Log.d("POKE HP", Float.valueOf(per).toString());
-		
 				
 		canvas.drawRect(x+10, y+15, x+10+((int) (per * 100.f)), y+21, paint);
 		hp.draw(canvas);
@@ -111,8 +103,6 @@ public class BattleStatusBar {
 		step = 0;
 		fetchHP = monster.getStatus().getHP();
 		fetchMP = monster.getStatus().getMP();
-		Log.d("POKE fetHP", Integer.valueOf(fetchHP).toString());
-		Log.d("POKE fetMP", Integer.valueOf(fetchMP).toString());
 		dHP = (displayHP - fetchHP) / totalUpdate + 1;
 		dMP = (displayMP - fetchMP) / totalUpdate + 1;
 	}
