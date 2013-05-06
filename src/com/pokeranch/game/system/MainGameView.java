@@ -41,7 +41,6 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		MessageManager.setContext(context);
 		ScreenManager.initialize();
-		System.gc();
 		
 		manager = ScreenManager.getInstance();
 		

@@ -49,18 +49,12 @@ public class Pokedex implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
-			BitmapManager.getInstance().put("logo", R.drawable.logo);
 			
-			BitmapManager.getInstance().put("panel", R.drawable.panelground);
 			panel = BitmapManager.getInstance().get("panel");
 			
 			//BitmapManager.getInstance().put("bluepanel", R.drawable.bluepanel);
 			//bluepanel = BitmapManager.getInstance().get("bluepanel");
 			
-			BitmapManager.getInstance().put("pokedextablet", R.drawable.pokedex);
-			BitmapManager.getInstance().put("pokedexlogo", R.drawable.pokedexlogo);
-			
-
 			pokedextablet = BitmapManager.getInstance().get("pokedextablet");
 			pokedexlogo = BitmapManager.getInstance().get("pokedexlogo");
 			/*

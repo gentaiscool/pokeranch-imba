@@ -39,6 +39,18 @@ public class SplashActivity extends Activity {
 			
 			BitmapManager.getInstance().put("logo", R.drawable.logo);
 			
+			/******************** PokeDex ********************/
+			BitmapManager.getInstance().put("logo", R.drawable.logo);
+			BitmapManager.getInstance().put("panel", R.drawable.panelground);
+			BitmapManager.getInstance().put("pokedextablet", R.drawable.pokedex);
+			BitmapManager.getInstance().put("pokedexlogo", R.drawable.pokedexlogo);
+			
+			//scroll
+			BitmapManager.getInstance().put("ic", R.drawable.ic_launcher);
+			BitmapManager.getInstance().put("panel", R.drawable.transparent);
+			BitmapManager.getInstance().put("orangebutton", R.drawable.orangebutton);
+			BitmapManager.getInstance().put("bluebutton", R.drawable.bluebutton);
+			
 			
 			/******************** Area **********************/
 			
@@ -99,6 +111,8 @@ public class SplashActivity extends Activity {
 			//load database
 			DBLoader.initialize(context.getApplicationContext().getAssets());
 			DBLoader.getInstance().loadMap("map.dat");
+			
+			System.gc();
 			
 			Intent intent = new Intent(context, MainGameActivity.class);
 			startActivity(intent);
