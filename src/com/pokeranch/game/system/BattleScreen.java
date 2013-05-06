@@ -49,8 +49,8 @@ public class BattleScreen implements IScreen {
 		poke1 = BitmapManager.getInstance().get(player1.getCurrentMonster().getSpecies().getName()+"_back");
 		poke2 = BitmapManager.getInstance().get(player2.getCurrentMonster().getSpecies().getName()+"_front");
 		
-		//stat1 = new BattleStatusBar(player1.getCurrentMonster(),5,115 - geserTop);
-		
+		stat1 = new BattleStatusBar(player1.getCurrentMonster(),(int) MainGameView.standardWidth - 125,(int) MainGameView.standardHeight - 60 - geserTop);
+		stat2 = new BattleStatusBar(player2.getCurrentMonster(),10,10);
 		turn = 1;
 		
 		touch = new ArrayList<TouchListener>();
@@ -114,8 +114,16 @@ public class BattleScreen implements IScreen {
 			animation.update();
 			if(animation.finished()) {
 				enemy.getCurrentMonster().inflictDamage(animation.getSkill(), current.getCurrentMonster().getStatus());
-				nextTurn();
+				current.getCurrentMonster().updateStatusBy(animation.getSkill().getCost());
+				stat1.fetchData();
+				stat2.fetchData();
+				state = BattleState.ANIMATING_HEALTH;
 			}
+		}else if(state==BattleState.ANIMATING_HEALTH){
+			stat1.update();
+			stat2.update();
+			if(stat1.animationFinished() && stat1.animationFinished())
+				nextTurn();
 		}
 	}
 	
@@ -137,7 +145,8 @@ public class BattleScreen implements IScreen {
 		if(poke1!=null) canvas.drawBitmap(poke1,new Rect(0,0,poke1.getWidth(), poke1.getHeight()), new RectF(x1,y1,x1+poke1.getWidth()*2,y1+poke1.getHeight()*2),null);
 		if(poke2!=null) canvas.drawBitmap(poke2,new Rect(0,0,poke2.getWidth(), poke2.getHeight()), new RectF(x2,y2,x2+poke2.getWidth()*2,y2+poke2.getHeight()*2),null);
 		
-		//stat1.draw(canvas);
+		stat1.draw(canvas);
+		stat2.draw(canvas);
 		
 		canvas.drawBitmap(bar, 0, (int) MainGameView.standardHeight - 58, null);
 		

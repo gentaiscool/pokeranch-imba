@@ -35,13 +35,13 @@ public class MainMenu implements IScreen{
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	int curScreenWidth, curScreenHeight;
 	Context curContext;
-	ScrollComponent ss = new ScrollComponent();
-	
+	ScrollComponent ss;
+	 
 		@SuppressLint("NewApi")
 		public MainMenu(Context context, int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
 			manager = ScreenManager.getInstance();
-			
+			ss = new ScrollComponent(context,100,0);
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
@@ -202,6 +202,7 @@ public class MainMenu implements IScreen{
 			for(BitmapButton b : buttons){
 				b.onTouchEvent(e, magX, magY);
 			}
+			ss.onTouchEvent(e, magX, magY);
 		}
 		
 		/*@Override

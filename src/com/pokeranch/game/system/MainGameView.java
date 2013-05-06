@@ -61,10 +61,13 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
 		
+		Pokedex pokedex = new Pokedex(context, screenWidth, screenHeight);
+		manager.push(pokedex);
+		
 		Player pl = new Player();
 		Player pl2 = new Player();
-		Monster m = Monster.getRandomMonster(2, 1);
-		Monster m2 = Monster.getRandomMonster(2, 1);
+		Monster m = Monster.getRandomMonster(10, 1);
+		Monster m2 = Monster.getRandomMonster(10, 1);
 		pl.addMonster(m);
 		pl.setCurrentMonster(m.getName());
 		
