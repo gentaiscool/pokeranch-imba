@@ -190,9 +190,11 @@ public class Area {
 				}
 			}
 		} else {
+			body.setDirection(direction);
+			head.setDirection(direction);
 			//aksi2 gajelas kayak swim, dorong batu, dkkdisini
 			if(isAction){
-				Log.d("boulder", "action performed");
+				//Log.d("boulder", "action performed");
 				am.pushBoulder(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				isAction = false;
 			}

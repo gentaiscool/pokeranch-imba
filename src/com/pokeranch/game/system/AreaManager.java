@@ -90,14 +90,14 @@ public class AreaManager implements IScreen{
 		
 		
 		buttons = new ArrayList<BitmapButton>();
-		butLeftestX = 25;
-		butDist = (int) (BitmapManager.getInstance().get("left").getWidth()*1.5);
+		butLeftestX = 24;
+		butDist = 74;
 		butY = 180;
-		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), butLeftestX, butY);
-		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), butLeftestX + butDist, butY);
-		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), butLeftestX + 2*butDist, butY);
-		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), butLeftestX + 3*butDist, butY);
-		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 0, 0);
+		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 0, 135);
+		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 50, 185);
+		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 50, 85);
+		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 100, 135);
+		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 150, 135);
 		Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
 		buttonA.addTouchAction(new TouchAction(){
 			@Override

@@ -98,5 +98,13 @@ public class Sprite {
 	public void setY(int _y){
 		x = _y;
 	}
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
 	
 }
