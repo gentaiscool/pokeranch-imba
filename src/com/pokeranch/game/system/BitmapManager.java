@@ -13,6 +13,7 @@ public class BitmapManager {
 	private Resources res;
 	private HashMap<String, Bitmap> bitmaps;
 	private Typeface typeface;
+	private boolean locked = false;
 	private static BitmapManager instance; 
 	
 	private BitmapManager(Resources res){
@@ -51,8 +52,16 @@ public class BitmapManager {
 		return instance;
 	}
 	
-	public void put(String key, int id){
-		bitmaps.put(key, BitmapFactory.decodeResource(res, id));
+	public void put(String key, int id) throws Exception{
+		if(!locked)
+			bitmaps.put(key, BitmapFactory.decodeResource(res, id));
+		else{
+			throw new Exception("BitmapManager already locked!");
+		}
+	}
+	
+	public void lockPut(){
+		locked = true;
 	}
 	
 	public Typeface getTypeface(){
