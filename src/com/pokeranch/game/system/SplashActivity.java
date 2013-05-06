@@ -25,7 +25,7 @@ public class SplashActivity extends Activity {
 	private class GameLoader extends Thread{
 		private Context context;
 		
-		private void initImage(){
+		private void initImage() throws Exception{
 			//init bitmap manager
 			
 			BitmapManager.initialize(context.getApplicationContext().getResources());
@@ -39,8 +39,14 @@ public class SplashActivity extends Activity {
 			
 			BitmapManager.getInstance().put("logo", R.drawable.logo);
 			
+			/********************* Main Story & Choose Monster *****************/
+			BitmapManager.getInstance().put("professoroak", R.drawable.professoroak);
+			BitmapManager.getInstance().put("frame", R.drawable.frame);
+			BitmapManager.getInstance().put("charchar", R.drawable.charchar);
+			BitmapManager.getInstance().put("squir", R.drawable.squir);
+			BitmapManager.getInstance().put("bulba", R.drawable.bulba);
+			
 			/******************** PokeDex ********************/
-			BitmapManager.getInstance().put("logo", R.drawable.logo);
 			BitmapManager.getInstance().put("panel", R.drawable.panelground);
 			BitmapManager.getInstance().put("pokedextablet", R.drawable.pokedex);
 			BitmapManager.getInstance().put("pokedexlogo", R.drawable.pokedexlogo);
@@ -98,6 +104,9 @@ public class SplashActivity extends Activity {
 			
 			//potong map
 			BitmapManager.getInstance().putMap(R.drawable.spritefull, 45, 43, 1, 16);
+			
+			//mencegah penambahan resource setelah load
+			BitmapManager.getInstance().lockPut();
 		}
 		
 		public GameLoader(Context context){
@@ -106,7 +115,11 @@ public class SplashActivity extends Activity {
 		
 		@Override
 		public void run(){
-			initImage();
+			try{
+				initImage();
+			}catch (Exception e){
+				e.printStackTrace();
+			}
 
 			//load database
 			DBLoader.initialize(context.getApplicationContext().getAssets());

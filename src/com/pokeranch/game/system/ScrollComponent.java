@@ -38,11 +38,6 @@ public class ScrollComponent {
 		final Typeface face = Typeface.createFromAsset(context.getAssets(),
 	            "fonts/Pokemon GB.ttf");
 
-		
-		BitmapManager.getInstance().put("ic", R.drawable.ic_launcher);
-		BitmapManager.getInstance().put("panel", R.drawable.transparent);
-		BitmapManager.getInstance().put("orangebutton", R.drawable.orangebutton);
-		BitmapManager.getInstance().put("bluebutton", R.drawable.bluebutton);
 		scrollTab = BitmapManager.getInstance().get("ic");
 		panel = BitmapManager.getInstance().get("panel");
 		

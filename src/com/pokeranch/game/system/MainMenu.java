@@ -46,14 +46,6 @@ public class MainMenu implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
-			BitmapManager.getInstance().put("newgame", R.drawable.newgamebutton2);
-			BitmapManager.getInstance().put("loadgame", R.drawable.loadgamebutton2);
-			BitmapManager.getInstance().put("helpgame", R.drawable.helpbutton);
-			BitmapManager.getInstance().put("exitbutton", R.drawable.exitbutton);
-			BitmapManager.getInstance().put("pokeball", R.drawable.pokeball);
-			
-			BitmapManager.getInstance().put("logo", R.drawable.logo);
-			
 			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),253,66);
 			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  265, 105);
 			helpgame = new BitmapButton(BitmapManager.getInstance().get("helpgame"), 253, 144);

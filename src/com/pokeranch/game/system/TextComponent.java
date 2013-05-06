@@ -9,7 +9,7 @@ import android.graphics.Paint;
 
 public class TextComponent {
 	private ArrayList<String> text;
-	private static final float defaultSize = 5.f; 
+	private static final float defaultSize = 6.f; 
 	private float fontsize;
 	private Paint paint;
 	private int x, y;

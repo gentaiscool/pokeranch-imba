@@ -42,11 +42,7 @@ public class MainChooseMonster implements IScreen{
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
-			
-			BitmapManager.getInstance().put("charchar", R.drawable.charchar);
-			BitmapManager.getInstance().put("squir", R.drawable.squir);
-			BitmapManager.getInstance().put("bulba", R.drawable.bulba);
-			
+				
 			BitmapButton charchar = new BitmapButton(BitmapManager.getInstance().get("charchar"), 0,100);
 			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("squir"),  150, 100);
 			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("bulba"), 300, 100);

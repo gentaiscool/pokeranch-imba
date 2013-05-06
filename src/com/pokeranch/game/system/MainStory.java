@@ -42,8 +42,6 @@ public class MainStory implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
-			BitmapManager.getInstance().put("professoroak", R.drawable.professoroak);
-			BitmapManager.getInstance().put("frame", R.drawable.frame);
 			textcomponent = new TextComponent("", 77, 172);
 			//Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/Pokemon GB.ttf");
 			
