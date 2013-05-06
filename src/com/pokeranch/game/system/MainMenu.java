@@ -195,13 +195,21 @@ public class MainMenu implements IScreen{
 			logo.draw(canvas);
 			ss.draw(canvas);
 		}
-
+		
 		@Override
+		public void onTouchEvent(MotionEvent e, float magX, float magY) {
+			// TODO Auto-generated method stub
+			for(BitmapButton b : buttons){
+				b.onTouchEvent(e, magX, magY);
+			}
+		}
+		
+		/*@Override
 		public void onTouchEvent(MotionEvent e, float mag) {
 			// TODO Auto-generated method stub
 //			//ss.onTouchEvent(e, mag);
 			for(BitmapButton b : buttons){
 				b.onTouchEvent(e, mag);
 			}
-		}
+		}*/
 }

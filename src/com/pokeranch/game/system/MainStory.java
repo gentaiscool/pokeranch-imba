@@ -47,7 +47,7 @@ public class MainStory implements IScreen{
 			Typeface face = Typeface.createFromAsset(context.getAssets(),
 		            "fonts/Pokemon GB.ttf");
 			
-			paint.setTextSize(8);
+			paint.setTextSize(4);
 			paint.setTypeface(face);
 			paint.setColor(Color.BLACK);	
 			
@@ -143,11 +143,11 @@ public class MainStory implements IScreen{
 		}
 
 		@Override
-		public void onTouchEvent(MotionEvent e, float mag) {
+		public void onTouchEvent(MotionEvent e, float magX, float magY) {
 			// TODO Auto-generated method stub
 			/*for(BitmapButton b : buttons){
 				b.onTouchEvent(e, mag);
 			}*/
-			transparentButton.onTouchEvent(e, mag);
+			transparentButton.onTouchEvent(e, magX, magY);
 		}
 }

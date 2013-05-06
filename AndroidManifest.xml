@@ -7,31 +7,38 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
+            android:name="com.pokeranch.game.system.MenuActivity"
+            android:label="@string/title_activity_main_menu"
+            android:screenOrientation="landscape" >
+
+        </activity>
+        <activity
+            android:name="com.pokeranch.game.system.MainGameActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.pokeranch.game.system.PokeDexActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.pokeranch.game.system.SplashActivity"
+            android:label="@string/title_activity_splash" 
             android:screenOrientation="landscape"
-            android:name=".MenuActivity"
-            android:label="@string/title_activity_main_menu"> 
-            "
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:screenOrientation="landscape"
-            android:name=".MainGameActivity">
-        </activity>
-        <activity
-            android:screenOrientation="landscape"
-            android:name=".PokeDexActivity">
         </activity>
     </application>
 
