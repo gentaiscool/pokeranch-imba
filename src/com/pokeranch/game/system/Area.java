@@ -170,8 +170,8 @@ public class Area {
 						startMoving = true;
 						curX = nextX;
 						curY = nextY;
-						head.move(direction,2);
-						body.move(direction,2);
+						head.move(direction,1);
+						body.move(direction,1);
 						//Log.d("harits", "posisi sekarang: " + curX + " " + curY);
 					} else {
 						move = false;
@@ -179,8 +179,8 @@ public class Area {
 				} else
 					move = false;
 			} else {
-				head.move(direction,2);
-				body.move(direction,2);
+				head.move(direction,1);
+				body.move(direction,1);
 				if(body.getX() % 16 == 0 && body.getY() % 16 == 0){
 					if(isUp)
 						move = startMoving = false;
