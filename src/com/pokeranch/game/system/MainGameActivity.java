@@ -19,6 +19,9 @@ public class MainGameActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);		
 		metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics); // dapetin ukuran layar
+		StringBuilder sb = new StringBuilder();
+		sb.append(metrics.densityDpi); //low = 120 160 240
+		Log.d("harits dpi", sb.toString());
 		mainGameView = new MainGameView(this,metrics.widthPixels,metrics.heightPixels);
 		setContentView(mainGameView);	
 		

@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 public class MainMenu implements IScreen{
@@ -27,11 +29,13 @@ public class MainMenu implements IScreen{
 	private ArrayList<BitmapButton> buttons;
 	
 	private Sprite head;
+	
+	private Matrix matrix = new Matrix();	
 	float magnification;
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	int curScreenWidth, curScreenHeight;
 	Context curContext;
-	ScrollView sc;
+	ScrollComponent ss = new ScrollComponent();
 	
 		@SuppressLint("NewApi")
 		public MainMenu(Context context, int screenWidth, int screenHeight) {
@@ -41,6 +45,14 @@ public class MainMenu implements IScreen{
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
+			
+			BitmapManager.getInstance().put("newgame", R.drawable.newgamebutton2);
+			BitmapManager.getInstance().put("loadgame", R.drawable.loadgamebutton2);
+			BitmapManager.getInstance().put("helpgame", R.drawable.helpbutton);
+			BitmapManager.getInstance().put("exitbutton", R.drawable.exitbutton);
+			BitmapManager.getInstance().put("pokeball", R.drawable.pokeball);
+			
+			BitmapManager.getInstance().put("logo", R.drawable.logo);
 			
 			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),253,66);
 			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  265, 105);
@@ -161,18 +173,8 @@ public class MainMenu implements IScreen{
 			paint.setTypeface(Typeface.MONOSPACE);
 			paint.setColor(Color.BLACK);	
 			
-			  sc=new ScrollView(context);
-			  sc.measure(200, 10);
-			          int width = sc.getMeasuredWidth();
-			          int height = sc.getMeasuredHeight();
-			          int left = 0;
-			          int top = 0;
-			             sc.layout(0, 0, 500, 500);
-			             sc.setBackgroundColor(Color.WHITE);
-			           TextView tv = new TextView(context);
-			           
-			           tv.setText("hehe");
-			             sc.addView(tv);
+			
+
 		}
 		
 		@Override
@@ -191,9 +193,9 @@ public class MainMenu implements IScreen{
 			pokeball.draw(canvas);
 			
 			logo.draw(canvas);
-			//sc.draw(canvas);
+			ss.draw(canvas);
 		}
-
+		
 		@Override
 		public void onTouchEvent(MotionEvent e, float magX, float magY) {
 			// TODO Auto-generated method stub
@@ -201,4 +203,13 @@ public class MainMenu implements IScreen{
 				b.onTouchEvent(e, magX, magY);
 			}
 		}
+		
+		/*@Override
+		public void onTouchEvent(MotionEvent e, float mag) {
+			// TODO Auto-generated method stub
+//			//ss.onTouchEvent(e, mag);
+			for(BitmapButton b : buttons){
+				b.onTouchEvent(e, mag);
+			}
+		}*/
 }
