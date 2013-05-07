@@ -41,7 +41,7 @@ public class Pokedex implements IScreen{
 		public Pokedex(Context context, int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
 			manager = ScreenManager.getInstance();
-			ss = new ScrollComponent(context, 100,0);
+			//ss = new ScrollComponent(context, 100,0);
 			final Typeface face = Typeface.createFromAsset(context.getAssets(),
 		            "fonts/Pokemon GB.ttf");
 			
@@ -81,7 +81,7 @@ public class Pokedex implements IScreen{
 			// TODO Auto-generated method stub
 			canvas.drawColor(Color.WHITE);
 			canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(180,60,450,340), null);
-			ss.draw(canvas);
+			//ss.draw(canvas);
 			canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(180,0,340,60), null);
 			canvas.drawBitmap(pokedexlogo, new Rect(0,0,pokedexlogo.getWidth(), pokedexlogo.getHeight()), new RectF(180,8,310,60), null);
 			canvas.drawBitmap(pokedextablet, new Rect(0,0,pokedextablet.getWidth(), pokedextablet.getHeight()), new RectF(2,8,175,180), null);
@@ -93,7 +93,7 @@ public class Pokedex implements IScreen{
 		public void onTouchEvent(MotionEvent e, float magX, float magY) {
 			// TODO Auto-generated method stub
 			
-			ss.onTouchEvent(e, magX, magY);
+			//ss.onTouchEvent(e, magX, magY);
 		}
 		
 		/*@Override

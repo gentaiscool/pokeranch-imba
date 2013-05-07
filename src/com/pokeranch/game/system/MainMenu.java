@@ -41,7 +41,7 @@ public class MainMenu implements IScreen{
 		public MainMenu(Context context, int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
 			manager = ScreenManager.getInstance();
-			ss = new ScrollComponent(context,100,0);
+			//ss = new ScrollComponent(context,100,0);
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
@@ -194,7 +194,7 @@ public class MainMenu implements IScreen{
 			for(BitmapButton b : buttons){
 				b.onTouchEvent(e, magX, magY);
 			}
-			ss.onTouchEvent(e, magX, magY);
+			//ss.onTouchEvent(e, magX, magY);
 		}
 		
 		/*@Override
