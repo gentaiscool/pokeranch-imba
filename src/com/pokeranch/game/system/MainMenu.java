@@ -20,6 +20,7 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import com.pokeranch.game.system.ScrollComponent.SelectionListener;
 
 public class MainMenu implements IScreen{
 	
@@ -41,7 +42,13 @@ public class MainMenu implements IScreen{
 		public MainMenu(Context context, int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
 			manager = ScreenManager.getInstance();
-			//ss = new ScrollComponent(context,100,0);
+			String[] s = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+			ss = new ScrollComponent(s,0,100,screenHeight,new SelectionListener(){
+				@Override
+				public void selectAction(int selection) {
+					Log.d("POKE SEL", Integer.valueOf(selection).toString());
+				}
+			});
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
@@ -194,7 +201,7 @@ public class MainMenu implements IScreen{
 			for(BitmapButton b : buttons){
 				b.onTouchEvent(e, magX, magY);
 			}
-			//ss.onTouchEvent(e, magX, magY);
+			ss.onTouchEvent(e, magX, magY);
 		}
 		
 		/*@Override

@@ -1,93 +1,124 @@
 package com.pokeranch.game.system;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 
 public class ScrollComponent {
-	//system
-	private String[] items;
-	private SelectionListener listener;
-	private boolean touched;
 	
-	//gui
-	private int x, y;
-	private int width, height;
-	private int defaultColor, selectionColor;
-	private int showItem;
+	private SelectionListener listener = null;
+	private boolean touched;
+	private boolean scroll = false;
+	
+	private TextComponent[] text;
+	private float touchY;
+	private int x;
+	private int selection;
+	private int nitem;
+	private int width, screenHeight, selHeight;
+	private float top;
+	
+	//layouts
+	private Paint paint;
+	private int defaultColor, defaultColor2, selectionColor;
+	private int leftMargin;
 	
 	public interface SelectionListener{
 		public void selectAction(int selection);
 	}
 	
-	public ScrollComponent(String[] items, int x, int y, SelectionListener listener){
+	public ScrollComponent(String[] items, int x, int width, int screenHeight, SelectionListener listener){
+		this.screenHeight = screenHeight;
+		setSelectionHeight(30);
+		top = 0;
+		this.listener = listener;
+		this.width = width;
+		paint = new Paint();
+		paint.setColor(Color.BLACK);
+		selection = -1;
+		text = new TextComponent[items.length];
+		leftMargin = 10;
+		for(int i = 0; i < items.length; i++){
+			text[i] = new TextComponent(items[i], x + leftMargin, selHeight*i + selHeight/2);
+		}
+		nitem = text.length;
+		
+		defaultColor = Color.RED;
+		defaultColor2 = Color.YELLOW;
+		selectionColor = Color.GREEN;
 		
 	}
 	
 	public void draw(Canvas canvas){
-		
+		canvas.drawRect(x, 0, x+width, screenHeight, paint);
+		int y;
+		for(int i = 0; i < nitem; i++){
+			y = selHeight*i + (int) top;
+			paint.setColor(selection==i ? selectionColor : i%2==0 ? defaultColor : defaultColor2);
+			canvas.drawRect(x, y, x+width, y+selHeight, paint);
+			text[i].setY(y + selHeight/2);
+			text[i].draw(canvas);
+		}
 	}
 	
 	public void onTouchEvent(MotionEvent event, float magX, float magY){
 		final int actioncode = event.getAction() & MotionEvent.ACTION_MASK;	
-		RectF r = new RectF(x*magX, y*magY, (x + width)*magX,  (y + height)*magY);
+		RectF r = new RectF(x*magX, 0, (x + width)*magX, screenHeight);
 		
-		if (r.contains(event.getX(), event.getY())){
+		float nowX = event.getX(), nowY = event.getY();
+		
+		if (r.contains(nowX, nowY)){
 			switch (actioncode) {
 				case MotionEvent.ACTION_DOWN:
 					touched = true;
-					break;
+					scroll = false;
+					touchY = nowY;
+				break;
 				case MotionEvent.ACTION_MOVE:
-					break;
+					//kalo dipencet dan digeser cukup jauh (setengah ukuran sel)
+					if (touched && Math.abs(nowY - touchY) > selHeight / 2){
+						scroll = true;
+						
+						//kalo jumlah item lebih dari yang ditampikan
+						if(nitem > screenHeight/(magY * selHeight)){
+								//update posisi top
+								top += (nowY < touchY ? -1 : 1) * selHeight / 2.5;
+								//mentok diatas dan dibawah
+								if(top > 0) top = 0;
+								else if(top < screenHeight/magY - nitem * selHeight) top = screenHeight/magY - nitem * selHeight;
+								//biar alus
+								touchY = nowY;
+						}
+					}
+
+				break;
 				case MotionEvent.ACTION_UP:
-					touched = false;
-					break;		
+					if(touched){
+						touched = false;
+						
+						//kalo scrollnya mati, artinya tekan
+						if(!scroll && listener!=null){
+							int posY = (int) (nowY/magY - top);							
+							selection = posY / (int)(selHeight);
+							listener.selectAction(selection);
+						}
+					}
+				break;		
 			}
-		}else{
-			if(touched){
-				switch (actioncode) {
-				case MotionEvent.ACTION_MOVE:
-					touched = false;
-					break;
-				case MotionEvent.ACTION_UP:
-					touched = false;
-					break;		
-				}
-			}
+		}else if(touched){
+			touched = false;
 		}
 	}
 
-	public int getX() {
-		return x;
+	public int getScreenHeight() {
+		return screenHeight;
 	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
+	public void setScreenHeight(int height) {
+		this.screenHeight = height;
 	}
 
 	public int getDefaultColor() {
@@ -104,5 +135,24 @@ public class ScrollComponent {
 
 	public void setSelectionColor(int selectionColor) {
 		this.selectionColor = selectionColor;
+	}
+
+	public int getSelectionHeight() {
+		return selHeight;
+	}
+
+	public void setSelectionHeight(int selHeight) {
+		this.selHeight = selHeight;
+	}
+
+	public int getLeftMargin() {
+		return leftMargin;
+	}
+
+	public void setLeftMargin(int leftMargin) {
+		this.leftMargin = leftMargin;
+		for(int i = 0; i < nitem; i++){
+			text[i].setX(x + leftMargin);
+		}
 	}
 }
