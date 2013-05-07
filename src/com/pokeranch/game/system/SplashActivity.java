@@ -42,21 +42,20 @@ public class SplashActivity extends Activity {
 			/********************* Main Story & Choose Monster *****************/
 			BitmapManager.getInstance().put("professoroak", R.drawable.professoroak);
 			BitmapManager.getInstance().put("frame", R.drawable.frame);
-			BitmapManager.getInstance().put("charchar", R.drawable.charchar);
-			BitmapManager.getInstance().put("squir", R.drawable.squir);
-			BitmapManager.getInstance().put("bulba", R.drawable.bulba);
+			
 			
 			/******************** PokeDex ********************/
 			BitmapManager.getInstance().put("panel", R.drawable.panelground);
 			BitmapManager.getInstance().put("pokedextablet", R.drawable.pokedex);
 			BitmapManager.getInstance().put("pokedexlogo", R.drawable.pokedexlogo);
 			
-			//scroll
-			BitmapManager.getInstance().put("ic", R.drawable.ic_launcher);
-			BitmapManager.getInstance().put("panel", R.drawable.transparent);
-			BitmapManager.getInstance().put("orangebutton", R.drawable.orangebutton);
-			BitmapManager.getInstance().put("bluebutton", R.drawable.bluebutton);
+			BitmapManager.getInstance().put("trans", R.drawable.transparent);	
 			
+			//pokemons
+			BitmapManager.getInstance().put("Charchar", R.drawable.charchar);
+			BitmapManager.getInstance().put("Squir", R.drawable.squir);
+			BitmapManager.getInstance().put("Bulba", R.drawable.bulba);
+			BitmapManager.getInstance().put("Ivy", R.drawable.ivy);
 			
 			/******************** Area **********************/
 			

@@ -36,19 +36,12 @@ public class MainMenu implements IScreen{
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
 	int curScreenWidth, curScreenHeight;
 	Context curContext;
-	ScrollComponent ss;
 	 
 		@SuppressLint("NewApi")
 		public MainMenu(Context context, int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
 			manager = ScreenManager.getInstance();
-			String[] s = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
-			ss = new ScrollComponent(s,0,100,screenHeight,new SelectionListener(){
-				@Override
-				public void selectAction(int selection) {
-					Log.d("POKE SEL", Integer.valueOf(selection).toString());
-				}
-			});
+
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
@@ -192,7 +185,6 @@ public class MainMenu implements IScreen{
 			pokeball.draw(canvas);
 			
 			logo.draw(canvas);
-			ss.draw(canvas);
 		}
 		
 		@Override
@@ -201,7 +193,6 @@ public class MainMenu implements IScreen{
 			for(BitmapButton b : buttons){
 				b.onTouchEvent(e, magX, magY);
 			}
-			ss.onTouchEvent(e, magX, magY);
 		}
 		
 		/*@Override

@@ -59,11 +59,11 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		am.setPlayerCord(new Point(0,0));
 		//manager.push(am);
 		
-		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
-		manager.push(mm);
+		//MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
+		//manager.push(mm);
 		
-		//Pokedex pokedex = new Pokedex(context, screenWidth, screenHeight);
-		//manager.push(pokedex);
+		Pokedex pokedex = new Pokedex(context, screenWidth, screenHeight);
+		manager.push(pokedex);
 		
 		Player pl = new Player();
 		Player pl2 = new Player();

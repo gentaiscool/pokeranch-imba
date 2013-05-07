@@ -43,9 +43,9 @@ public class MainChooseMonster implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 				
-			BitmapButton charchar = new BitmapButton(BitmapManager.getInstance().get("charchar"), 0,100);
-			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("squir"),  150, 100);
-			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("bulba"), 300, 100);
+			BitmapButton charchar = new BitmapButton(BitmapManager.getInstance().get("Charchar"), 0,100);
+			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("Squir"),  150, 100);
+			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("Bulba"), 300, 100);
 			
 			charchar.addTouchAction(new TouchAction() {
 				@Override

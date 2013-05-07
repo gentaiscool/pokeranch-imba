@@ -1,59 +1,70 @@
 package com.pokeranch.game.system;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+import com.pokeranch.game.object.DBLoader;
+import com.pokeranch.game.object.Species;
+import com.pokeranch.game.system.ScrollComponent.SelectionListener;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+
 
 public class Pokedex implements IScreen{
 	
-	private Paint paint = new Paint();
 	private ScreenManager manager;
 	
-	private Matrix matrix = new Matrix();	
-	float magnification;
-	Bitmap pokedextablet, pokedexlogo, panel, bluepanel;
-	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE};
+
+	private Bitmap pokedextablet, pokedexlogo, panel, bluepanel, trans;
+
 	int curScreenWidth, curScreenHeight;
-	Context curContext;
-	ScrollComponent ss;
+	private Context curContext;
+	private ScrollComponent scroll;
+	private String[] species;
+	private TextComponent text;
 	
 		@SuppressLint("NewApi")
 		public Pokedex(Context context, int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
 			manager = ScreenManager.getInstance();
 			//ss = new ScrollComponent(context, 100,0);
-			final Typeface face = Typeface.createFromAsset(context.getAssets(),
-		            "fonts/Pokemon GB.ttf");
+			
+			final Typeface face = BitmapManager.getInstance().getTypeface();
 			
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
 			
-			panel = BitmapManager.getInstance().get("panel");
+			trans = BitmapManager.getInstance().get("trans");
+			panel = trans;
 			
-			//BitmapManager.getInstance().put("bluepanel", R.drawable.bluepanel);
-			//bluepanel = BitmapManager.getInstance().get("bluepanel");
+			Collection<Species> sp = DBLoader.getInstance().getAllSpecies();
+			species = new String[sp.size()];
+			Iterator<Species> it = sp.iterator();
+			
+			int i = 0;
+			while (it.hasNext()){
+				species[i] = it.next().getName();
+				i++;
+			}
+			
+			scroll = new ScrollComponent(species,220,100,screenHeight,new SelectionListener(){
+				@Override
+				public void selectAction(int selection) {
+					showPoke(selection);
+				}
+			});
 			
 			pokedextablet = BitmapManager.getInstance().get("pokedextablet");
 			pokedexlogo = BitmapManager.getInstance().get("pokedexlogo");
@@ -65,43 +76,64 @@ public class Pokedex implements IScreen{
 			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),100,32);
 			logo = new BitmapButton(BitmapManager.getInstance().get("logo"),20,32);
 			 */			
-			paint.setTextSize(11);
-			paint.setTypeface(face);
-			paint.setColor(Color.BLACK);	
+			
+			text = new TextComponent("", 75, 90);
+			
+	
+		}
+		
+		private void showPoke(int num){
+			if(num==-1){
+				panel = trans;
+				text.setText("");
+			}else{
+				panel = BitmapManager.getInstance().get(species[num]);
+				Species s = DBLoader.getInstance().getSpecies(species[num]);
+				String snum = num < 10 ? "00" + (num+1) : "0" + (num+1);
+				StringBuilder sb = new StringBuilder();
+				sb.append(snum + " " + s.getName() +"\n");
+				
+				
+				sb.append(s.getElement().getName() +" Monster\n");
+				if(s.getEvoSpecies()==null){
+					sb.append("No Evolution\n");
+				}else{
+					sb.append("Evolution:\n");
+					Species s1 = s;
+					while(s1.getEvoSpecies()!=null){
+						sb.append(s1.getEvoSpecies().getName() + " - Lv. " + s1.getEvoLevel() + "\n");
+						s1 = s1.getEvoSpecies();
+					}
+				}
+				sb.append("\nBase Skill :\n");
+				for(int i = 0; i < s.getBaseSkillNum(); i++){
+					sb.append((i+1) +". "+s.getBaseSkill(i).getName() + "\n");
+				}
+				
+				text.setText(sb.toString());
+			}
 		}
 		
 		@Override
 		public void update() {
-			// TODO Auto-generated method stub
-			//update head & body diurusi area
+			//nothing todo here
 		}
 
 		@Override
 		public void draw(Canvas canvas) {
 			// TODO Auto-generated method stub
 			canvas.drawColor(Color.WHITE);
-			canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(180,60,450,340), null);
-			//ss.draw(canvas);
-			canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(180,0,340,60), null);
-			canvas.drawBitmap(pokedexlogo, new Rect(0,0,pokedexlogo.getWidth(), pokedexlogo.getHeight()), new RectF(180,8,310,60), null);
-			canvas.drawBitmap(pokedextablet, new Rect(0,0,pokedextablet.getWidth(), pokedextablet.getHeight()), new RectF(2,8,175,180), null);
-
-			
+			scroll.draw(canvas);
+			canvas.drawBitmap(pokedexlogo, new Rect(0,0,pokedexlogo.getWidth(), pokedexlogo.getHeight()), new RectF(2,8,132,60), null);
+			canvas.drawBitmap(pokedextablet, new Rect(0,0,pokedextablet.getWidth(), pokedextablet.getHeight()), new RectF(2,68,175,240), null);
+			canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(20,90,70,140), null);
+			text.draw(canvas);
 		}
 		
 		@Override
 		public void onTouchEvent(MotionEvent e, float magX, float magY) {
 			// TODO Auto-generated method stub
 			
-			//ss.onTouchEvent(e, magX, magY);
+			scroll.onTouchEvent(e, magX, magY);
 		}
-		
-		/*@Override
-		public void onTouchEvent(MotionEvent e, float mag) {
-			// TODO Auto-generated method stub
-//			//ss.onTouchEvent(e, mag);
-			for(BitmapButton b : buttons){
-				b.onTouchEvent(e, mag);
-			}
-		}*/
 }

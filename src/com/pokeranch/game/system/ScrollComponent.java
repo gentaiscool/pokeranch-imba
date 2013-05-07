@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 
 public class ScrollComponent {
@@ -23,7 +22,7 @@ public class ScrollComponent {
 	
 	//layouts
 	private Paint paint;
-	private int defaultColor, defaultColor2, selectionColor;
+	private int defaultColor1, defaultColor2, selectionColor, emptyColor;
 	private int leftMargin;
 	
 	public interface SelectionListener{
@@ -35,31 +34,35 @@ public class ScrollComponent {
 		setSelectionHeight(30);
 		top = 0;
 		this.listener = listener;
+		this.x = x;
 		this.width = width;
 		paint = new Paint();
-		paint.setColor(Color.BLACK);
+		
 		selection = -1;
 		text = new TextComponent[items.length];
-		leftMargin = 10;
+		leftMargin = 5;
 		for(int i = 0; i < items.length; i++){
 			text[i] = new TextComponent(items[i], x + leftMargin, selHeight*i + selHeight/2);
 		}
 		nitem = text.length;
 		
-		defaultColor = Color.RED;
-		defaultColor2 = Color.YELLOW;
-		selectionColor = Color.GREEN;
+		defaultColor1 = Color.argb(255,255,190,0);
+		defaultColor2 = Color.argb(255,255,230,0);
+		selectionColor = Color.argb(255,255,125,0);
+		emptyColor = Color.argb(255, 50, 50, 50);
 		
 	}
 	
 	public void draw(Canvas canvas){
+		paint.setColor(emptyColor);
 		canvas.drawRect(x, 0, x+width, screenHeight, paint);
 		int y;
 		for(int i = 0; i < nitem; i++){
 			y = selHeight*i + (int) top;
-			paint.setColor(selection==i ? selectionColor : i%2==0 ? defaultColor : defaultColor2);
-			canvas.drawRect(x, y, x+width, y+selHeight, paint);
+			paint.setColor(selection==i ? selectionColor : i%2==0 ? defaultColor1 : getDefaultColor2());
 			text[i].setY(y + selHeight/2);
+			
+			canvas.drawRect(x, y, x+width, y+selHeight, paint);
 			text[i].draw(canvas);
 		}
 	}
@@ -103,6 +106,8 @@ public class ScrollComponent {
 						if(!scroll && listener!=null){
 							int posY = (int) (nowY/magY - top);							
 							selection = posY / (int)(selHeight);
+							
+							if (selection < 0 || selection >= nitem) selection = -1;
 							listener.selectAction(selection);
 						}
 					}
@@ -121,12 +126,12 @@ public class ScrollComponent {
 		this.screenHeight = height;
 	}
 
-	public int getDefaultColor() {
-		return defaultColor;
+	public int getDefaultColor1() {
+		return defaultColor1;
 	}
 
-	public void setDefaultColor(int defaultColor) {
-		this.defaultColor = defaultColor;
+	public void setDefaultColor1(int defaultColor1) {
+		this.defaultColor1 = defaultColor1;
 	}
 
 	public int getSelectionColor() {
@@ -154,5 +159,21 @@ public class ScrollComponent {
 		for(int i = 0; i < nitem; i++){
 			text[i].setX(x + leftMargin);
 		}
+	}
+
+	public int getEmptyColor() {
+		return emptyColor;
+	}
+
+	public void setEmptyColor(int emptyColor) {
+		this.emptyColor = emptyColor;
+	}
+
+	public int getDefaultColor2() {
+		return defaultColor2;
+	}
+
+	public void setDefaultColor2(int defaultColor2) {
+		this.defaultColor2 = defaultColor2;
 	}
 }
