@@ -144,9 +144,10 @@ public class Monster{
 	}
 	
 	
-	public Point inflictDamage(Skill sk, Status lawan){
+	public Point inflictDamage(Skill sk, Monster lawan){
 		Point newPoint = new Point();
 		Status damage = sk.getDamage();
+		Status statlawan = lawan.getStatus();
 		
 		//critical hit
 		float critical = 1.f;
@@ -161,7 +162,15 @@ public class Monster{
 		status.updateBy(damage.getHP(), damage.getMP(), damage.getAttack(), damage.getDefense(), damage.getEffect());
 		
 		//HP calculation
-		status.setHP( (int) (hp + ((float)(damage.getHP()) * ((float)(lawan.getAttack()) /  (float)(status.getDefense())) * critical + 0.5f)));
+		float lvl = (10.f / 3.f)* (float) level / (float) lawan.getLevel();
+		float hpcalc = ((float)(damage.getHP()) * ((float)(statlawan.getAttack()) /  (float)(status.getDefense())) * (elmtFactor) * critical + 0.5f) / lvl;
+		status.setHP( (int) (hp + hpcalc));
+		
+		Log.d("POKE inflict", sk.getName());
+		Log.d("POKE damage", Float.valueOf(hpcalc).toString());
+		Log.d("POKE critical", Float.valueOf(critical).toString());
+		Log.d("POKE elmtfactor", Float.valueOf(elmtFactor).toString());
+		
 		if(status.getHP() <= 0)
 			status.setHP(0);
 			
@@ -217,9 +226,10 @@ public class Monster{
 	/* Asumsi: List skill yang ada pada Monster ini sudah 
 	   ada didefinisikan didatabase skill */
 		int num;
-		ArrayList<Skill> s = (ArrayList<Skill>) skills.values();
+		Skill[] s = new Skill[4];
+		skills.values().toArray(s);
 		num = random.nextInt(skills.size());
-		return s.get(num);	
+		return s[num];	
 	}
 	
 	public void addSkill(Skill sk){

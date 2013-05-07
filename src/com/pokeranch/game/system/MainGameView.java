@@ -1,6 +1,7 @@
 package com.pokeranch.game.system;
 
 import com.pokeranch.game.object.*;
+import com.pokeranch.game.system.BattleScreen.BattleMode;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -32,6 +33,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	float magnificationX, magnificationY;
 	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE, ACTION};
 	
+	@SuppressWarnings("static-access")
 	public MainGameView(Context context, int screenWidth, int screenHeight, int screenDensity) {
 		super(context);
 		getHolder().addCallback(this);
@@ -54,13 +56,13 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		curPlayer = new Player();
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
-		am.setPlayerCord(new Point(0,3));
-		manager.push(am);
+		am.setPlayerCord(new Point(0,0));
+		//manager.push(am);
 		
-		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
+		//MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
 		
-		Pokedex pokedex = new Pokedex(context, screenWidth, screenHeight);
+		//Pokedex pokedex = new Pokedex(context, screenWidth, screenHeight);
 		//manager.push(pokedex);
 		
 		Player pl = new Player();
@@ -73,7 +75,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
 		
-		//manager.push(new BattleScreen(pl,pl2));
+		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);
