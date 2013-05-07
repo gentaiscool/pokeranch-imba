@@ -13,6 +13,7 @@ public class TextComponent {
 	private float fontsize;
 	private Paint paint;
 	private int x, y;
+	private boolean drawing = false;
 	
 	public TextComponent(String text, int x, int y){
 		this.text = new ArrayList<String>();
@@ -26,12 +27,17 @@ public class TextComponent {
 		paint.setColor(Color.BLACK);	
 	}
 	
-	public void draw(Canvas canvas){
+	public synchronized void draw(Canvas canvas){
+		drawing = true;
+		
 		int y1 = y;
 		for(String t : text){
 			canvas.drawText(t, x, y1, paint);
 			y1+=8;
 		}
+		
+		drawing = false;
+		notifyAll();
 	}
 	
 	public void setColor(int color){
@@ -40,12 +46,24 @@ public class TextComponent {
 	
 	//getter setter
 
-	public void setText(String text) {
+	public synchronized void setText(String text) {
+		while(drawing){
+			try{
+				wait();
+			}catch(Exception e){e.printStackTrace();}
+		}
+		
 		this.text.clear();
 		appendText(text);
 	}
 	
-	public void appendText(String text){
+	public synchronized void appendText(String text){
+		while(drawing){
+			try{
+				wait();
+			}catch(Exception e){e.printStackTrace();}
+		}
+		
 		Scanner scan = new Scanner(text);
 		String line;
 		while(scan.hasNextLine()){
