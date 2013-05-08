@@ -89,9 +89,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
 		//manager.push(buymarket);
 		
-		SellScreen sellmarket = new SellScreen(pl, screenWidth, screenHeight);
-		//manager.push(sellmarket);
-
+		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
+		//manager.push(buysellmarket);
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

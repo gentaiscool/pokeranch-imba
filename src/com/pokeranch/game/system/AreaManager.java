@@ -52,7 +52,7 @@ public class AreaManager implements IScreen{
 		curPlayer = p;
 		screenHeight = sch;
 		screenWidth = scw;
-		jam= new TextComponent("Day "+curPlayer.getPlayingTime().getDay()+" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute(), 10, 20);
+		jam= new TextComponent("Day "+curPlayer.getPlayingTime().getDay()+" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute(), 5, 15);
 		head = new Sprite(32,0, BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
 			@Override
 			public Point getImgPos(int direction, int frame, int width, int height) {
@@ -242,7 +242,7 @@ public class AreaManager implements IScreen{
 		} else {
 			AMPM="AM";
 		}
-		canvas.drawRect(5, 5, 100, 25, paintkotak);
+		canvas.drawRect(5, 5, 65, 20, paintkotak);
 		jam.setText(" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute()+" "+AMPM);
 		jam.draw(canvas);
 		//Log.d("harits", "done drawing area...");
