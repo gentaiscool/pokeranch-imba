@@ -31,15 +31,6 @@ public class AreaManager implements IScreen{
 	private Paint paintkotak;
 	public final int dirX[] = {-1, 0, 1, 0};
 	public final int dirY[] = {0, 1, 0, -1};
-	private int curX, curY, nextX, nextY;
-	private boolean outOfBounds;
-	private boolean move = false;
-	private boolean startMoving = false;
-	private boolean isUp = true;
-	private int direction = 0;
-	private int newDirection;
-	private boolean isAction;
-	private DelayedAction time;
 	
 	AreaManager(Context con, int scw, int sch, Player p){
 		DialogueBox.initialize();
@@ -210,70 +201,70 @@ public class AreaManager implements IScreen{
 		buttonA.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
-				getButtonInput(ButtonClick.ACTION);
+				getCurArea().getButtonInput(ButtonClick.ACTION);
 			}
 			@Override
 			public void onTouchMove() {}
 			
 			@Override
 			public void onTouchUp() {
-				getButtonInput(ButtonClick.NONE);	
+				getCurArea().getButtonInput(ButtonClick.NONE);	
 			}
 		});
 		
 		buttonDown.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
-				getButtonInput(ButtonClick.DOWN);
+				getCurArea().getButtonInput(ButtonClick.DOWN);
 			}
 			@Override
 			public void onTouchMove() {}
 			
 			@Override
 			public void onTouchUp() {
-				getButtonInput(ButtonClick.NONE);	
+				getCurArea().getButtonInput(ButtonClick.NONE);	
 			}		
 		});
 		
 		buttonUp.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
-				getButtonInput(ButtonClick.UP);
+				getCurArea().getButtonInput(ButtonClick.UP);
 			}
 			@Override
 			public void onTouchMove() {}
 			
 			@Override
 			public void onTouchUp() {
-				getButtonInput(ButtonClick.NONE);	
+				getCurArea().getButtonInput(ButtonClick.NONE);	
 			}		
 		});
 		
 		buttonLeft.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
-				getButtonInput(ButtonClick.LEFT);
+				getCurArea().getButtonInput(ButtonClick.LEFT);
 			}
 			@Override
 			public void onTouchMove() {}
 			
 			@Override
 			public void onTouchUp() {
-				getButtonInput(ButtonClick.NONE);	
+				getCurArea().getButtonInput(ButtonClick.NONE);	
 			}		
 		});
 		
 		buttonRight.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
-				getButtonInput(ButtonClick.RIGHT);
+				getCurArea().getButtonInput(ButtonClick.RIGHT);
 			}
 			@Override
 			public void onTouchMove() {}
 			
 			@Override
 			public void onTouchUp() {
-				getButtonInput(ButtonClick.NONE);
+				getCurArea().getButtonInput(ButtonClick.NONE);
 			}
 		});
 		
@@ -282,100 +273,35 @@ public class AreaManager implements IScreen{
 		buttons.add(buttonLeft);
 		buttons.add(buttonRight);
 		buttons.add(buttonA);
-		
-		time = new DelayedAction(){
-			@Override
-			public void doAction() {
-				getCurPlayer().addTime(1);
-			}
-
-			@Override
-			public int getDelay() {
-				return 5;
-			}
-		};
-	}
-	
-	public void getButtonInput(ButtonClick click){
-		//Log.d("harits", lastClick + " " + click);
-		if(click == ButtonClick.NONE)
-			isUp = true;
-		else
-			isUp = false;
-			
-		switch(click){
-			case ACTION:
-				isAction = true;
-			break;	
-			case LEFT:
-				newDirection = 3;
-			break;
-			case RIGHT:
-				newDirection = 1;
-			break;
-			case DOWN:
-				newDirection = 2;
-			break;
-			case UP:
-				newDirection = 0;
-			break;
-			default:
-				break;
-		}
-		
-
-		
-		if(!move && !isAction){
-			move = true;
-			switch(click){
-			case LEFT:
-				move = true;
-				direction = 3;
-			break;
-			case RIGHT:
-				move = true;
-				direction = 1;
-			break;
-			case DOWN:
-				move = true;
-				direction = 2;
-			break;
-			case UP:
-				move = true;
-				direction = 0;
-			break;
-			case NONE:
-				move = false;
-			break;
-			default:
-				break;
-			}
-		}
 	}
 	
 	public void setPlayerCord(Point p){
 		//16 ~ ukuran tilenya (16x16)
-		//lokasi fisik
+		//lokasi sprite
 		
 		curBody.setX(p.x*16);
 		curBody.setY(p.y*16); 
 		curHead.setX(p.x*16-16);
 		curHead.setY(p.y*16);
 		if(roamingMode.equals("swim")){
-			leftFinSwim.setX(p.y*16-16);
-			rightFinSwim.setX(p.y*16+16);
+			curHead.setX(p.x*16-15);
+			leftFinSwim.setX(p.x*16);
+			leftFinSwim.setY(p.y*16-16);
+			rightFinSwim.setX(p.x*16);
+			rightFinSwim.setY(p.y*16+16);
 		}
-		//lokasi logika
-		curX = p.x;
-		curY = p.y;
+		//lokasi logika di area
+		
+		getCurArea().setCurX(p.x);
+		getCurArea().setCurY(p.y);
 	}
 	
 	public void movePlayer(int direction, int distance){
-		curHead.move(direction,1);
-		curBody.move(direction,1);
+		curHead.move(direction,distance);
+		curBody.move(direction,distance);
 		if(roamingMode.equals("swim")){
-			leftFinSwim.move(direction, 1);
-			rightFinSwim.move(direction, 1);
+			leftFinSwim.move(direction, distance);
+			rightFinSwim.move(direction, distance);
 		}
 	}
 	
@@ -391,79 +317,7 @@ public class AreaManager implements IScreen{
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		nextX = curX;
-		nextY = curY;
-		
-		time.update();
-		if(time.finished()) {time.reset();}
-		
-		if(move){
-			if(!startMoving){
-				direction = newDirection;
-				switch(direction){
-					case 0:{ //up
-						nextX = curX - 1;
-					}break;
-					case 1:{ //right 
-						nextY = curY + 1;
-					}break;
-					case 2:{ //down
-						nextX = curX + 1;
-					}break;
-					case 3:{ //left
-						nextY = curY - 1;
-					}break;
-				}
-				
-				//validasi bound border disini
-				outOfBounds = false;
-				if(nextX < 0 || nextY < 0 || nextX >= getCurArea().getRow() || nextY >= getCurArea().getColumn())
-					outOfBounds = true;
-				
-				//Log.d("harits", "bakal ke: "+ nextX + " " + nextY);
-				if(!outOfBounds){
-					if(getCurArea().getTile(nextX, nextY).getTeleportTarget() != null){
-						//Log.d("harits", "di sini bisa teleport: " + nextX +" "+ nextY);
-						//Log.d("harits", "di teleport ke: " + field[nextX][nextY].getTeleportTarget());
-						setCurArea(DBLoader.getInstance().getArea(getCurArea().getTile(nextX, nextY).getTeleportTarget()));
-						//Log.d("harits", "berhasil memindahkan");
-						//ngeset koordinat sprite player
-						setPlayerCord(getCurArea().getTile(nextX, nextY).getArrivalCord());				
-						//ngeset koordinat player pada array field
-						//am.getCurArea().setCurCord(field[nextX][nextY].getArrivalCord());
-						move = startMoving = false;
-						//Log.d("harits", "berhasil menentukan koord baru");
-					} else if(getCurArea().getTile(nextX, nextY).isPassable()){
-						startMoving = true;
-						curX = nextX;
-						curY = nextY;
-						movePlayer(direction, 1);
-						
-						//Log.d("harits", "posisi sekarang: " + curX + " " + curY);
-					} else {
-						move = false;
-					}
-				} else
-					move = false;
-			} else {
-				movePlayer(direction, 1);
-				if(curBody.getX() % 16 == 0 && curBody.getY() % 16 == 0){
-					if(isUp)
-						move = startMoving = false;
-					else {//masih bergerak
-						startMoving = false;
-					}
-				}
-			}
-		} else {
-			setPlayerDirection(direction);
-			//aksi2 gajelas kayak swim, dorong batu, dkk disini
-			if(isAction){
-				pushBoulder(curX + dirX[direction], curY + dirY[direction], direction);
-				cutTree(curX + dirX[direction], curY + dirY[direction], direction);
-				isAction = false;
-			}
-		}
+		curArea.update();
 		
 		if(getCurPlayer().getPlayingTime().getHour() > 18){ //udah malam ikan bobo
 			if(getCurPlayer().haveTorch())
@@ -472,14 +326,6 @@ public class AreaManager implements IScreen{
 				paint.setColorFilter(new LightingColorFilter(0x00000000, 0));
 		} else
 			paint.setColorFilter(null);
-	}
-	
-	public int getCurX(){
-		return curX;
-	}
-	
-	public int getCurY(){
-		return curY;
 	}
 	
 	@Override
@@ -615,11 +461,6 @@ public class AreaManager implements IScreen{
 			
 			curHead = headSwim;
 			curBody = bodySwim;
-			
-			leftFinSwim.setX(curBody.getX());
-			leftFinSwim.setY(curBody.getY() - 1);
-			rightFinSwim.setX(curBody.getX());
-			rightFinSwim.setY(curBody.getY() + 1);
 		} else {
 			roamingMode = "ground";
 			headGround.setX(curHead.getX());
@@ -656,5 +497,37 @@ public class AreaManager implements IScreen{
 				//pindahin player ke koordinat baru
 				setPlayerCord(new Point(newX, newY));
 		}
+	}
+
+
+
+	public Sprite getCurHead() {
+		return curHead;
+	}
+
+
+
+	public void setCurHead(Sprite curHead) {
+		this.curHead = curHead;
+	}
+
+
+
+	public Sprite getCurBody() {
+		return curBody;
+	}
+
+
+
+	public void setCurBody(Sprite curBody) {
+		this.curBody = curBody;
+	}
+
+	public String getRoamingMode() {
+		return roamingMode;
+	}
+
+	public void setRoamingMode(String roamingMode) {
+		this.roamingMode = roamingMode;
 	}
 }
