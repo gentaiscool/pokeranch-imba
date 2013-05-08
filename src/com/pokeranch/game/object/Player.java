@@ -102,13 +102,18 @@ public class Player {
 		this.currentMonster = currMons;
 	}
 	
+	public void setCurrentMonster(Monster currMons) {
+		this.currentMonster = currMons.getName();
+	}
+	
 	public Monster getNextMonster() throws Exception {
 	    Collection<Monster> values = monsters.values();
 	      // Get an iterator
 	    Iterator<Monster> i = values.iterator();
 	    while(i.hasNext()) {
-	    	if ((i.next().getStatus().getHP())==0){
-	    		return i.next();
+	    	Monster m = i.next();
+	    	if ((m.getStatus().getHP())>0){
+	    		return m;
 	    	}
 	    }
 	    throw new Exception();
@@ -117,7 +122,7 @@ public class Player {
 	public int getNMonster() {
 		return monsters.size();
 	}
-	
+		
 	public void restoreAllMonster(){
 		//mengembalikan semua atribut setiap Monster yang dimiliki player
 	    Collection<Monster> monster = monsters.values();
@@ -127,6 +132,8 @@ public class Player {
 	         i.next().restoreStatus();
 	    }
 	}
+	
+	//getter setter
 	
 	public Time getPlayingTime() {
 		return playingTime;
