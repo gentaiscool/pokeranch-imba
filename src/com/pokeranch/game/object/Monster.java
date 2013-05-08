@@ -1,7 +1,5 @@
 package com.pokeranch.game.object;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
@@ -317,31 +315,30 @@ public class Monster{
 	}
 	
 	public void load(Scanner scan){
-		String useless;
-		useless=scan.next();
+		scan.next();
 		name=scan.next();
-		useless=scan.next();
+		scan.next();
 		age=new Time();
 		age.load(scan);
-		useless=scan.next();
+		scan.next();
 		species=DBLoader.getInstance().getSpecies(scan.next());
-		useless=scan.next();
+		scan.next();
 		level=scan.nextInt();
-		useless=scan.next();
+		scan.next();
 		exp=scan.nextInt();
-		useless=scan.next();
+		scan.next();
 		evoExp=scan.nextInt();
-		useless=scan.next();
+		scan.next();
 		bonusCash=scan.nextInt();
-		useless=scan.next();
+		scan.next();
 		bonusExp=scan.nextInt();
-		useless=scan.next();
+		scan.next();
 		status=new Status();
 		status.load(scan);
-		useless=scan.next();
+		scan.next();
 		fullStatus=new Status();
 		fullStatus.load(scan);
-		useless=scan.next();
+		scan.next();
 		String skillName;
 		int i;
 		for(i=0;i<4;i++){
@@ -358,9 +355,9 @@ public class Monster{
 					"Exp: "+getExp()+" EvoExp: "+getEvoExp()+"\n"+
 					"BonusCash: "+getBonusCash()+" BonusExp: "+getBonusExp()+"\n"+
 					"Status(hp,mp,att,def,eff): "+ getStatus().toString()+" / "+getFullStatus().toString()+"\n");
-	    Set namaSkill = getAllSkill().keySet();
+	    Set<String> namaSkill = getAllSkill().keySet();
 	      // Get an iterator
-	    Iterator<String>i = namaSkill.iterator();
+	    Iterator<String> i = namaSkill.iterator();
 	    str.append("Skill:\n");
 	    while(i.hasNext()) {
 	    	str.append(i.next()+" ");

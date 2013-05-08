@@ -8,14 +8,11 @@ import com.pokeranch.game.object.Species;
 import com.pokeranch.game.system.ScrollComponent.SelectionListener;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -25,23 +22,19 @@ public class Pokedex implements IScreen{
 	private ScreenManager manager;
 	
 
-	private Bitmap pokedextablet, pokedexlogo, panel, bluepanel, trans;
+	private Bitmap pokedextablet, pokedexlogo, panel, trans;
 
 	int curScreenWidth, curScreenHeight;
-	private Context curContext;
 	private ScrollComponent scroll;
 	private String[] species;
 	private TextComponent text;
 	
 		@SuppressLint("NewApi")
-		public Pokedex(Context context, int screenWidth, int screenHeight) {
+		public Pokedex(int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
 			manager = ScreenManager.getInstance();
 			//ss = new ScrollComponent(context, 100,0);
 			
-			final Typeface face = BitmapManager.getInstance().getTypeface();
-			
-			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			

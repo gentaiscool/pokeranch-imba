@@ -1,7 +1,5 @@
 package com.pokeranch.game.system;
 
-import java.util.ArrayList;
-
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MessageManager.Action;
 
@@ -9,16 +7,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Typeface;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 public class MainStory implements IScreen{
 	
@@ -26,9 +17,7 @@ public class MainStory implements IScreen{
 	private ScreenManager manager;
 	private BitmapButton transparentButton, oak, frame;
 	
-	private Sprite head;
 	private int state = 0;
-	private Matrix matrix = new Matrix();
 	private TextComponent textcomponent;
 	float magnification;
 	int curScreenWidth, curScreenHeight;

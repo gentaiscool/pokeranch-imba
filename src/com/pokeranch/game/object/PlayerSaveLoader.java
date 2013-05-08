@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
@@ -166,20 +165,20 @@ public class PlayerSaveLoader {
 						"MonsterSekarang: "+player.getCurrentMonster().getName()+"\n");
 		      // Get an iterator
 			str.append("DaftarMonster:\n");
-			Collection monster = player.getAllMonster().values();
+			Collection<Monster> monster = player.getAllMonster().values();
 			Iterator<Monster>i = monster.iterator();
 		    //nulis monster(lengkap)--lihat to String di monster
 			while(i.hasNext()) {
 		         str.append(i.next().toString()+"\n");
 		    }
 			str.append("JumlahItem: "+player.getAllItem().size()+"\n");
-			Set item = player.getAllItem().entrySet();
+			Set<Map.Entry<String, Integer>> item = player.getAllItem().entrySet();
 		      // Get an iterator
 		    //nulis item, nama sama jumlahnya
 		    str.append("DaftarItem:\n");
-		    Iterator j = item.iterator();
+		    Iterator<Map.Entry<String, Integer>> j = item.iterator();
 		    while(j.hasNext()){
-		    	Map.Entry me= (Map.Entry)j.next();
+		    	Map.Entry<String, Integer> me= j.next();
 		    	str.append(me.getKey()+" "+me.getValue()+"\n");
 		    }
 			fos.write(str.toString().getBytes());

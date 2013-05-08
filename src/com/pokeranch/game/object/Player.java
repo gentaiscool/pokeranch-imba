@@ -1,6 +1,8 @@
 package com.pokeranch.game.object;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Player {
 	private String name;
@@ -55,7 +57,7 @@ public class Player {
 	public void addTime(int minute){
 		//menambah jumlah playingTime, currentTime dan umur monster player
 		playingTime.addMinute(minute);
-	    Collection monster = monsters.values();
+	    Collection<Monster> monster = monsters.values();
 	      // Get an iterator
 	    Iterator<Monster>i = monster.iterator();
 	    while(i.hasNext()) {
@@ -101,7 +103,7 @@ public class Player {
 	}
 	
 	public Monster getNextMonster() throws Exception {
-	    Collection values = monsters.values();
+	    Collection<Monster> values = monsters.values();
 	      // Get an iterator
 	    Iterator<Monster> i = values.iterator();
 	    while(i.hasNext()) {
@@ -118,7 +120,7 @@ public class Player {
 	
 	public void restoreAllMonster(){
 		//mengembalikan semua atribut setiap Monster yang dimiliki player
-	    Collection monster = monsters.values();
+	    Collection<Monster> monster = monsters.values();
 	      // Get an iterator
 	    Iterator<Monster>i = monster.iterator();
 	    while(i.hasNext()) {

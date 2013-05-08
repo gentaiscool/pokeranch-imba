@@ -5,9 +5,7 @@ import java.util.HashMap;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.Typeface;
-import android.util.Log;
 
 public class BitmapManager {
 	private Resources res;

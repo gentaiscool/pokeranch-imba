@@ -1,6 +1,5 @@
 package com.pokeranch.game.system;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.RectF;

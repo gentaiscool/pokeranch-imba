@@ -1,6 +1,5 @@
 package com.pokeranch.game.object;
 
-import java.io.BufferedWriter;
 import java.util.Scanner;
 
 public class Time {
@@ -35,18 +34,6 @@ public class Time {
 		str.append(year+" "+month+" "+day+" "+hour+" "+minute);
 		return str.toString();
 	}
-	
-/*	public void save(BufferedWriter buf){
-		try{
-			buf.write(year + " ");
-			buf.write(month + " ");
-			buf.write(day + " ");
-			buf.write(hour + " ");
-			buf.write(minute);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}*/
 	
 	public void set(int p,int q,int r,int s,int t) {
 		year = p;
