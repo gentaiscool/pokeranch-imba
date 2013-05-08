@@ -1,16 +1,18 @@
 package com.pokeranch.game.system;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 public class ScreenManager {
-	private ArrayList<IScreen> screens;
+	private CopyOnWriteArrayList<IScreen> screens; 
+	//makan memori lebih gede tapi threadsafe katanya
+	//alasan diganti: kalo ngepop bakal error concurrent kalo ga pake ini
 	private static ScreenManager manager;
 	
 	private ScreenManager(){
-		screens = new ArrayList<IScreen>();
+		screens = new CopyOnWriteArrayList<IScreen>();
 	}
 	
 	public static void initialize(){
@@ -31,7 +33,8 @@ public class ScreenManager {
 	
 	public void draw(Canvas canvas){
 		//semuanya di draw
-		for(IScreen s : screens) s.draw(canvas);
+			for(IScreen s : screens) 
+				s.draw(canvas);
 	}
 	
 	public void update(){

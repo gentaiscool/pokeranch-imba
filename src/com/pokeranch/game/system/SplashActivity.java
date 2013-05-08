@@ -114,8 +114,12 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("buybutton", R.drawable.buy);
 			BitmapManager.getInstance().put("sellbutton", R.drawable.sell);
 			
+			/********************** Dialogue Box **********************/
+			BitmapManager.getInstance().put("dbox", R.drawable.dbox);
+			
 			//mencegah penambahan resource setelah load
 			BitmapManager.getInstance().lockPut();
+			
 			
 		}
 		

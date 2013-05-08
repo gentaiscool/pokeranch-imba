@@ -43,6 +43,7 @@ public class AreaManager implements IScreen{
 	public final int dirX[] = {-1, 0, 1, 0};
 	public final int dirY[] = {0, 1, 0, -1};
 	AreaManager(Context con, int scw, int sch, Player p){  
+		DialogueBox.initialize();
 		context = con;
 		paint = new Paint();
 		paintkotak = new Paint();
@@ -301,7 +302,9 @@ public class AreaManager implements IScreen{
 		
 		if(getCurArea().getTile(x, y).getSpriteCodeObj().equals("692")){//sprite code buat boulder
 			if(getCurArea().getTile(newX, newY).isPassable()){
-				MessageManager.alert("X has pushed a boulder!");
+				DialogueBox.getInstance().setMessage("[put monster name that used push here] used push!");
+				ScreenManager.getInstance().push(DialogueBox.getInstance());
+				//MessageManager.alert("X has pushed a boulder!");
 				
 				//bisa didorong soalnya gak ada objek
 				
@@ -323,9 +326,11 @@ public class AreaManager implements IScreen{
 			return;
 		if(getCurArea().getTile(x, y).getSpriteCodeObj() == null)
 			return;
-		Log.d("harits1", "koordinat untuk dicut valid: " + x + " "+ y);
+		//Log.d("harits1", "koordinat untuk dicut valid: " + x + " "+ y);
 		if(getCurArea().getTile(x, y).getSpriteCodeObj().equals("603")){//sprite code buat tree
-			MessageManager.alert("X has cut a tree!");
+			//MessageManager.alert("X has cut a tree!");
+			DialogueBox.getInstance().setMessage("[put monster name that used cut here] used cut!");
+			ScreenManager.getInstance().push(DialogueBox.getInstance());
 			
 			//hilangin tree
 			getCurArea().getTile(x, y).setSpriteCodeObj(null);

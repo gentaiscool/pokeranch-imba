@@ -12,7 +12,7 @@ public class Area {
 	private String name;
 	private Sprite body,head;
 	private Tile field[][];
-	private int row, column, curX, curY, nextX, nextY;;
+	private int row, column, curX, curY, nextX, nextY;
 	private boolean outOfBounds;
 	private boolean move = false;
 	private boolean startMoving = false;
