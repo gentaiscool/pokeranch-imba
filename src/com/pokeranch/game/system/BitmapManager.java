@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.util.Log;
 
 public class BitmapManager {
 	private Resources res;
@@ -20,7 +21,7 @@ public class BitmapManager {
 		typeface = Typeface.createFromAsset(res.getAssets(), "fonts/Pokemon GB.ttf");
 	}
 	
-	public void putMap(int id, int r, int c, int border, int pixelSize){
+	public void putMap(String name, int id, int r, int c, int border, int pixelSize){
 		//untuk tile peta, asumsinya langsung dirotate 90 derajat searah jarum jam
 		//int border = 1;
 		//int pixelSize = 16;
@@ -28,9 +29,9 @@ public class BitmapManager {
 		//Log.d("harits", src.getHeight() + " " + src.getWidth());
 		for(int i=0;i<r;i++){
 			for(int j=0;j<c;j++){
-			//	Log.d("harits", "motong " + i + " dan " + j);
+				Log.d("harits1", "motong " + i + " dan " + j);
 				Integer key = i*c+j;	
-				bitmaps.put(key.toString(), Bitmap.createBitmap(src, border+((border+pixelSize)*j), border+((border+pixelSize)*i), pixelSize, pixelSize));
+				bitmaps.put(name+key.toString(), Bitmap.createBitmap(src, border+((border+pixelSize)*j), border+((border+pixelSize)*i), pixelSize, pixelSize));
 			}
 		}
 		//Log.d("harits", "berhasil motong2 bitmap");

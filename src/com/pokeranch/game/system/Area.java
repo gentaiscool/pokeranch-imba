@@ -250,6 +250,10 @@ public class Area {
 		curX = p.x;
 		curY = p.y;
 	}
+	
+	public Point getCurCord(){
+		return new Point(curX, curY);
+	}
 
 	public int getColumn() {
 		return column;

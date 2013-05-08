@@ -20,6 +20,10 @@ public abstract class DelayedAction {
 		return count >= getDelay();
 	}
 	
+	public void forceFinish(){
+		count = getDelay();
+	}
+	
 	public void reset(){
 		count = 0;
 	}
