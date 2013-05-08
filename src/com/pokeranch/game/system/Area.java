@@ -212,6 +212,7 @@ public class Area {
 			if(isAction){
 				//Log.d("boulder", "action performed");
 				am.pushBoulder(curX + am.dirX[direction], curY + am.dirY[direction], direction);
+				am.cutTree(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				isAction = false;
 			}
 		}

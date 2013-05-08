@@ -73,9 +73,6 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("down", R.drawable.down);
 			BitmapManager.getInstance().put("a_button", R.drawable.a);
 			
-			//kotakbuatjam
-			BitmapManager.getInstance().put("kotakjam",R.drawable.kotakjam);
-			
 			/******************* Battle **********************/
 			
 			//battle panel
@@ -108,11 +105,18 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("battle_day_land", R.drawable.battle_day_land);
 			
 			//potong map
+
 			BitmapManager.getInstance().putMap("", R.drawable.spritefull, 45, 43, 1, 16);
 			BitmapManager.getInstance().putMap("b", R.drawable.spritefull2, 11, 15, 0, 16);
 			//Log.d("harits1", "berhasil load semua map");
+
+			//market
+			BitmapManager.getInstance().put("buybutton", R.drawable.buy);
+			BitmapManager.getInstance().put("sellbutton", R.drawable.sell);
+			
 			//mencegah penambahan resource setelah load
 			BitmapManager.getInstance().lockPut();
+			
 		}
 		
 		public GameLoader(Context context){

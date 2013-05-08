@@ -57,7 +57,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,4));
-		manager.push(am);
+		//manager.push(am);
 		
 		//MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
@@ -74,13 +74,25 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		pl.addMonster(m);
 		pl.setCurrentMonster(m.getName());
+
+		pl.setMoney(10000);
+
 		//pl.addMonster(new Monster("myChar", DBLoader.getInstance().getSpecies("Charchar"),10));
+
 		
 		pl2.addMonster(m2);
 		//pl2.addMonster(Monster.getRandomMonster(3, 1));
 		pl2.setCurrentMonster(m2.getName());
 		
 		//manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
+
+		
+		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
+		//manager.push(buymarket);
+		
+		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
+		manager.push(buysellmarket);
+
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

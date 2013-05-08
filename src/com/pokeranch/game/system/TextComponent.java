@@ -20,7 +20,9 @@ public class TextComponent {
 		setText(text);
 		this.x = x;
 		this.y = y;
+
 		fontsize = defaultSize;// * (float) MainGameView.screenDensity / (float) MainGameView.standardDensity; 
+
 		paint = new Paint();
 		paint.setTextSize(fontsize);
 		paint.setTypeface(BitmapManager.getInstance().getTypeface());

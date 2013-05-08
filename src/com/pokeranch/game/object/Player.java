@@ -31,6 +31,8 @@ public class Player {
 		Integer jmlitem =items.get(nitem); 
 		if (jmlitem != null) {
 			jmlitem+=n;
+			items.remove(item);
+			items.put(item.getName(), n);
 		} else {
 			items.put(item.getName(), n);
 		}
@@ -44,6 +46,8 @@ public class Player {
 				items.remove(item);
 			} else {
 				jmlitem-=n;
+				items.remove(item);
+				items.put(item, jmlitem);
 			}
 		} else {
 			throw new Exception();
