@@ -81,7 +81,7 @@ public class Sprite {
 	}
 	
 	public boolean onTouchEvent(MotionEvent event, float mag) {
-		Log.d("testanim", "adasd");
+		//Log.d("testanim", "adasd");
 		return true;
 	}
 	

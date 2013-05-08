@@ -142,7 +142,8 @@ public class Area {
 		nextY = curY;
 		
 		time.update();
-		if(time.finished()) {time.reset();}
+		if(time.finished()) 
+			time.reset();
 		
 		if(move){
 			if(!startMoving){
@@ -184,7 +185,7 @@ public class Area {
 						startMoving = true;
 						curX = nextX;
 						curY = nextY;
-						am.movePlayer(direction, 1);
+						am.movePlayer(direction, 2);
 						
 						//Log.d("harits", "posisi sekarang: " + curX + " " + curY);
 					} else {
@@ -193,7 +194,7 @@ public class Area {
 				} else
 					move = false;
 			} else {
-				am.movePlayer(direction, 1);
+				am.movePlayer(direction, 2);
 				if(am.getCurBody().getX() % 16 == 0 && am.getCurBody().getY() % 16 == 0){
 					if(isUp)
 						move = startMoving = false;

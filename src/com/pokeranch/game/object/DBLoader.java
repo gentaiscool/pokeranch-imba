@@ -166,7 +166,7 @@ public class DBLoader {
 				//Log.d("harits", "nama: " + nama);
 				int r = scan.nextInt();
 				int c = scan.nextInt();
-				Log.d("harits3","di DBLoader, r c: " +  r + " " + c);
+				//Log.d("harits3","di DBLoader, r c: " +  r + " " + c);
 				Area a = new Area(nama, r, c); //belum ada sprite player
 				
 				//ambil id gambar1, id gambar2, passability tile
