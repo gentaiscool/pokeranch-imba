@@ -32,14 +32,21 @@ public class AreaManager implements IScreen{
 	private int screenHeight, screenWidth;
 	private Player curPlayer;
 	private Context context;
+	private TextComponent jam;
+	private String AMPM="";
 	private Paint paint;
+	private Paint paintkotak;
 	public final int dirX[] = {-1, 0, 1, 0};
 	public final int dirY[] = {0, 1, 0, -1};
 	AreaManager(Context con, int scw, int sch, Player p){  
 		paint = new Paint();
+		paintkotak = new Paint();
+		paintkotak.setColor(Color.WHITE);
+		paint.setColorFilter(null);
 		curPlayer = p;
 		screenHeight = sch;
 		screenWidth = scw;
+		jam= new TextComponent("Day "+curPlayer.getPlayingTime().getDay()+" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute(), 10, 20);
 		head = new Sprite(32,0, BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
 			@Override
 			public Point getImgPos(int direction, int frame, int width, int height) {
@@ -95,11 +102,11 @@ public class AreaManager implements IScreen{
 		butLeftestX = 24;
 		butDist = 74;
 		butY = 180;
-		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 0, 135);
-		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 50, 185);
-		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 50, 85);
-		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 100, 135);
-		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 150, 135);
+		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 10, 190);
+		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 35, 215);
+		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 35, 165);
+		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 60, 190);
+		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 280, 190);
 		Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
 		buttonA.addTouchListener(new TouchListener(){
 			@Override
@@ -197,7 +204,10 @@ public class AreaManager implements IScreen{
 		//malam cupu, sementara pake ini dulu
 		Log.d("harits", "" + getCurPlayer().getPlayingTime().getHour());
 		if(getCurPlayer().getPlayingTime().getHour() > 18){
-			paint.setColorFilter(new LightingColorFilter(0x00000000, 0));
+			if(getCurPlayer().haveTorch())
+				paint.setColorFilter(new LightingColorFilter(0x004C4C4C, 0));
+			else
+				paint.setColorFilter(new LightingColorFilter(0x00000000, 0));
 		} else
 			paint.setColorFilter(null);
 		//update head & body diurusin area
@@ -213,12 +223,22 @@ public class AreaManager implements IScreen{
 //		p.addCircle(getCurArea().getCurX()*16 + 8, getCurArea().getCurY()*16 + 8, 12, Path.Direction.CCW);
 //		canvas.clipPath(p);
 //		canvas.drawBitmap(shade, null, new Rect(0,0,240,320), null);
-		body.draw(canvas);
+		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch()))
+			body.draw(canvas);
 		curArea.drawObj(canvas);
-		head.draw(canvas);
+		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch()))
+			head.draw(canvas);
 		for(BitmapButton b : buttons){
 			b.draw(canvas);
 		}
+		if (curPlayer.getPlayingTime().getHour() > 11) {
+			AMPM="PM";
+		} else {
+			AMPM="AM";
+		}
+		canvas.drawRect(5, 5, 100, 25, paintkotak);
+		jam.setText(" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute()+" "+AMPM);
+		jam.draw(canvas);
 		//Log.d("harits", "done drawing area...");
 	}
 
@@ -287,6 +307,21 @@ public class AreaManager implements IScreen{
 				getCurArea().getTile(newX, newY).setSpriteCodeObj("692");
 				getCurArea().getTile(newX, newY).setPassable(1);
 			}
+		}
+	}
+	
+	public void cutTree(int x, int y, int dir){
+		//koordinat tree tujuan ga valid, gagal
+		if(!checkBounds(x, y))
+			return;
+		if(getCurArea().getTile(x, y).getSpriteCodeObj() == null)
+			return;
+		Log.d("harits1", "koordinat untuk dicut valid: " + x + " "+ y);
+		if(getCurArea().getTile(x, y).getSpriteCodeObj().equals("603")){//sprite code buat tree
+			//hilangin tree
+			getCurArea().getTile(x, y).setSpriteCodeObj(null);
+			//set passability di koordinat tree
+			getCurArea().getTile(x, y).setPassable(0);
 		}
 	}
 }
