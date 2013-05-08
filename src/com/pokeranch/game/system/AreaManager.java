@@ -37,6 +37,7 @@ public class AreaManager implements IScreen{
 	public final int dirY[] = {0, 1, 0, -1};
 	AreaManager(Context con, int scw, int sch, Player p){  
 		paint = new Paint();
+		paint.setColorFilter(null);
 		curPlayer = p;
 		screenHeight = sch;
 		screenWidth = scw;
@@ -95,11 +96,11 @@ public class AreaManager implements IScreen{
 		butLeftestX = 24;
 		butDist = 74;
 		butY = 180;
-		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 0, 135);
-		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 50, 185);
-		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 50, 85);
-		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 100, 135);
-		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 150, 135);
+		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 10, 190);
+		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 35, 215);
+		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 35, 165);
+		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 60, 190);
+		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 110, 190);
 		Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
 		buttonA.addTouchListener(new TouchListener(){
 			@Override
@@ -213,9 +214,12 @@ public class AreaManager implements IScreen{
 //		p.addCircle(getCurArea().getCurX()*16 + 8, getCurArea().getCurY()*16 + 8, 12, Path.Direction.CCW);
 //		canvas.clipPath(p);
 //		canvas.drawBitmap(shade, null, new Rect(0,0,240,320), null);
-		body.draw(canvas);
+		
+		if(paint.getColorFilter() == null)
+			body.draw(canvas);
 		curArea.drawObj(canvas);
-		head.draw(canvas);
+		if(paint.getColorFilter() == null)
+			head.draw(canvas);
 		for(BitmapButton b : buttons){
 			b.draw(canvas);
 		}
