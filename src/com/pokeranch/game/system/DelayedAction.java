@@ -9,6 +9,13 @@ public abstract class DelayedAction {
 		}
 	}
 	
+	public void updateFrequently(int tick){
+		count++;
+		if(count % tick == 0){
+			doAction();
+		}
+	}
+	
 	public boolean finished(){
 		return count >= getDelay();
 	}

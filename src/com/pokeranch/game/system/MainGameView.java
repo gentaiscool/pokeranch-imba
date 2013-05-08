@@ -62,8 +62,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
 		
-		Pokedex pokedex = new Pokedex(screenWidth, screenHeight);
-		manager.push(pokedex);
+		//Pokedex pokedex = new Pokedex(screenWidth, screenHeight);
+		//manager.push(pokedex);
 		
 		Player pl = new Player();
 		Player pl2 = new Player();
@@ -75,7 +75,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
 		
-		//manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
+		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
 		
 		paint.setTextSize(40);
 		paint.setTypeface(Typeface.MONOSPACE);

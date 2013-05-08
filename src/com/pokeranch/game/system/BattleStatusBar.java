@@ -14,7 +14,7 @@ public class BattleStatusBar {
 	private int displayHP, maxHP;
 	private int displayMP, maxMP;
 	private int fetchHP, fetchMP, dHP, dMP;
-	private int updateCount, totalUpdate = 40, step;
+	private int totalUpdate = 40, tick = 3;
 	private DelayedAction delayAction;
 	private Paint paint;
 	
@@ -52,41 +52,36 @@ public class BattleStatusBar {
 	}
 	
 	public void update(){
-		step++;
-		if(step==2){
-			updateCount++;
-			step=0;
-			if (updateCount < totalUpdate){
-				displayHP-=dHP;
-				displayMP-=dMP;
-				
-				if(displayHP < fetchHP){
-					if(dHP > 0) displayHP = fetchHP;
-				}else{
-					if (dHP < 0) displayHP = fetchHP;
+		if(delayAction!=null){
+				delayAction.updateFrequently(tick);
+				if(delayAction.finished()){
+					displayHP = fetchHP;
+					displayMP = fetchMP;
+					delayAction = null;
 				}
-				
-				if(displayMP < fetchMP){
-					if(dMP > 0) displayMP = fetchMP;
-				}else{
-					if (dMP < 0) displayMP = fetchMP;
-				}
-				
-				//selesain kalo emang udah
-				//if (displayHP == fetchHP && displayMP == fetchMP)
-					//updateCount=totalUpdate;
-				
-			}else{
-				displayHP = fetchHP;
-				displayMP = fetchMP;
-			}
-			
-			refreshDisplay();
+				refreshDisplay();
+		}
+	}
+	
+	private void animate(){
+		displayHP-=dHP;
+		displayMP-=dMP;
+		
+		if(displayHP < fetchHP){
+			if(dHP > 0) displayHP = fetchHP;
+		}else{
+			if (dHP < 0) displayHP = fetchHP;
+		}
+		
+		if(displayMP < fetchMP){
+			if(dMP > 0) displayMP = fetchMP;
+		}else{
+			if (dMP < 0) displayMP = fetchMP;
 		}
 	}
 	
 	public boolean animationFinished(){
-		return updateCount>=totalUpdate;
+		return delayAction==null;
 	}
 
 	public void setMonster(Monster monster) {
@@ -104,12 +99,17 @@ public class BattleStatusBar {
 	}
 	
 	public void fetchData(){
-		updateCount = 0;
-		step = 0;
 		fetchHP = monster.getStatus().getHP();
 		fetchMP = monster.getStatus().getMP();
 		dHP = (displayHP - fetchHP) / totalUpdate + 1;
 		dMP = (displayMP - fetchMP) / totalUpdate + 1;
+			
+		delayAction = new DelayedAction(){
+			@Override
+			public void doAction() { animate();}
+			@Override
+			public int getDelay() {	return totalUpdate*tick;}
+		};
 	}
 	
 	public void refreshDisplay(){
