@@ -39,7 +39,7 @@ public class StatItem extends Item{
 		permanent = p;
 	}
 
-	Status.Effect getCureStat()
+	public Status.Effect getCureStat()
 	{
 		return cureStatus;
 	}
@@ -49,7 +49,7 @@ public class StatItem extends Item{
 		cureStatus=cureff;
 	}
 
-	Status getItemEffect()
+	public Status getItemEffect()
 	{
 		return itemEffect;
 	}

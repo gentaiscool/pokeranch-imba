@@ -49,6 +49,18 @@ public class DBLoader {
 		return species.values();
 	}
 	
+	public Collection<MonsterBall> getAllBalls(){
+		return balls.values();
+	}
+	
+	public Collection<StatItem> getAllStatItems(){
+		return statitems.values();
+	}
+	
+	public Collection<TM> getAllTms(){
+		return tms.values();
+	}
+ 	
 	public Element getElement(String name){
 		return elements.get(name);
 	}
