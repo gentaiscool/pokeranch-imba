@@ -2,6 +2,7 @@ package com.pokeranch.game.system;
 
 import java.util.ArrayList;
 
+import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MessageManager.Action;
 
 import android.annotation.SuppressLint;
@@ -54,7 +55,7 @@ public class MainStory implements IScreen{
 			frame = new BitmapButton(BitmapManager.getInstance().get("frame"),65,150);
 			oak = new BitmapButton(BitmapManager.getInstance().get("professoroak"),19,60);
 			transparentButton = new BitmapButton(BitmapManager.getInstance().get("transparent"),0,0);
-			transparentButton.addTouchAction(new TouchAction() {
+			transparentButton.addTouchListener(new TouchListener() {
 				
 				@Override
 				public void onTouchUp() {

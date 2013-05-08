@@ -6,11 +6,17 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-public class BitmapButton implements TouchListener {
-	private TouchAction action;
+public class BitmapButton implements Touchables {
+	private TouchListener action;
 	private Bitmap bitmap;
 	private float x, y;
 	private boolean touched = false;
+	
+	public interface TouchListener {
+		public void onTouchDown();
+		public void onTouchUp();
+		public void onTouchMove();
+	}
 	
 	public BitmapButton(Bitmap bitmap, float x, float y){
 		this.x = x;
@@ -22,7 +28,7 @@ public class BitmapButton implements TouchListener {
 		canvas.drawBitmap(bitmap, new Rect(0,0,bitmap.getWidth(), bitmap.getHeight()), new RectF(x,y,x+bitmap.getWidth(),y+bitmap.getHeight()), null);
 	}
 	
-	public void addTouchAction(TouchAction action){
+	public void addTouchListener(TouchListener action){
 		this.action = action;
 	}
 	

@@ -20,6 +20,8 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.ScrollComponent.SelectionListener;
 
 public class MainMenu implements IScreen{
@@ -53,7 +55,7 @@ public class MainMenu implements IScreen{
 			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),100,32);
 			logo = new BitmapButton(BitmapManager.getInstance().get("logo"),20,32);
 			 
-			logo.addTouchAction(new TouchAction() {
+			logo.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchUp() {
 					// TODO Auto-generated method stub
@@ -72,7 +74,7 @@ public class MainMenu implements IScreen{
 					
 				}
 			});
-			newgame.addTouchAction(new TouchAction() {
+			newgame.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchUp() {
 					// TODO Auto-generated method stub
@@ -93,7 +95,7 @@ public class MainMenu implements IScreen{
 				}
 			});
 			
-			loadgame.addTouchAction(new TouchAction() {
+			loadgame.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchUp() {
 					// TODO Auto-generated method stub
@@ -113,7 +115,7 @@ public class MainMenu implements IScreen{
 				}
 			});
 			
-			helpgame.addTouchAction(new TouchAction() {
+			helpgame.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchUp() {
 					// TODO Auto-generated method stub
@@ -133,7 +135,7 @@ public class MainMenu implements IScreen{
 				}
 			});
 			
-			exitbutton.addTouchAction(new TouchAction() {
+			exitbutton.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchUp() {
 					// TODO Auto-generated method stub

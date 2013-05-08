@@ -10,12 +10,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.pokeranch.game.object.*;
+import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MessageManager.Action;
 
 public class BattleScreen implements IScreen {
 	//gui
 	private BitmapButton attack, useItem, change, escape;
-	private ArrayList<TouchListener> touch;
+	private ArrayList<Touchables> touch;
 	private Bitmap background, bar;
 	private SkillAnimation animation;
 	private Bitmap poke1, poke2;
@@ -72,7 +73,7 @@ public class BattleScreen implements IScreen {
 		stat1 = new BattleStatusBar(player1.getCurrentMonster(),(int) MainGameView.standardWidth - 125,(int) MainGameView.standardHeight - 60 - geserTop);
 		stat2 = new BattleStatusBar(player2.getCurrentMonster(),10,10);
 		
-		touch = new ArrayList<TouchListener>();
+		touch = new ArrayList<Touchables>();
 		animation = null;
 		
 		int buttonTop = 28;
@@ -230,7 +231,7 @@ public class BattleScreen implements IScreen {
 		break;
 		
 		case WAIT_INPUT:
-			for(TouchListener t : touch) t.onTouchEvent(e, magX, magY);
+			for(Touchables t : touch) t.onTouchEvent(e, magX, magY);
 		break;
 		
 		default:
@@ -238,7 +239,7 @@ public class BattleScreen implements IScreen {
 	}
 	
 	public void initListener(){
-		attack.addTouchAction(new TouchAction() {
+		attack.addTouchListener(new TouchListener() {
 			@Override
 			public void onTouchUp() {selectAttack();}
 			@Override
@@ -247,7 +248,7 @@ public class BattleScreen implements IScreen {
 			public void onTouchDown() {}
 		});
 		
-		useItem.addTouchAction(new TouchAction() {
+		useItem.addTouchListener(new TouchListener() {
 			@Override
 			public void onTouchUp() {selectItem();}
 			@Override
@@ -256,7 +257,7 @@ public class BattleScreen implements IScreen {
 			public void onTouchDown() {}
 		});
 		
-		change.addTouchAction(new TouchAction() {
+		change.addTouchListener(new TouchListener() {
 			@Override
 			public void onTouchUp() {changeMonster();}
 			@Override
@@ -265,7 +266,7 @@ public class BattleScreen implements IScreen {
 			public void onTouchDown() {}
 		});
 		
-		escape.addTouchAction(new TouchAction() {
+		escape.addTouchListener(new TouchListener() {
 			@Override
 			public void onTouchUp() {tryEscape();}
 			@Override

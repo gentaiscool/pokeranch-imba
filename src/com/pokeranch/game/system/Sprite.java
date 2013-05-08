@@ -18,6 +18,10 @@ public class Sprite {
 	private Matrix mtx;
 	private SpriteCounter scount;
 	
+	public interface SpriteCounter {
+		public Point getImgPos(int direction, int frame, int width, int height);
+		
+	}
 	
 	//sprite X dan Y nya merupakan row dan colums saat landscape
 	public Sprite(int _x, int _y, Bitmap bitmap, int row, int col, int frameNum,SpriteCounter scount){

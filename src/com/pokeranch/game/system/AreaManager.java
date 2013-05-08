@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.Player;
+import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MainGameView.ButtonClick;
+import com.pokeranch.game.system.Sprite.SpriteCounter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -99,7 +101,7 @@ public class AreaManager implements IScreen{
 		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 100, 135);
 		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 150, 135);
 		Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
-		buttonA.addTouchAction(new TouchAction(){
+		buttonA.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
 				curArea.getButtonInput(ButtonClick.ACTION);
@@ -113,7 +115,7 @@ public class AreaManager implements IScreen{
 			}
 		});
 		
-		buttonDown.addTouchAction(new TouchAction(){
+		buttonDown.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
 				curArea.getButtonInput(ButtonClick.DOWN);
@@ -127,7 +129,7 @@ public class AreaManager implements IScreen{
 			}		
 		});
 		
-		buttonUp.addTouchAction(new TouchAction(){
+		buttonUp.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
 				curArea.getButtonInput(ButtonClick.UP);
@@ -141,7 +143,7 @@ public class AreaManager implements IScreen{
 			}		
 		});
 		
-		buttonLeft.addTouchAction(new TouchAction(){
+		buttonLeft.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
 				curArea.getButtonInput(ButtonClick.LEFT);
@@ -155,7 +157,7 @@ public class AreaManager implements IScreen{
 			}		
 		});
 		
-		buttonRight.addTouchAction(new TouchAction(){
+		buttonRight.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
 				curArea.getButtonInput(ButtonClick.RIGHT);

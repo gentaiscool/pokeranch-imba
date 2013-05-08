@@ -2,6 +2,7 @@ package com.pokeranch.game.system;
 
 import java.util.ArrayList;
 
+import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MessageManager.Action;
 
 import android.annotation.SuppressLint;
@@ -47,7 +48,7 @@ public class MainChooseMonster implements IScreen{
 			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("Squir"),  150, 100);
 			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("Bulba"), 300, 100);
 			
-			charchar.addTouchAction(new TouchAction() {
+			charchar.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
@@ -64,7 +65,7 @@ public class MainChooseMonster implements IScreen{
 					
 				}
 			});
-			squir.addTouchAction(new TouchAction() {
+			squir.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
@@ -79,7 +80,7 @@ public class MainChooseMonster implements IScreen{
 					
 				}
 			});
-			bulba.addTouchAction(new TouchAction() {
+			bulba.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
