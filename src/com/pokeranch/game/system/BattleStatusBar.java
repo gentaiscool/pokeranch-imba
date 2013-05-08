@@ -33,6 +33,8 @@ public class BattleStatusBar {
 	}
 	
 	public void draw(Canvas canvas){
+		if(!visible) return;
+		
 		paint.setColor(Color.argb(225, 50, 50, 50));
 		canvas.drawRect(x, y, x+120, y+55, paint);
 		name.draw(canvas);
@@ -54,6 +56,11 @@ public class BattleStatusBar {
 	public void update(){
 		if(delayAction!=null){
 				delayAction.updateFrequently(tick);
+				
+				if(displayHP == fetchHP && displayMP == fetchMP){
+					delayAction.forceFinish();
+				}
+				
 				if(delayAction.finished()){
 					displayHP = fetchHP;
 					displayMP = fetchMP;

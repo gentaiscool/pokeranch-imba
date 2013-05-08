@@ -21,20 +21,21 @@ public class BattleScreen implements IScreen {
 	private SkillAnimation animation;
 	private Bitmap poke1, poke2;
 	private int x1, y1, x2, y2; //posisi gambar avatar pokemon
+	private int _x1, _y1, _x2, _y2; //posisi asli gambar
 	private int geserTop = 58; //buat geser layout background ke atas
 	private TextComponent message;
 	private BattleStatusBar stat1, stat2;
 	
 	//system
 	public enum BattleMode {WILD, STADIUM, PVP};
-	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, ANIMATING_SKILL, ANIMATING_HEALTH};
+	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_MATI, MATI, END};
 	
 	private Player player1, player2, current, enemy;
 	private int turn; //player no berapa yg sedang jalan
 	private BattleMode mode;
 	private BattleState state;
 
-	private DelayedAction delayAction = null;
+	private DelayedAction delayAction = null, dieAnim = null;
 	
 	public BattleScreen(Player player1, Player player2, BattleMode mode){
 		this.player1 = player1;
@@ -58,17 +59,22 @@ public class BattleScreen implements IScreen {
 		
 		//init gui
 		
-		x1 = 5;
-		y1 = 115 - geserTop;
+		_x1 = 5;
+		_y1 = 115 - geserTop;
 		
-		x2 = 175;
-		y2 = 0;
+		_x2 = 175;
+		_y2 = 0;
+		
+		x1 = _x1;
+		y1 = _y1;
+		
+		x2 = _x2;
+		y2 = _y2;
+		
+		refreshImage();
 		
 		background = BitmapManager.getInstance().get("battle_day_land");
 		bar = BitmapManager.getInstance().get("battle_bar");
-		
-		poke1 = BitmapManager.getInstance().get(player1.getCurrentMonster().getSpecies().getName()+"_back");
-		poke2 = BitmapManager.getInstance().get(player2.getCurrentMonster().getSpecies().getName()+"_front");
 		
 		stat1 = new BattleStatusBar(player1.getCurrentMonster(),(int) MainGameView.standardWidth - 125,(int) MainGameView.standardHeight - 60 - geserTop);
 		stat2 = new BattleStatusBar(player2.getCurrentMonster(),10,10);
@@ -98,7 +104,20 @@ public class BattleScreen implements IScreen {
 			}
 		}
 		
-		if(state==BattleState.ANIMATING_SKILL){
+		if(dieAnim!=null){
+			dieAnim.updateFrequently(3);
+			if (dieAnim.finished()){
+				dieAnim=null;
+				x1=_x1;
+				x2=_x2;
+				stat1.setVisible(true);
+				stat2.setVisible(true);				
+				state = BattleState.MATI;
+			}
+		}
+		
+		switch(state){
+		case ANIMATING_SKILL:
 			animation.update();
 			if(animation.finished()) {
 				enemy.getCurrentMonster().inflictDamage(animation.getSkill(), current.getCurrentMonster());
@@ -107,12 +126,42 @@ public class BattleScreen implements IScreen {
 				stat2.fetchData();
 				state = BattleState.ANIMATING_HEALTH;
 			}
-		}else if(state==BattleState.ANIMATING_HEALTH){
+		break;
+		case ANIMATING_HEALTH:
 			stat1.update();
 			stat2.update();
-			if(stat1.animationFinished() && stat1.animationFinished())
+			if(stat1.animationFinished() && stat2.animationFinished())
+				if(!cekmati()) nextTurn();
+		break;
+		case MATI:
+			try{
+				Monster m = enemy.getCurrentMonster();
+				message.setText(m.getName() + " fainted.");
+				enemy.setCurrentMonster(enemy.getNextMonster());
+				refreshImage();
+				if(turn==1){
+					stat2.setMonster(enemy.getCurrentMonster());
+					message.appendText("Enemy use " + enemy.getCurrentMonster().getName());
+				}else{
+					stat1.setMonster(enemy.getCurrentMonster());
+					message.appendText("You use " + enemy.getCurrentMonster().getName());
+				}
+				
 				nextTurn();
+			}catch (Exception e){
+				state = BattleState.END;
+				endBattle();
+			}
+		break;
+		default:
 		}
+	}
+	
+	private void endBattle(){
+		if(turn==1) 
+			message.appendText("Enemy Lose!");
+		else
+			message.appendText("You Lose!");
 	}
 	
 	private void attack(Skill sk){
@@ -128,11 +177,49 @@ public class BattleScreen implements IScreen {
 		attack(sk);
 	}
 	
+	//turn system
+	
+	private boolean cekmati(){
+		//mati : currentmonster hpnya 0
+		if( enemy.getCurrentMonster().getStatus().getHP()<=0){
+			state = BattleState.ANIMATING_MATI;
+			
+			if(turn==2){
+				stat1.setVisible(false);
+			}else{
+				stat2.setVisible(false);
+			}
+			
+			dieAnim = new PokeOut();
+			
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	private class PokeOut extends DelayedAction{
+		@Override
+		public int getDelay() {
+			return 60;
+		}
+		@Override
+		public void doAction() {
+			if(turn==2){
+				x1-=10;
+			}else{
+				x2+=10;
+			}
+		}
+	}
+	
 	private void nextTurn(){
 		turn = turn==1 ? 2 : 1;
-		//turn = 1;
 		
-		message.setText(turn==1? "Your turn" : "Enemy Turn");
+		if(mode==BattleMode.PVP)
+			message.setText("Player " + turn + " turn");
+		else
+			message.setText(turn==1? "Your turn" : "Enemy Turn");
 		
 		Player temp = current;
 		current = enemy;
@@ -163,6 +250,13 @@ public class BattleScreen implements IScreen {
 	}
 	
 	//draw
+	
+	private void refreshImage(){
+		poke1 = BitmapManager.getInstance().get(player1.getCurrentMonster().getSpecies().getName()+"_back");
+		poke2 = BitmapManager.getInstance().get(player2.getCurrentMonster().getSpecies().getName()+"_front");
+	}
+	
+	
 	
 	@Override
 	public void draw(Canvas canvas) {
