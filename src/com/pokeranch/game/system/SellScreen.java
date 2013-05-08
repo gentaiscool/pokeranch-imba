@@ -90,11 +90,15 @@ public class SellScreen implements IScreen{
 			Log.d("Size", ""+statItems.size());
 			tm = new String[tms.size()+1];
 			
+			MonsterBall mb2 = new MonsterBall();
+			mb2.setName("Master_Ball");
+			player.addItem(mb2, 1000);
+			
 			int i = 0;
 			Iterator<MonsterBall> it = monsterBalls.iterator();
 			while(it.hasNext()){
 				MonsterBall mb = it.next();
-				monsterBall[i] = mb.getName();
+				monsterBall[i] = ""+ arrItems.get(mb.getName())+"x "+mb.getName();
 				arrMonsterBall.add(mb);
 				numMonsterBall.add(arrItems.get(mb.getName()));
 				i++;
@@ -105,7 +109,7 @@ public class SellScreen implements IScreen{
 			Iterator<StatItem> it2 = statItems.iterator();
 			while(it2.hasNext()){
 				StatItem si = it2.next();
-				statItem[i] = si.getName();
+				statItem[i] = ""+ arrItems.get(si.getName())+"x "+si.getName();
 				arrStatItem.add(si);
 				numStatItem.add(arrItems.get(si.getName()));
 				i++;
@@ -116,7 +120,7 @@ public class SellScreen implements IScreen{
 			Iterator<TM> it3 = tms.iterator();
 			while(it3.hasNext()){
 				TM teem = it3.next();
-				tm[i] = teem.getName();
+				tm[i] = ""+ arrItems.get(teem.getName())+"x "+teem.getName();
 				arrTM.add(teem);
 				numTM.add(arrItems.get(teem.getName()));
 				i++;
@@ -135,23 +139,6 @@ public class SellScreen implements IScreen{
 					showCategory(selection);
 				}
 			});
-			
-			/*
-			scroll = new ScrollComponent(monsterBall,220,100,screenHeight,new SelectionListener(){
-				@Override
-				public void selectAction(int selection) {
-					showItem(selection);
-				}
-			});*/
-			
-			/*
-			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),253,66);
-			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  265, 105);
-			helpgame = new BitmapButton(BitmapManager.getInstance().get("helpgame"), 253, 144);
-			exitbutton = new BitmapButton(BitmapManager.getInstance().get("exitbutton"), 20, 150);
-			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),100,32);
-			logo = new BitmapButton(BitmapManager.getInstance().get("logo"),20,32);
-			 */			
 			
 			text = new TextComponent("", 10, 25);
 			textMoney = new TextComponent("", 10, 180);
@@ -192,13 +179,11 @@ public class SellScreen implements IScreen{
 					@Override
 					public void onTouchUp() {
 						// TODO Auto-generated method stub
-						
 					}
 					
 					@Override
 					public void onTouchMove() {
 						// TODO Auto-generated method stub
-						
 					}
 					
 					@Override
@@ -210,16 +195,37 @@ public class SellScreen implements IScreen{
 								// TODO Auto-generated method stub
 								//check
 								if(isInt(o.toString())){
-									if (Integer.parseInt(o.toString()) > numMonsterBall.get(num)){
+									if(o.toString().length()==0){
+										MessageManager.alert("Input is expected");
+									}
+									else if (Integer.parseInt(o.toString()) > numMonsterBall.get(num)){
 										MessageManager.alert("The number inserted exceeds your item amount");
 									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
 									}
 									else{
-										MessageManager.alert("Selamat Anda telah menjual");
-										player.addItem(arrMonsterBall.get(num), Integer.parseInt(o.toString()));
+										MessageManager.alert("Selamat Anda telah menjual "+Integer.parseInt(o.toString() + "x "+ arrMonsterBall.get(num).getName()));
+										try {
+											player.delItem(arrMonsterBall.get(num).getName(), Integer.parseInt(o.toString()));
+										} catch (Exception e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										numMonsterBall.set(num, numMonsterBall.get(num) - Integer.parseInt(o.toString()));
+										//Log.d("test", ""+numMonsterBall.get(num));
+										//showCategory(0);
+										//player.addItem(arrMonsterBall.get(num), Integer.parseInt(o.toString()));
 										player.setMoney(player.getMoney()+arrMonsterBall.get(num).getPrice() * Integer.parseInt(o.toString()));
+										monsterBall[num] = ""+ numMonsterBall.get(num)+"x "+(arrMonsterBall.get(num).getName());
+										//MessageManager.alert(monsterBall[num].toString());
+										scroll = new ScrollComponent(monsterBall,220,100,curScreenHeight,new SelectionListener(){
+											@Override
+											public void selectAction(int selection) {
+												Log.d("test",""+selection);
+												showMonsterBall(selection);
+											}
+										});
 									}						
 								}
 								else MessageManager.alert("non Integer lu");

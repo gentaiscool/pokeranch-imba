@@ -198,7 +198,10 @@ public class BuyScreen implements IScreen{
 								// TODO Auto-generated method stub
 								//check
 								if(isInt(o.toString())){
-									if (player.getMoney() < arrMonsterBall.get(num).getPrice() * Integer.parseInt(o.toString())){
+									if(o.toString().length()==0){
+										MessageManager.alert("Input is expected");
+									}
+									else if (player.getMoney() < arrMonsterBall.get(num).getPrice() * Integer.parseInt(o.toString())){
 										MessageManager.alert("Your money is not enough to buy them");
 									}
 									else if(num > 100){
@@ -270,7 +273,10 @@ public class BuyScreen implements IScreen{
 								// TODO Auto-generated method stub
 								//check
 								if(isInt(o.toString())){
-									if (player.getMoney() < arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString())){
+									if(o.toString().length()==0){
+										MessageManager.alert("Input is expected");
+									}
+									else if (player.getMoney() < arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString())){
 										MessageManager.alert("Your money is not enough to buy them");
 									}
 									else if(num > 100){
@@ -345,7 +351,10 @@ public class BuyScreen implements IScreen{
 								// TODO Auto-generated method stub
 								//check
 								if(isInt(o.toString())){
-									if (player.getMoney() < arrTM.get(num).getPrice() * Integer.parseInt(o.toString())){
+									if(o.toString().length()==0){
+										MessageManager.alert("Input is expected");
+									}
+									else if (player.getMoney() < arrTM.get(num).getPrice() * Integer.parseInt(o.toString())){
 										MessageManager.alert("Your money is not enough to buy them");
 									}
 									else if(num > 100){
