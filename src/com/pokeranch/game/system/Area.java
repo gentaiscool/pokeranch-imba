@@ -19,7 +19,6 @@ public class Area {
 	private boolean isUp = true;
 	private int direction = 0;
 	private int newDirection;
-	private int countermove = 0;
 	private boolean isAction;
 	private DelayedAction time;
 	
@@ -38,7 +37,7 @@ public class Area {
 
 			@Override
 			public int getDelay() {
-				return 60;
+				return 5;
 			}
 		};
 	}
