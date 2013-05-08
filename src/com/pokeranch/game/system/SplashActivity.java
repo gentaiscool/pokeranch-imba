@@ -72,6 +72,9 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("down", R.drawable.down);
 			BitmapManager.getInstance().put("a_button", R.drawable.a);
 			
+			//kotakbuatjam
+			BitmapManager.getInstance().put("kotakjam",R.drawable.kotakjam);
+			
 			/******************* Battle **********************/
 			
 			//battle panel

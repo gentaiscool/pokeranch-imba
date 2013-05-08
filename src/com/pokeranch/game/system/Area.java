@@ -19,7 +19,10 @@ public class Area {
 	private boolean isUp = true;
 	private int direction = 0;
 	private int newDirection;
+	private int countermove = 0;
 	private boolean isAction;
+	private DelayedAction time;
+	
 	public Area(String n, int r, int c, Sprite _head, Sprite _body){
 		name = n;
 		field = new Tile[r][c];
@@ -27,6 +30,17 @@ public class Area {
 		row = r; //jumlah baris
 		column = c; //jumlah kolom
 		isAction = false;
+		time = new DelayedAction(){
+			@Override
+			public void doAction() {
+				am.getCurPlayer().addTime(1);
+			}
+
+			@Override
+			public int getDelay() {
+				return 60;
+			}
+		};
 	}
 	
 	public void getButtonInput(ButtonClick click){
@@ -129,8 +143,11 @@ public class Area {
 		//Log.d("harits", "sekarang ada di: " + curX + " " + curY);
 		nextX = curX;
 		nextY = curY;
+		
+		time.update();
+		if(time.finished()) {time.reset();}
+		
 		if(move){
-			am.getCurPlayer().addTime(1);
 			if(!startMoving){
 				direction = newDirection;
 				switch(direction){
