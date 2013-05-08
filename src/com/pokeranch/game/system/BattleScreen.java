@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.UrlQuerySanitizer.ParameterValuePair;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -28,7 +29,7 @@ public class BattleScreen implements IScreen {
 	
 	//system
 	public enum BattleMode {WILD, STADIUM, PVP};
-	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_MATI, MATI, END};
+	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_MATI, EVO_INFO, MATI, END};
 	
 	private Player player1, player2, current, enemy;
 	private int turn; //player no berapa yg sedang jalan
@@ -134,34 +135,84 @@ public class BattleScreen implements IScreen {
 				if(!cekmati()) nextTurn();
 		break;
 		case MATI:
-			try{
+			
 				Monster m = enemy.getCurrentMonster();
+				
 				message.setText(m.getName() + " fainted.");
-				enemy.setCurrentMonster(enemy.getNextMonster());
-				refreshImage();
-				if(turn==1){
-					stat2.setMonster(enemy.getCurrentMonster());
-					message.appendText("Enemy use " + enemy.getCurrentMonster().getName());
-				}else{
-					stat1.setMonster(enemy.getCurrentMonster());
-					message.appendText("You use " + enemy.getCurrentMonster().getName());
+				
+				if(turn==1 && mode!=BattleMode.PVP){
+					message.appendText(current.getCurrentMonster().getName() + " get " + m.getBonusExp() + " EXP");
+					
+					int hasil = current.getCurrentMonster().addExp(m.getBonusExp());
+					
+					switch(hasil){
+					case 1:
+						message.appendText(current.getCurrentMonster().getName() + "'s level increased!");
+						stat1.refreshData();
+					break;
+					case 2:
+						message.appendText(current.getCurrentMonster().getName() + " evolves into a " + current.getCurrentMonster().getSpecies().getName() +"!");
+						state = BattleState.EVO_INFO;
+						refreshImage();
+						stat1.refreshData();
+						poke2 = BitmapManager.getInstance().get("trans");
+						stat2.setVisible(false);
+						
+						delayAction = new DelayedAction() {
+							@Override
+							public int getDelay() {
+								return 80;
+							}
+							@Override
+							public void doAction() {
+								stat2.setVisible(true);
+								change();								
+							}
+						};
+					break;
+					}
 				}
 				
-				nextTurn();
-			}catch (Exception e){
-				state = BattleState.END;
-				endBattle();
-			}
+				
+				if (state == BattleState.EVO_INFO) return;
+				
+				change();
 		break;
 		default:
 		}
 	}
 	
+	private void change(){
+		try{	
+			enemy.setCurrentMonster(enemy.getNextMonster());
+			refreshImage();
+			if(turn==1){
+				stat2.setMonster(enemy.getCurrentMonster());
+				stat1.refreshData();
+				message.appendText("Enemy use " + enemy.getCurrentMonster().getName());
+			}else{
+				stat1.setMonster(enemy.getCurrentMonster());
+				stat2.refreshData();
+				message.appendText("You use " + enemy.getCurrentMonster().getName());
+			}
+			
+			nextTurn();
+		}catch (Exception e){
+			state = BattleState.END;
+			endBattle();
+		}
+	}
+	
 	private void endBattle(){
-		if(turn==1) 
-			message.appendText("Enemy Lose!");
-		else
-			message.appendText("You Lose!");
+		if(turn==1){ 
+			message.appendText("Enemy lose!");
+			poke2 = BitmapManager.getInstance().get("trans");
+			stat2.setVisible(false);
+		}else{
+			message.appendText("You lose!");
+			poke1 = BitmapManager.getInstance().get("trans");
+			stat1.setVisible(false);
+		}
 	}
 	
 	private void attack(Skill sk){
@@ -174,7 +225,12 @@ public class BattleScreen implements IScreen {
 	
 	private void attack(int choice){
 		Skill sk = current.getCurrentMonster().getSkill(choice);
-		attack(sk);
+		
+		if(current.getCurrentMonster().getStatus().getMP() + sk.getCost().getMP() >= 0){
+			attack(sk);
+		}else{
+			message.setText("Your monster doesn't have\nenough MP!");
+		}
 	}
 	
 	//turn system
@@ -326,8 +382,7 @@ public class BattleScreen implements IScreen {
 		
 		case WAIT_INPUT:
 			for(Touchables t : touch) t.onTouchEvent(e, magX, magY);
-		break;
-		
+		break;	
 		default:
 		}
 	}

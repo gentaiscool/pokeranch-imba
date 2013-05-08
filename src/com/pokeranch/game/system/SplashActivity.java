@@ -97,6 +97,8 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("Bulba_front", R.drawable.bulba_front);
 			BitmapManager.getInstance().put("Charchar_back", R.drawable.charchar_back);
 			BitmapManager.getInstance().put("Charchar_front", R.drawable.charchar_front);
+			BitmapManager.getInstance().put("Ivy_back", R.drawable.ivy_back);
+			BitmapManager.getInstance().put("Ivy_front", R.drawable.ivy_front);
 			
 			//battle background
 			BitmapManager.getInstance().put("battle_day_land", R.drawable.battle_day_land);

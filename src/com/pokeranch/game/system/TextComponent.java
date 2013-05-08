@@ -24,7 +24,7 @@ public class TextComponent {
 		paint = new Paint();
 		paint.setTextSize(fontsize);
 		paint.setTypeface(BitmapManager.getInstance().getTypeface());
-		paint.setColor(Color.BLACK);	
+		paint.setColor(Color.BLACK);
 	}
 	
 	public synchronized void draw(Canvas canvas){
