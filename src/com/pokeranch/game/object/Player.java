@@ -32,7 +32,7 @@ public class Player {
 		if (jmlitem != null) {
 			jmlitem+=n;
 			items.remove(item);
-			items.put(item.getName(), n);
+			items.put(item.getName(), jmlitem);
 		} else {
 			items.put(item.getName(), n);
 		}
@@ -42,11 +42,9 @@ public class Player {
 		//mencari key yang sesuai, jika tidak ditemukan melakukan throw
 		Integer jmlitem =items.get(item); 
 		if (jmlitem != null){
-			if ((jmlitem-n)==0){
-				items.remove(item);
-			} else {
+			items.remove(item);
+			if ((jmlitem-n)!=0){
 				jmlitem-=n;
-				items.remove(item);
 				items.put(item, jmlitem);
 			}
 		} else {
