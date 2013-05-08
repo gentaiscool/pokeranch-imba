@@ -187,5 +187,9 @@ public class Player {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public boolean haveTorch(){
+		return true;
+	}
 
 }

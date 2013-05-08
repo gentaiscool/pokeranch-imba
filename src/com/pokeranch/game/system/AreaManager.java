@@ -198,7 +198,10 @@ public class AreaManager implements IScreen{
 		//malam cupu, sementara pake ini dulu
 		Log.d("harits", "" + getCurPlayer().getPlayingTime().getHour());
 		if(getCurPlayer().getPlayingTime().getHour() > 18){
-			paint.setColorFilter(new LightingColorFilter(0x00000000, 0));
+			if(getCurPlayer().haveTorch())
+				paint.setColorFilter(new LightingColorFilter(0x004C4C4C, 0));
+			else
+				paint.setColorFilter(new LightingColorFilter(0x00000000, 0));
 		} else
 			paint.setColorFilter(null);
 		//update head & body diurusin area
@@ -215,10 +218,10 @@ public class AreaManager implements IScreen{
 //		canvas.clipPath(p);
 //		canvas.drawBitmap(shade, null, new Rect(0,0,240,320), null);
 		
-		if(paint.getColorFilter() == null)
+		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch()))
 			body.draw(canvas);
 		curArea.drawObj(canvas);
-		if(paint.getColorFilter() == null)
+		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch()))
 			head.draw(canvas);
 		for(BitmapButton b : buttons){
 			b.draw(canvas);
@@ -291,6 +294,21 @@ public class AreaManager implements IScreen{
 				getCurArea().getTile(newX, newY).setSpriteCodeObj("692");
 				getCurArea().getTile(newX, newY).setPassable(1);
 			}
+		}
+	}
+	
+	public void cutTree(int x, int y, int dir){
+		//koordinat tree tujuan ga valid, gagal
+		if(!checkBounds(x, y))
+			return;
+		if(getCurArea().getTile(x, y).getSpriteCodeObj() == null)
+			return;
+		
+		if(getCurArea().getTile(x, y).getSpriteCodeObj().equals("603")){//sprite code buat tree
+			//hilangin tree
+			getCurArea().getTile(x, y).setSpriteCodeObj(null);
+			//set passability di koordinat tree
+			getCurArea().getTile(x, y).setPassable(0);
 		}
 	}
 }
