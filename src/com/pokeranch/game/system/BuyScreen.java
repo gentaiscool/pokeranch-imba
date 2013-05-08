@@ -413,6 +413,7 @@ public class BuyScreen implements IScreen{
 				break;
 			case 3:
 				//terminates
+				ScreenManager.getInstance().pop();
 				break;
 			}
 		}

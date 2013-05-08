@@ -57,7 +57,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,4));
-		manager.push(am);
+		//manager.push(am);
 		
 		//MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
@@ -90,8 +90,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
 		//manager.push(buymarket);
 		
-		SellScreen sellmarket = new SellScreen(pl, screenWidth, screenHeight);
-		manager.push(sellmarket);
+		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
+		manager.push(buysellmarket);
 
 		
 		paint.setTextSize(40);
