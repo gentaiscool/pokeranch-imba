@@ -18,5 +18,6 @@ public abstract class DelayedAction {
 	}
 	
 	public abstract void doAction();
-	public abstract int getDelay(); // set delay, isinya cuma return mau berapa delaynya
+	public abstract int getDelay(); 
+		// isinya cuma return mau berapa delaynya (skip berapa update sebelum doAction())
 }

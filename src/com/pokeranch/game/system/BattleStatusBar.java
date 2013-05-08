@@ -15,6 +15,7 @@ public class BattleStatusBar {
 	private int displayMP, maxMP;
 	private int fetchHP, fetchMP, dHP, dMP;
 	private int updateCount, totalUpdate = 40, step;
+	private DelayedAction delayAction;
 	private Paint paint;
 	
 	public BattleStatusBar(Monster m, int x, int y){
@@ -25,7 +26,7 @@ public class BattleStatusBar {
 		this.x = x;
 		this.y = y;
 		paint = new Paint();
-		
+		delayAction = null;
 		name.setColor(Color.WHITE);
 		hp.setColor(Color.WHITE);
 		mp.setColor(Color.WHITE);
