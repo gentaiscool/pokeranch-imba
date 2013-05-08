@@ -201,11 +201,11 @@ public class BuyScreen implements IScreen{
 									if(o.toString().length()==0){
 										MessageManager.alert("Input is expected");
 									}
-									else if (player.getMoney() < arrMonsterBall.get(num).getPrice() * Integer.parseInt(o.toString())){
-										MessageManager.alert("Your money is not enough to buy them");
-									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
+									}
+									else if (player.getMoney() < arrMonsterBall.get(num).getPrice() * Integer.parseInt(o.toString())){
+										MessageManager.alert("Your money is not enough to buy them");
 									}
 									else{
 										MessageManager.alert("Selamat telah membeli");
@@ -276,11 +276,11 @@ public class BuyScreen implements IScreen{
 									if(o.toString().length()==0){
 										MessageManager.alert("Input is expected");
 									}
-									else if (player.getMoney() < arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString())){
-										MessageManager.alert("Your money is not enough to buy them");
-									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
+									}
+									else if (player.getMoney() < arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString())){
+										MessageManager.alert("Your money is not enough to buy them");
 									}
 									else{
 										MessageManager.alert("Selamat telah membeli");
@@ -354,11 +354,11 @@ public class BuyScreen implements IScreen{
 									if(o.toString().length()==0){
 										MessageManager.alert("Input is expected");
 									}
-									else if (player.getMoney() < arrTM.get(num).getPrice() * Integer.parseInt(o.toString())){
-										MessageManager.alert("Your money is not enough to buy them");
-									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
+									}
+									else if (player.getMoney() < arrTM.get(num).getPrice() * Integer.parseInt(o.toString())){
+										MessageManager.alert("Your money is not enough to buy them");
 									}
 									else{
 										MessageManager.alert("Selamat telah membeli");

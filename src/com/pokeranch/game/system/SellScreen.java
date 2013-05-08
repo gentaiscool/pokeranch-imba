@@ -198,16 +198,19 @@ public class SellScreen implements IScreen{
 									if(o.toString().length()==0){
 										MessageManager.alert("input is expected");
 									}
-									else if (Integer.parseInt(o.toString()) > numMonsterBall.get(num)){
-										MessageManager.alert("The number inserted exceeds your item amount");
-									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
+									}
+									else if (Integer.parseInt(o.toString()) > numMonsterBall.get(num)){
+										MessageManager.alert("The number inserted exceeds your item amount");
 									}
 									else{
 										MessageManager.alert("Selamat Anda telah menjual "+o.toString() + "x "+ arrMonsterBall.get(num).getName());
 										try {
-											player.delItem(arrMonsterBall.get(num).getName(), Integer.parseInt(o.toString()));
+											int jumlah = Integer.parseInt(o.toString());
+											player.delItem("Master_Ball", jumlah);
+											Integer iii = player.getAllItem().get("Master_Ball");
+											Log.d("hehehehehhehehe", "masterball " + iii.toString());
 										} catch (Exception e) {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
@@ -219,6 +222,7 @@ public class SellScreen implements IScreen{
 										player.setMoney(player.getMoney()+arrMonsterBall.get(num).getPrice() * Integer.parseInt(o.toString()));
 										monsterBall[num] = ""+ numMonsterBall.get(num)+"x "+(arrMonsterBall.get(num).getName());
 										//MessageManager.alert(monsterBall[num].toString());
+										
 										scroll = new ScrollComponent(monsterBall,220,100,curScreenHeight,new SelectionListener(){
 											@Override
 											public void selectAction(int selection) {
@@ -288,11 +292,14 @@ public class SellScreen implements IScreen{
 								// TODO Auto-generated method stub
 								//check
 								if(isInt(o.toString())){
-									if (player.getMoney() < arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString())){
-										MessageManager.alert("Your money is not enough to sell them");
+									if(o.toString().length()==0){
+										MessageManager.alert("input is expected");
 									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
+									}
+									else if (player.getMoney() < arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString())){
+										MessageManager.alert("Your money is not enough to sell them");
 									}
 									else{
 										MessageManager.alert("Selamat telah membeli");
@@ -363,11 +370,14 @@ public class SellScreen implements IScreen{
 								// TODO Auto-generated method stub
 								//check
 								if(isInt(o.toString())){
-									if (player.getMoney() < arrTM.get(num).getPrice() * Integer.parseInt(o.toString())){
-										MessageManager.alert("Your money is not enough to sell them");
+									if(o.toString().length()==0){
+										MessageManager.alert("input is expected");
 									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
+									}
+									else if (player.getMoney() < arrTM.get(num).getPrice() * Integer.parseInt(o.toString())){
+										MessageManager.alert("Your money is not enough to sell them");
 									}
 									else{
 										MessageManager.alert("Selamat telah membeli");
