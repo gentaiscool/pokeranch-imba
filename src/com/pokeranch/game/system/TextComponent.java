@@ -9,7 +9,7 @@ import android.graphics.Paint;
 
 public class TextComponent {
 	private ArrayList<String> text;
-	private static final float defaultSize = 8f; 
+	private static final float defaultSize = 6.3f; 
 	private float fontsize;
 	private Paint paint;
 	private int x, y;
@@ -20,11 +20,11 @@ public class TextComponent {
 		setText(text);
 		this.x = x;
 		this.y = y;
-		fontsize = defaultSize * (float) MainGameView.screenDensity / (float) MainGameView.standardDensity; 
+		fontsize = defaultSize;// * (float) MainGameView.screenDensity / (float) MainGameView.standardDensity; 
 		paint = new Paint();
 		paint.setTextSize(fontsize);
 		paint.setTypeface(BitmapManager.getInstance().getTypeface());
-		paint.setColor(Color.BLACK);	
+		paint.setColor(Color.BLACK);
 	}
 	
 	public synchronized void draw(Canvas canvas){

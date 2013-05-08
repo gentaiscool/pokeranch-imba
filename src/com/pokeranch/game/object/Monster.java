@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class Monster{
 	private String name;
-	private int level, exp, evoExp, bonusCash, bonusExp;
+	private int level, exp, lvlExp, bonusCash, bonusExp;
 	private Status status, fullStatus;
 	private Species species;
 	private HashMap<String, Skill> skills; 
@@ -39,7 +39,7 @@ public class Monster{
 		skills = new HashMap<String, Skill>();
 		age = new Time();
 		exp = 0;
-		evoExp = (int) ((2.7*level+17) * 3 * Math.pow (1.02,(level-1))); //--> 50 - 6058 (3 - 21 x lawan selvl)
+		lvlExp = (int) ((2.7*level+17) * 3 * Math.pow (1.02,(level-1))); //--> 50 - 6058 (3 - 21 x lawan selvl)
 		bonusCash = 5*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(15);//--> max 500
 		bonusExp = 3*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(9);//--> max 300
 
@@ -72,36 +72,34 @@ public class Monster{
 		return exp;
 	}
 	
-	public boolean addExp(int x){
+	public int addExp(int x){
 		Random random = new Random();
 		exp+=x;
-		if (exp>=evoExp){
+		if (exp>=lvlExp){
 			if (level==100){
-				exp = evoExp;
+				exp = lvlExp;
 			}else{
-				exp = exp - evoExp;
-			evoExp = (int) ((2.7*level+17) * 3 * Math.pow(1.02,(level-1))); //--> 50 - 6058 (3 - 21 x lawan selvl)
-			bonusCash = 5*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(15);//--> max 500
-			bonusExp = 3*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(9);//--> max 300
-			
-			level++;
-			Status delta = new Status(10, 10, 10, 10, Effect.NONE); //rumus?
-			
-			fullStatus.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
-			status.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
-			
-			if(getSpecies().getEvoLevel() == level){//sudah saatnya berubah!!!
-					evolve();
-				}
+				exp = exp - lvlExp;
+				lvlExp = (int) ((2.7*level+17) * 3 * Math.pow(1.02,(level-1))); //--> 50 - 6058 (3 - 21 x lawan selvl)
+				bonusCash = 5*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(15);//--> max 500
+				bonusExp = 3*(90*level/100 + species.getCombineRating()/6 * 7 ) + random.nextInt(9);//--> max 300
 				
-				return true;
+				level++;
+				Status delta = new Status(10, 10, 10, 10, Effect.NONE); //rumus?
+				
+				fullStatus.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
+				status.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
+				
+				if (evolve()) return 2;
+				
+				return 1;
 			}
 		}
-		return false;
+		return 0;
 	}
 	
-	public int getEvoExp(){
-		return evoExp;
+	public int getLvlExp(){
+		return lvlExp;
 	}
 	
 	public int getBonusCash(){
@@ -327,7 +325,7 @@ public class Monster{
 		scan.next();
 		exp=scan.nextInt();
 		scan.next();
-		evoExp=scan.nextInt();
+		lvlExp=scan.nextInt();
 		scan.next();
 		bonusCash=scan.nextInt();
 		scan.next();
@@ -352,7 +350,7 @@ public class Monster{
 		str.append( "NamaMonster: "+getName()+"\n"+
 					"Umur: "+getAge().toString()+"\n"+
 					"Spesies: "+getSpecies().getName()+" Level: "+level+"\n"+
-					"Exp: "+getExp()+" EvoExp: "+getEvoExp()+"\n"+
+					"Exp: "+getExp()+" EvoExp: "+getLvlExp()+"\n"+
 					"BonusCash: "+getBonusCash()+" BonusExp: "+getBonusExp()+"\n"+
 					"Status(hp,mp,att,def,eff): "+ getStatus().toString()+" / "+getFullStatus().toString()+"\n");
 	    Set<String> namaSkill = getAllSkill().keySet();
