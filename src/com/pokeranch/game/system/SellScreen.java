@@ -90,17 +90,23 @@ public class SellScreen implements IScreen{
 			Log.d("Size", ""+statItems.size());
 			tm = new String[tms.size()+1];
 			
-			MonsterBall mb2 = new MonsterBall();
-			mb2.setName("Master_Ball");
-			player.addItem(mb2, 1000);
+			//MonsterBall mb2 = new MonsterBall();
+			//mb2.setName("Master_Ball");
+			//player.addItem(mb2, 1000);
 			
 			int i = 0;
 			Iterator<MonsterBall> it = monsterBalls.iterator();
 			while(it.hasNext()){
 				MonsterBall mb = it.next();
-				monsterBall[i] = ""+ arrItems.get(mb.getName())+"x "+mb.getName();
+				if(arrItems.get(mb.getName())== null){
+					monsterBall[i] = "0x "+mb.getName();
+					numMonsterBall.add(0);
+				}
+				else{
+					monsterBall[i] = ""+ arrItems.get(mb.getName())+"x "+mb.getName();
+					numMonsterBall.add(arrItems.get(mb.getName()));
+				}
 				arrMonsterBall.add(mb);
-				numMonsterBall.add(arrItems.get(mb.getName()));
 				i++;
 			}
 			monsterBall[i] = "Back";
@@ -109,9 +115,15 @@ public class SellScreen implements IScreen{
 			Iterator<StatItem> it2 = statItems.iterator();
 			while(it2.hasNext()){
 				StatItem si = it2.next();
-				statItem[i] = ""+ arrItems.get(si.getName())+"x "+si.getName();
+				if(arrItems.get(si.getName())== null){
+					statItem[i] = "0x "+si.getName();
+					numStatItem.add(0);
+				}
+				else{
+					statItem[i] = ""+ arrItems.get(si.getName())+"x "+si.getName();
+					numStatItem.add(arrItems.get(si.getName()));
+				}
 				arrStatItem.add(si);
-				numStatItem.add(arrItems.get(si.getName()));
 				i++;
 			}
 			statItem[i] = "Back";
@@ -120,9 +132,15 @@ public class SellScreen implements IScreen{
 			Iterator<TM> it3 = tms.iterator();
 			while(it3.hasNext()){
 				TM teem = it3.next();
-				tm[i] = ""+ arrItems.get(teem.getName())+"x "+teem.getName();
+				if(arrItems.get(teem.getName())==null){
+					tm[i] = "0x "+teem.getName();
+					numTM.add(0);
+				}
+				else{
+					tm[i] = ""+ arrItems.get(teem.getName())+"x "+teem.getName();
+					numTM.add(arrItems.get(teem.getName()));
+				}
 				arrTM.add(teem);
-				numTM.add(arrItems.get(teem.getName()));
 				i++;
 			}
 			tm[i] = "Back";
@@ -196,7 +214,7 @@ public class SellScreen implements IScreen{
 								//check
 								if(isInt(o.toString())){
 									if(o.toString().length()==0){
-										MessageManager.alert("input is expected");
+										MessageManager.alert("Input is expected");
 									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
@@ -205,20 +223,15 @@ public class SellScreen implements IScreen{
 										MessageManager.alert("The number inserted exceeds your item amount");
 									}
 									else{
-										MessageManager.alert("Selamat Anda telah menjual "+o.toString() + "x "+ arrMonsterBall.get(num).getName());
+										MessageManager.alert("You sold "+o.toString() + "x "+ arrMonsterBall.get(num).getName());
 										try {
 											int jumlah = Integer.parseInt(o.toString());
-											player.delItem("Master_Ball", jumlah);
-											Integer iii = player.getAllItem().get("Master_Ball");
-											Log.d("hehehehehhehehe", "masterball " + iii.toString());
+											player.delItem(o.toString(), jumlah);
 										} catch (Exception e) {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
 										}
 										numMonsterBall.set(num, numMonsterBall.get(num) - Integer.parseInt(o.toString()));
-										//Log.d("test", ""+numMonsterBall.get(num));
-										//showCategory(0);
-										//player.addItem(arrMonsterBall.get(num), Integer.parseInt(o.toString()));
 										player.setMoney(player.getMoney()+arrMonsterBall.get(num).getPrice() * Integer.parseInt(o.toString()));
 										monsterBall[num] = ""+ numMonsterBall.get(num)+"x "+(arrMonsterBall.get(num).getName());
 										//MessageManager.alert(monsterBall[num].toString());
@@ -226,13 +239,12 @@ public class SellScreen implements IScreen{
 										scroll = new ScrollComponent(monsterBall,220,100,curScreenHeight,new SelectionListener(){
 											@Override
 											public void selectAction(int selection) {
-												Log.d("test",""+selection);
 												showMonsterBall(selection);
 											}
 										});
 									}						
 								}
-								else MessageManager.alert("non Integer lu");
+								else MessageManager.alert("Your input is not a valid number");
 							}
 							
 							@Override
@@ -293,21 +305,34 @@ public class SellScreen implements IScreen{
 								//check
 								if(isInt(o.toString())){
 									if(o.toString().length()==0){
-										MessageManager.alert("input is expected");
+										MessageManager.alert("Input is expected");
 									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
 									}
-									else if (player.getMoney() < arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString())){
-										MessageManager.alert("Your money is not enough to sell them");
+									else if (Integer.parseInt(o.toString()) > numStatItem.get(num)){
+										MessageManager.alert("The number inserted exceeds your item amount");
 									}
 									else{
-										MessageManager.alert("Selamat telah membeli");
-										player.addItem(arrStatItem.get(num), Integer.parseInt(o.toString()));
-										player.setMoney(player.getMoney()-arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString()));
-									}						
+										MessageManager.alert("You sold "+o.toString() + "x "+ arrStatItem.get(num).getName());
+										try {
+											int jumlah = Integer.parseInt(o.toString());
+											player.delItem(o.toString(), jumlah);
+										} catch (Exception e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										numStatItem.set(num, numStatItem.get(num) - Integer.parseInt(o.toString()));
+										player.setMoney(player.getMoney()+arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString()));
+										statItem[num] = ""+ numStatItem.get(num)+"x "+(arrStatItem.get(num).getName());
+										scroll = new ScrollComponent(statItem,220,100,curScreenHeight,new SelectionListener(){
+											@Override
+											public void selectAction(int selection) {
+												showMonsterBall(selection);
+											}
+										});									}						
 								}
-								else MessageManager.alert("non Integer lu");
+								else MessageManager.alert("Your input is not a valid number");
 							}
 							
 							@Override
@@ -371,21 +396,34 @@ public class SellScreen implements IScreen{
 								//check
 								if(isInt(o.toString())){
 									if(o.toString().length()==0){
-										MessageManager.alert("input is expected");
+										MessageManager.alert("Input is expected");
 									}
 									else if(num > 100){
 										MessageManager.alert("The amount exceeds the limit");
 									}
-									else if (player.getMoney() < arrTM.get(num).getPrice() * Integer.parseInt(o.toString())){
-										MessageManager.alert("Your money is not enough to sell them");
+									else if (Integer.parseInt(o.toString()) > numTM.get(num)){
+										MessageManager.alert("The number inserted exceeds your item amount");
 									}
 									else{
-										MessageManager.alert("Selamat telah membeli");
-										player.addItem(arrTM.get(num), Integer.parseInt(o.toString()));
-										player.setMoney(player.getMoney()-arrTM.get(num).getPrice() * Integer.parseInt(o.toString()));
-									}						
+										MessageManager.alert("You sold "+o.toString() + "x "+ arrTM.get(num).getName());
+										try {
+											int jumlah = Integer.parseInt(o.toString());
+											player.delItem(o.toString(), jumlah);
+										} catch (Exception e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										numTM.set(num, numTM.get(num) - Integer.parseInt(o.toString()));
+										player.setMoney(player.getMoney()+arrTM.get(num).getPrice() * Integer.parseInt(o.toString()));
+										tm[num] = ""+ numTM.get(num)+"x "+(arrTM.get(num).getName());
+										scroll = new ScrollComponent(tm,220,100,curScreenHeight,new SelectionListener(){
+											@Override
+											public void selectAction(int selection) {
+												showMonsterBall(selection);
+											}
+										});													}						
 								}
-								else MessageManager.alert("non Integer lu");
+								else MessageManager.alert("Your input is not a valid number");
 							}
 							
 							@Override

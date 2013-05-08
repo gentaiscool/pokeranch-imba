@@ -208,12 +208,12 @@ public class BuyScreen implements IScreen{
 										MessageManager.alert("Your money is not enough to buy them");
 									}
 									else{
-										MessageManager.alert("Selamat telah membeli");
+										MessageManager.alert("You bought "+o.toString() + "x "+ arrMonsterBall.get(num).getName());
 										player.addItem(arrMonsterBall.get(num), Integer.parseInt(o.toString()));
 										player.setMoney(player.getMoney()-arrMonsterBall.get(num).getPrice() * Integer.parseInt(o.toString()));
 									}						
 								}
-								else MessageManager.alert("non Integer lu");
+								else MessageManager.alert("Your input is not a valid number");
 							}
 							
 							@Override
@@ -283,12 +283,12 @@ public class BuyScreen implements IScreen{
 										MessageManager.alert("Your money is not enough to buy them");
 									}
 									else{
-										MessageManager.alert("Selamat telah membeli");
+										MessageManager.alert("You bought "+o.toString() + "x "+ arrStatItem.get(num).getName());
 										player.addItem(arrStatItem.get(num), Integer.parseInt(o.toString()));
 										player.setMoney(player.getMoney()-arrStatItem.get(num).getPrice() * Integer.parseInt(o.toString()));
 									}						
 								}
-								else MessageManager.alert("non Integer lu");
+								else MessageManager.alert("Your input is not a valid number");
 							}
 							
 							@Override
@@ -361,12 +361,12 @@ public class BuyScreen implements IScreen{
 										MessageManager.alert("Your money is not enough to buy them");
 									}
 									else{
-										MessageManager.alert("Selamat telah membeli");
+										MessageManager.alert("You bought "+o.toString() + "x "+ arrTM.get(num).getName());
 										player.addItem(arrTM.get(num), Integer.parseInt(o.toString()));
 										player.setMoney(player.getMoney()-arrTM.get(num).getPrice() * Integer.parseInt(o.toString()));
 									}						
 								}
-								else MessageManager.alert("non Integer lu");
+								else MessageManager.alert("Your input is not a valid number");
 							}
 							
 							@Override
