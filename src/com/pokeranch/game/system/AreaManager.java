@@ -22,9 +22,13 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 public class AreaManager implements IScreen{
-	Area curArea;
+	private Area curArea;
+	private Toast toast;
+	private CharSequence text;
+	private int toastDuration;
 	private Sprite head, body;
 	private ArrayList<BitmapButton> buttons;
 	private BitmapButton buttonLeft, buttonUp, buttonDown, buttonRight, buttonA;
@@ -39,6 +43,7 @@ public class AreaManager implements IScreen{
 	public final int dirX[] = {-1, 0, 1, 0};
 	public final int dirY[] = {0, 1, 0, -1};
 	AreaManager(Context con, int scw, int sch, Player p){  
+		context = con;
 		paint = new Paint();
 		paintkotak = new Paint();
 		paintkotak.setColor(Color.WHITE);
@@ -296,6 +301,8 @@ public class AreaManager implements IScreen{
 		
 		if(getCurArea().getTile(x, y).getSpriteCodeObj().equals("692")){//sprite code buat boulder
 			if(getCurArea().getTile(newX, newY).isPassable()){
+				MessageManager.alert("X has pushed a boulder!");
+				
 				//bisa didorong soalnya gak ada objek
 				
 				//hilangin boulder di koordinat asal
@@ -318,6 +325,8 @@ public class AreaManager implements IScreen{
 			return;
 		Log.d("harits1", "koordinat untuk dicut valid: " + x + " "+ y);
 		if(getCurArea().getTile(x, y).getSpriteCodeObj().equals("603")){//sprite code buat tree
+			MessageManager.alert("X has cut a tree!");
+			
 			//hilangin tree
 			getCurArea().getTile(x, y).setSpriteCodeObj(null);
 			//set passability di koordinat tree

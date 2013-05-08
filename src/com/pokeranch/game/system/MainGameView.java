@@ -18,7 +18,6 @@ import android.view.SurfaceView;
 
 @SuppressLint("ViewConstructor")
 public class MainGameView extends SurfaceView implements SurfaceHolder.Callback {
-
 	private static final String TAG = "POKE";
 	public static final float standardWidth = 320.f;
 	public static final float standardHeight = 240.f;

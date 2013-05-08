@@ -24,7 +24,6 @@ public class MainGameActivity extends Activity {
 		Log.d("harits dpi", sb.toString());
 		mainGameView = new MainGameView(this, metrics.widthPixels, metrics.heightPixels, metrics.densityDpi);
 		setContentView(mainGameView);	
-		
 	}
 
 	protected void onPause() {

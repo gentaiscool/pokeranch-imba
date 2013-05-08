@@ -1,6 +1,7 @@
 package com.pokeranch.game.system;
 
 import android.graphics.Canvas;
+import android.os.Looper;
 import android.view.SurfaceHolder;
 
 public class GameLoop extends Thread {
@@ -27,9 +28,8 @@ public class GameLoop extends Thread {
 		long timeDiff; //waktu yang diperlukan satu siklus untuk selesai
 		int sleepTime; //ms untuk tidur(<0 jika ketinggalan)
 		int framesSkipped; //jumlah frame yang akan diskip
-		
 		sleepTime = 0;
-		
+		//Looper.prepare();
 		while(running) {
 			canvas = null;
 			//ngunci canvas untuk digambar
