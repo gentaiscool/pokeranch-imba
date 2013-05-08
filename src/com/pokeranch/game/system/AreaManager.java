@@ -303,7 +303,7 @@ public class AreaManager implements IScreen{
 			return;
 		if(getCurArea().getTile(x, y).getSpriteCodeObj() == null)
 			return;
-		
+		Log.d("harits1", "koordinat untuk dicut valid: " + x + " "+ y);
 		if(getCurArea().getTile(x, y).getSpriteCodeObj().equals("603")){//sprite code buat tree
 			//hilangin tree
 			getCurArea().getTile(x, y).setSpriteCodeObj(null);
