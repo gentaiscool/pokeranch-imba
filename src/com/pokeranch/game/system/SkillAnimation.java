@@ -10,11 +10,10 @@ import android.graphics.RectF;
 public class SkillAnimation {
 	private Bitmap source;	
 	private Skill skill;
-	private int updatePerImage;
-	private int currentUpdate, currentFrame;
+	private int updatePerImage, currentFrame;
 	private int x,y, totalFrame;
 	private int width, height;
-	private boolean finish = false;
+	private DelayedAction action = null;
 	
 	public SkillAnimation(Skill skill, int updatePerImage, int x, int y, int totalFrame){
 		this.skill = skill;
@@ -23,27 +22,36 @@ public class SkillAnimation {
 		this.x=x;
 		this.y=y;
 		this.totalFrame=totalFrame;
-		currentUpdate = 0;
 		currentFrame = 0;
 		
 		width = source.getWidth() / totalFrame;
 		height = source.getHeight(); //source image harus memanjang
 		
+		initAction();
+	}
+	
+	private void initAction(){ 
+		action = new DelayedAction(){
+			@Override
+			public void doAction() {
+				currentFrame++;
+			}
+			@Override
+			public int getDelay() {
+				return totalFrame*updatePerImage;
+			}
+		};
 	}
 	
 	public void update(){
-		if(!finish){
-			currentUpdate++;
-			if(currentUpdate % updatePerImage == 0){
-				currentUpdate = 0;
-				currentFrame++;
-				finish = currentFrame == totalFrame - 1;
-			}
+		if(action!=null){
+			action.updateFrequently(updatePerImage);
+			if(action.finished()) action=null;
 		}
 	}
 	
 	public boolean finished(){
-		return finish;
+		return action == null;
 	}
 	
 	public void draw(Canvas canvas){
