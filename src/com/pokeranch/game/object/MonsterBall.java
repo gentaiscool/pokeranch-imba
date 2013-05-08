@@ -30,7 +30,7 @@ public class MonsterBall extends Item
 	}
 	
 	//getter dan setter
-	float getCatchRate()
+	public float getCatchRate()
 	{
 		return catchRate;
 	}

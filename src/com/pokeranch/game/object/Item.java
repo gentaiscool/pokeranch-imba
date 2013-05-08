@@ -42,11 +42,11 @@ public class Item implements ILoadable{
 	}
 	
 	//getter dan setter
-	String getName(){
+	public String getName(){
 		return this.name;
 	}
 	
-	int getPrice(){
+	public int getPrice(){
 		return price;
 	}
 	
@@ -56,7 +56,7 @@ public class Item implements ILoadable{
 		return s;
 	}
 	
-	float getCatchRate()
+	public float getCatchRate()
 	{
 		float f = 0f;
 		return f;

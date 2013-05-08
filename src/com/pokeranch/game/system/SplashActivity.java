@@ -104,8 +104,13 @@ public class SplashActivity extends Activity {
 			//potong map
 			BitmapManager.getInstance().putMap(R.drawable.spritefull, 45, 43, 1, 16);
 			
+			//market
+			BitmapManager.getInstance().put("buybutton", R.drawable.buy);
+			BitmapManager.getInstance().put("sellbutton", R.drawable.sell);
+			
 			//mencegah penambahan resource setelah load
 			BitmapManager.getInstance().lockPut();
+			
 		}
 		
 		public GameLoader(Context context){
