@@ -100,10 +100,6 @@ public class DBLoader {
 	}
 	
 	public Area getArea(String name){
-		if(areas.get(name) == null)
-			Log.d("harits", "areanya kosong cuy");
-		else
-			Log.d("harits", "areanya gak kosong");
 		return areas.get(name);
 	}
 	
@@ -170,8 +166,8 @@ public class DBLoader {
 				//Log.d("harits", "nama: " + nama);
 				int r = scan.nextInt();
 				int c = scan.nextInt();
-				//Log.d("harits", r + " " + c);
-				Area a = new Area(nama, r, c, null, null); //belum ada sprite player
+				Log.d("harits3","di DBLoader, r c: " +  r + " " + c);
+				Area a = new Area(nama, r, c); //belum ada sprite player
 				
 				//ambil id gambar1, id gambar2, passability tile
 				for(int i=0;i<r;i++){

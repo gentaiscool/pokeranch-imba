@@ -29,7 +29,7 @@ public class BitmapManager {
 		//Log.d("harits", src.getHeight() + " " + src.getWidth());
 		for(int i=0;i<r;i++){
 			for(int j=0;j<c;j++){
-				Log.d("harits1", "motong " + i + " dan " + j);
+				//Log.d("harits1", "motong " + i + " dan " + j);
 				Integer key = i*c+j;	
 				bitmaps.put(name+key.toString(), Bitmap.createBitmap(src, border+((border+pixelSize)*j), border+((border+pixelSize)*i), pixelSize, pixelSize));
 			}

@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.util.Log;
 
 public class Tile {
 	//ukuran tile bitmap yg masuk diasumsikan selalu berukuran 16x16 per tile
@@ -10,6 +11,7 @@ public class Tile {
 	private String teleportTarget; //nama area teleportasi
 	private int passable;
 	private Point arrivalCord;
+	private String shores[] = {"1683", "1725", "1727", "1769"};
 
 	Tile(String b, String c, int pass){
 		spriteCodeBG = b;
@@ -18,12 +20,30 @@ public class Tile {
 	}
 	
 	public void drawBG(Canvas canvas, int i, int j, int curX, int curY, AreaManager am){
+		//Log.d("harits3", "kepanggil");
 		canvas.drawBitmap(BitmapManager.getInstance().get(spriteCodeBG), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16),  am.getPaint());
 	}
 	
 	public void drawObj(Canvas canvas, int i, int j, int curX, int curY, AreaManager am){
+		//Log.d("harits3", "kepanggil obj");
 		if(spriteCodeObj != null)
 			canvas.drawBitmap(BitmapManager.getInstance().get(spriteCodeObj), null, new RectF(j*16, i*16, j*16 + 16, i*16 + 16),  am.getPaint());
+	}
+	
+	public boolean hasTree(){
+		return (spriteCodeObj.equals("603"));
+	}
+	
+	public boolean hasBoulder(){
+		return (spriteCodeObj.equals("692"));
+	}
+	
+	public boolean isShore(){
+		for(String s:shores){
+			if(spriteCodeBG.equals(s))
+				return true;
+		}
+		return false;
 	}
 	
 	public void setPassable(int p){

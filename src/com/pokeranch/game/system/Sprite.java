@@ -32,8 +32,6 @@ public class Sprite {
 		mtx = new Matrix();
 		mtx.setRotate(90);
 		//Log.d("harits", "konstruktor sprite sebelum ngambil size");
-		if(bitmap == null)
-			Log.d("harits", "bitmap null lho");
 		width = bitmap.getWidth() / col;
 		height = bitmap.getHeight() / row;
 		x = _y;

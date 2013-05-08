@@ -63,6 +63,7 @@ public class SplashActivity extends Activity {
 			//sprite
 			BitmapManager.getInstance().put("landmonster", R.drawable.landmonster);
 			BitmapManager.getInstance().put("chara", R.drawable.chara);
+			BitmapManager.getInstance().put("chara_swim", R.drawable.chara_swim);
 			BitmapManager.getInstance().put("test", R.drawable.ic_launcher);
 			BitmapManager.getInstance().put("images", R.drawable.images);
 			
