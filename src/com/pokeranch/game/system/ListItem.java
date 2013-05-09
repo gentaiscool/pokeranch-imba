@@ -108,7 +108,7 @@ public class ListItem implements IScreen{
 						}
 					}
 					else if(state == 3){
-						if(numStatItem.get(index) == 0){
+						if(numTM.get(index) == 0){
 							continueNow = false;
 						}
 					}
@@ -332,6 +332,7 @@ public class ListItem implements IScreen{
 			category[0] = "Monster Ball";
 			category[1] = "Stat Item";
 			category[2] = "TM";
+			
 			if(player.haveTorch()){
 				category[3] = "1x Torch";
 			}
@@ -517,6 +518,15 @@ public class ListItem implements IScreen{
 		}
 		
 		public void refresh(){
+			arrMonsterBall.clear();
+			arrStatItem.clear();
+			arrTM.clear();
+			numMonsterBall.clear();
+			numStatItem.clear();
+			numTM.clear();
+			
+			arrItems = player.getAllItem();
+			
 			monsterBalls = DBLoader.getInstance().getAllBalls();
 			statItems = DBLoader.getInstance().getAllStatItems();
 			tms = DBLoader.getInstance().getAllTms();
@@ -575,12 +585,18 @@ public class ListItem implements IScreen{
 				i++;
 			}
 			tm[i] = "Back";
-			
-			category = new String[4];
+			category = new String[5];
 			category[0] = "Monster Ball";
 			category[1] = "Stat Item";
 			category[2] = "TM";
-			category[3] = "Back";
+			
+			if(player.haveTorch()){
+				category[3] = "1x Torch";
+			}
+			else{
+				category[3] = "0x Torch";
+			}
+			category[4] = "Back";
 			
 			scroll = new ScrollComponent(category,220,100,curScreenHeight,new SelectionListener(){
 				@Override
@@ -588,6 +604,7 @@ public class ListItem implements IScreen{
 					showCategory(selection);
 				}
 			});
+			
 		}
 
 		@Override

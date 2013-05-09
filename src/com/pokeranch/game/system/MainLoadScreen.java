@@ -73,16 +73,24 @@ public class MainLoadScreen implements IScreen{
 			
 			File[] fis = context.getExternalFilesDir(filepath).listFiles();
 			
-			loadFiles = new String[fis.length];
+			ArrayList<String> files = new ArrayList<String>();
+			
 			
 			int ii = 0;
 			for(File file : fis){
-				if(file.getName().contains(".sav")){
-					loadFiles[ii] = file.getName();
-					ii++;
+				if(file.getName().contains(".sav") && !file.getName().equals(".sav")){
+					//Log.d("ceksav",""+file.getAbsolutePath());
+					files.add(file.getName());
+					//loadFiles[ii] = file.getName();
+					//ii++;
 				}
 			}
-						
+			loadFiles = new String[files.size()];		
+			for(String str : files){
+				loadFiles[ii]= str;
+				ii++;
+			}
+			
 			scroll = new ScrollComponent(loadFiles,220,100,screenHeight,new SelectionListener(){
 				@Override
 				public void selectAction(int selection) {
@@ -100,8 +108,8 @@ public class MainLoadScreen implements IScreen{
 				Log.d("namamaa", loadFiles[num].substring(0, loadFiles[num].length()-4)+"");
 				Player player = PlayerSaveLoader.getInstance().loadPlayer(loadFiles[num].substring(0, loadFiles[num].length()-4));
 				AreaManager am = new AreaManager(curContext, curScreenWidth, curScreenHeight, player);
-				am.setCurArea(DBLoader.getInstance().getArea("CITY"));
-				am.setPlayerCord(new Point(14,9));
+				am.setCurArea(DBLoader.getInstance().getArea("HOME"));
+				am.setPlayerCord(new Point(8,5));
 				ScreenManager.getInstance().push(am);
 			}
 		}

@@ -66,6 +66,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		curPlayer.addMonster(m4);
 		curPlayer.addMonster(m3);
 		curPlayer.setCurrentMonster(m1);
+		curPlayer.setMoney(10000);
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("HOME"));

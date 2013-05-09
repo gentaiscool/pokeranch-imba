@@ -137,8 +137,8 @@ public class MainChooseMonster implements IScreen{
 						
 						AreaManager am = new AreaManager(curContext, curScreenWidth, curScreenHeight, newPlayer);
 						//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
-						am.setCurArea(DBLoader.getInstance().getArea("CITY"));
-						am.setPlayerCord(new Point(14,9));
+						am.setCurArea(DBLoader.getInstance().getArea("HOME"));
+						am.setPlayerCord(new Point(8,5));
 						ScreenManager.getInstance().push(am);
 					}
 				}

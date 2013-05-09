@@ -565,6 +565,9 @@ public class AreaManager implements IScreen{
 			//masukin kode stadium disini
 			Stadium stadium = new Stadium(curPlayer,screenWidth,screenHeight);
 			ScreenManager.getInstance().push(stadium);
+		} else if(action.equals("SAVELOAD")){
+			SaveLoadScreen sls = new SaveLoadScreen(context, curPlayer, screenWidth, screenHeight);
+			ScreenManager.getInstance().push(sls);
 		}
 	}
 
