@@ -105,6 +105,6 @@ public class BitmapButton implements Touchables {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
-		setEnable(visible);
+		//setEnable(visible);
 	}
 }

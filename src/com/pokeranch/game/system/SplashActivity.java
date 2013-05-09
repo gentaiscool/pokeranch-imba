@@ -182,6 +182,7 @@ public class SplashActivity extends Activity {
 			//saveload
 			BitmapManager.getInstance().put("savebutton", R.drawable.savebutton);
 			BitmapManager.getInstance().put("loadbutton", R.drawable.loadbutton);
+			BitmapManager.getInstance().put("sleepbutton", R.drawable.sleepbutton);
 			
 			//sprite
 			BitmapManager.getInstance().put("backpack", R.drawable.backpack);
