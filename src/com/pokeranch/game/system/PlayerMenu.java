@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 
 public class PlayerMenu implements IScreen{
 	
-	private String menus[] = {"Items", "Monsters", "Status", "Back"};
+	private String menus[] = {"Items", "Monsters", "Status", "PokeDex", "Back"};
 	private ScrollComponent scroll;
 	private Paint paint;
 	private static int defaultColor1, defaultColor2, selectionColor, emptyColor;
@@ -69,6 +69,10 @@ public class PlayerMenu implements IScreen{
 			PlayerStatus ps= new PlayerStatus(player);
 			ScreenManager.getInstance().push(ps);
 		} else if(selection == 3){
+			//kembali ke pokedex
+			Pokedex pokedex = new Pokedex((int) MainGameView.realScreenWidth, (int)MainGameView.realScreenHeight);
+			ScreenManager.getInstance().push(pokedex);
+		} else if(selection == 4){
 			//kembali ke areamanager
 			ScreenManager.getInstance().pop();
 		}

@@ -61,15 +61,7 @@ public class Pokedex implements IScreen{
 			
 			pokedextablet = BitmapManager.getInstance().get("pokedextablet");
 			pokedexlogo = BitmapManager.getInstance().get("pokedexlogo");
-			/*
-			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),253,66);
-			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  265, 105);
-			helpgame = new BitmapButton(BitmapManager.getInstance().get("helpgame"), 253, 144);
-			exitbutton = new BitmapButton(BitmapManager.getInstance().get("exitbutton"), 20, 150);
-			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),100,32);
-			logo = new BitmapButton(BitmapManager.getInstance().get("logo"),20,32);
-			 */			
-			
+
 			text = new TextComponent("", 75, 90);
 			
 	
@@ -80,7 +72,7 @@ public class Pokedex implements IScreen{
 				panel = trans;
 				text.setText("");
 			}else{
-				panel = BitmapManager.getInstance().get(species[num]);
+				panel = BitmapManager.getInstance().get(species[num]+"_front");
 				Species s = DBLoader.getInstance().getSpecies(species[num]);
 				String snum = num < 10 ? "00" + (num+1) : "0" + (num+1);
 				StringBuilder sb = new StringBuilder();
