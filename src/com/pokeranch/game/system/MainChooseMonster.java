@@ -2,6 +2,10 @@ package com.pokeranch.game.system;
 
 import java.util.ArrayList;
 
+import com.pokeranch.game.object.DBLoader;
+import com.pokeranch.game.object.Monster;
+import com.pokeranch.game.object.Player;
+import com.pokeranch.game.object.Species;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MessageManager.Action;
 
@@ -44,15 +48,17 @@ public class MainChooseMonster implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 				
-			BitmapButton charchar = new BitmapButton(BitmapManager.getInstance().get("Charchar"), 0,100);
-			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("Squir"),  150, 100);
-			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("Bulba"), 300, 100);
+			BitmapButton charchar = new BitmapButton(BitmapManager.getInstance().get("Charchar"), 0,80);
+			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("Squir"),  100, 80);
+			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("Bulba"), 200, 80);
 			
 			charchar.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
 					//AreaManager am = new AreaManager(curContext, curScreenWidth, curScreenHeight, )
+					Species s = DBLoader.getInstance().getSpecies("Charchar");
+					setMonsterName(s);
 				}
 				@Override
 				public void onTouchMove() {
@@ -69,7 +75,8 @@ public class MainChooseMonster implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					
+					Species s = DBLoader.getInstance().getSpecies("Squir");
+					setMonsterName(s);
 				}@Override
 				public void onTouchMove() {
 					// TODO Auto-generated method stub
@@ -84,12 +91,15 @@ public class MainChooseMonster implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					
-				}@Override
+					Species s = DBLoader.getInstance().getSpecies("Bulba");
+					setMonsterName(s);
+				}
+				@Override
 				public void onTouchMove() {
 					// TODO Auto-generated method stub
 					
-				}@Override
+				}
+				@Override
 				public void onTouchUp() {
 					// TODO Auto-generated method stub
 					
@@ -110,6 +120,36 @@ public class MainChooseMonster implements IScreen{
 			
 		}
 		
+		public void setMonsterName(final Species s){
+			MessageManager.prompt("Give your starter monster a name", new Action() {
+				
+				@Override
+				public void proceed(Object o) {
+					// TODO Auto-generated method stub
+					if(o.toString().length()==0){
+						MessageManager.alert("Input is expected");
+					}
+					else{
+						Monster m = new Monster(o.toString(), s, 5);
+						Player newPlayer = new Player();
+						newPlayer.addMonster(m);
+						
+						AreaManager am = new AreaManager(curContext, curScreenWidth, curScreenHeight, newPlayer);
+						//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
+						am.setCurArea(DBLoader.getInstance().getArea("CITY"));
+						am.setPlayerCord(new Point(14,9));
+						ScreenManager.getInstance().push(am);
+					}
+				}
+				
+				@Override
+				public void cancel() {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+		
 		@Override
 		public void update() {
 			// TODO Auto-generated method stub
@@ -124,6 +164,9 @@ public class MainChooseMonster implements IScreen{
 			for(BitmapButton b : buttons){
 				b.draw(canvas);
 			}
+			canvas.drawText("Charchar", 0, 50, paint);
+			canvas.drawText("Squir", 100, 50, paint);
+			canvas.drawText("Bulba", 200, 50, paint);
 		}
 
 		@Override

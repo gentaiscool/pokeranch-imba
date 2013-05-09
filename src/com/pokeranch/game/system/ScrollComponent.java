@@ -67,6 +67,10 @@ public class ScrollComponent {
 		}
 	}
 	
+	public int getX(){
+		return x;
+	}
+	
 	public void onTouchEvent(MotionEvent event, float magX, float magY){
 		final int actioncode = event.getAction() & MotionEvent.ACTION_MASK;	
 		RectF r = new RectF(x*magX, 0, (x + width)*magX, screenHeight);

@@ -86,6 +86,7 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("chara", R.drawable.chara);
 			BitmapManager.getInstance().put("chara_swim", R.drawable.chara_swim);
 			BitmapManager.getInstance().put("test", R.drawable.ic_launcher);
+			BitmapManager.getInstance().put("playerbig", R.drawable.player);
 			
 			//button
 			BitmapManager.getInstance().put("up", R.drawable.up);
@@ -93,6 +94,7 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("right", R.drawable.right);
 			BitmapManager.getInstance().put("down", R.drawable.down);
 			BitmapManager.getInstance().put("a_button", R.drawable.a);
+			BitmapManager.getInstance().put("b_button", R.drawable.b);
 			
 			/******************* Battle **********************/
 			
@@ -145,6 +147,9 @@ public class SplashActivity extends Activity {
 			
 			//close
 			BitmapManager.getInstance().put("close", R.drawable.close);
+			
+			//combine
+			BitmapManager.getInstance().put("combine", R.drawable.combine);
 			
 			/********************** Dialogue Box **********************/
 			BitmapManager.getInstance().put("dbox", R.drawable.dbox);

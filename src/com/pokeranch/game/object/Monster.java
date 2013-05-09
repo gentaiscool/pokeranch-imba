@@ -360,7 +360,7 @@ public class Monster{
 					"Spesies: "+getSpecies().getName()+" Level: "+level+"\n"+
 					"Exp: "+getExp()+" EvoExp: "+getLvlExp()+"\n"+
 					"BonusCash: "+getBonusCash()+" BonusExp: "+getBonusExp()+"\n"+
-					"Status(hp,mp,att,def,eff): "+ getStatus().toString()+" / "+getFullStatus().toString()+"\n");
+					"Status(hp,mp,att,def,eff):\n"+ getStatus().toString()+" /\n"+getFullStatus().toString()+"\n");
 	    Set<String> namaSkill = getAllSkill().keySet();
 	      // Get an iterator
 	    Iterator<String> i = namaSkill.iterator();
