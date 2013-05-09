@@ -301,13 +301,16 @@ public class BattleScreen implements IScreen {
 	
 	private void useStatItem(StatItem st){
 		message.setText("Use a " + st.getName() + "!");
-		Log.d("POKE STATITEM" , ""+ current.getCurrentMonster().getStatus().getHP());
+
 		current.getCurrentMonster().giveItem(st);
-		Log.d("POKE STATITEM" , ""+ current.getCurrentMonster().getStatus().getHP());
 		
-		stat1.fetchData();
-		stat2.fetchData();
-		state = BattleState.ANIMATING_HEALTH;
+		if(st.getPermanent()){
+			refreshStatBar();
+		}else{
+			stat1.fetchData();
+			stat2.fetchData();
+			state = BattleState.ANIMATING_HEALTH;
+		}
 	}
 	
 	private void useMonsterBall(MonsterBall mb){

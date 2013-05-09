@@ -275,9 +275,10 @@ public class Monster{
 	}
 	
 	public void giveItem(StatItem item){
-		if(item.getPermanent())
+		if(item.getPermanent()){
 			fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
-		else
+			restoreStatus();
+		}else
 			updateStatusBy(item.getItemEffect());
 	}
 	

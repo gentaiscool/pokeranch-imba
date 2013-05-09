@@ -29,12 +29,12 @@ public class StatItem extends Item{
 	}
 	
 	//getter dan setter
-	boolean getPermanent()
+	public boolean getPermanent()
 	{
 		return permanent;
 	}
 
-	void setPermanent(boolean p)
+	public void setPermanent(boolean p)
 	{
 		permanent = p;
 	}
@@ -44,7 +44,7 @@ public class StatItem extends Item{
 		return cureStatus;
 	}
 
-	void setCureStat(Status.Effect cureff) 
+	public void setCureStat(Status.Effect cureff) 
 	{
 		cureStatus=cureff;
 	}
@@ -54,11 +54,11 @@ public class StatItem extends Item{
 		return itemEffect;
 	}
 
-	void setItemEffect(Status s){
+	public void setItemEffect(Status s){
 		itemEffect = s;
 	}
 
-	void cureEffect(Status s){
+	public void cureEffect(Status s){
 		if ((name.equals("Awakening")) || (name.equals("Antidote")) || (name.equals("ParalyzCure")) || (name.equals("BurnHeal"))) {
 			if (cureStatus == s.getEffect()) {
 				//s.setEffect("None");

@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.pokeranch.game.object.Monster;
 
@@ -116,7 +117,10 @@ public class BattleStatusBar {
 		fetchMP = monster.getStatus().getMP();
 		dHP = (displayHP - fetchHP) / totalUpdate + 1;
 		dMP = (displayMP - fetchMP) / totalUpdate + 1;
-			
+		
+		if (displayHP < fetchHP && dHP > 0) dHP = -dHP;
+		if (displayMP < fetchMP && dMP > 0) dHP = -dMP;
+				
 		delayAction = new DelayedAction(){
 			@Override
 			public void doAction() { animate();}
