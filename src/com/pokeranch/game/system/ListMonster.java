@@ -99,6 +99,7 @@ public class ListMonster implements IScreen{
 			@Override
 			public void selectAction(int selection) {
 				Log.d("LM", "selection ="+Integer.valueOf(selection).toString());
+				if(selection>-1)
 				showMonster(selection);
 			}
 		});
@@ -112,6 +113,7 @@ public class ListMonster implements IScreen{
 
 	private void showMonster(final int num){
 		Log.d("LM", "awalshowMonster");
+		Log.d("num",""+num);
 	
 		dismiss.addTouchListener(new TouchListener() {
 			@Override
@@ -219,8 +221,9 @@ public class ListMonster implements IScreen{
 			Log.d("LM", "kalo back");
 			ScreenManager.getInstance().pop();
 		}
-		else{
-			monsterImage = BitmapManager.getInstance().get(player.getMonster(listMonster[num]).getSpecies().getName()+"_front");
+		else if(num!=-1){
+			
+			monsterImage = BitmapManager.getInstance().get(player.getMonster(listMonster[num]).getSpecies().getName() + "_front");
 			rect1 = new Rect(0,0, monsterImage.getWidth(),monsterImage.getHeight());
 			rect2 = new RectF(10,10,100,100);
 			StringBuilder sb = new StringBuilder();

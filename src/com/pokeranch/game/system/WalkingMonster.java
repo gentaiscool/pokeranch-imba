@@ -132,18 +132,19 @@ public class WalkingMonster {
 					Monster m = new Monster("Hehe", s, 10);
 					player2.addMonster(m);
 					player2.setCurrentMonster(m);
-					
+
 					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD, new BattleListener() {
 						@Override
 						public void action(int result) {
 							if(result==-1){
 								am.getCurPlayer().restoreAllMonster();
 								am.setCurArea(DBLoader.getInstance().getArea("HOME"));
+								am.setPlayerCord(new Point(8,5));
 							}
 						}
 					}));
 					am.resetWalkingMonsters();
-					am.getMonsters().remove(this);
+					am.getMonsters().remove(this); 
 				} else if(place.equals("SEA")){ 
 					if(am.getCurArea().getTile(t.first.x, t.first.y).isSwimmable() && am.getCurArea().getTile(t.second.x, t.second.y).isSwimmable()){
 						//Log.d("monster", "start to move! :D");

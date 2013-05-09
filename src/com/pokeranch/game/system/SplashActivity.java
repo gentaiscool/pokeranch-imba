@@ -170,6 +170,7 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().putMap("c", R.drawable.ruangan, 10, 13, 0, 16, 16);
 			BitmapManager.getInstance().putMap("d", R.drawable.stadium, 10, 18, 0, 16, 16);
 			BitmapManager.getInstance().putMap("e", R.drawable.store, 11, 13, 0, 16, 16);
+			BitmapManager.getInstance().putMap("f", R.drawable.npc, 8, 7, 0, 16, 16);
 			BitmapManager.getInstance().putMap("monster", R.drawable.monsters, 2, 15, 0, 128, 64);
 			//Log.d("harits1", "berhasil load semua map");
 
