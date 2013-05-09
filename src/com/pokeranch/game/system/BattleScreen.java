@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -32,13 +33,15 @@ public class BattleScreen implements IScreen {
 	private int geserTop = 58; //buat geser layout background ke atas
 	private TextComponent message;
 	private BattleStatusBar stat1, stat2;
+	private boolean clicked = false;
+	
 	private DelayedAction delayAction = null, pokeAnim = null;
 	
 	//system
 	public enum BattleMode {WILD, STADIUM, PVP};
 	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, 
 							ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_OUT, ANIMATING_IN, 
-							DELAY, EVO_INFO, MATI, END};
+							CATCH, NAMING, DELAY, EVO_INFO, MATI, END};
 	
 	private Player player1, player2, current, enemy;
 	private int turn; //player no berapa yg sedang jalan
@@ -217,18 +220,42 @@ public class BattleScreen implements IScreen {
 	private void endBattle(){
 		String s1 = mode==BattleMode.PVP ? "Player 1" : "You";
 		String s2 = mode==BattleMode.PVP ? "Player 2" : "Enemy";
+		boolean p1win;
 		
-		if(turn==1){ 
-			message.appendText(s2 + " lose!");
+		if(turn==1){
+			p1win = true;
+			message.setText(s2 + " lose!");
 			poke2 = BitmapManager.getInstance().get("trans");
 			stat2.setVisible(false);
 			stat1.refreshData();
 		}else{
-			message.appendText(s1 + " lose!");
+			p1win = false;
+			message.setText(s1 + " lose!");
 			poke1 = BitmapManager.getInstance().get("trans");
 			stat1.setVisible(false);
 			stat2.refreshData();
 		}
+		
+		if(mode==BattleMode.PVP) return;
+		
+		if(p1win){
+			player1.addWin(1);
+			player1.addBattle(1);
+			int duit;
+			if(mode==BattleMode.WILD){
+				duit = player2.getCurrentMonster().getBonusCash();
+			}else{
+				duit = player2.getMoney();
+			}
+			
+			player1.setMoney(player1.getMoney()+duit);
+			message.appendText("You get $" + duit);
+		}else{
+			player1.addLose(1);
+			player1.addBattle(1);
+		}
+		
+		
 	}
 	
 	private void attack(Skill sk){
@@ -317,15 +344,71 @@ public class BattleScreen implements IScreen {
 		if (mode==BattleMode.WILD){
 			message.setText("Use a " + mb.getName() + "!");
 			
-			//TODO blom
+			poke2 = BitmapManager.getInstance().get(mb.getName());
 			
-			state = BattleState.DELAY;
-			delayAction = new DelayerTurn();
+			Random r = new Random();
+			if(r.nextInt(100) < mb.getCatchRate()){
+				//catch berhasil
+				state = BattleState.DELAY;
+				delayAction = new DelayedAction(){
+
+					@Override
+					public void doAction() {
+						message.appendText("Yeah! You catched "+enemy.getCurrentMonster().getName()+"!");
+						state = BattleState.CATCH;
+					}
+					@Override
+					public int getDelay() {
+						return GameLoop.MAX_FPS;
+					}
+					
+				};
+			}else{
+				//catch gagal
+				state = BattleState.DELAY;
+				delayAction = new DelayedAction(){
+
+					@Override
+					public void doAction() {
+						message.appendText("Shoot! It was close!");
+						refreshImage();
+						delayAction = new DelayerTurn();
+					}
+					@Override
+					public int getDelay() {
+						return GameLoop.MAX_FPS;
+					}
+					
+				};
+			}
+				
 		}else{
 			message.setText("Can't use a MonsterBall\non a trainer's pokemon!");
 			state = BattleState.DELAY;
 			delayAction = new DelayerTurn();
 		}
+	}
+	
+	private void catched(){
+		clicked = true;
+		MessageManager.prompt("Give a name to your new monster (must be unique)", new Action() {
+			@Override
+			public void proceed(Object o) {
+				String name = (String) o;
+				if(current.getMonster(name)==null){
+					Monster m = enemy.getCurrentMonster();
+					m.setName(name);
+					current.addMonster(m);
+					state = BattleState.END;
+				}else{
+					MessageManager.alert(name + " has been used!");
+					clicked = false;
+					state = BattleState.CATCH;
+				}	
+			}
+			@Override
+			public void cancel() {}
+		}, true);
 	}
 	
 	//turn system
@@ -555,6 +638,10 @@ public class BattleScreen implements IScreen {
 		case WAIT_INPUT:
 			for(Touchables t : touch) t.onTouchEvent(e, magX, magY);
 		break;	
+		case CATCH:
+			state = BattleState.NAMING;
+			if(!clicked) catched();
+		break;
 		case END:
 			
 		break;
