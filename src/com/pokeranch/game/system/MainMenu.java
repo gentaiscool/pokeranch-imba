@@ -48,11 +48,11 @@ public class MainMenu implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
-			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),253,66);
-			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  265, 105);
-			helpgame = new BitmapButton(BitmapManager.getInstance().get("helpgame"), 253, 144);
+			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),210,80);
+			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  225, 120);
+			helpgame = new BitmapButton(BitmapManager.getInstance().get("helpgame"), 210, 160);
 			exitbutton = new BitmapButton(BitmapManager.getInstance().get("exitbutton"), 20, 150);
-			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),100,32);
+			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),80,60);
 			logo = new BitmapButton(BitmapManager.getInstance().get("logo"),20,32);
 			 
 			logo.addTouchListener(new TouchListener() {
