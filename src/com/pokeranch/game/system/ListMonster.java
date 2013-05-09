@@ -220,7 +220,7 @@ public class ListMonster implements IScreen{
 			ScreenManager.getInstance().pop();
 		}
 		else{
-			monsterImage = BitmapManager.getInstance().get(player.getMonster(listMonster[num]).getSpecies().getName());
+			monsterImage = BitmapManager.getInstance().get(player.getMonster(listMonster[num]).getSpecies().getName()+"_front");
 			rect1 = new Rect(0,0, monsterImage.getWidth(),monsterImage.getHeight());
 			rect2 = new RectF(10,10,100,100);
 			StringBuilder sb = new StringBuilder();
