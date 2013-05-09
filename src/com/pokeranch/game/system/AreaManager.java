@@ -539,6 +539,7 @@ public class AreaManager implements IScreen{
 		if(!checkBounds(x, y))
 			return;
 		String action = getCurArea().getTile(x, y).getActionName();
+		//Log.d("tipe action", action.toString());
 		if(action == null)
 			return;
 		if(action.equals("COMBINATORIUM")){
@@ -551,7 +552,7 @@ public class AreaManager implements IScreen{
 			ScreenManager.getInstance().push(bss);
 		} else if(action.equals("STADIUM")){
 			//masukin kode stadium disini
-			Stadium stadium = new Stadium(curPlayer,screenWidth,screenHeight);
+			Stadium stadium = new Stadium(this,curPlayer,screenWidth,screenHeight);
 			ScreenManager.getInstance().push(stadium);
 		} else if(action.equals("SAVELOAD")){
 			SaveLoadScreen sls = new SaveLoadScreen(context, curPlayer, screenWidth, screenHeight);

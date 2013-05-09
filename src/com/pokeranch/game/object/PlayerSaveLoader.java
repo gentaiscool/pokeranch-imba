@@ -61,12 +61,11 @@ public class PlayerSaveLoader {
 	}
 
 	public boolean isPlayerNotExist(String playername){
-		/*File fis = new File(context.getExternalFilesDir(filepath).toString()+"/"+playername+".sav");
+		File fis = new File(context.getExternalFilesDir(filepath).toString()+"/"+playername+".sav");
 		if(!fis.exists()){
 			return true;
 		}
-		else return false;*/
-		return true;
+		else return false;
 	}
 	
 	public Player loadPlayer(String playername){
@@ -194,6 +193,9 @@ public class PlayerSaveLoader {
 		    	Map.Entry<String, Integer> me= j.next();
 		    	str.append(me.getKey()+" "+me.getValue()+"\n");
 		    }
+		    
+		    Log.d("POKE SAVE", str.toString());
+		    
 			fos.write(str.toString().getBytes());
 			fos.close();
 			

@@ -23,6 +23,7 @@ public class MainStory implements IScreen{
 	private TextComponent textcomponent;
 	float magnification;
 	int curScreenWidth, curScreenHeight;
+	String name;
 	Context curContext;
 	
 		@SuppressLint("NewApi")
@@ -61,7 +62,7 @@ public class MainStory implements IScreen{
 						if(!o.toString().equals("")){
 							//check if the name exists before
 							if(PlayerSaveLoader.getInstance().isPlayerNotExist(o.toString())){
-								selectFrom();
+								selectFrom(o.toString());
 							}
 							else{
 								MessageManager.alert("Player name exist");
@@ -82,8 +83,9 @@ public class MainStory implements IScreen{
 			}
 		}
 		
-		public void selectFrom(){
-			MainChooseMonster mcm = new MainChooseMonster(curContext, curScreenWidth, curScreenHeight);
+		public void selectFrom(String curName){
+			name = curName;
+			MainChooseMonster mcm = new MainChooseMonster(name, curContext, curScreenWidth, curScreenHeight);
 			manager.push(mcm);
 		}
 		
