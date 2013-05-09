@@ -2,7 +2,6 @@ package com.pokeranch.game.system;
 
 import java.util.ArrayList;
 
-import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.Player;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MainGameView.ButtonClick;
@@ -21,7 +20,7 @@ public class AreaManager implements IScreen{
 	private Area curArea;
 	private Sprite curHead, curBody, headGround, bodyGround, headSwim, bodySwim, leftFinSwim, rightFinSwim;
 	private ArrayList<BitmapButton> buttons;
-	private BitmapButton buttonLeft, buttonUp, buttonDown, buttonRight, buttonA;
+	private BitmapButton buttonLeft, buttonUp, buttonDown, buttonRight, buttonA, buttonB;
 	private Player curPlayer;
 	private Context context;
 	private TextComponent jam;
@@ -35,9 +34,10 @@ public class AreaManager implements IScreen{
 	
 	AreaManager(Context con, int scw, int sch, Player p){
 		DialogueBox.initialize();
+		PlayerMenu.initialize();
+		ListItem.initialize(p, scw, sch);
 		screenWidth = scw;
 		screenHeight = sch;
-		PlayerMenu.initialize();
 		context = con;
 		paint = new Paint();
 		paintkotak = new Paint();
@@ -201,11 +201,26 @@ public class AreaManager implements IScreen{
 		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 47, 129);
 		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 84, 166);
 		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 270, 167);
+		buttonB = new BitmapButton(BitmapManager.getInstance().get("b_button"), 196, 167);
 		//Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
 		buttonA.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
-				getCurArea().getButtonInput(ButtonClick.ACTION);
+				getCurArea().getButtonInput(ButtonClick.ACTION_A);
+			}
+			@Override
+			public void onTouchMove() {}
+			
+			@Override
+			public void onTouchUp() {
+				getCurArea().getButtonInput(ButtonClick.NONE);	
+			}
+		});
+		
+		buttonB.addTouchListener(new TouchListener(){
+			@Override
+			public void onTouchDown() {
+				getCurArea().getButtonInput(ButtonClick.ACTION_B);
 			}
 			@Override
 			public void onTouchMove() {}
@@ -277,6 +292,7 @@ public class AreaManager implements IScreen{
 		buttons.add(buttonLeft);
 		buttons.add(buttonRight);
 		buttons.add(buttonA);
+		buttons.add(buttonB);
 	}
 	
 	public void setPlayerCord(Point p){
@@ -323,7 +339,7 @@ public class AreaManager implements IScreen{
 		// TODO Auto-generated method stub
 		curArea.update();
 		
-		if(getCurPlayer().getPlayingTime().getHour() > 18 && getCurArea().getPlace().equals("OUTDOOR")){ //udah malam ikan bobo
+		if(getCurPlayer().getPlayingTime().getHour() >= 18 && getCurPlayer().getPlayingTime().getHour() < 6 && getCurArea().getPlace().equals("OUTDOOR")){ //udah malam ikan bobo
 			if(getCurPlayer().haveTorch())
 				paint.setColorFilter(new LightingColorFilter(0x004C4C4C, 0));
 			else

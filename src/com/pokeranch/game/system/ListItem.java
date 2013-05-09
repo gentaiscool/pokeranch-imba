@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Debug;
@@ -32,7 +33,7 @@ import android.widget.Toast;
 public class ListItem implements IScreen{
 	
 	private ScreenManager manager;
-
+	private static ListItem listitem;
 	private Bitmap panel, trans;
 
 	int curScreenWidth, curScreenHeight;
@@ -160,6 +161,14 @@ public class ListItem implements IScreen{
 			text = new TextComponent("", 10, 25);
 			textMoney = new TextComponent("", 10, 180);
 	
+		}
+		
+		public static void initialize(Player _player, int screenWidth, int screenHeight){
+			listitem = new ListItem(_player, screenWidth, screenHeight);
+		}
+
+		public static ListItem getInstance(){
+			return listitem;
 		}
 		
 		public boolean isInt(String s)  // assuming integer is in decimal number system

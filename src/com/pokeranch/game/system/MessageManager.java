@@ -96,7 +96,7 @@ public class MessageManager {
 		    @Override  
 		    public void onClick(DialogInterface dialog, int which) {  
 		        dialog.dismiss();
-		        if(act!=null) act.proceed(input.getText());
+		        if(act!=null) act.proceed(input.getText().toString());
 		    }  
 		});
 		
