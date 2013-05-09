@@ -23,6 +23,7 @@ import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Debug;
@@ -49,66 +50,126 @@ public class Stadium implements IScreen{
 	
 	private boolean show = false;
 	
-	private BitmapButton buy;
+	private BitmapButton bet, close;
 	
 	private Player player;
 	
-		public Stadium(Player _player, int screenWidth, int screenHeight){
+		public Stadium(final AreaManager am, Player _player, int screenWidth, int screenHeight){
 			// TODO Auto-generated constructor stub
 			manager = ScreenManager.getInstance();
 			player = _player;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
-			MessageManager.prompt("Give your bet", new Action() {
+			close = new BitmapButton(BitmapManager.getInstance().get("close"),100,140);
+			close.addTouchListener(new TouchListener() {
 				
 				@Override
-				public void proceed(Object o) {
-					// TODO Auto-generated method stub
-					if(isInt(o.toString())){
-						//check money
-						if(player.getMoney() < Integer.parseInt(o.toString())){
-							//uang ga cukup
-							MessageManager.alert("Your bet is higher than your money");
-						}
-						else{
-							//uang cukup
-							player.setMoney(player.getMoney()-Integer.parseInt(o.toString())); //kurangin uang
-							
-							//new opponent
-							Player opponent = new Player();
-							
-							Random random = new Random();
-							
-							//new monster
-							Monster newMonsterOpponent = new Monster("",DBLoader.getInstance().getRandomSpecies(random.nextInt(10)),random.nextInt(Integer.parseInt(o.toString())/100));
-							newMonsterOpponent.setName(newMonsterOpponent.getSpecies().getName()+1);
-							
-							opponent.addMonster(newMonsterOpponent);
-							opponent.setCurrentMonster(newMonsterOpponent);
-							
-							BattleScreen bs = new BattleScreen(player, opponent, BattleMode.STADIUM, new BattleListener(){
-								@Override
-								public void action(int result) {
-									//result = 1 -> win, result = -1 -> lose
-								}
-								
-							});
-							ScreenManager.getInstance().push(bs);
-						}
-							
-					}
-					else{
-						MessageManager.alert("The input is not a valid number");
-					}
-				}
-				
-				@Override
-				public void cancel() {
+				public void onTouchUp() {
 					// TODO Auto-generated method stub
 					
 				}
+				
+				@Override
+				public void onTouchMove() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchDown() {
+					// TODO Auto-generated method stub
+					ScreenManager.getInstance().pop();
+				}
 			});
+			
+			bet = new BitmapButton(BitmapManager.getInstance().get("bet"),100,100);
+			bet.addTouchListener(new TouchListener() {
+				
+				@Override
+				public void onTouchUp() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchMove() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchDown() {
+					// TODO Auto-generated method stub
+					MessageManager.prompt("Give your bet", new Action() {
+						
+						@Override
+						public void proceed(Object o) {
+							// TODO Auto-generated method stub
+							if(isInt(o.toString())){
+								//check money
+								if(player.getMoney() < Integer.parseInt(o.toString())){
+									//uang ga cukup
+									MessageManager.alert("Your bet is higher than your money");
+								}
+								else if(Integer.parseInt(o.toString())==0){
+									MessageManager.alert("You bet nothing");
+								}
+								else{
+									//uang cukup
+									player.setMoney(player.getMoney()-Integer.parseInt(o.toString())); //kurangin uang
+									
+									//new opponent
+									Player opponent = new Player();
+									opponent.setMoney(Integer.parseInt(o.toString())*2);
+									Random random = new Random();
+									
+									//new monster
+									Integer number = Integer.parseInt(o.toString())/100;
+									if(number == 0) number = 1;
+									
+									Monster newMonsterOpponent = new Monster("",DBLoader.getInstance().getRandomSpecies(random.nextInt(10)+1),random.nextInt(number)+1);
+									newMonsterOpponent.setName(newMonsterOpponent.getSpecies().getName()+1);
+									
+									opponent.addMonster(newMonsterOpponent);  
+									opponent.setCurrentMonster(newMonsterOpponent);
+									
+									BattleScreen bs = new BattleScreen(player, opponent, BattleMode.STADIUM, new BattleListener(){
+										@Override 
+										public void action(int result) {
+											//result = 1 -> win, result = -1 -> lose
+											if(result == 1){
+												
+											}
+											else if(result == -1){
+												am.setCurArea(DBLoader.getInstance().getArea("HOME"));
+												am.setPlayerCord(new Point(8,5));
+												MessageManager.alert("You lost in battle");
+												show = true;
+												player.restoreAllMonster();
+											}
+											ScreenManager.getInstance().pop();
+										}
+										
+									});
+									ScreenManager.getInstance().push(bs);
+								}
+									
+							}
+							else{
+								MessageManager.alert("The input is not a valid number");
+							}
+						}
+						
+						@Override
+						public void cancel() {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+				}
+			});
+			
 			
 		}
 				
@@ -130,10 +191,14 @@ public class Stadium implements IScreen{
 		@Override
 		public void draw(Canvas canvas) {
 			// TODO Auto-generated method stub
+			bet.draw(canvas);
+			close.draw(canvas);
 		}
 		
 		@Override
 		public void onTouchEvent(MotionEvent e, float magX, float magY) {
 			// TODO Auto-generated method stub
+			bet.onTouchEvent(e, magX, magY);
+			close.onTouchEvent(e, magX, magY);
 		}
 }

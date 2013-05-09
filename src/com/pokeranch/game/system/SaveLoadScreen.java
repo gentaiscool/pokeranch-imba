@@ -34,7 +34,7 @@ public class SaveLoadScreen implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
-			sleep = new BitmapButton(BitmapManager.getInstance().get("sleep"),50,50);
+			sleep = new BitmapButton(BitmapManager.getInstance().get("sleepbutton"),30,60);
 			sleep.addTouchListener(new TouchListener() {
 				
 				@Override
@@ -53,6 +53,7 @@ public class SaveLoadScreen implements IScreen{
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
 					player.restoreAllMonster();
+					MessageManager.alert("You and your monsters are restored");
 				}
 			});
 			
@@ -84,13 +85,14 @@ public class SaveLoadScreen implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					PlayerSaveLoader.getInstance().savePlayer(player);
-					MessageManager.alert("Game is saved");
+					
 				}
 
 				@Override
 				public void onTouchUp() {
 					// TODO Auto-generated method stub
+					PlayerSaveLoader.getInstance().savePlayer(player);
+					MessageManager.alert("Game is saved");
 					
 				}
 
