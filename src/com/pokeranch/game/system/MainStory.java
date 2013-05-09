@@ -6,9 +6,11 @@ import com.pokeranch.game.system.MessageManager.Action;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -17,7 +19,8 @@ public class MainStory implements IScreen{
 	
 	private Paint paint = new Paint();
 	private ScreenManager manager;
-	private BitmapButton oak, frame;
+	private BitmapButton oak;
+	private Bitmap frame;
 	
 	private int state = 0;
 	private TextComponent textcomponent;
@@ -34,16 +37,14 @@ public class MainStory implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
-			textcomponent = new TextComponent("", 77, 172);
+			textcomponent = new TextComponent("", 77, 180);
 			//Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/Pokemon GB.ttf");
 			
 			paint.setTextSize(5);
 			paint.setTypeface(BitmapManager.getInstance().getTypeface());
 			paint.setColor(Color.BLACK);	
 			
-			
-			
-			frame = new BitmapButton(BitmapManager.getInstance().get("frame"),65,150);
+			frame = BitmapManager.getInstance().get("frame");
 			oak = new BitmapButton(BitmapManager.getInstance().get("professoroak"),19,60);
 			
 			
@@ -85,6 +86,7 @@ public class MainStory implements IScreen{
 		public void selectFrom(){
 			MainChooseMonster mcm = new MainChooseMonster(curContext, curScreenWidth, curScreenHeight);
 			manager.push(mcm);
+
 		}
 		
 		@Override
@@ -109,7 +111,7 @@ public class MainStory implements IScreen{
 			logo.draw(canvas);*/
 		
 			oak.draw(canvas);
-			frame.draw(canvas);
+			canvas.drawBitmap(frame, new Rect(0,0, frame.getWidth(),frame.getHeight()),new RectF(65,160,320,240), null);
 			canvas.drawText("tap to continue...", 200, 0, paint);
 			if(state == 1){
 				/*canvas.drawText("Welcome to PokeRancher World!. ", 77, 172, paint);
