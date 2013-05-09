@@ -319,7 +319,7 @@ public class AreaManager implements IScreen{
 		// TODO Auto-generated method stub
 		curArea.update();
 		
-		if(getCurPlayer().getPlayingTime().getHour() > 18){ //udah malam ikan bobo
+		if(getCurPlayer().getPlayingTime().getHour() > 18 && getCurArea().getPlace().equals("OUTDOOR")){ //udah malam ikan bobo
 			if(getCurPlayer().haveTorch())
 				paint.setColorFilter(new LightingColorFilter(0x004C4C4C, 0));
 			else
