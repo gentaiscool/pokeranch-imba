@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.UrlQuerySanitizer.ParameterValuePair;
@@ -147,7 +148,27 @@ public class BattleScreen implements IScreen {
 			//setelah kena attack
 			animation.update();
 			if(animation.finished()) {
-				enemy.getCurrentMonster().inflictDamage(animation.getSkill(), current.getCurrentMonster());
+				
+				Point hasil = enemy.getCurrentMonster().inflictDamage(animation.getSkill(), current.getCurrentMonster());
+				int eff = hasil.y;
+				boolean critical = hasil.x==1;
+				
+				switch(eff){
+				case 0:
+					message.appendText("It doesn't have any effect!");
+				break;
+				case 1:
+					message.appendText("It's not very effective");
+				break;
+				case 3:
+					message.appendText("It's super effective!");
+				break;
+				default:
+				}
+				
+				if(critical) message.appendText("It's a critical hit!");
+				
+				
 				current.getCurrentMonster().updateStatusBy(animation.getSkill().getCost());
 				stat1.fetchData();
 				stat2.fetchData();
@@ -299,7 +320,7 @@ public class BattleScreen implements IScreen {
 				return;
 			}
 		}
-		
+				
 		int x = turn==1? x2 : x1;
 		int y = turn==1? y2 : y1;
 		message.appendText(current.getCurrentMonster().getName() + " use " + sk.getName() + "!");
