@@ -186,6 +186,13 @@ public class Area {
 						//am.setCurCord(field[nextX][nextY].getArrivalCord());
 						move = startMoving = false;
 						//Log.d("harits", "berhasil menentukan koord baru");
+					} else if(am.getRoamingMode().equals("swim")){
+						if(getTile(nextX, nextY).isSwimmable()){
+							startMoving = true;
+							curX = nextX;
+							curY = nextY;
+							am.movePlayer(direction, 2);
+						}
 					} else if(getTile(nextX, nextY).isPassable()){
 						startMoving = true;
 						curX = nextX;

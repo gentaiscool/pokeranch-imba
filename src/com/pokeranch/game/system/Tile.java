@@ -12,7 +12,7 @@ public class Tile {
 	private int passable;
 	private Point arrivalCord;
 	private String actionName;
-	private String shores[] = {"1683", "1725", "1727", "1769"};
+	private String shores[] = {"259"};
 
 	Tile(String b, String c, int pass){
 		actionName = null;
