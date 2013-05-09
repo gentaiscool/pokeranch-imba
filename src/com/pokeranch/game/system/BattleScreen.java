@@ -48,13 +48,21 @@ public class BattleScreen implements IScreen {
 	private int turn; //player no berapa yg sedang jalan
 	private BattleMode mode;
 	private BattleState state;
+	private BattleListener listener;
+	private int result;
 	
-	public BattleScreen(Player player1, Player player2, BattleMode mode){
+	public interface BattleListener{
+		public void action(int result);
+	}
+	
+	public BattleScreen(Player player1, Player player2, BattleMode mode, BattleListener listener){
+		this.listener = listener;
 		this.player1 = player1;
 		this.player2 = player2;
 		this.mode = mode;
 		current = this.player1;
 		enemy = this.player2;
+		result = 0;
 		
 		if (mode == BattleMode.WILD){
 			StringBuilder ss = new StringBuilder("A Wild ");
@@ -264,12 +272,12 @@ public class BattleScreen implements IScreen {
 			
 			player1.setMoney(player1.getMoney()+duit);
 			message.appendText("You get $" + duit);
+			result = 1;
 		}else{
 			player1.addLose(1);
 			player1.addBattle(1);
+			result = -1;
 		}
-		
-		
 	}
 	
 	private void attack(Skill sk){
@@ -707,7 +715,8 @@ public class BattleScreen implements IScreen {
 			if(!clicked) catched();
 		break;
 		case END:
-			
+			ScreenManager.getInstance().pop();
+			listener.action(result);
 		break;
 		default:
 		}

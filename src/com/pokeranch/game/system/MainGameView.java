@@ -1,6 +1,7 @@
 package com.pokeranch.game.system;
 
 import com.pokeranch.game.object.*;
+import com.pokeranch.game.system.BattleScreen.BattleListener;
 import com.pokeranch.game.system.BattleScreen.BattleMode;
 
 import android.annotation.SuppressLint;
@@ -113,7 +114,14 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.setCurrentMonster(m2.getName());
 
 		pl2.addMonster(Monster.getRandomMonster(10, 1));
-		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
+		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD, new BattleListener(){
+			@Override
+			public void action(int result) {
+				// result:
+				// 0 -> escape, 1 -> win, -1 -> lose 
+				
+			}
+		}));
 
 		
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
@@ -123,7 +131,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//manager.push(buysellmarket);
 		
 		Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
-		manager.push(combi);
+		//manager.push(combi);
 		
 		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
 		//manager.push(stadium);
