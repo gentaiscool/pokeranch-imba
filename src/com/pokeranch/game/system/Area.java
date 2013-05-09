@@ -210,6 +210,7 @@ public class Area {
 				am.pushBoulder(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				am.cutTree(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				am.trySwim(curX + am.dirX[direction], curY + am.dirY[direction], direction);
+				am.tryAction(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				isAction = false;
 			}
 		}
