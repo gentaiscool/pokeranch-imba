@@ -98,10 +98,10 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
 		am.setPlayerCord(new Point(14,9));
-		manager.push(am);
+		//manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
-		//manager.push(mm);
+		manager.push(mm);
 		
 		Log.d("LM", "chek 1");
 		ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
@@ -139,7 +139,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.setCurrentMonster(m2.getName());
 
 		pl2.addMonster(Monster.getRandomMonster(10, 1));
-		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD, new BattleListener(){
+		/*manager.push(new BattleScreen(pl,pl2, BattleMode.WILD, new BattleListener(){
 			@Override
 			public void action(int result) {
 				// result:
@@ -147,7 +147,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 				
 			}
 		}));
-
+		 */
 		
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
 		//manager.push(buymarket);

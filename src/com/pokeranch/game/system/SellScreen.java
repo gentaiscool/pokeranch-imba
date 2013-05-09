@@ -145,11 +145,12 @@ public class SellScreen implements IScreen{
 			}
 			tm[i] = "Back";
 			
-			category = new String[4];
+			category = new String[5];
 			category[0] = "Monster Ball";
 			category[1] = "Stat Item";
 			category[2] = "TM";
-			category[3] = "Back";
+			category[3] = "Torch";
+			category[4] = "Back";
 			
 			scroll = new ScrollComponent(category,220,100,screenHeight,new SelectionListener(){
 				@Override
@@ -470,6 +471,9 @@ public class SellScreen implements IScreen{
 				});
 				break;
 			case 3:
+				MessageManager.alert("You can't sell your torch");
+				break;
+			case 4:
 				//terminates
 				ScreenManager.getInstance().pop();
 				break;

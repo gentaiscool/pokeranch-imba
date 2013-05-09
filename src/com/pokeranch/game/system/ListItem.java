@@ -328,11 +328,17 @@ public class ListItem implements IScreen{
 			}
 			tm[i] = "Back";
 			
-			category = new String[4];
+			category = new String[5];
 			category[0] = "Monster Ball";
 			category[1] = "Stat Item";
 			category[2] = "TM";
-			category[3] = "Back";
+			if(player.haveTorch()){
+				category[3] = "1x Torch";
+			}
+			else{
+				category[3] = "0x Torch";
+			}
+			category[4] = "Back";
 			
 			scroll = new ScrollComponent(category,220,100,screenHeight,new SelectionListener(){
 				@Override
@@ -494,6 +500,9 @@ public class ListItem implements IScreen{
 				});
 				break;
 			case 3:
+				
+				break;
+			case 4:
 				//terminates
 				ScreenManager.getInstance().pop();
 				break;

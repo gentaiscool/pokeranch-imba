@@ -230,7 +230,7 @@ public class Player {
 	}
 	
 	public boolean haveTorch(){
-		return true;
+		int i = this.getItemStock("Torch");
+		return i>0;
 	}
-
 }

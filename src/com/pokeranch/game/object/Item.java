@@ -22,6 +22,11 @@ public class Item implements ILoadable{
 			this.name = name;
 	}
 	
+	public void setPrice(int price) {
+		// TODO Auto-generated method stub
+			this.price = price;
+	}
+	
 	//konstruktor
 	public Item() {
 		// TODO Auto-generated constructor stub
