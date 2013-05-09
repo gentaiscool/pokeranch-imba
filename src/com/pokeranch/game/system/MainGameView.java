@@ -54,6 +54,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		matrix.setScale(magnificationX, magnificationY,0,0);
 		
 		curPlayer = new Player();
+		Monster monster1 = new Monster();
+		curPlayer.addMonster(monster1.getRandomMonster(5, 1));
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
@@ -63,8 +65,12 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
 		
+		Log.d("LM", "chek 1");
+		ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
+		Log.d("LM", "chek 2");
+		manager.push(lm);
 		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
-		manager.push(lt);
+		//manager.push(lt);
 		
 		//Pokedex pokedex = new Pokedex(screenWidth, screenHeight);
 		//manager.push(pokedex);
