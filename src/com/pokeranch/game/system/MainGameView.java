@@ -21,6 +21,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private static final String TAG = "POKE";
 	public static final float standardWidth = 320.f;
 	public static final float standardHeight = 240.f;
+	public static float realScreenWidth;
+	public static float realScreenHeight;
 	public static final int standardDensity = 160;
 	public static int screenDensity;
 	
@@ -43,7 +45,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		ScreenManager.initialize();
 		
 		manager = ScreenManager.getInstance();
-		
+		realScreenHeight = screenHeight;
+		realScreenWidth = screenWidth;
 		magnificationY = (((float) screenHeight) / standardHeight);
 		magnificationX = (((float) screenWidth) / standardWidth);
 			
@@ -102,8 +105,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
 		//manager.push(buysellmarket);
 		
-		Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
-		manager.push(combi);
+		//Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
+		//manager.push(combi);
 		
 	}
 	

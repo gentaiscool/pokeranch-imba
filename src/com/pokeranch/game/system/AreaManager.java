@@ -2,7 +2,6 @@ package com.pokeranch.game.system;
 
 import java.util.ArrayList;
 
-import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.Player;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MainGameView.ButtonClick;
@@ -35,9 +34,10 @@ public class AreaManager implements IScreen{
 	
 	AreaManager(Context con, int scw, int sch, Player p){
 		DialogueBox.initialize();
+		PlayerMenu.initialize();
+		ListItem.initialize(p, scw, sch);
 		screenWidth = scw;
 		screenHeight = sch;
-		PlayerMenu.initialize();
 		context = con;
 		paint = new Paint();
 		paintkotak = new Paint();
