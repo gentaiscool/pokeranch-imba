@@ -49,7 +49,7 @@ public class AreaManager implements IScreen{
 		
 		monsters = new ArrayList<WalkingMonster>();
 		
-		jam= new TextComponent("Day "+curPlayer.getPlayingTime().getDay()+" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute(), 5, 15);
+		jam= new TextComponent(" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute()+" "+AMPM, 5, 15);
 		headGround = new Sprite(32,0, BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
 			@Override
 			public Point getImgPos(int direction, int frame, int width, int height) {
