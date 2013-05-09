@@ -12,6 +12,7 @@ public class DialogueBox implements IScreen{
 	private String message;
 	private static DialogueBox dbox;
 	private static Paint paint;
+	private static boolean isShown;
 	
 	@Override
 	public void update() {
@@ -55,11 +56,20 @@ public class DialogueBox implements IScreen{
 		// TODO Auto-generated method stub
 		final int code = e.getAction() & MotionEvent.ACTION_MASK;	
 		if(code == MotionEvent.ACTION_DOWN){
+			isShown = false;
 			ScreenManager.getInstance().pop();
 			//kalo dia bisa kena onTouchEvent, berarti dia ada di top stack
 			//pop diri sendiri
 			
 		}
+	}
+
+	public static boolean isShown() {
+		return isShown;
+	}
+
+	public static void setShown(boolean isShown) {
+		DialogueBox.isShown = isShown;
 	}
 
 }
