@@ -140,6 +140,7 @@ public class SplashActivity extends Activity {
 			
 			/********************** Dialogue Box **********************/
 			BitmapManager.getInstance().put("dbox", R.drawable.dbox);
+			BitmapManager.getInstance().put("pmenu", R.drawable.pmenu);
 			
 			//mencegah penambahan resource setelah load
 			BitmapManager.getInstance().lockPut();

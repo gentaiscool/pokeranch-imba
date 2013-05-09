@@ -64,7 +64,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//manager.push(mm);
 		
 		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
-		manager.push(lt);
+		//manager.push(lt);
 		
 		//Pokedex pokedex = new Pokedex(screenWidth, screenHeight);
 		//manager.push(pokedex);
