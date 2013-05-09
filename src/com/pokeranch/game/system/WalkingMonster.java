@@ -8,6 +8,7 @@ import com.pokeranch.game.system.BattleScreen.BattleMode;
 import com.pokeranch.game.system.Sprite.SpriteCounter;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.Log;
 
@@ -21,13 +22,15 @@ public class WalkingMonster {
 	}
 	private AreaManager am;
 	private Random rand;
+	private String place;
 	private Sprite sprite;
 	private boolean startMoving, outOfBounds;
 	private int direction, newDirection;
 	private int curX, curY;
 	private String mode;
 	private int monsterID;
-	public WalkingMonster(Sprite _sprite, int x, int y, AreaManager _am, String _mode){
+	public WalkingMonster(Sprite _sprite, int x, int y, AreaManager _am, String _mode, String _place){
+		place = _place;
 		sprite = _sprite;
 		curX = x;
 		curY = y;
@@ -39,7 +42,7 @@ public class WalkingMonster {
 		monsterID = rand.nextInt(10);
 	}
 	
-	public static WalkingMonster createNewWalkingMonster(Point p, String mode, AreaManager _am){
+	public static WalkingMonster createNewWalkingMonster(Point p, String mode, AreaManager _am, String _place){
 		int i = p.x;
 		int j = p.y;
 		return new WalkingMonster(new Sprite(i*16, j*16, BitmapManager.getInstance().get("monster4"), 4, 2, 2, new SpriteCounter(){
@@ -62,7 +65,7 @@ public class WalkingMonster {
 				}
 				return new Point(x,y);
 			}
-		}), i, j, _am, mode);
+		}), i, j, _am, mode, _place);
 	}
 	
 	public Sprite getBody(){
@@ -97,6 +100,10 @@ public class WalkingMonster {
 		}
 	}
 	
+	public boolean contains(int blow, int bhigh, int tested){
+		return (tested >= blow && tested <= bhigh);
+	}
+	
 	public void update(){
 		if(!startMoving){
 			if(mode.equals("HOMING")){
@@ -113,36 +120,63 @@ public class WalkingMonster {
 			if(t.first.x < 0 || t.second.x < 0|| t.first.y < 0 || t.second.y < 0 || t.first.x >= am.getCurArea().getRow() || t.second.x >= am.getCurArea().getRow() || t.first.y >= am.getCurArea().getColumn() || t.second.y >= am.getCurArea().getColumn())
 				outOfBounds = true;
 			if(!outOfBounds){
-				if(am.getCurArea().getCurX() == t.first.x && am.getCurArea().getCurY() == t.first.y){
+				if(contains(am.getCurArea().getCurX() - 16, am.getCurArea().getCurX() + 16, curX + 16) && contains(am.getCurArea().getCurY(), am.getCurArea().getCurY() + 16, curY + 16)){
+					//am.getCurArea().getTile(curX, curY).setPassable(0);
 					Player player2 = new Player();
 					Monster m = Monster.getRandomMonster(5, 5);
 					player2.addMonster(m);
 					player2.setCurrentMonster(m);
 					DialogueBox.getInstance().setMessage("You encountered a wild pokemon!");
+					DialogueBox.setShown(true);
 					ScreenManager.getInstance().push(DialogueBox.getInstance());
+					while(DialogueBox.isShown()){}
 					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD, null));
 					am.resetWalkingMonsters();
 					am.getMonsters().remove(this);
-				} else if(am.getCurArea().getTile(t.first.x, t.first.y).isPassable() && am.getCurArea().getTile(t.second.x, t.second.y).isPassable()){
-					//Log.d("monster", "start to move! :D");
-					startMoving = true;
-					am.getCurArea().getTile(curX, curY).setPassable(0);
-					
-					if(t.first.x > curX)
-						curX++;
-					else if(t.first.x < curX)
-						curX--;
-					
-					if(t.first.y > curY)
-						curY++;
-					else if(t.first.y < curY)
-						curY--;
-					
-					am.getCurArea().getTile(curX, curY).setPassable(1);
-					sprite.move(direction, 1);
-				} else {
-					sprite.setDirection(direction);
-					newDirection = rand.nextInt(4);
+				} else if(place.equals("SEA")){ 
+					if(am.getCurArea().getTile(t.first.x, t.first.y).isSwimmable() && am.getCurArea().getTile(t.second.x, t.second.y).isSwimmable()){
+						//Log.d("monster", "start to move! :D");
+						startMoving = true;
+						//am.getCurArea().getTile(curX, curY).setPassable(0);
+						
+						if(t.first.x > curX)
+							curX++;
+						else if(t.first.x < curX)
+							curX--;
+						
+						if(t.first.y > curY)
+							curY++;
+						else if(t.first.y < curY)
+							curY--;
+						
+						//am.getCurArea().getTile(curX, curY).setPassable(1);
+						sprite.move(direction, 1);
+					} else {
+						sprite.setDirection(direction);
+						newDirection = rand.nextInt(4);
+					}
+				} else if(place.equals("GROUND")){
+					if(am.getCurArea().getTile(t.first.x, t.first.y).isPassable() && am.getCurArea().getTile(t.second.x, t.second.y).isPassable()){
+						//Log.d("monster", "start to move! :D");
+						startMoving = true;
+						am.getCurArea().getTile(curX, curY).setPassable(0);
+						
+						if(t.first.x > curX)
+							curX++;
+						else if(t.first.x < curX)
+							curX--;
+						
+						if(t.first.y > curY)
+							curY++;
+						else if(t.first.y < curY)
+							curY--;
+						
+						am.getCurArea().getTile(curX, curY).setPassable(1);
+						sprite.move(direction, 1);
+					} else {
+						sprite.setDirection(direction);
+						newDirection = rand.nextInt(4);
+					}
 				}
 			} else {
 				sprite.setDirection(direction);
@@ -151,7 +185,7 @@ public class WalkingMonster {
 		} else {
 			sprite.move(direction, 1);
 			if(getBody().getX() % 16 == 0 && getBody().getY() % 16 == 0){
-					Log.d("monster", "udah sampe tujuan, berhenti dulu");
+					//Log.d("monster", "udah sampe tujuan, berhenti dulu");
 					newDirection = rand.nextInt(4);
 					startMoving = false;
 			}
@@ -177,8 +211,8 @@ public class WalkingMonster {
 		}
 	}
 	
-	public void draw(Canvas canvas){
-		getBody().draw(canvas);
+	public void draw(Canvas canvas, Paint paint){
+		getBody().draw(canvas, paint);
 	}
 
 	public AreaManager getAm() {
@@ -187,5 +221,13 @@ public class WalkingMonster {
 
 	public void setAm(AreaManager am) {
 		this.am = am;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
 	}
 }

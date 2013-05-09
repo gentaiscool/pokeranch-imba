@@ -34,7 +34,10 @@ public class Monster{
 
 	//cctor
 	public Monster(String name, Species species, int level){
-		
+		random = new Random();
+		if(species == null){
+			Log.d("species","ini null");
+		}
 		this.name = name;
 		this.species = species;
 		this.level = level;
@@ -288,6 +291,9 @@ public class Monster{
 	
 	public static Monster getRandomMonster(int level, int maxRating){
 		Species ss;
+		if(maxRating < 1){
+			maxRating = 1;
+		}
 		ss = DBLoader.getInstance().getRandomSpecies(maxRating);
 		return new Monster(ss.getName(), ss, level);
 	}
@@ -305,6 +311,7 @@ public class Monster{
 		Monster monster2 = player1.getMonster(nmonster2);
 		
 		if(monster1 == null || monster2 == null){
+			Log.d("error","ini dia"+nmonster1+" "+nmonster2);
 			throw new Exception();
 		}
 		else{
@@ -315,7 +322,7 @@ public class Monster{
 			Species spec3 = DBLoader.getInstance().getCombinedSpecies(elem3, rate3);
 			
 			int lvl3 = (monster1.getLevel()+ monster2.getLevel())/2;
-			
+			Log.d("error","ini dia2"+spec3.getName());
 			return new Monster("", spec3, lvl3);
 		}
 	}

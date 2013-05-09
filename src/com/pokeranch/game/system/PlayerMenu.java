@@ -58,6 +58,7 @@ public class PlayerMenu implements IScreen{
 		// TODO Auto-generated method stub
 		if(selection == 0){
 			//keluarin list item
+			ListItem.getInstance().refresh();
 			ScreenManager.getInstance().push(ListItem.getInstance());
 		} else if(selection == 1){
 			//keluarin list monster

@@ -167,6 +167,16 @@ public class Combinatorium implements IScreen{
 									Log.d("monsterbaru Species jadi", newMonster.getSpecies().getName());
 								}
 								
+								while(newMonster == null){
+									try {
+										newMonster = Monster.combineMonster(player,monstersName[firstMonster], monstersName[secondMonster]);
+										Log.d("heheloop","loops");
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+								
 								final Monster newMonster1 = newMonster;
 								final Integer firstMonster1 = firstMonster;
 								final Integer secondMonster1 = secondMonster;
