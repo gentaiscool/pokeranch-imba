@@ -37,7 +37,6 @@ public class AreaManager implements IScreen{
 	private CopyOnWriteArrayList<WalkingMonster> monsters;
 	
 	AreaManager(Context con, int scw, int sch, Player p){
-		DialogueBox.initialize();
 		PlayerMenu.initialize(p);
 		ListItem.initialize(p, scw, sch);
 		screenWidth = scw;
