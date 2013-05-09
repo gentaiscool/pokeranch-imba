@@ -93,6 +93,7 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("right", R.drawable.right);
 			BitmapManager.getInstance().put("down", R.drawable.down);
 			BitmapManager.getInstance().put("a_button", R.drawable.a);
+			BitmapManager.getInstance().put("b_button", R.drawable.b);
 			
 			/******************* Battle **********************/
 			

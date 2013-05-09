@@ -19,7 +19,7 @@ public class Area {
 	private boolean isUp = true;
 	private int direction = 0;
 	private int newDirection;
-	private boolean isAction;
+	private boolean isActionA, isActionB;
 	private DelayedAction time;
 	
 	public Area(String n, int r, int c){
@@ -90,9 +90,12 @@ public class Area {
 			isUp = false;
 			
 		switch(click){
-			case ACTION:
-				isAction = true;
+			case ACTION_A:
+				isActionA = true;
 			break;	
+			case ACTION_B:
+				isActionB = true;
+			break;
 			case LEFT:
 				newDirection = 3;
 			break;
@@ -111,7 +114,7 @@ public class Area {
 		
 
 		
-		if(!move && !isAction){
+		if(!move && (!isActionA && !isActionB)){
 			move = true;
 			switch(click){
 			case LEFT:
@@ -208,12 +211,15 @@ public class Area {
 		} else {
 			am.setPlayerDirection(direction);
 			//aksi2 gajelas kayak swim, dorong batu, dkk disini
-			if(isAction){
+			if(isActionA){
 				am.pushBoulder(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				am.cutTree(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				am.trySwim(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				am.tryAction(curX + am.dirX[direction], curY + am.dirY[direction], direction);
-				isAction = false;
+				isActionA = false;
+			} else if(isActionB){
+				ScreenManager.getInstance().push(PlayerMenu.getInstance());
+				isActionB = false;
 			}
 		}
 	}

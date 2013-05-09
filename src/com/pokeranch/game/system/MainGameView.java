@@ -29,7 +29,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private ScreenManager manager;
 	private Player curPlayer;
 	float magnificationX, magnificationY;
-	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE, ACTION};
+	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE, ACTION_A, ACTION_B};
 	
 	@SuppressWarnings("static-access")
 	public MainGameView(Context context, int screenWidth, int screenHeight, int screenDensity) {
