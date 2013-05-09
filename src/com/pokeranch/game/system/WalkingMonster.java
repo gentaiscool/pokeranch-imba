@@ -118,7 +118,9 @@ public class WalkingMonster {
 					Monster m = Monster.getRandomMonster(5, 5);
 					player2.addMonster(m);
 					player2.setCurrentMonster(m);
-					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD));
+					DialogueBox.getInstance().setMessage("You encountered a wild pokemon!");
+					ScreenManager.getInstance().push(DialogueBox.getInstance());
+					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD, null));
 					am.resetWalkingMonsters();
 					am.getMonsters().remove(this);
 				} else if(am.getCurArea().getTile(t.first.x, t.first.y).isPassable() && am.getCurArea().getTile(t.second.x, t.second.y).isPassable()){

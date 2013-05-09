@@ -94,7 +94,7 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("down", R.drawable.down);
 			BitmapManager.getInstance().put("a_button", R.drawable.a);
 			BitmapManager.getInstance().put("b_button", R.drawable.b);
-			
+				
 			/******************* Battle **********************/
 			
 			//battle panel
@@ -137,18 +137,26 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().putMap("monster", R.drawable.monsters, 1, 10, 0, 128, 64);
 			//Log.d("harits1", "berhasil load semua map");
 
+			/******************* OtherScreen **********************/
+
 			//market
 			BitmapManager.getInstance().put("buybutton", R.drawable.buy);
 			BitmapManager.getInstance().put("sellbutton", R.drawable.sell);
 			
-			//backpack
+			//sprite
 			BitmapManager.getInstance().put("backpack", R.drawable.backpack);
+			BitmapManager.getInstance().put("playerbig", R.drawable.player);
 			
-			//close
+			//button
 			BitmapManager.getInstance().put("close", R.drawable.close);
-			
-			//combine
 			BitmapManager.getInstance().put("combine", R.drawable.combine);
+			BitmapManager.getInstance().put("dismiss", R.drawable.dismiss);
+			BitmapManager.getInstance().put("setmain", R.drawable.setmain);
+			BitmapManager.getInstance().put("disableddismiss", R.drawable.dis_dismiss);
+	
+			
+			//use
+			BitmapManager.getInstance().put("use", R.drawable.use);
 			
 			/********************** Dialogue Box **********************/
 			BitmapManager.getInstance().put("dbox", R.drawable.dbox);

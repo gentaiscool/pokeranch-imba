@@ -36,7 +36,7 @@ public class AreaManager implements IScreen{
 	
 	AreaManager(Context con, int scw, int sch, Player p){
 		DialogueBox.initialize();
-		PlayerMenu.initialize();
+		PlayerMenu.initialize(p);
 		ListItem.initialize(p, scw, sch);
 		screenWidth = scw;
 		screenHeight = sch;

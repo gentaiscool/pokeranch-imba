@@ -1,7 +1,10 @@
 package com.pokeranch.game.system;
 
+import com.pokeranch.game.object.Player;
+import com.pokeranch.game.object.PlayerSaveLoader;
 import com.pokeranch.game.system.ScrollComponent.SelectionListener;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,12 +12,14 @@ import android.view.MotionEvent;
 
 public class PlayerMenu implements IScreen{
 	
-	private static String menus[] = {"Items", "Monsters", "Status", "Back"};
-	private static ScrollComponent scroll;
-	private static PlayerMenu pmenu;
-	private static Paint paint;
+	private String menus[] = {"Items", "Monsters", "Status", "Back"};
+	private ScrollComponent scroll;
+	private Paint paint;
 	private static int defaultColor1, defaultColor2, selectionColor, emptyColor;
-	public static void initialize(){
+	private Player player;
+	private static PlayerMenu instance = null;
+	
+	private PlayerMenu(Player _player){
 		
 		scroll = new ScrollComponent(menus, 220, 100, (int)MainGameView.realScreenHeight, new SelectionListener(){
 			@Override
@@ -36,28 +41,38 @@ public class PlayerMenu implements IScreen{
 		paint.setColor(Color.BLACK);
 		paint.setTypeface(BitmapManager.getInstance().getTypeface());
 		paint.setTextSize(8);
-		pmenu = new PlayerMenu();
+		player = _player;
 	}
 	
-	protected static void showCategory(int selection) {
+	public static void initialize(Player _player){
+		instance=new PlayerMenu(_player);
+	}
+	public static void release(){
+		instance = null;
+	}
+	
+	public static PlayerMenu getInstance() {
+		return instance;
+	}
+	protected void showCategory(int selection) {
 		// TODO Auto-generated method stub
 		if(selection == 0){
 			//keluarin list item
 			ScreenManager.getInstance().push(ListItem.getInstance());
 		} else if(selection == 1){
 			//keluarin list monster
+			ListMonster lm= new ListMonster(player, (int) MainGameView.realScreenWidth, (int)MainGameView.realScreenHeight);
+			ScreenManager.getInstance().push(lm);
 		} else if(selection == 2){
 			//keliarin status
+			PlayerStatus ps= new PlayerStatus(player);
+			ScreenManager.getInstance().push(ps);
 		} else if(selection == 3){
 			//kembali ke areamanager
 			ScreenManager.getInstance().pop();
 		}
 	}
 
-	public static PlayerMenu getInstance(){
-		return pmenu;
-	}
-	
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub

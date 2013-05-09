@@ -3,7 +3,7 @@
 # ...element, lalu 4 baseSkill (1 dulu buat test)
 
 #Grass Pokemon A D
-Bulba		1		39 20 53 63 NONE	Ivy		8 Grass Vine Cut Push Swim
+Bulba		1		39 20 53 63 NONE	Ivy		8 Grass Vine Cut Push Flame
 Ivy			3		56 30 70 83 NONE 	NULL 	-1 Grass Vine Cut Push Swim
 
 #Fire Pokemon H A

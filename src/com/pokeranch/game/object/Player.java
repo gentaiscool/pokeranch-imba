@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import android.util.Log;
+
 public class Player {
 	private String name;
 	private int money;
@@ -24,6 +26,37 @@ public class Player {
 		nlose = 0;
 		items = new HashMap<String, Integer>();
 		monsters = new HashMap<String, Monster>();
+	}
+	
+	public String showStatus(){
+		StringBuilder str = new StringBuilder();
+		str.append(	"***********PLAYER STATS*************\n\n\n"+
+					getName()+"\n\n"+
+					"$"+getMoney()+"\n\n"+
+					"year "+getPlayingTime().getYear()+" month "+getPlayingTime().getMonth()+"\nday "+getPlayingTime().getDay()+" hour "+getPlayingTime().getHour()+" minute "+getPlayingTime().getMinute()+"\n\n"+
+					getNbattle()+" Battle "+getNwin()+" Win "+getNlose()+" Lose"
+				);
+		return str.toString();
+	}
+	
+	public Monster getMonsterWithSkill(String skillname){
+		Collection<Monster> mvalues = monsters.values();
+		// Get an iterator
+		HashMap<String, Skill> skills;
+		Monster m;
+		Iterator<Monster> i = mvalues.iterator();
+	    while(i.hasNext()) {
+	    	m = i.next();
+	    	skills = m.getAllSkill();
+			Collection<Skill> svalues = skills.values();	    	
+			Iterator<Skill> it = svalues.iterator();
+			while (it.hasNext()) {
+				if(it.next().getName().equals(skillname)) {
+					return m;
+				}
+			}
+	    }
+	    return null;
 	}
 	
 	public void addItem(Item item, int n) {
@@ -100,9 +133,15 @@ public class Player {
 		if (mons!=null){
 			if (jmlmonsters == 1){
 				throw new Exception();
-			}
-			else {
+			} else {
+				if (nmonster.equals(getCurrentMonster().getName())) {
+					getCurrentMonster().getStatus().setHP(0);
+					Log.d("cekdel","CurMons sebelum del"+getCurrentMonster().getName());
+					setCurrentMonster(getNextMonster());
+					Log.d("cekdel","CurMons sebelum del"+getCurrentMonster().getName());
+					}
 				monsters.remove(nmonster);
+				Log.d("cekdel","lewat remove");
 			}	
 		} else {
 				throw new Exception();
@@ -219,7 +258,28 @@ public class Player {
 	}
 	
 	public boolean haveTorch(){
-		return true;
-	}
+		int i = this.getItemStock("Torch");
+		return i>0;
+	}	
+	public String[] buildArrayMonster() {
+		String[] listMonster = new String[monsters.size()]; 
+		Collection monster = monsters.values();
+		listMonster = new String[monsters.size()+1];
+		
+		listMonster[0]=getCurrentMonster().getName();
+		int i = 1;
+		Iterator<Monster> it = monster.iterator();
+		Log.d("LM", "Habis Iterate");
+		while(it.hasNext()){	
+			Monster m = it.next();
+			if (!m.getName().equals(getCurrentMonster().getName())) {
+				listMonster[i]=m.getName();
+				i++;
+			}
+		}
+		Log.d("LM", i+"");
 
+		Log.d("LM", "Habis Iterate2");
+		return listMonster;
+	}
 }

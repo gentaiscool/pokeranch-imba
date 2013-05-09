@@ -1,6 +1,7 @@
 package com.pokeranch.game.system;
 
 import com.pokeranch.game.object.*;
+import com.pokeranch.game.system.BattleScreen.BattleListener;
 import com.pokeranch.game.system.BattleScreen.BattleMode;
 
 import android.annotation.SuppressLint;
@@ -74,17 +75,25 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
 		
-		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
+		//Log.d("LM", "chek 1");
+		//ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
+		//Log.d("LM", "chek 2");
+
+		//PlayerStatus ps = new PlayerStatus(curPlayer);
+		//manager.push(ps);
+		//manager.push(lm);
+
+		//ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
 		//manager.push(lt);
 		
 		//Pokedex pokedex = new Pokedex(screenWidth, screenHeight);
 		//manager.push(pokedex);
 		
-		Player pl = new Player();
+		/*Player pl = new Player();
 		Player pl2 = new Player();
 		Monster m = new Monster("mybulba", DBLoader.getInstance().getSpecies("Bulba"),7);
 		m.addExp(120);
-		Monster m2 = Monster.getRandomMonster(6, 1);
+		Monster m2 = Monster.getRandomMonster(4, 1);
 		
 		pl.addMonster(m);
 		pl.setCurrentMonster(m.getName());
@@ -94,7 +103,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl.addItem(DBLoader.getInstance().getItem("Potion"), 2);
 		pl.addItem(DBLoader.getInstance().getItem("Cut"), 1);
 		pl.addItem(DBLoader.getInstance().getItem("Normal_Ball"), 2);
-		pl.addItem(DBLoader.getInstance().getItem("Master_Ball"), 2);
+		pl.addItem(DBLoader.getInstance().getItem("ParalyzCure"), 2);
 
 		pl.addMonster(new Monster("myChar", DBLoader.getInstance().getSpecies("Charchar"),10));
 		pl.addMonster(Monster.getRandomMonster(10, 1));
@@ -102,17 +111,17 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
-		
-		//manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
 
-		
+		pl2.addMonster(Monster.getRandomMonster(10, 1));
+
+			*/	
+
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
 		//manager.push(buymarket);
 		
-		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
+		//BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
 		//manager.push(buysellmarket);
 		
-		Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
 		//manager.push(combi);
 		
 		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);

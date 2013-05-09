@@ -1,5 +1,6 @@
 package com.pokeranch.game.object;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
@@ -10,6 +11,7 @@ import com.pokeranch.game.object.Status.Effect;
 
 import android.graphics.Point;
 import android.util.Log;
+//import android.util.Log;
 
 public class Monster{
 	private String name;
@@ -90,6 +92,8 @@ public class Monster{
 				fullStatus.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
 				status.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
 				
+				evolveSkill();
+				
 				if (evolve()) return 2;
 				
 				return 1;
@@ -161,12 +165,7 @@ public class Monster{
 		float lvl = (10.f / 3.f)* (float) level / (float) lawan.getLevel();
 		float hpcalc = ((float)(damage.getHP()) * ((float)(statlawan.getAttack()) /  (float)(status.getDefense())) * (elmtFactor) * critical + 0.5f) / lvl;
 		status.setHP( (int) (hp + hpcalc));
-		
-		Log.d("POKE inflict", sk.getName());
-		Log.d("POKE damage", Float.valueOf(hpcalc).toString());
-		Log.d("POKE critical", Float.valueOf(critical).toString());
-		Log.d("POKE elmtfactor", Float.valueOf(elmtFactor).toString());
-		
+				
 		if(status.getHP() <= 0)
 			status.setHP(0);
 			
@@ -245,10 +244,8 @@ public class Monster{
 		Species evo = species.getEvoSpecies();
 		Status diffstat = new Status();
 		diffstat.substractStatus(evo.getBaseStat(), species.getBaseStat());
-		
 		status.updateBy(diffstat.getHP(), diffstat.getMP(), diffstat.getAttack(), diffstat.getDefense(), diffstat.getEffect());
 		fullStatus.updateBy(diffstat.getHP(), diffstat.getMP(), diffstat.getAttack(), diffstat.getDefense(), diffstat.getEffect());
-		
 		species = evo;
 		
 		return true;
@@ -256,17 +253,20 @@ public class Monster{
 	
 	public boolean evolveSkill(){
 		boolean found = false;
-		for(int i=0; i<=3; i++){
-			if(skills.get(i).getNextSkillLevel() < level){
-				continue;
-			}
-			else{
+		
+		Skill[] c = new Skill[4];
+		skills.values().toArray(c);
+		
+		for(int i=0; i < 4; i++){
+			int lvl = c[i].getNextSkillLevel();
+			if(lvl!=-1 && lvl <= level){
 				found = true;
-				Skill skill = skills.get(i);
+				Skill skill = c[i];
 				this.delSkill(skill);
 				this.addSkill(skill.getNextSkill());
 			}
 		}
+		
 		return found;
 	}
 
@@ -278,8 +278,12 @@ public class Monster{
 		if(item.getPermanent()){
 			fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
 			restoreStatus();
-		}else
+		}else{
+			if(status.getEffect().equals(item.getCureStat())){
+				status.setEffect(Effect.NONE);
+			}
 			updateStatusBy(item.getItemEffect());
+		}
 	}
 	
 	public static Monster getRandomMonster(int level, int maxRating){
@@ -356,7 +360,7 @@ public class Monster{
 					"Spesies: "+getSpecies().getName()+" Level: "+level+"\n"+
 					"Exp: "+getExp()+" EvoExp: "+getLvlExp()+"\n"+
 					"BonusCash: "+getBonusCash()+" BonusExp: "+getBonusExp()+"\n"+
-					"Status(hp,mp,att,def,eff): "+ getStatus().toString()+" / "+getFullStatus().toString()+"\n");
+					"Status(hp,mp,att,def,eff):\n"+ getStatus().toString()+" /\n"+getFullStatus().toString()+"\n");
 	    Set<String> namaSkill = getAllSkill().keySet();
 	      // Get an iterator
 	    Iterator<String> i = namaSkill.iterator();
