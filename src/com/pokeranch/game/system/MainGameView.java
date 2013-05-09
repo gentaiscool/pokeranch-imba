@@ -41,7 +41,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		setFocusable(true);
 		
 		this.screenDensity = screenDensity;
-		
+		DialogueBox.initialize();
 		MessageManager.setContext(context);
 		ScreenManager.initialize();
 		PlayerSaveLoader.initialize(context);

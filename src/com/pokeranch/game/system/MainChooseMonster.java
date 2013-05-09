@@ -11,11 +11,14 @@ import com.pokeranch.game.system.MessageManager.Action;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,7 +30,9 @@ import android.widget.ImageButton;
 public class MainChooseMonster implements IScreen{
 	
 	private Paint paint = new Paint();
-	private BitmapButton transparentButton, oak, frame;
+	private BitmapButton transparentButton, oak;
+	private Bitmap frame;
+	private TextComponent message;
 	private Sprite head;
 	private int state = 0;
 	private Matrix matrix = new Matrix();	
@@ -43,15 +48,15 @@ public class MainChooseMonster implements IScreen{
 			// TODO Auto-generated constructor stub
 			
 			curName = name;
-			
+
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
-				
+			frame = BitmapManager.getInstance().get("frame");	
 			BitmapButton charchar = new BitmapButton(BitmapManager.getInstance().get("Charchar"), 10,50);
 			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("Squir"),  110, 50);
 			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("Bulba"), 220, 50);
-			
+			message = new TextComponent("Which Monster would you choose as your first \npartner?", 15, 185);
 			charchar.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchDown() {
@@ -116,8 +121,7 @@ public class MainChooseMonster implements IScreen{
 			paint.setTextSize(8);
 			paint.setTypeface(face);
 			paint.setColor(Color.BLACK);	
-			
-			
+
 		}
 		
 		public void setMonsterName(final Species s){
@@ -167,8 +171,10 @@ public class MainChooseMonster implements IScreen{
 				b.draw(canvas);
 			}
 			canvas.drawText("Charchar", 30, 20, paint);
-			canvas.drawText("Squir", 130, 20, paint);
+			canvas.drawText("Squir", 135, 20, paint);
 			canvas.drawText("Bulba", 240, 20, paint);
+			canvas.drawBitmap(frame, new Rect(0,0, frame.getWidth(),frame.getHeight()),new RectF(0,160,320,240), null);
+			message.draw(canvas);
 		}
 
 		@Override

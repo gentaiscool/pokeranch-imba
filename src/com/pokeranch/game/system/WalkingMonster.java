@@ -5,8 +5,9 @@ import java.util.Random;
 import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.Monster;
 import com.pokeranch.game.object.Player;
-import com.pokeranch.game.system.BattleScreen.BattleListener;
+import com.pokeranch.game.object.Species;
 import com.pokeranch.game.system.BattleScreen.BattleMode;
+import com.pokeranch.game.system.BattleScreen.BattleListener;
 import com.pokeranch.game.system.Sprite.SpriteCounter;
 
 import android.graphics.Canvas;
@@ -31,7 +32,8 @@ public class WalkingMonster {
 	private int curX, curY;
 	private String mode;
 	private int monsterID;
-	public WalkingMonster(Sprite _sprite, int x, int y, AreaManager _am, String _mode, String _place){
+	public WalkingMonster(Sprite _sprite, int x, int y, AreaManager _am, String _mode, String _place, int spriteID){
+		monsterID = spriteID;
 		place = _place;
 		sprite = _sprite;
 		curX = x;
@@ -44,10 +46,10 @@ public class WalkingMonster {
 		monsterID = rand.nextInt(10);
 	}
 	
-	public static WalkingMonster createNewWalkingMonster(Point p, String mode, AreaManager _am, String _place){
+	public static WalkingMonster createNewWalkingMonster(Point p, String mode, AreaManager _am, String _place, int spriteID){
 		int i = p.x;
 		int j = p.y;
-		return new WalkingMonster(new Sprite(i*16, j*16, BitmapManager.getInstance().get("monster4"), 4, 2, 2, new SpriteCounter(){
+		return new WalkingMonster(new Sprite(i*16, j*16, BitmapManager.getInstance().get("monster" + String.valueOf(spriteID)), 4, 2, 2, new SpriteCounter(){
 			public Point getImgPos(int direction, int frame, int width, int height){	
 				int x = 0, y = 0;
 				//Log.d("spritemonster", width + " " + height);
@@ -67,7 +69,7 @@ public class WalkingMonster {
 				}
 				return new Point(x,y);
 			}
-		}), i, j, _am, mode, _place);
+		}), i, j, _am, mode, _place, spriteID);
 	}
 	
 	public Sprite getBody(){
@@ -125,10 +127,12 @@ public class WalkingMonster {
 				if(contains(am.getCurArea().getCurX() - 16, am.getCurArea().getCurX() + 16, curX + 16) && contains(am.getCurArea().getCurY(), am.getCurArea().getCurY() + 16, curY + 16)){
 					//am.getCurArea().getTile(curX, curY).setPassable(0);
 					Player player2 = new Player();
-					Monster m = Monster.getRandomMonster(5, 5);
+					Species s = Monster.getSpeciesById(monsterID);
+					s.setCombineRating(1);
+					Monster m = new Monster("Hehe", s, 10);
 					player2.addMonster(m);
 					player2.setCurrentMonster(m);
-					while(DialogueBox.isShown()){}
+
 					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD, new BattleListener() {
 						@Override
 						public void action(int result) {
@@ -167,7 +171,7 @@ public class WalkingMonster {
 					if(am.getCurArea().getTile(t.first.x, t.first.y).isPassable() && am.getCurArea().getTile(t.second.x, t.second.y).isPassable()){
 						//Log.d("monster", "start to move! :D");
 						startMoving = true;
-						am.getCurArea().getTile(curX, curY).setPassable(0);
+						//am.getCurArea().getTile(curX, curY).setPassable(0);
 						
 						if(t.first.x > curX)
 							curX++;
@@ -179,7 +183,7 @@ public class WalkingMonster {
 						else if(t.first.y < curY)
 							curY--;
 						
-						am.getCurArea().getTile(curX, curY).setPassable(1);
+						//am.getCurArea().getTile(curX, curY).setPassable(1);
 						sprite.move(direction, 1);
 					} else {
 						sprite.setDirection(direction);
