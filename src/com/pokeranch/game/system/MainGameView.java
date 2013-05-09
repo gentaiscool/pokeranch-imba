@@ -56,9 +56,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		curPlayer = new Player();
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
-		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
-		am.setPlayerCord(new Point(0,4));
-		//manager.push(am);
+		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
+		am.setPlayerCord(new Point(14,9));
+		manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
@@ -100,6 +100,12 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
 		//manager.push(buysellmarket);
+		
+		//Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
+		//manager.push(combi);
+		
+		Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
+		manager.push(stadium);
 		
 	}
 	

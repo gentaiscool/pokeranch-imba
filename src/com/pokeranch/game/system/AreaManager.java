@@ -31,9 +31,13 @@ public class AreaManager implements IScreen{
 	private Paint paintkotak;
 	public final int dirX[] = {-1, 0, 1, 0};
 	public final int dirY[] = {0, 1, 0, -1};
+	private int screenWidth, screenHeight;
 	
 	AreaManager(Context con, int scw, int sch, Player p){
 		DialogueBox.initialize();
+		screenWidth = scw;
+		screenHeight = sch;
+		PlayerMenu.initialize();
 		context = con;
 		paint = new Paint();
 		paintkotak = new Paint();
@@ -192,11 +196,11 @@ public class AreaManager implements IScreen{
 		roamingMode = "ground";
 		
 		buttons = new ArrayList<BitmapButton>();
-		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 10, 190);
-		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 35, 215);
-		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 35, 165);
-		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 60, 190);
-		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 280, 190);
+		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 10, 166);
+		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 47, 203);
+		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 47, 129);
+		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 84, 166);
+		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 270, 167);
 		//Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
 		buttonA.addTouchListener(new TouchListener(){
 			@Override
@@ -507,10 +511,16 @@ public class AreaManager implements IScreen{
 			return;
 		if(action.equals("COMBINATORIUM")){
 			//masukin kode combinatorium disini
+			Combinatorium combinatorium = new Combinatorium(curPlayer,screenWidth,screenHeight);
+			ScreenManager.getInstance().push(combinatorium);
 		} else if(action.equals("STORE")){
 			//masukin kode store disini
+			BuySellScreen bss = new BuySellScreen(curPlayer, screenWidth, screenHeight);
+			ScreenManager.getInstance().push(bss);
 		} else if(action.equals("STADIUM")){
 			//masukin kode stadium disini
+			Stadium stadium = new Stadium(curPlayer,screenWidth,screenHeight);
+			ScreenManager.getInstance().push(stadium);
 		}
 	}
 
