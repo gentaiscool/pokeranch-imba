@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -111,7 +112,8 @@ public class MainMenu implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					
+					MainLoadScreen mls = new MainLoadScreen(curContext, curScreenWidth, curScreenHeight);
+					ScreenManager.getInstance().push(mls);
 				}
 			});
 			
@@ -131,7 +133,7 @@ public class MainMenu implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					
+					MessageManager.alert("PokeRanch Imba Ver 1.0\n\n******** HELP ********\n\nA - To act (CUT/SWIM/PUSH/BUY/SELL/SLEEP)\nB - To show Player's Item, Monster, Status, PokeDex\n\nKeys - To move the character (Left, Right, Up, Down)\n\nHave Fun!\n\n\n******* CREDITS *******\n\nFaiz Ilham\nGenta Indra Winata\nJais Anasrullah\nM Furqon Habibi\nM Harits S A H E\nPandu Kartika Putra\n");
 				}
 			});
 			
@@ -151,7 +153,7 @@ public class MainMenu implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					
+					((Activity) curContext).finish();
 				}
 			});
 			

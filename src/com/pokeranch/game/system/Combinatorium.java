@@ -188,6 +188,9 @@ public class Combinatorium implements IScreen{
 												//Log.d("check2", newMonster1.getSpecies().getName().toString());
 												
 												try {
+													if(player.getCurrentMonster().getName().equals(monstersName[firstMonster1]) || player.getCurrentMonster().getName().equals(monstersName[secondMonster1])){
+														player.setCurrentMonster(newMonster1);
+													}
 													player.delMonster(monstersName[firstMonster1]);
 													player.delMonster(monstersName[secondMonster1]);
 												} catch (Exception e) {

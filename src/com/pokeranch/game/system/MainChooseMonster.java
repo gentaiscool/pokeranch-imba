@@ -133,6 +133,7 @@ public class MainChooseMonster implements IScreen{
 						Monster m = new Monster(o.toString(), s, 5);
 						Player newPlayer = new Player();
 						newPlayer.addMonster(m);
+						newPlayer.setCurrentMonster(m);
 						
 						AreaManager am = new AreaManager(curContext, curScreenWidth, curScreenHeight, newPlayer);
 						//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
