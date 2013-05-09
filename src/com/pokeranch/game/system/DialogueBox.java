@@ -10,9 +10,10 @@ import android.view.MotionEvent;
 public class DialogueBox implements IScreen{
 	
 	private String message;
-	private static DialogueBox dbox;
+	private static DialogueBox dbox = null;
 	private static Paint paint;
 	private static boolean isShown;
+	
 	
 	@Override
 	public void update() {
@@ -25,11 +26,13 @@ public class DialogueBox implements IScreen{
 	}
 	
 	public static void initialize(){
-		paint = new Paint();
-		paint.setColor(Color.BLACK);
-		paint.setTypeface(BitmapManager.getInstance().getTypeface());
-		paint.setTextSize(8);
-		dbox = new DialogueBox();
+		if(dbox == null){
+			paint = new Paint();
+			paint.setColor(Color.BLACK);
+			paint.setTypeface(BitmapManager.getInstance().getTypeface());
+			paint.setTextSize(8);
+			dbox = new DialogueBox();
+		}
 	}
 	
 	public static DialogueBox getInstance(){
