@@ -60,8 +60,11 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		am.setPlayerCord(new Point(0,4));
 		//manager.push(am);
 		
-		//MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
+		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
+		
+		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
+		manager.push(lt);
 		
 		//Pokedex pokedex = new Pokedex(screenWidth, screenHeight);
 		//manager.push(pokedex);
@@ -86,7 +89,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.addMonster(Monster.getRandomMonster(3, 1));
 		pl2.setCurrentMonster(m2.getName());
 		
-		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
+		//manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
 
 		
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);

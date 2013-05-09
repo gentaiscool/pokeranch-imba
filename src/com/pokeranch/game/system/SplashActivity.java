@@ -136,6 +136,9 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("buybutton", R.drawable.buy);
 			BitmapManager.getInstance().put("sellbutton", R.drawable.sell);
 			
+			//backpack
+			BitmapManager.getInstance().put("backpack", R.drawable.backpack);
+			
 			/********************** Dialogue Box **********************/
 			BitmapManager.getInstance().put("dbox", R.drawable.dbox);
 			
