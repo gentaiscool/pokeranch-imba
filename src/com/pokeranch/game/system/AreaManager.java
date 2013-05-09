@@ -357,25 +357,25 @@ public class AreaManager implements IScreen{
 	@Override
 	public void draw(Canvas canvas) {
 		curArea.drawBG(canvas);
-		for(WalkingMonster m:monsters)
-			m.draw(canvas);
 		//asumsi udah malem
 //		Path p = new Path();
 //		p.addCircle(getCurArea().getCurX()*16 + 8, getCurArea().getCurY()*16 + 8, 12, Path.Direction.CCW);
 //		canvas.clipPath(p);
 //		canvas.drawBitmap(shade, null, new Rect(0,0,240,320), null);
 		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch())){
-			curBody.draw(canvas);
+			for(WalkingMonster m:monsters)
+				m.draw(canvas, paint);
+			curBody.draw(canvas, paint);
 			if(roamingMode.equals("swim")){
-				leftFinSwim.draw(canvas);
-				leftFinSwim.draw(canvas);
-				rightFinSwim.draw(canvas);
-				rightFinSwim.draw(canvas);
+				leftFinSwim.draw(canvas, paint);
+				leftFinSwim.draw(canvas, paint);
+				rightFinSwim.draw(canvas, paint);
+				rightFinSwim.draw(canvas, paint);
 			}
 		}
 		curArea.drawObj(canvas);
 		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch()))
-			curHead.draw(canvas);
+			curHead.draw(canvas, paint);
 		for(BitmapButton b : buttons){
 			b.draw(canvas);
 		}
@@ -404,30 +404,8 @@ public class AreaManager implements IScreen{
 	public void setCurArea(Area a) {
 		curArea = a;
 		curArea.setAreaManager(this);
-		if(getCurArea().getPlace().equals("OUTDOOR") && !getCurArea().getName().equals("CITY") ){
-			Point tmp1,tmp2,tmp3;
-			tmp1 = getRandomPassableGroundTile();
-			tmp2 = getRandomPassableGroundTile();
-			tmp3 = getRandomPassableGroundTile();
-			if(tmp1 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this));
-			if(tmp2 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this));
-			if(tmp3 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this));
-			
-			Point tmp4,tmp5,tmp6;
-			tmp4 = getRandomPassableSeaTile();
-			tmp5 = getRandomPassableSeaTile();
-			tmp6 = getRandomPassableSeaTile();
-			
-			if(tmp4 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp4, "HOMING", this));
-			if(tmp5 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp5, "FLEE", this));
-			if(tmp6 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp6, "RANDOM", this));
-		}
+		resetWalkingMonsters();
+		
 	}
 
 	public Player getCurPlayer() {
@@ -565,6 +543,8 @@ public class AreaManager implements IScreen{
 			//masukin kode stadium disini
 			Stadium stadium = new Stadium(curPlayer,screenWidth,screenHeight);
 			ScreenManager.getInstance().push(stadium);
+		} else if(action.equals("SAVELOAD")){
+			
 		}
 	}
 
@@ -637,8 +617,31 @@ public class AreaManager implements IScreen{
 	}
 
 	public void resetWalkingMonsters() {
-		// TODO Auto-generated method stub
-		
+		monsters.clear();
+		if(getCurArea().getPlace().equals("OUTDOOR") && !getCurArea().getName().equals("CITY") ){
+			Point tmp1,tmp2,tmp3;
+			tmp1 = getRandomPassableGroundTile();
+			tmp2 = getRandomPassableGroundTile();
+			tmp3 = getRandomPassableGroundTile();
+			if(tmp1 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this));
+			if(tmp2 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this));
+			if(tmp3 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this));
+			
+			Point tmp4,tmp5,tmp6;
+			tmp4 = getRandomPassableSeaTile();
+			tmp5 = getRandomPassableSeaTile();
+			tmp6 = getRandomPassableSeaTile();
+			
+			if(tmp4 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp4, "HOMING", this));
+			if(tmp5 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp5, "FLEE", this));
+			if(tmp6 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp6, "RANDOM", this));
+		}
 	}
 
 	public CopyOnWriteArrayList<WalkingMonster> getMonsters() {

@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -64,7 +65,7 @@ public class Sprite {
 	}
 	
 	
-	public void draw(Canvas canvas){
+	public void draw(Canvas canvas, Paint pnt){
 		//mag= 1,2,3,4
 		Point p = scount.getImgPos(direction, frame, width, height);
 		int sx = p.x;
@@ -77,7 +78,7 @@ public class Sprite {
 		//Bitmap newB = Bitmap.createBitmap(bitmap, sx, sy, width, height, mtx, false);
 		//Log.d("harits", "berhasil motong");
 		//Bitmap newB = bitmap;
-		canvas.drawBitmap(bitmap, new Rect(sx, sy, sx+width, sy+height), new RectF(x, y, x+width, y+height), null);
+		canvas.drawBitmap(bitmap, new Rect(sx, sy, sx+width, sy+height), new RectF(x, y, x+width, y+height), pnt);
 	}
 	
 	public boolean onTouchEvent(MotionEvent event, float mag) {

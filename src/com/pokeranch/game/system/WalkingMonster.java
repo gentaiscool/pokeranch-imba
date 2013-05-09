@@ -8,6 +8,7 @@ import com.pokeranch.game.system.BattleScreen.BattleMode;
 import com.pokeranch.game.system.Sprite.SpriteCounter;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.Log;
 
@@ -114,6 +115,7 @@ public class WalkingMonster {
 				outOfBounds = true;
 			if(!outOfBounds){
 				if(am.getCurArea().getCurX() == t.first.x && am.getCurArea().getCurY() == t.first.y){
+					am.getCurArea().getTile(curX, curY).setPassable(0);
 					Player player2 = new Player();
 					Monster m = Monster.getRandomMonster(5, 5);
 					player2.addMonster(m);
@@ -151,7 +153,7 @@ public class WalkingMonster {
 		} else {
 			sprite.move(direction, 1);
 			if(getBody().getX() % 16 == 0 && getBody().getY() % 16 == 0){
-					Log.d("monster", "udah sampe tujuan, berhenti dulu");
+					//Log.d("monster", "udah sampe tujuan, berhenti dulu");
 					newDirection = rand.nextInt(4);
 					startMoving = false;
 			}
@@ -177,8 +179,8 @@ public class WalkingMonster {
 		}
 	}
 	
-	public void draw(Canvas canvas){
-		getBody().draw(canvas);
+	public void draw(Canvas canvas, Paint paint){
+		getBody().draw(canvas, paint);
 	}
 
 	public AreaManager getAm() {

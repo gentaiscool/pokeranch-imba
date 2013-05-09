@@ -68,8 +68,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		curPlayer.setCurrentMonster(m1);
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
-		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
-		am.setPlayerCord(new Point(14,9));
+		am.setCurArea(DBLoader.getInstance().getArea("HOME"));
+		am.setPlayerCord(new Point(8, 5));
 		manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
