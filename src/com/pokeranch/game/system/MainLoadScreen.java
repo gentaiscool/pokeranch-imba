@@ -27,6 +27,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Debug;
+import android.provider.MediaStore.Files;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -61,12 +62,8 @@ public class MainLoadScreen implements IScreen{
 		public MainLoadScreen(Context context, int screenWidth, int screenHeight){
 			// TODO Auto-generated constructor stub
 			manager = ScreenManager.getInstance();
-			//ss = new ScrollComponent(context, 100,0);
 			
 			curContext = context;
-			
-			sbInfo.append("Welcome to our shop\n");
-			sbInfo.append("Take your time and buy the items\n\n\n");
 			
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
@@ -79,17 +76,16 @@ public class MainLoadScreen implements IScreen{
 			int ii = 0;
 			for(File file : fis){
 				if(file.getName().contains(".sav") && !file.getName().equals(".sav")){
-					//Log.d("ceksav",""+file.getAbsolutePath());
 					files.add(file.getName());
-					//loadFiles[ii] = file.getName();
-					//ii++;
 				}
 			}
-			loadFiles = new String[files.size()];		
+			loadFiles = new String[files.size()+1];		
 			for(String str : files){
 				loadFiles[ii]= str;
 				ii++;
 			}
+			
+			loadFiles[ii]="Back";
 			
 			scroll = new ScrollComponent(loadFiles,220,100,screenHeight,new SelectionListener(){
 				@Override
@@ -104,7 +100,10 @@ public class MainLoadScreen implements IScreen{
 		}
 				
 		public void showLoadFiles(int num){
-			if(num!=-1){
+			if(num == loadFiles.length-1){
+				ScreenManager.getInstance().pop();
+			}
+			else if(num!=-1){
 				Log.d("namamaa", loadFiles[num].substring(0, loadFiles[num].length()-4)+"");
 				Player player = PlayerSaveLoader.getInstance().loadPlayer(loadFiles[num].substring(0, loadFiles[num].length()-4));
 				AreaManager am = new AreaManager(curContext, curScreenWidth, curScreenHeight, player);
@@ -124,16 +123,11 @@ public class MainLoadScreen implements IScreen{
 			// TODO Auto-generated method stub
 			canvas.drawColor(Color.WHITE);
 			scroll.draw(canvas);
-			//textMoney.setText("Money : " + it.toString());
-			textMoney.draw(canvas);
-			text.draw(canvas);
 		}
 		
 		@Override
 		public void onTouchEvent(MotionEvent e, float magX, float magY) {
 			// TODO Auto-generated method stub
-			if(show)
-				buy.onTouchEvent(e, magX, magY);
 			scroll.onTouchEvent(e, magX, magY);
 		}
 }

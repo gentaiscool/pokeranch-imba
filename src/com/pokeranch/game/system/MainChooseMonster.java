@@ -35,16 +35,15 @@ public class MainChooseMonster implements IScreen{
 	int curScreenWidth, curScreenHeight;
 	Context curContext;
 	
+	String curName;
+	
 	private ArrayList<BitmapButton> buttons;
 		@SuppressLint("NewApi")
-		public MainChooseMonster(Context context, int screenWidth, int screenHeight) {
+		public MainChooseMonster(String name, Context context, int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
-			ScreenManager.initialize();
-			DialogueBox.initialize();
-			DialogueBox.getInstance().setMessage("Whchoose as your first partner?");
-			Log.d("MCM","lewat set message");
-			ScreenManager.getInstance().push(DialogueBox.getInstance());
-			Log.d("MCM","lewat SM push");
+			
+			curName = name;
+			
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
@@ -133,6 +132,7 @@ public class MainChooseMonster implements IScreen{
 					else{
 						Monster m = new Monster(o.toString(), s, 5);
 						Player newPlayer = new Player();
+						newPlayer.setName(curName);
 						newPlayer.addMonster(m);
 						newPlayer.setCurrentMonster(m);
 						
