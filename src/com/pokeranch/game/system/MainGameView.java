@@ -1,6 +1,7 @@
 package com.pokeranch.game.system;
 
 import com.pokeranch.game.object.*;
+import com.pokeranch.game.system.BattleScreen.BattleListener;
 import com.pokeranch.game.system.BattleScreen.BattleMode;
 
 import android.annotation.SuppressLint;
@@ -57,6 +58,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		matrix.setScale(magnificationX, magnificationY,0,0);
 		curPlayer=new Player();
+
 		Monster monster = new Monster();
 		Monster monster1 = monster.getRandomMonster(5, 1);
 		monster1.setName("Faiz");
@@ -83,6 +85,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		curPlayer.addMonster(monster7);
 
 		curPlayer.setMoney(1000);
+
 		Time t=new Time();
 		t.set(100, 1, 2, 3, 40);
 		curPlayer.setPlayingTime(t);
@@ -93,7 +96,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
 		am.setPlayerCord(new Point(14,9));
-		//manager.push(am);
+		manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
@@ -101,9 +104,11 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		Log.d("LM", "chek 1");
 		ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
 		Log.d("LM", "chek 2");
+
 		PlayerStatus ps = new PlayerStatus(curPlayer);
 		//manager.push(ps);
 		manager.push(lm);
+
 		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
 		//manager.push(lt);
 		
@@ -114,7 +119,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		Player pl2 = new Player();
 		Monster m = new Monster("mybulba", DBLoader.getInstance().getSpecies("Bulba"),7);
 		m.addExp(120);
-		Monster m2 = Monster.getRandomMonster(6, 1);
+		Monster m2 = Monster.getRandomMonster(4, 1);
 		
 		pl.addMonster(m);
 		pl.setCurrentMonster(m.getName());
@@ -124,7 +129,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl.addItem(DBLoader.getInstance().getItem("Potion"), 2);
 		pl.addItem(DBLoader.getInstance().getItem("Cut"), 1);
 		pl.addItem(DBLoader.getInstance().getItem("Normal_Ball"), 2);
-		pl.addItem(DBLoader.getInstance().getItem("Master_Ball"), 2);
+		pl.addItem(DBLoader.getInstance().getItem("ParalyzCure"), 2);
 
 		pl.addMonster(new Monster("myChar", DBLoader.getInstance().getSpecies("Charchar"),10));
 		pl.addMonster(Monster.getRandomMonster(10, 1));
@@ -132,8 +137,16 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
-		
-		//manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
+
+		pl2.addMonster(Monster.getRandomMonster(10, 1));
+		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD, new BattleListener(){
+			@Override
+			public void action(int result) {
+				// result:
+				// 0 -> escape, 1 -> win, -1 -> lose 
+				
+			}
+		}));
 
 		
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);

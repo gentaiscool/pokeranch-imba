@@ -328,9 +328,10 @@ public class SellScreen implements IScreen{
 										scroll = new ScrollComponent(statItem,220,100,curScreenHeight,new SelectionListener(){
 											@Override
 											public void selectAction(int selection) {
-												showMonsterBall(selection);
+												showStatItem(selection);
 											}
-										});									}						
+										});
+									}						
 								}
 								else MessageManager.alert("Your input is not a valid number");
 							}

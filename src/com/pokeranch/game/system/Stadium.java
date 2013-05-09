@@ -12,6 +12,7 @@ import com.pokeranch.game.object.Player;
 import com.pokeranch.game.object.Species;
 import com.pokeranch.game.object.StatItem;
 import com.pokeranch.game.object.TM;
+import com.pokeranch.game.system.BattleScreen.BattleListener;
 import com.pokeranch.game.system.BattleScreen.BattleMode;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MessageManager.Action;
@@ -86,7 +87,13 @@ public class Stadium implements IScreen{
 							opponent.addMonster(newMonsterOpponent);
 							opponent.setCurrentMonster(newMonsterOpponent);
 							
-							BattleScreen bs = new BattleScreen(player, opponent, BattleMode.STADIUM);
+							BattleScreen bs = new BattleScreen(player, opponent, BattleMode.STADIUM, new BattleListener(){
+								@Override
+								public void action(int result) {
+									//result = 1 -> win, result = -1 -> lose
+								}
+								
+							});
 							ScreenManager.getInstance().push(bs);
 						}
 							

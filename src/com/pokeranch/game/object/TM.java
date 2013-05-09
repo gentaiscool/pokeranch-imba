@@ -7,7 +7,7 @@ public class TM extends Item{
 	private Skill skill;
 	
 	//ctor
-	TM(){
+	public TM(){
 		
 	}
 	

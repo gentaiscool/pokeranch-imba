@@ -176,16 +176,28 @@ public class Combinatorium implements IScreen{
 									public void proceed(Object o) {
 										// TODO Auto-generated method stub
 										//addNewMonster(o.toString(), oldMonster1, oldMonster2);
-										newMonster1.setName(o.toString());
-										player.addMonster(newMonster1);
-										Log.d("check2", newMonster1.getSpecies().getName().toString());
-										
-										try {
-											player.delMonster(monstersName[firstMonster1]);
-											player.delMonster(monstersName[secondMonster1]);
-										} catch (Exception e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
+										if(o.toString().length()!=0){
+											//checking Monster name exists
+											Monster mm = player.getMonster(o.toString());
+											if(mm != null){
+												MessageManager.alert("The name is already exist. Please retry the combine process");
+											}
+											else{
+												newMonster1.setName(o.toString());
+												player.addMonster(newMonster1);
+												//Log.d("check2", newMonster1.getSpecies().getName().toString());
+												
+												try {
+													player.delMonster(monstersName[firstMonster1]);
+													player.delMonster(monstersName[secondMonster1]);
+												} catch (Exception e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+											}
+										}
+										else{
+											MessageManager.alert("Your input is invalid. Please retry the combine process");
 										}
 									}
 									
