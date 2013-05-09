@@ -170,7 +170,7 @@ public class WalkingMonster {
 					if(am.getCurArea().getTile(t.first.x, t.first.y).isPassable() && am.getCurArea().getTile(t.second.x, t.second.y).isPassable()){
 						//Log.d("monster", "start to move! :D");
 						startMoving = true;
-						am.getCurArea().getTile(curX, curY).setPassable(0);
+						//am.getCurArea().getTile(curX, curY).setPassable(0);
 						
 						if(t.first.x > curX)
 							curX++;
@@ -182,7 +182,7 @@ public class WalkingMonster {
 						else if(t.first.y < curY)
 							curY--;
 						
-						am.getCurArea().getTile(curX, curY).setPassable(1);
+						//am.getCurArea().getTile(curX, curY).setPassable(1);
 						sprite.move(direction, 1);
 					} else {
 						sprite.setDirection(direction);
