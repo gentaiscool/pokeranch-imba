@@ -21,6 +21,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private static final String TAG = "POKE";
 	public static final float standardWidth = 320.f;
 	public static final float standardHeight = 240.f;
+	public static float realScreenWidth;
+	public static float realScreenHeight;
 	public static final int standardDensity = 160;
 	public static int screenDensity;
 	
@@ -29,7 +31,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	private ScreenManager manager;
 	private Player curPlayer;
 	float magnificationX, magnificationY;
-	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE, ACTION};
+	public enum ButtonClick {LEFT, RIGHT, UP, DOWN, OK, CANCEL, NONE, ACTION_A, ACTION_B};
 	
 	@SuppressWarnings("static-access")
 	public MainGameView(Context context, int screenWidth, int screenHeight, int screenDensity) {
@@ -43,7 +45,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		ScreenManager.initialize();
 		
 		manager = ScreenManager.getInstance();
-		
+		realScreenHeight = screenHeight;
+		realScreenWidth = screenWidth;
 		magnificationY = (((float) screenHeight) / standardHeight);
 		magnificationX = (((float) screenWidth) / standardWidth);
 			
@@ -58,8 +61,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		curPlayer.addMonster(monster1.getRandomMonster(5, 1));
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
-		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
-		am.setPlayerCord(new Point(0,4));
+		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
+		am.setPlayerCord(new Point(14,9));
 		manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
@@ -80,7 +83,6 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		Monster m = new Monster("mybulba", DBLoader.getInstance().getSpecies("Bulba"),7);
 		m.addExp(120);
 		Monster m2 = Monster.getRandomMonster(6, 1);
-		m2.setName("blah");
 		
 		pl.addMonster(m);
 		pl.setCurrentMonster(m.getName());
@@ -90,16 +92,16 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl.addItem(DBLoader.getInstance().getItem("Potion"), 2);
 		pl.addItem(DBLoader.getInstance().getItem("Cut"), 1);
 		pl.addItem(DBLoader.getInstance().getItem("Normal_Ball"), 2);
+		pl.addItem(DBLoader.getInstance().getItem("Master_Ball"), 2);
 
 		pl.addMonster(new Monster("myChar", DBLoader.getInstance().getSpecies("Charchar"),10));
 		pl.addMonster(Monster.getRandomMonster(10, 1));
 
 		
 		pl2.addMonster(m2);
-		pl2.addMonster(Monster.getRandomMonster(3, 1));
 		pl2.setCurrentMonster(m2.getName());
 		
-		//manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
+		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
 
 		
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
@@ -107,6 +109,12 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
 		//manager.push(buysellmarket);
+		
+		//Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
+		//manager.push(combi);
+		
+		Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
+		//manager.push(stadium);
 		
 	}
 	

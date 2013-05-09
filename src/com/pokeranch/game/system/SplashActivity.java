@@ -93,6 +93,7 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("right", R.drawable.right);
 			BitmapManager.getInstance().put("down", R.drawable.down);
 			BitmapManager.getInstance().put("a_button", R.drawable.a);
+			BitmapManager.getInstance().put("b_button", R.drawable.b);
 			
 			/******************* Battle **********************/
 			
@@ -102,6 +103,11 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("itembutton", R.drawable.itembutton);
 			BitmapManager.getInstance().put("escapebutton", R.drawable.escapebutton);
 			BitmapManager.getInstance().put("battle_bar", R.drawable.bar);
+			
+			//ball
+			BitmapManager.getInstance().put("Normal_Ball", R.drawable.normal_ball);
+			BitmapManager.getInstance().put("Ultra_Ball", R.drawable.ultra_ball);
+			BitmapManager.getInstance().put("Master_Ball", R.drawable.master_ball);
 			
 			//animasi skill
 			BitmapManager.getInstance().put("Swim", R.drawable.swim);
@@ -138,8 +144,12 @@ public class SplashActivity extends Activity {
 			//backpack
 			BitmapManager.getInstance().put("backpack", R.drawable.backpack);
 			
+			//close
+			BitmapManager.getInstance().put("close", R.drawable.close);
+			
 			/********************** Dialogue Box **********************/
 			BitmapManager.getInstance().put("dbox", R.drawable.dbox);
+			BitmapManager.getInstance().put("pmenu", R.drawable.pmenu);
 			
 			//mencegah penambahan resource setelah load
 			BitmapManager.getInstance().lockPut();
