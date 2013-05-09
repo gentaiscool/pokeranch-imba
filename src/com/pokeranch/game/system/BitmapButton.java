@@ -12,6 +12,7 @@ public class BitmapButton implements Touchables {
 	private float x, y;
 	private boolean touched = false;
 	private boolean enable = true;
+	private boolean visible = true;
 	public interface TouchListener {
 		public void onTouchDown();
 		public void onTouchUp();
@@ -28,7 +29,8 @@ public class BitmapButton implements Touchables {
 		bitmap = _bitmap;
 	}
 	public void draw(Canvas canvas){
-		canvas.drawBitmap(bitmap, new Rect(0,0,bitmap.getWidth(), bitmap.getHeight()), new RectF(x,y,x+bitmap.getWidth(),y+bitmap.getHeight()), null);
+		if(visible)
+			canvas.drawBitmap(bitmap, new Rect(0,0,bitmap.getWidth(), bitmap.getHeight()), new RectF(x,y,x+bitmap.getWidth(),y+bitmap.getHeight()), null);
 	}
 	
 	public void addTouchListener(TouchListener action){
@@ -95,5 +97,14 @@ public class BitmapButton implements Touchables {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+		setEnable(visible);
 	}
 }
