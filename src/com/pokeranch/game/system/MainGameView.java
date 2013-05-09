@@ -81,7 +81,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
 		Log.d("LM", "chek 2");
 		PlayerStatus ps = new PlayerStatus(P9);
-		manager.push(ps);
+		//manager.push(ps);
 		//manager.push(lm);
 		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
 		//manager.push(lt);
