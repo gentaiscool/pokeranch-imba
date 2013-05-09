@@ -3,6 +3,7 @@ package com.pokeranch.game.object;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class Player {
 	private String name;
@@ -52,8 +53,28 @@ public class Player {
 		}
 	}
 	
+	public int getItemStock(String name){
+		Integer i = items.get(name);
+		return i==null? 0 : i.intValue(); 
+	}
+	
 	public HashMap<String, Integer> getAllItem(){
 		return items;
+	}
+	
+	public HashMap<String, Integer> getBattleItem(){
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		for(Map.Entry<String, Integer> s : items.entrySet()){
+			String name = s.getKey();
+			Integer sum = s.getValue();
+			Item item = DBLoader.getInstance().getItem(name);
+			
+			//cuma stat item dan monsterball aja
+			if((item instanceof StatItem) || (item instanceof MonsterBall)){
+				map.put(name,sum);
+			}
+		}
+		return map;
 	}
 	
 	public void addTime(int minute){

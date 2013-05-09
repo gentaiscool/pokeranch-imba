@@ -50,18 +50,6 @@ public class Item implements ILoadable{
 		return price;
 	}
 	
-	Status getItemEffect()
-	{
-		Status s = null;
-		return s;
-	}
-	
-	public float getCatchRate()
-	{
-		float f = 0f;
-		return f;
-	}
-	
 	int itemType(){
 		return 0;
 	}	

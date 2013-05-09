@@ -498,6 +498,19 @@ public class AreaManager implements IScreen{
 				setPlayerCord(new Point(newX, newY));
 		}
 	}
+	
+	public void tryAction(int x, int y, int dir){
+		if(!checkBounds(x, y))
+			return;
+		String action = getCurArea().getTile(x, y).getActionName();
+		if(action.equals("COMBINATORIUM")){
+			//masukin kode combinatorium disini
+		} else if(action.equals("STORE")){
+			//masukin kode store disini
+		} else if(action.equals("STADIUM")){
+			//masukin kode stadium disini
+		}
+	}
 
 
 

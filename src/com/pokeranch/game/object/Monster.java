@@ -275,7 +275,11 @@ public class Monster{
 	}
 	
 	public void giveItem(StatItem item){
-		fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
+		if(item.getPermanent()){
+			fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
+			restoreStatus();
+		}else
+			updateStatusBy(item.getItemEffect());
 	}
 	
 	public static Monster getRandomMonster(int level, int maxRating){

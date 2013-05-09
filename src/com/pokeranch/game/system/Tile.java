@@ -11,12 +11,21 @@ public class Tile {
 	private String teleportTarget; //nama area teleportasi
 	private int passable;
 	private Point arrivalCord;
+	private String actionName;
 	private String shores[] = {"1683", "1725", "1727", "1769"};
 
 	Tile(String b, String c, int pass){
 		spriteCodeBG = b;
 		spriteCodeObj = c;
 		passable = pass;
+	}
+	
+	public void setActionName(String _actionName){
+		actionName = _actionName;
+	}
+	
+	public String getActionName(){
+		return actionName;
 	}
 	
 	public void drawBG(Canvas canvas, int i, int j, int curX, int curY, AreaManager am){
