@@ -227,7 +227,7 @@ public class ListMonster implements IScreen{
 			sb.append("Selected Monster : " + listMonster[num] +"\n\n");
 			sb.append("**** POKEMON INFO ****\n");
 			sb.append(player.getMonster(listMonster[num]).toString());
-			sb.append("element : "+player.getMonster(listMonster[num]).getSpecies().getElement().getName());
+			sb.append("\nElement : "+player.getMonster(listMonster[num]).getSpecies().getElement().getName());
 			text.setText(sb.toString());
 			show = true;
 			if(!dismiss.isVisible()) {
