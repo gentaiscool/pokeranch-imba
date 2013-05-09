@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import android.util.Log;
+
 public class Player {
 	private String name;
 	private int money;
@@ -35,6 +37,26 @@ public class Player {
 					getNbattle()+" Battle "+getNwin()+" Win "+getNlose()+" Lose"
 				);
 		return str.toString();
+	}
+	
+	public Monster getMonsterWithSkill(String skillname){
+		Collection<Monster> mvalues = monsters.values();
+		// Get an iterator
+		HashMap<String, Skill> skills;
+		Monster m;
+		Iterator<Monster> i = mvalues.iterator();
+	    while(i.hasNext()) {
+	    	m = i.next();
+	    	skills = m.getAllSkill();
+			Collection<Skill> svalues = skills.values();	    	
+			Iterator<Skill> it = svalues.iterator();
+			while (it.hasNext()) {
+				if(it.next().getName().equals(skillname)) {
+					return m;
+				}
+			}
+	    }
+	    return null;
 	}
 	
 	public void addItem(Item item, int n) {
@@ -231,6 +253,28 @@ public class Player {
 	
 	public boolean haveTorch(){
 		return true;
+	}
+	
+	public String[] buildArrayMonster() {
+		String[] listMonster = new String[monsters.size()]; 
+		Collection monster = monsters.values();
+		listMonster = new String[monsters.size()+1];
+		
+		listMonster[0]=getCurrentMonster().getName();
+		int i = 1;
+		Iterator<Monster> it = monster.iterator();
+		Log.d("LM", "Habis Iterate");
+		while(it.hasNext()){	
+			Monster m = it.next();
+			if (!m.getName().equals(getCurrentMonster().getName())) {
+				listMonster[i]=m.getName();
+				i++;
+			}
+		}
+		Log.d("LM", i+"");
+
+		Log.d("LM", "Habis Iterate2");
+		return listMonster;
 	}
 
 }

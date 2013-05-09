@@ -33,13 +33,14 @@ import android.widget.Toast;
 
 public class ListMonster implements IScreen{
 	private Bitmap monsterImage;
+	private BitmapButton dismiss, setmain;
 	private Paint paint;
 	int curScreenWidth, curScreenHeight;
 	private ScrollComponent scroll;
 	private Rect rect1;
 	private RectF rect2;
 	private String[] listMonster;
-	private TextComponent text, textMoney;
+	private TextComponent text, textMainMonster;
 	Collection<Monster> monster;
 	StringBuilder sbInfo = new StringBuilder();
 	
@@ -50,13 +51,17 @@ public class ListMonster implements IScreen{
 	private BitmapButton backpack;
 	
 	private Player player;
-
+	
+	private DelayedAction action;
+	
 	public ListMonster(Player _player, int screenWidth, int screenHeight){
-		// TODO Auto-generated constructor stub
+		action = null;
 		Log.d("LM", "chek 1");
 		rect1 = new Rect(0,0,0,0);
 		rect2 = new RectF(0,0,0,0);
 		monsterImage =null;
+		dismiss = new BitmapButton(BitmapManager.getInstance().get("dismiss"), 125, 10);
+		setmain = new BitmapButton(BitmapManager.getInstance().get("setmain"), 125, 45);
 		paint = new Paint();
 		//ss = new ScrollComponent(context, 100,0);
 		player = _player;
@@ -74,19 +79,14 @@ public class ListMonster implements IScreen{
 		
 		Log.d("LM", ""+playerMonsters.size());
 		
-		monster = playerMonsters.values();
-		listMonster = new String[playerMonsters.size()+1];
+		listMonster = player.buildArrayMonster();
+		Log.d("LM", "habis assign array string");		
+		listMonster[listMonster.length-1] = "Back";
 		
-		int i = 0;
-		Iterator<Monster> it = monster.iterator();
-		Log.d("LM", "Habis Iterate");
-		while(it.hasNext()){			
-			listMonster[i]=it.next().getName();
-			i++;
+		if (listMonster.length!=2) {
+			dismiss.setBitmap(BitmapManager.getInstance().get("dismiss"));
+			dismiss.setEnable(true);
 		}
-		Log.d("LM", "Habis naruh ke list");
-		listMonster[i] = "Back";
-		
 		scroll = new ScrollComponent(listMonster,220,100,screenHeight,new SelectionListener(){
 			@Override
 			public void selectAction(int selection) {
@@ -95,38 +95,120 @@ public class ListMonster implements IScreen{
 			}
 		});
 		
+		scroll.setDefaultColor1(Color.argb(255, 61, 158, 255));
+		scroll.setDefaultColor2(Color.argb(255, 17, 240, 166));		
 		Log.d("LM", "Habis scrollcomponent");
-
+		textMainMonster = new TextComponent("",125,100);
 		text = new TextComponent("", 10, 120);
-
 	}
-	/*
-	public boolean isInt(String s)  // assuming integer is in decimal number system
-	{
-		for(int a=0;a<s.length();a++)
-		{
-			if(a==0 && s.charAt(a) == '-') continue;
-			if( !Character.isDigit(s.charAt(a)) ) return false;
-		}
-		return true;
-	}*/
-	
+
 	private void showMonster(final int num){
 		Log.d("LM", "awalshowMonster");
+	
+		dismiss.addTouchListener(new TouchListener() {
+			@Override
+			public void onTouchUp() {
+				// TODO Auto-generated method stub
+			}
+			
+			@Override
+			public void onTouchMove() {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onTouchDown() {
+				// TODO Auto-generated method stub
+				Monster m = player.getMonster(listMonster[num]);
+				MessageManager.confirm("You are about to dismiss "+listMonster[num]+". Are you sure?", new Action() {
+
+					@Override
+					public void proceed(Object o) {
+						// TODO Auto-generated method stub
+						action = new DelayedAction() {
+							@Override
+							public int getDelay() {
+								return 1;
+							}
+							@Override
+							public void doAction() {
+								try {
+									Log.d("LM","size monsters sebelum delete "+player.getAllMonster().size());
+									Log.d("LM","size listmonster sebelum delete "+player.getAllMonster().size());
+									player.delMonster(listMonster[num]);
+									Log.d("LM","size monsters setelah delete "+player.getAllMonster().size());
+									listMonster = player.buildArrayMonster();
+									Log.d("LM", "abis build");
+									listMonster[listMonster.length-1] = "Back";
+									Log.d("LM", "abis nambah back");
+									Log.d("LM","size listmonster setelah delete "+player.getAllMonster().size());
+									
+									scroll.setItem(listMonster);
+									if (listMonster.length==2) {
+										dismiss.setBitmap(BitmapManager.getInstance().get("disableddismiss"));
+										dismiss.setEnable(false);
+									}
+									Log.d("LM", "abis set Item");
+								} catch (Exception e) {
+								}
+							}
+						};
+					}
 		
+					@Override
+					public void cancel() {
+						// TODO Auto-generated method stub
+					}			
+				});
+			}
+		});
+
+		setmain.addTouchListener(new TouchListener() {
+			@Override
+			public void onTouchUp() {
+				// TODO Auto-generated method stub
+			}
+			
+			@Override
+			public void onTouchMove() {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onTouchDown() {
+				// TODO Auto-generated method stub
+				Monster m = player.getMonster(listMonster[num]);
+				MessageManager.confirm("Do you want to set "+listMonster[num]+" as your main Monster?", new Action() {
+
+					@Override
+					public void proceed(Object o) {
+						// TODO Auto-generated method stub
+						player.setCurrentMonster(listMonster[num]);
+						listMonster = player.buildArrayMonster();
+						Log.d("LM", "abis build");
+						listMonster[listMonster.length-1] = "Back";
+						Log.d("LM", "abis nambah back");
+						Log.d("LM","size listmonster setelah delete "+player.getAllMonster().size());
+						
+						scroll.setItem(listMonster);
+					}
+		
+					@Override
+					public void cancel() {
+						// TODO Auto-generated method stub
+					}			
+				});
+			}
+		});
+
 		if(num == listMonster.length-1){
 			Log.d("LM", "kalo back");
 			ScreenManager.getInstance().pop();
 		}
 		else{
 			monsterImage = BitmapManager.getInstance().get(player.getMonster(listMonster[num]).getSpecies().getName());
-			Log.d("LM", (monsterImage==null)+"");
-			Log.d("LM",player.getMonster(listMonster[num]).getSpecies().getName());
 			rect1 = new Rect(0,0, monsterImage.getWidth(),monsterImage.getHeight());
-			Log.d("LM","abisrect1");
 			rect2 = new RectF(10,10,100,100);
-			Log.d("LM","abisrect2");
-			Log.d("LM", "set isi tulisan");
 			StringBuilder sb = new StringBuilder();
 			sb.append("Selected Monster : " + listMonster[num] +"\n\n");
 			sb.append("**** POKEMON INFO ****\n");
@@ -135,12 +217,19 @@ public class ListMonster implements IScreen{
 			show = true;
 		}
 		Log.d("LM", "mau keluar dari showMonster");
-		
+		if(listMonster[num].equals(player.getCurrentMonster().getName())) {
+			textMainMonster.setText("MAIN MONSTER");
+		} else {
+			textMainMonster.setText("");
+		}
 	}
 	
 	@Override
 	public void update() {
-		//nothing todo here
+		if(action!=null){
+			action.update();
+			if(action.finished()) action=null;
+		}
 	}
 
 	@Override
@@ -152,12 +241,13 @@ public class ListMonster implements IScreen{
 		if(!show){
 			text.setText(sbInfo.toString());
 		}
-		Log.d("LM", "sblum gambar poke");
 		if(monsterImage!=null){
 			canvas.drawBitmap(monsterImage, rect1, rect2, null);
 		}
-		Log.d("LM", "stlah gambar poke");
 		text.draw(canvas);
+		textMainMonster.draw(canvas);
+		dismiss.draw(canvas);
+		setmain.draw(canvas);
 		//Integer it = player.getMoney();
 		//textMoney.setText("Money : " + it.toString());
 		//textMoney.draw(canvas);
@@ -169,6 +259,8 @@ public class ListMonster implements IScreen{
 	public void onTouchEvent(MotionEvent e, float magX, float magY) {
 		// TODO Auto-generated method stub
 		scroll.onTouchEvent(e, magX, magY);
+		dismiss.onTouchEvent(e, magX, magY);
+		setmain.onTouchEvent(e, magX, magY);
 	}
 
 	

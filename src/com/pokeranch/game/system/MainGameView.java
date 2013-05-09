@@ -57,17 +57,38 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		matrix.setScale(magnificationX, magnificationY,0,0);
 		curPlayer=new Player();
-		Player P9 = new Player();
-		Monster monster1 = new Monster();
-		P9.setName("FAIZ");
-		P9.addMonster(monster1.getRandomMonster(5, 1));
-		P9.setMoney(1000);
+		Monster monster = new Monster();
+		Monster monster1 = monster.getRandomMonster(5, 1);
+		monster1.setName("Faiz");
+		Monster monster2 = monster.getRandomMonster(15, 1);
+		monster2.setName("Harits");
+		Monster monster3 = monster.getRandomMonster(25, 1);
+		monster3.setName("Aidil");
+		Monster monster4 = monster.getRandomMonster(35, 1);
+		monster4.setName("Furqan");
+		Monster monster5 = monster.getRandomMonster(45, 1);
+		monster5.setName("Habibi");
+		Monster monster6 = monster.getRandomMonster(55, 1);
+		monster6.setName("Haqqi");
+		Monster monster7 = monster.getRandomMonster(65, 1);
+		monster7.setName("Elfahmi");
+		curPlayer.setCurrentMonster("Habibi");
+		curPlayer.setName("FAIZ");
+		curPlayer.addMonster(monster1);
+		curPlayer.addMonster(monster2);
+		curPlayer.addMonster(monster3);
+		curPlayer.addMonster(monster4);
+		curPlayer.addMonster(monster5);
+		curPlayer.addMonster(monster6);
+		curPlayer.addMonster(monster7);
+
+		curPlayer.setMoney(1000);
 		Time t=new Time();
 		t.set(100, 1, 2, 3, 40);
-		P9.setPlayingTime(t);
-		P9.setNbattle(10);
-		P9.setNwin(6);
-		P9.setNlose(1);
+		curPlayer.setPlayingTime(t);
+		curPlayer.setNbattle(10);
+		curPlayer.setNwin(6);
+		curPlayer.setNlose(1);
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
@@ -80,9 +101,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		Log.d("LM", "chek 1");
 		ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
 		Log.d("LM", "chek 2");
-		PlayerStatus ps = new PlayerStatus(P9);
-		manager.push(ps);
-		//manager.push(lm);
+		PlayerStatus ps = new PlayerStatus(curPlayer);
+		//manager.push(ps);
+		manager.push(lm);
 		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
 		//manager.push(lt);
 		
@@ -122,7 +143,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//manager.push(buysellmarket);
 		
 		Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
-		manager.push(combi);
+		//manager.push(combi);
 		
 		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
 		//manager.push(stadium);
