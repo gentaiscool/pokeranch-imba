@@ -52,7 +52,7 @@ public class Combinatorium implements IScreen{
 	
 	private boolean show = false;
 	
-	private BitmapButton buy, combineButton;
+	private BitmapButton buy, combineButton, close;
 	
 	private final Player player;
 	
@@ -62,6 +62,28 @@ public class Combinatorium implements IScreen{
 			player = _player;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
+			
+			close = new BitmapButton(BitmapManager.getInstance().get("close"),200,150);
+			close.addTouchListener(new TouchListener() {
+				
+				@Override
+				public void onTouchUp() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchMove() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchDown() {
+					// TODO Auto-generated method stub
+					ScreenManager.getInstance().pop();
+				}
+			});
 			
 			combineButton = new BitmapButton(BitmapManager.getInstance().get("combine"),50,150);
 			combineButton.addTouchListener(new TouchListener() {
@@ -210,6 +232,7 @@ public class Combinatorium implements IScreen{
 		public void draw(Canvas canvas) {
 			// TODO Auto-generated method stub
 			combineButton.draw(canvas);
+			close.draw(canvas);
 			//canvas.drawColor(Color.WHITE);
 			//scroll.draw(canvas);
 			//canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(20,90,70,140), null);
@@ -230,6 +253,7 @@ public class Combinatorium implements IScreen{
 			if(show)
 				buy.onTouchEvent(e, magX, magY);
 			combineButton.onTouchEvent(e, magX, magY);
+			close.onTouchEvent(e, magX, magY);
 			//scroll.onTouchEvent(e, magX, magY);
 		}
 }
