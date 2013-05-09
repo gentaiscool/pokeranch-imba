@@ -75,15 +75,22 @@ public class DBLoader {
 	
 	public Item getItem(String name){
 		Item item;
-		item = getMonsterBall(name);
-		if (item!=null) return item;
 		
-		item = getStatItem(name);
-		if (item!=null) return item;
-		
-		item = getTM(name);
-		if (item!=null) return item;
-		
+		if(name.equals("Torch")){
+			item = new Item("Torch");
+			item.setPrice(100);
+			return item;
+		}
+		else{
+			item = getMonsterBall(name);
+			if (item!=null) return item;
+			
+			item = getStatItem(name);
+			if (item!=null) return item;
+			
+			item = getTM(name);
+			if (item!=null) return item;
+		}
 		return null;
 	}
 	

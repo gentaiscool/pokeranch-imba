@@ -2,6 +2,7 @@ package com.pokeranch.game.object;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -59,7 +60,15 @@ public class PlayerSaveLoader {
 		isAbleToSave = status;
 	}
 
-
+	public boolean isPlayerNotExist(String playername){
+		/*File fis = new File(context.getExternalFilesDir(filepath).toString()+"/"+playername+".sav");
+		if(!fis.exists()){
+			return true;
+		}
+		else return false;*/
+		return true;
+	}
+	
 	public Player loadPlayer(String playername){
 		player=new Player();
 		String myData="";

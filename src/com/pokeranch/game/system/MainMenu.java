@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -48,11 +49,11 @@ public class MainMenu implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
-			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),253,66);
-			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  265, 105);
-			helpgame = new BitmapButton(BitmapManager.getInstance().get("helpgame"), 253, 144);
+			newgame = new BitmapButton(BitmapManager.getInstance().get("newgame"),210,80);
+			loadgame = new BitmapButton(BitmapManager.getInstance().get("loadgame"),  225, 120);
+			helpgame = new BitmapButton(BitmapManager.getInstance().get("helpgame"), 210, 160);
 			exitbutton = new BitmapButton(BitmapManager.getInstance().get("exitbutton"), 20, 150);
-			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),100,32);
+			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),80,60);
 			logo = new BitmapButton(BitmapManager.getInstance().get("logo"),20,32);
 			 
 			logo.addTouchListener(new TouchListener() {
@@ -111,7 +112,8 @@ public class MainMenu implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					
+					MainLoadScreen mls = new MainLoadScreen(curContext, curScreenWidth, curScreenHeight);
+					ScreenManager.getInstance().push(mls);
 				}
 			});
 			
@@ -131,7 +133,7 @@ public class MainMenu implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					
+					MessageManager.alert("PokeRanch Imba Ver 1.0\n\n******** HELP ********\n\nA - To act (CUT/SWIM/PUSH/BUY/SELL/SLEEP)\nB - To show Player's Item, Monster, Status, PokeDex\n\nKeys - To move the character (Left, Right, Up, Down)\n\nHave Fun!\n\n\n******* CREDITS *******\n\nFaiz Ilham\nGenta Indra Winata\nJais Anasrullah\nM Furqon Habibi\nM Harits S A H E\nPandu Kartika Putra\n");
 				}
 			});
 			
@@ -151,7 +153,7 @@ public class MainMenu implements IScreen{
 				@Override
 				public void onTouchDown() {
 					// TODO Auto-generated method stub
-					
+					((Activity) curContext).finish();
 				}
 			});
 			

@@ -1,8 +1,9 @@
 package com.pokeranch.game.system;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.Player;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MainGameView.ButtonClick;
@@ -21,7 +22,7 @@ public class AreaManager implements IScreen{
 	private Area curArea;
 	private Sprite curHead, curBody, headGround, bodyGround, headSwim, bodySwim, leftFinSwim, rightFinSwim;
 	private ArrayList<BitmapButton> buttons;
-	private BitmapButton buttonLeft, buttonUp, buttonDown, buttonRight, buttonA;
+	private BitmapButton buttonLeft, buttonUp, buttonDown, buttonRight, buttonA, buttonB;
 	private Player curPlayer;
 	private Context context;
 	private TextComponent jam;
@@ -32,19 +33,24 @@ public class AreaManager implements IScreen{
 	public final int dirX[] = {-1, 0, 1, 0};
 	public final int dirY[] = {0, 1, 0, -1};
 	private int screenWidth, screenHeight;
+	private CopyOnWriteArrayList<WalkingMonster> monsters;
 	
 	AreaManager(Context con, int scw, int sch, Player p){
 		DialogueBox.initialize();
+		PlayerMenu.initialize(p);
+		ListItem.initialize(p, scw, sch);
 		screenWidth = scw;
 		screenHeight = sch;
-		PlayerMenu.initialize();
 		context = con;
 		paint = new Paint();
 		paintkotak = new Paint();
 		paintkotak.setColor(Color.WHITE);
 		paint.setColorFilter(null);
 		curPlayer = p;
-		jam= new TextComponent("Day "+curPlayer.getPlayingTime().getDay()+" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute(), 5, 15);
+		
+		monsters = new CopyOnWriteArrayList<WalkingMonster>();
+		
+		jam= new TextComponent(" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute()+" "+AMPM, 5, 15);
 		headGround = new Sprite(32,0, BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
 			@Override
 			public Point getImgPos(int direction, int frame, int width, int height) {
@@ -201,11 +207,26 @@ public class AreaManager implements IScreen{
 		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 47, 129);
 		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 84, 166);
 		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 270, 167);
+		buttonB = new BitmapButton(BitmapManager.getInstance().get("b_button"), 196, 167);
 		//Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
 		buttonA.addTouchListener(new TouchListener(){
 			@Override
 			public void onTouchDown() {
-				getCurArea().getButtonInput(ButtonClick.ACTION);
+				getCurArea().getButtonInput(ButtonClick.ACTION_A);
+			}
+			@Override
+			public void onTouchMove() {}
+			
+			@Override
+			public void onTouchUp() {
+				getCurArea().getButtonInput(ButtonClick.NONE);	
+			}
+		});
+		
+		buttonB.addTouchListener(new TouchListener(){
+			@Override
+			public void onTouchDown() {
+				getCurArea().getButtonInput(ButtonClick.ACTION_B);
 			}
 			@Override
 			public void onTouchMove() {}
@@ -277,6 +298,7 @@ public class AreaManager implements IScreen{
 		buttons.add(buttonLeft);
 		buttons.add(buttonRight);
 		buttons.add(buttonA);
+		buttons.add(buttonB);
 	}
 	
 	public void setPlayerCord(Point p){
@@ -320,10 +342,10 @@ public class AreaManager implements IScreen{
 	
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		curArea.update();
-		
-		if(getCurPlayer().getPlayingTime().getHour() > 18 && getCurArea().getPlace().equals("OUTDOOR")){ //udah malam ikan bobo
+		for(WalkingMonster m:monsters)
+			m.update();
+		if((getCurPlayer().getPlayingTime().getHour() >= 18 || getCurPlayer().getPlayingTime().getHour() < 6) && getCurArea().getPlace().equals("OUTDOOR")){ //udah malam ikan bobo
 			if(getCurPlayer().haveTorch())
 				paint.setColorFilter(new LightingColorFilter(0x004C4C4C, 0));
 			else
@@ -334,10 +356,9 @@ public class AreaManager implements IScreen{
 	
 	@Override
 	public void draw(Canvas canvas) {
-		// TODO Auto-generated method stub
-		//Log.d("harits", "drawing area...");
-		
 		curArea.drawBG(canvas);
+		for(WalkingMonster m:monsters)
+			m.draw(canvas);
 		//asumsi udah malem
 //		Path p = new Path();
 //		p.addCircle(getCurArea().getCurX()*16 + 8, getCurArea().getCurY()*16 + 8, 12, Path.Direction.CCW);
@@ -371,7 +392,6 @@ public class AreaManager implements IScreen{
 
 	@Override
 	public void onTouchEvent(MotionEvent e, float magX, float magY) {
-		// TODO Auto-generated method stub
 		for(BitmapButton b : buttons){
 			b.onTouchEvent(e, magX, magY);
 		}
@@ -384,6 +404,30 @@ public class AreaManager implements IScreen{
 	public void setCurArea(Area a) {
 		curArea = a;
 		curArea.setAreaManager(this);
+		if(getCurArea().getPlace().equals("OUTDOOR") && !getCurArea().getName().equals("CITY") ){
+			Point tmp1,tmp2,tmp3;
+			tmp1 = getRandomPassableGroundTile();
+			tmp2 = getRandomPassableGroundTile();
+			tmp3 = getRandomPassableGroundTile();
+			if(tmp1 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this));
+			if(tmp2 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this));
+			if(tmp3 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this));
+			
+			Point tmp4,tmp5,tmp6;
+			tmp4 = getRandomPassableSeaTile();
+			tmp5 = getRandomPassableSeaTile();
+			tmp6 = getRandomPassableSeaTile();
+			
+			if(tmp4 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp4, "HOMING", this));
+			if(tmp5 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp5, "FLEE", this));
+			if(tmp6 != null)
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp6, "RANDOM", this));
+		}
 	}
 
 	public Player getCurPlayer() {
@@ -486,7 +530,7 @@ public class AreaManager implements IScreen{
 		if(!checkBounds(x, y) || !checkBounds(newX, newY))
 			return;
 		
-		if(getCurArea().getTile(x, y).isShore()){
+		if(getCurArea().getTile(x, y).isSwimmable()){
 				//karena x dan y adalah shore, newX dan newY masih dalam boundary,
 				//maka newX dan newY udah dapat dipastikan merupakan sea
 				DialogueBox.getInstance().setMessage("[put monster name that used swim here] used swim!");
@@ -499,7 +543,7 @@ public class AreaManager implements IScreen{
 					changeRoamingMode("swim");
 				
 				//pindahin player ke koordinat baru
-				setPlayerCord(new Point(newX, newY));
+				setPlayerCord(new Point(x, y));
 		}
 	}
 	
@@ -511,14 +555,16 @@ public class AreaManager implements IScreen{
 			return;
 		if(action.equals("COMBINATORIUM")){
 			//masukin kode combinatorium disini
-			
+			Combinatorium combinatorium = new Combinatorium(curPlayer,screenWidth,screenHeight);
+			ScreenManager.getInstance().push(combinatorium);
 		} else if(action.equals("STORE")){
 			//masukin kode store disini
 			BuySellScreen bss = new BuySellScreen(curPlayer, screenWidth, screenHeight);
 			ScreenManager.getInstance().push(bss);
 		} else if(action.equals("STADIUM")){
 			//masukin kode stadium disini
-			
+			Stadium stadium = new Stadium(curPlayer,screenWidth,screenHeight);
+			ScreenManager.getInstance().push(stadium);
 		}
 	}
 
@@ -553,4 +599,50 @@ public class AreaManager implements IScreen{
 	public void setRoamingMode(String roamingMode) {
 		this.roamingMode = roamingMode;
 	}
+	
+	public Point getRandomPassableSeaTile(){
+		Random rand = new Random();
+		int tries = 0;
+		int x = rand.nextInt(getCurArea().getRow());
+		int y = rand.nextInt(getCurArea().getColumn());
+		while(!getCurArea().getTile(x, y).isSwimmable()){
+			x = rand.nextInt(getCurArea().getRow());
+			y = rand.nextInt(getCurArea().getColumn());
+			tries++;
+			if(tries == 100)
+				break;
+		}
+		if(tries == 100)
+			return null;
+		else
+			return new Point(x,y);
+	}
+	
+	public Point getRandomPassableGroundTile(){
+		Random rand = new Random();
+		int tries = 0;
+		int x = rand.nextInt(getCurArea().getRow());
+		int y = rand.nextInt(getCurArea().getColumn());
+		while(!getCurArea().getTile(x, y).isPassable()){
+			x = rand.nextInt(getCurArea().getRow());
+			y = rand.nextInt(getCurArea().getColumn());
+			tries++;
+			if(tries == 100)
+				break;
+		}
+		if(tries == 100)
+			return null;
+		else
+			return new Point(x,y);
+	}
+
+	public void resetWalkingMonsters() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public CopyOnWriteArrayList<WalkingMonster> getMonsters() {
+		return monsters;
+	}
+	
 }

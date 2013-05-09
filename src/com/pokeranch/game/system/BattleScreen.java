@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.pokeranch.game.object.*;
+import com.pokeranch.game.object.Status.Effect;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MessageManager.Action;
 
@@ -32,25 +35,35 @@ public class BattleScreen implements IScreen {
 	private int geserTop = 58; //buat geser layout background ke atas
 	private TextComponent message;
 	private BattleStatusBar stat1, stat2;
+	private boolean clicked = false;
 	private DelayedAction delayAction = null, pokeAnim = null;
 	
 	//system
 	public enum BattleMode {WILD, STADIUM, PVP};
 	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, 
-							ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_OUT, ANIMATING_IN, 
-							DELAY, EVO_INFO, MATI, END};
+							ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_OUT, ANIMATING_IN, ANIMATING_EFFECT,
+							CATCH, NAMING, DELAY, EVO_INFO, MATI, END};
 	
 	private Player player1, player2, current, enemy;
 	private int turn; //player no berapa yg sedang jalan
 	private BattleMode mode;
 	private BattleState state;
+	private BattleListener listener;
+	private int result;
+	private boolean countTimeout;
 	
-	public BattleScreen(Player player1, Player player2, BattleMode mode){
+	public interface BattleListener{
+		public void action(int result);
+	}
+	
+	public BattleScreen(Player player1, Player player2, BattleMode mode, BattleListener listener){
+		this.listener = listener;
 		this.player1 = player1;
 		this.player2 = player2;
 		this.mode = mode;
 		current = this.player1;
 		enemy = this.player2;
+		result = 0;
 		
 		if (mode == BattleMode.WILD){
 			StringBuilder ss = new StringBuilder("A Wild ");
@@ -84,7 +97,7 @@ public class BattleScreen implements IScreen {
 		background = BitmapManager.getInstance().get("battle_day_land");
 		bar = BitmapManager.getInstance().get("battle_bar");
 		
-		stat1 = new BattleStatusBar(player1.getCurrentMonster(),(int) MainGameView.standardWidth - 125,(int) MainGameView.standardHeight - 60 - geserTop);
+		stat1 = new BattleStatusBar(player1.getCurrentMonster(),(int) MainGameView.standardWidth - 125,(int) MainGameView.standardHeight - 65 - geserTop);
 		stat2 = new BattleStatusBar(player2.getCurrentMonster(),10,10);
 		
 		touch = new ArrayList<Touchables>();
@@ -141,6 +154,17 @@ public class BattleScreen implements IScreen {
 				state = BattleState.ANIMATING_HEALTH;
 			}
 		break;
+		case ANIMATING_EFFECT:
+			//poison & burn
+			stat1.update();
+			stat2.update();
+			if(stat1.animationFinished() && stat2.animationFinished())
+				if(!cekmati()) {
+					reverseTurn();
+					reverseCurrent();
+					turnStart();
+				}
+		break;
 		case ANIMATING_HEALTH:
 			//setelah animating skill
 			stat1.update();
@@ -188,6 +212,7 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void change(int c){
+		countTimeout = false;
 		Collection<Monster> mons = current.getAllMonster().values();
 		
 		Monster [] monster = new Monster[mons.size() - 1];
@@ -215,23 +240,66 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void endBattle(){
+		Log.d("POKE AAA", current.getCurrentMonster().getStatus().toString());
+		
 		String s1 = mode==BattleMode.PVP ? "Player 1" : "You";
 		String s2 = mode==BattleMode.PVP ? "Player 2" : "Enemy";
+		boolean p1win;
 		
-		if(turn==1){ 
-			message.appendText(s2 + " lose!");
+		if(turn==1){
+			p1win = true;
+			message.setText(s2 + " lose!");
 			poke2 = BitmapManager.getInstance().get("trans");
 			stat2.setVisible(false);
 			stat1.refreshData();
 		}else{
-			message.appendText(s1 + " lose!");
+			p1win = false;
+			message.setText(s1 + " lose!");
 			poke1 = BitmapManager.getInstance().get("trans");
 			stat1.setVisible(false);
 			stat2.refreshData();
 		}
+		
+		if(mode==BattleMode.PVP) return;
+		
+		if(p1win){
+			player1.addWin(1);
+			player1.addBattle(1);
+			int duit;
+			if(mode==BattleMode.WILD){
+				duit = player2.getCurrentMonster().getBonusCash();
+			}else{
+				duit = player2.getMoney();
+			}
+			
+			player1.setMoney(player1.getMoney()+duit);
+			message.appendText("You get $" + duit);
+			result = 1;
+		}else{
+			player1.addLose(1);
+			player1.addBattle(1);
+			result = -1;
+		}
 	}
 	
 	private void attack(Skill sk){
+		countTimeout = false;
+		Monster m = current.getCurrentMonster();
+		
+		if(m.getStatus().getEffect()==Effect.SLEEP){
+			message.appendText(m.getName() + " is asleep.");
+			state = BattleState.DELAY;
+			delayAction = new DelayerTurn();
+			return;
+		}else if(m.getStatus().getEffect()==Effect.PARLYZ){
+			if(new Random().nextInt() < 50){
+				message.appendText(m.getName() + " is paralyzed!\n it can't move!");
+				state = BattleState.DELAY;
+				delayAction = new DelayerTurn();
+				return;
+			}
+		}
+		
 		int x = turn==1? x2 : x1;
 		int y = turn==1? y2 : y1;
 		message.appendText(current.getCurrentMonster().getName() + " use " + sk.getName() + "!");
@@ -279,6 +347,7 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void useItem(int choice){
+		countTimeout = false;
 		Object[] items = current.getBattleItem().keySet().toArray();	
 		
 		String name = (String) items[choice];
@@ -317,15 +386,71 @@ public class BattleScreen implements IScreen {
 		if (mode==BattleMode.WILD){
 			message.setText("Use a " + mb.getName() + "!");
 			
-			//TODO blom
+			poke2 = BitmapManager.getInstance().get(mb.getName());
 			
-			state = BattleState.DELAY;
-			delayAction = new DelayerTurn();
+			Random r = new Random();
+			if(r.nextInt(100) < mb.getCatchRate()){
+				//catch berhasil
+				state = BattleState.DELAY;
+				delayAction = new DelayedAction(){
+
+					@Override
+					public void doAction() {
+						message.appendText("Yeah! You catched "+enemy.getCurrentMonster().getName()+"!");
+						state = BattleState.CATCH;
+					}
+					@Override
+					public int getDelay() {
+						return GameLoop.MAX_FPS;
+					}
+					
+				};
+			}else{
+				//catch gagal
+				state = BattleState.DELAY;
+				delayAction = new DelayedAction(){
+
+					@Override
+					public void doAction() {
+						message.appendText("Shoot! It was close!");
+						refreshImage();
+						delayAction = new DelayerTurn();
+					}
+					@Override
+					public int getDelay() {
+						return GameLoop.MAX_FPS;
+					}
+					
+				};
+			}
+				
 		}else{
 			message.setText("Can't use a MonsterBall\non a trainer's pokemon!");
 			state = BattleState.DELAY;
 			delayAction = new DelayerTurn();
 		}
+	}
+	
+	private void catched(){
+		clicked = true;
+		MessageManager.prompt("Give a name to your new monster (must be unique)", new Action() {
+			@Override
+			public void proceed(Object o) {
+				String name = (String) o;
+				if(current.getMonster(name)==null){
+					Monster m = enemy.getCurrentMonster();
+					m.setName(name);
+					current.addMonster(m);
+					state = BattleState.END;
+				}else{
+					MessageManager.alert(name + " has been used!");
+					clicked = false;
+					state = BattleState.CATCH;
+				}	
+			}
+			@Override
+			public void cancel() {}
+		}, true);
 	}
 	
 	//turn system
@@ -349,12 +474,22 @@ public class BattleScreen implements IScreen {
 		}
 	}
 	
+	
+	private void reverseCurrent(){
+		Log.d("POKE", "reversed");
+		Player temp = current;
+		current = enemy;
+		enemy = temp;
+	}
+	
+	private void reverseTurn(){
+		turn = turn==1 ? 2 : 1;
+	}
+	
 	private void nextTurn(){
 		if(state!=BattleState.ANIMATING_IN){
-			turn = turn==1 ? 2 : 1;
-			Player temp = current;
-			current = enemy;
-			enemy = temp;
+			reverseTurn();
+			reverseCurrent();
 		}
 		
 		if(mode==BattleMode.PVP)
@@ -362,9 +497,34 @@ public class BattleScreen implements IScreen {
 		else
 			message.setText(turn==1? "Your turn" : "Enemy Turn");
 		
+		Monster curr = current.getCurrentMonster();
+		Effect e = curr.getStatus().getEffect();
+		if (e==Effect.SLEEP){
+			Random r = new Random();
+			if (r.nextInt(100) < 30){
+				message.appendText(curr.getName() + " wakes up!");
+				curr.getStatus().setEffect(Effect.NONE);
+				refreshStatBar();
+			}
+		}else if(e==Effect.BURN || e==Effect.POISON){
+			curr.updateStatusBy(DBLoader.getInstance().getSkill(e.toString()).getDamage());
+			message.appendText(curr.getName() + " get " + e.toString() + " effect!");
+			reverseTurn();
+			reverseCurrent();
+			stat1.fetchData();
+			stat2.fetchData();
+			state = BattleState.ANIMATING_EFFECT;
+			return;
+		}
+		
+		turnStart();
+	}
+	
+	private void turnStart(){
 		if(turn==2) {
 			if(mode==BattleMode.PVP) {
 				state = BattleState.WAIT_INPUT;
+				
 			}
 			else {
 				state = BattleState.AI_MOVE;
@@ -378,6 +538,11 @@ public class BattleScreen implements IScreen {
 		} else {
 			state = BattleState.WAIT_INPUT;
 		}
+		
+		countTimeout = state == BattleState.WAIT_INPUT;
+		if(countTimeout){
+			delayAction = new Timeout();
+		}
 	}
 	
 	private void player2Turn(){
@@ -386,10 +551,26 @@ public class BattleScreen implements IScreen {
 	
 	//draw
 	
+	private class Timeout extends DelayedAction{
+		@Override
+		public void doAction() {
+			if(countTimeout){
+				message.appendText("Timeout!!");
+				countTimeout = false;
+				state = BattleState.DELAY;
+				delayAction = new DelayerTurn();
+			}
+		}
+		@Override
+		public int getDelay() {
+			return GameLoop.MAX_FPS * 10;
+		}
+	}
+	
 	private class DelayerTurn extends DelayedAction{
 		@Override
 		public int getDelay() {
-			return GameLoop.MAX_FPS / 2;
+			return GameLoop.MAX_FPS;
 		}
 		@Override
 		public void doAction() {
@@ -537,6 +718,7 @@ public class BattleScreen implements IScreen {
 	
 	private void tryEscape(){
 		if(mode == BattleMode.WILD){
+			countTimeout = false;
 			message.setText("Got away safely!");
 			state = BattleState.END;
 		}else{
@@ -550,13 +732,21 @@ public class BattleScreen implements IScreen {
 		case START:
 			message.setText(current.getCurrentMonster().getName() + ", go!");
 			state = BattleState.WAIT_INPUT;
+			countTimeout = true;
+			delayAction = new Timeout();
 		break;
 		
 		case WAIT_INPUT:
 			for(Touchables t : touch) t.onTouchEvent(e, magX, magY);
 		break;	
+		case CATCH:
+			state = BattleState.NAMING;
+			if(!clicked) catched();
+		break;
 		case END:
-			
+			ScreenManager.getInstance().pop();
+			if(listener != null)
+				listener.action(result);
 		break;
 		default:
 		}

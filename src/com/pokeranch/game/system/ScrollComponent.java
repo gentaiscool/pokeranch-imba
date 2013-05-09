@@ -67,6 +67,10 @@ public class ScrollComponent {
 		}
 	}
 	
+	public int getX(){
+		return x;
+	}
+	
 	public void onTouchEvent(MotionEvent event, float magX, float magY){
 		final int actioncode = event.getAction() & MotionEvent.ACTION_MASK;	
 		RectF r = new RectF(x*magX, 0, (x + width)*magX, screenHeight);
@@ -116,6 +120,16 @@ public class ScrollComponent {
 		}else if(touched){
 			touched = false;
 		}
+	}
+	
+	public void setItem(String[] items){
+		selection = -1;
+		text = new TextComponent[items.length];
+		leftMargin = 5;
+		for(int i = 0; i < items.length; i++){
+			text[i] = new TextComponent(items[i], x + leftMargin, selHeight*i + selHeight/2);
+		}
+		nitem = text.length;	
 	}
 
 	public int getScreenHeight() {
