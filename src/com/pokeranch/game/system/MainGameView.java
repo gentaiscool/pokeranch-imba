@@ -58,11 +58,17 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		matrix.setScale(magnificationX, magnificationY,0,0);
 		
 		curPlayer = new Player();
+		Monster m1 = new Monster("mybulba", DBLoader.getInstance().getSpecies("Bulba"),7);
+		Monster m4 = new Monster("mybulba2", DBLoader.getInstance().getSpecies("Bulba"),8);
+		Monster m3 = new Monster("mybulba3", DBLoader.getInstance().getSpecies("Bulba"),9);
+		curPlayer.addMonster(m1);
+		curPlayer.addMonster(m4);
+		curPlayer.addMonster(m3);
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
 		am.setPlayerCord(new Point(14,9));
-		//manager.push(am);
+		manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
@@ -106,7 +112,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//manager.push(buysellmarket);
 		
 		Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
-		manager.push(combi);
+		//manager.push(combi);
 		
 		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
 		//manager.push(stadium);
