@@ -64,7 +64,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//manager.push(mm);
 		
 		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
-		manager.push(lt);
+		//manager.push(lt);
 		
 		//Pokedex pokedex = new Pokedex(screenWidth, screenHeight);
 		//manager.push(pokedex);
@@ -101,6 +101,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
 		//manager.push(buysellmarket);
+		
+		Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
+		manager.push(combi);
 		
 	}
 	
