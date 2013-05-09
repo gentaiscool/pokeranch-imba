@@ -48,7 +48,7 @@ public class BuySellScreen implements IScreen{
 	
 	private boolean show = false;
 	
-	private BitmapButton buy, sell;
+	private BitmapButton buy, sell, transparent, close;
 	
 	private Player player;
 	
@@ -60,7 +60,31 @@ public class BuySellScreen implements IScreen{
 			
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
-
+			
+			transparent  = new BitmapButton(BitmapManager.getInstance().get("trans"),0,0);
+			
+			close = new BitmapButton(BitmapManager.getInstance().get("close"),200,150);
+			close.addTouchListener(new TouchListener() {
+				
+				@Override
+				public void onTouchUp() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchMove() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchDown() {
+					// TODO Auto-generated method stub
+					ScreenManager.getInstance().pop();
+				}
+			});
+			
 			buy = new BitmapButton(BitmapManager.getInstance().get("buybutton"),20,150);
 			buy.addTouchListener(new TouchListener() {
 
@@ -115,9 +139,11 @@ public class BuySellScreen implements IScreen{
 		@Override
 		public void draw(Canvas canvas) {
 			// TODO Auto-generated method stub
-			canvas.drawColor(Color.WHITE);
+			//canvas.drawColor(Color.WHITE);
+			//transparent.draw(canvas);
 			buy.draw(canvas);
 			sell.draw(canvas);
+			close.draw(canvas);
 		}
 		
 		@Override
@@ -125,5 +151,6 @@ public class BuySellScreen implements IScreen{
 			// TODO Auto-generated method stub
 			buy.onTouchEvent(e, magX, magY);
 			sell.onTouchEvent(e, magX, magY);
+			close.onTouchEvent(e, magX, magY);
 		}
 }

@@ -31,9 +31,12 @@ public class AreaManager implements IScreen{
 	private Paint paintkotak;
 	public final int dirX[] = {-1, 0, 1, 0};
 	public final int dirY[] = {0, 1, 0, -1};
+	private int screenWidth, screenHeight;
 	
 	AreaManager(Context con, int scw, int sch, Player p){
 		DialogueBox.initialize();
+		screenWidth = scw;
+		screenHeight = sch;
 		PlayerMenu.initialize();
 		context = con;
 		paint = new Paint();
@@ -508,10 +511,14 @@ public class AreaManager implements IScreen{
 			return;
 		if(action.equals("COMBINATORIUM")){
 			//masukin kode combinatorium disini
+			
 		} else if(action.equals("STORE")){
 			//masukin kode store disini
+			BuySellScreen bss = new BuySellScreen(curPlayer, screenWidth, screenHeight);
+			ScreenManager.getInstance().push(bss);
 		} else if(action.equals("STADIUM")){
 			//masukin kode stadium disini
+			
 		}
 	}
 
