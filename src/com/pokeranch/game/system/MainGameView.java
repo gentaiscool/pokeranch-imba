@@ -91,7 +91,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
-		
+		//pl2.addMonster(Monster.getRandomMonster(10, 1));
 		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
 
 		

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -35,13 +36,12 @@ public class BattleScreen implements IScreen {
 	private TextComponent message;
 	private BattleStatusBar stat1, stat2;
 	private boolean clicked = false;
-	
 	private DelayedAction delayAction = null, pokeAnim = null;
 	
 	//system
 	public enum BattleMode {WILD, STADIUM, PVP};
 	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, 
-							ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_OUT, ANIMATING_IN, 
+							ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_OUT, ANIMATING_IN, ANIMATING_EFFECT,
 							CATCH, NAMING, DELAY, EVO_INFO, MATI, END};
 	
 	private Player player1, player2, current, enemy;
@@ -144,6 +144,17 @@ public class BattleScreen implements IScreen {
 				stat2.fetchData();
 				state = BattleState.ANIMATING_HEALTH;
 			}
+		break;
+		case ANIMATING_EFFECT:
+			//poison & burn
+			stat1.update();
+			stat2.update();
+			if(stat1.animationFinished() && stat2.animationFinished())
+				if(!cekmati()) {
+					reverseTurn();
+					reverseCurrent();
+					turnStart();
+				}
 		break;
 		case ANIMATING_HEALTH:
 			//setelah animating skill
@@ -452,12 +463,21 @@ public class BattleScreen implements IScreen {
 	}
 	
 	
+	private void reverseCurrent(){
+		Log.d("POKE", "reversed");
+		Player temp = current;
+		current = enemy;
+		enemy = temp;
+	}
+	
+	private void reverseTurn(){
+		turn = turn==1 ? 2 : 1;
+	}
+	
 	private void nextTurn(){
 		if(state!=BattleState.ANIMATING_IN){
-			turn = turn==1 ? 2 : 1;
-			Player temp = current;
-			current = enemy;
-			enemy = temp;
+			reverseTurn();
+			reverseCurrent();
 		}
 		
 		if(mode==BattleMode.PVP)
@@ -466,16 +486,29 @@ public class BattleScreen implements IScreen {
 			message.setText(turn==1? "Your turn" : "Enemy Turn");
 		
 		Monster curr = current.getCurrentMonster();
-		
-		if (curr.getStatus().getEffect()==Effect.SLEEP){
+		Effect e = curr.getStatus().getEffect();
+		if (e==Effect.SLEEP){
 			Random r = new Random();
 			if (r.nextInt(100) < 30){
 				message.appendText(curr.getName() + " wakes up!");
 				curr.getStatus().setEffect(Effect.NONE);
 				refreshStatBar();
 			}
+		}else if(e==Effect.BURN || e==Effect.POISON){
+			curr.updateStatusBy(DBLoader.getInstance().getSkill(e.toString()).getDamage());
+			message.appendText(curr.getName() + " get " + e.toString() + " effect!");
+			reverseTurn();
+			reverseCurrent();
+			stat1.fetchData();
+			stat2.fetchData();
+			state = BattleState.ANIMATING_EFFECT;
+			return;
 		}
 		
+		turnStart();
+	}
+	
+	private void turnStart(){
 		if(turn==2) {
 			if(mode==BattleMode.PVP) {
 				state = BattleState.WAIT_INPUT;

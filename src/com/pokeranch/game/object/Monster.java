@@ -9,6 +9,7 @@ import java.util.Set;
 import com.pokeranch.game.object.Status.Effect;
 
 import android.graphics.Point;
+import android.util.Log;
 //import android.util.Log;
 
 public class Monster{
@@ -269,12 +270,14 @@ public class Monster{
 	
 	public void giveItem(StatItem item){
 		if(item.getPermanent()){
-			if(status.getEffect()==item.getCureStat()) 
-				status.setEffect(Effect.NONE);
 			fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
 			restoreStatus();
-		}else
+		}else{
+			if(status.getEffect().equals(item.getCureStat())){
+				status.setEffect(Effect.NONE);
+			}
 			updateStatusBy(item.getItemEffect());
+		}
 	}
 	
 	public static Monster getRandomMonster(int level, int maxRating){

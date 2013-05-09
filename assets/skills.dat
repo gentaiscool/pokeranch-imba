@@ -1,9 +1,11 @@
 # effect: POISON, PARLYZ, SLEEP, BURN, NONE, HEALING
 # format: name, damage(hp,mp,att,def,eff), cost(hp,mp,att,def,eff), elements
 Flame 			-70 0 0 0 BURN		0 -6 0 0 NONE		Fire		5 FireBall
-Swim			-50 0 0 0 PARLYZ		0 -5 0 0 NONE 		Water		-1
-Vine			-0 0 0 0 NONE		0 -4 0 0 NONE 		Grass		-1
+Swim			-50 0 0 0 NONE	0 -5 0 0 NONE 		Water		-1
+Vine			0 0 0 0 POISON		0 -4 0 0 NONE 		Grass		-1
 FireBall		-70 0 0 0 BURN		0 -6 0 0 NONE		Fire		-1
-Waterfall		-70 0 0 0 PARLYZ		0 -6 0 0 NONE		Water		-1
+Waterfall		-70 0 0 0 NONE		0 -6 0 0 NONE		Water		-1
 Cut				-70 0 0 0 PARLYZ		0 -6 0 0 NONE		Normal		-1
 Push			-70 0 0 0 PARLYZ		0 -6 0 0 NONE		Normal		-1
+POISON			-50 0 0 0 NONE		0 0 0 0 NONE		Normal		-1
+BURN			-10 0 0 0 NONE		0 0 0 0 NONE		Normal		-1
