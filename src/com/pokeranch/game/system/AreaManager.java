@@ -503,6 +503,8 @@ public class AreaManager implements IScreen{
 		if(!checkBounds(x, y))
 			return;
 		String action = getCurArea().getTile(x, y).getActionName();
+		if(action == null)
+			return;
 		if(action.equals("COMBINATORIUM")){
 			//masukin kode combinatorium disini
 		} else if(action.equals("STORE")){

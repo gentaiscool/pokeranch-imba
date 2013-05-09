@@ -58,7 +58,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,4));
-		//manager.push(am);
+		manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
