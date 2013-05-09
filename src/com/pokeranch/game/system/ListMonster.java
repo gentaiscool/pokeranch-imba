@@ -86,7 +86,11 @@ public class ListMonster implements IScreen{
 		if (listMonster.length!=2) {
 			dismiss.setBitmap(BitmapManager.getInstance().get("dismiss"));
 			dismiss.setEnable(true);
+		} else {
+			dismiss.setBitmap(BitmapManager.getInstance().get("di_dismiss"));
+			dismiss.setEnable(false);
 		}
+	
 		scroll = new ScrollComponent(listMonster,220,100,screenHeight,new SelectionListener(){
 			@Override
 			public void selectAction(int selection) {
@@ -135,19 +139,25 @@ public class ListMonster implements IScreen{
 								try {
 									Log.d("LM","size monsters sebelum delete "+player.getAllMonster().size());
 									Log.d("LM","size listmonster sebelum delete "+player.getAllMonster().size());
+									Log.d("LM", "CurMonster sebelum del "+ player.getCurrentMonster().getName());
 									player.delMonster(listMonster[num]);
+									Log.d("LM", "CurMonster setelah del "+ player.getCurrentMonster().getName());
 									Log.d("LM","size monsters setelah delete "+player.getAllMonster().size());
 									listMonster = player.buildArrayMonster();
+
 									Log.d("LM", "abis build");
 									listMonster[listMonster.length-1] = "Back";
 									Log.d("LM", "abis nambah back");
 									Log.d("LM","size listmonster setelah delete "+player.getAllMonster().size());
 									
 									scroll.setItem(listMonster);
-									if (listMonster.length==2) {
+									
+									if (listMonster.length==2) {//monster tinggal 1
 										dismiss.setBitmap(BitmapManager.getInstance().get("disableddismiss"));
 										dismiss.setEnable(false);
-									}
+									} //monster lebih dari 1
+									
+						
 									Log.d("LM", "abis set Item");
 								} catch (Exception e) {
 								}
@@ -217,11 +227,12 @@ public class ListMonster implements IScreen{
 			show = true;
 		}
 		Log.d("LM", "mau keluar dari showMonster");
-		if(listMonster[num].equals(player.getCurrentMonster().getName())) {
+		if(listMonster[num].equals(player.getCurrentMonster().getName())) {//kalo yang dipilih sama dengan text
 			textMainMonster.setText("MAIN MONSTER");
 		} else {
 			textMainMonster.setText("");
 		}
+		Log.d("LM", "mau keluar banget dari showMonster");
 	}
 	
 	@Override

@@ -101,21 +101,21 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		manager.push(mm);
 		
-		Log.d("LM", "chek 1");
-		ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
-		Log.d("LM", "chek 2");
+		//Log.d("LM", "chek 1");
+		//ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
+		//Log.d("LM", "chek 2");
 
-		PlayerStatus ps = new PlayerStatus(curPlayer);
+		//PlayerStatus ps = new PlayerStatus(curPlayer);
 		//manager.push(ps);
 		//manager.push(lm);
 
-		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
+		//ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
 		//manager.push(lt);
 		
 		//Pokedex pokedex = new Pokedex(screenWidth, screenHeight);
 		//manager.push(pokedex);
 		
-		Player pl = new Player();
+		/*Player pl = new Player();
 		Player pl2 = new Player();
 		Monster m = new Monster("mybulba", DBLoader.getInstance().getSpecies("Bulba"),7);
 		m.addExp(120);
@@ -139,23 +139,16 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.setCurrentMonster(m2.getName());
 
 		pl2.addMonster(Monster.getRandomMonster(10, 1));
-		/*manager.push(new BattleScreen(pl,pl2, BattleMode.WILD, new BattleListener(){
-			@Override
-			public void action(int result) {
-				// result:
-				// 0 -> escape, 1 -> win, -1 -> lose 
-				
-			}
-		}));
-		 */
-		
+
+			*/	
+
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
 		//manager.push(buymarket);
 		
-		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
+		//BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
 		//manager.push(buysellmarket);
 		
-		Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
+		//Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
 		//manager.push(combi);
 		
 		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);

@@ -33,7 +33,7 @@ public class Player {
 		str.append(	"***********PLAYER STATS*************\n\n\n"+
 					getName()+"\n\n"+
 					"$"+getMoney()+"\n\n"+
-					"year "+getPlayingTime().getYear()+" month "+getPlayingTime().getMonth()+" day "+getPlayingTime().getDay()+" hour "+getPlayingTime().getHour()+" minute "+getPlayingTime().getMinute()+"\n\n"+
+					"year "+getPlayingTime().getYear()+" month "+getPlayingTime().getMonth()+"\nday "+getPlayingTime().getDay()+" hour "+getPlayingTime().getHour()+" minute "+getPlayingTime().getMinute()+"\n\n"+
 					getNbattle()+" Battle "+getNwin()+" Win "+getNlose()+" Lose"
 				);
 		return str.toString();
@@ -133,9 +133,15 @@ public class Player {
 		if (mons!=null){
 			if (jmlmonsters == 1){
 				throw new Exception();
-			}
-			else {
+			} else {
+				if (nmonster.equals(getCurrentMonster().getName())) {
+					getCurrentMonster().getStatus().setHP(0);
+					Log.d("cekdel","CurMons sebelum del"+getCurrentMonster().getName());
+					setCurrentMonster(getNextMonster());
+					Log.d("cekdel","CurMons sebelum del"+getCurrentMonster().getName());
+					}
 				monsters.remove(nmonster);
+				Log.d("cekdel","lewat remove");
 			}	
 		} else {
 				throw new Exception();
