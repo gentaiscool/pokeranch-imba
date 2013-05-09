@@ -47,6 +47,11 @@ public class BitmapManager {
 		instance = new BitmapManager(res);
 	}
 	
+	public static void release(){
+		instance.bitmaps.clear();
+		instance = null;
+	}
+	
 	public static BitmapManager getInstance(){
 		return instance;
 	}

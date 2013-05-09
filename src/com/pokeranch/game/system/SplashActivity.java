@@ -9,9 +9,13 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.pokeranch.game.object.DBLoader;
+import com.pokeranch.game.object.PlayerSaveLoader;
 
 public class SplashActivity extends Activity {
 
+	private boolean start = true;
+	private GameLoader loader;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,7 +23,24 @@ public class SplashActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_splash);
 		
-		new GameLoader(this).start();
+		loader = new GameLoader(this);
+		loader.start();
+	}
+	
+	@Override
+	protected void onStop(){
+		start = false;
+		boolean retry = true;
+		while (retry) {
+			try {
+				loader.join();
+				retry = false;
+				loader = null;
+			} catch (InterruptedException e) {
+			}
+		}
+		
+		super.onStop();
 	}
 	
 	// load resource nya ada di thread
@@ -142,9 +163,16 @@ public class SplashActivity extends Activity {
 			
 			System.gc();
 			
-			Intent intent = new Intent(context, MainGameActivity.class);
-			startActivity(intent);
-			finish();
+			if(start){
+				Intent intent = new Intent(context, MainGameActivity.class);
+				startActivity(intent);
+				finish();
+			}else{
+				DBLoader.release();
+				PlayerSaveLoader.release();
+				BitmapManager.release();
+				ScreenManager.release();
+			}
 		}
 	}
 }

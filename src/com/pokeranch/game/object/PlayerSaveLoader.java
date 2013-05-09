@@ -35,6 +35,10 @@ public class PlayerSaveLoader {
 		instance=new PlayerSaveLoader(context);
 	}
 	
+	public static void release(){
+		instance = null;
+	}
+	
 	public static PlayerSaveLoader getInstance() {
 		return instance;
 	}

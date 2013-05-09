@@ -19,6 +19,10 @@ public class ScreenManager {
 		manager = new ScreenManager();
 	}
 	
+	public static void release(){
+		manager = null;
+	}
+	
 	public static ScreenManager getInstance(){
 		return manager;
 	}

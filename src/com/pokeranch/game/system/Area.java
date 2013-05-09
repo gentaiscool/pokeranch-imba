@@ -74,7 +74,7 @@ public class Area {
 			for(int j=0;j<column;j++){
 				//gambar bitmap ke layar
 				//terapkan paint pada koordinat yg bukan user
-				Log.d("harits3", "drawObj curArea kepanggil");
+				//Log.d("harits3", "drawObj curArea kepanggil");
 				field[i][j].drawObj(canvas, i, j, curX, curY, am);
 			}
 		}

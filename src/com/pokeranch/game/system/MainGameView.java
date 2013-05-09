@@ -25,8 +25,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	public static int screenDensity;
 	
 	public GameLoop thread;
-	private Matrix matrix = new Matrix();	
-	private Paint paint = new Paint();
+	private Matrix matrix;	
 	private ScreenManager manager;
 	private Player curPlayer;
 	float magnificationX, magnificationY;
@@ -50,6 +49,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 			
 		//Log.d("harits", "sh: " + screenHeight +", sw: " + screenWidth);
 		//Log.d("harits", "magX: " + magnificationX +", magY: " + magnificationY);
+		matrix = new Matrix();
+		
 		matrix.setScale(magnificationX, magnificationY,0,0);
 		
 		curPlayer = new Player();
@@ -93,9 +94,6 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
 		//manager.push(buysellmarket);
 		
-		paint.setTextSize(40);
-		paint.setTypeface(Typeface.MONOSPACE);
-		paint.setColor(Color.BLACK);
 	}
 	
 	@Override
@@ -112,6 +110,12 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder arg0) {		
 		releaseThread();
+		
+		DBLoader.release();
+		PlayerSaveLoader.release();
+		BitmapManager.release();
+		ScreenManager.release();
+		
 		Log.d(TAG, "surface destroyed");
 	}
 	

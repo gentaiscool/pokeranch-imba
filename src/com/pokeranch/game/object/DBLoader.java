@@ -265,4 +265,15 @@ public class DBLoader {
 	public static DBLoader getInstance(){
 		return instance;
 	}
+	
+	public static void release(){
+		instance.elements.clear();
+		instance.species.clear();
+		instance.skills.clear();
+		instance.areas.clear();
+		instance.balls.clear();
+		instance.statitems.clear();
+		instance.tms.clear();
+		instance = null;
+	}
 }

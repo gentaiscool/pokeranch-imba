@@ -1,5 +1,7 @@
 package com.pokeranch.game.system;
 
+import com.pokeranch.game.object.DBLoader;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.DisplayMetrics;
@@ -25,9 +27,21 @@ public class MainGameActivity extends Activity {
 		mainGameView = new MainGameView(this, metrics.widthPixels, metrics.heightPixels, metrics.densityDpi);
 		setContentView(mainGameView);	
 	}
-
+	
+	@Override
 	protected void onPause() {
-		mainGameView.pauseThread(); //matiin thread
+		Log.d("POKE STAT", "onPause");
+		if(mainGameView!=null) mainGameView.pauseThread(); //matiin thread
 		super.onPause();			
+	}
+	
+	@Override
+	protected void onStop(){
+		mainGameView = null;
+		Log.d("POKE STAT", "onStop");
+		Log.d("POKE STAT", (BitmapManager.getInstance() == null) + " ");
+		System.gc();
+		super.onStop();
+		finish();
 	}
 }
