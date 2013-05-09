@@ -2,41 +2,19 @@ package com.pokeranch.game.system;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-
-import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.MonsterBall;
 import com.pokeranch.game.object.Player;
-import com.pokeranch.game.object.Species;
 import com.pokeranch.game.object.StatItem;
 import com.pokeranch.game.object.TM;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
-import com.pokeranch.game.system.MessageManager.Action;
-import com.pokeranch.game.system.ScrollComponent.SelectionListener;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.os.Debug;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 
 public class BuySellScreen implements IScreen{
-	
-	private ScreenManager manager;
-
-	private Bitmap panel, trans;
 
 	int curScreenWidth, curScreenHeight;
-	private ScrollComponent scroll;
-	private String[] monsterBall, statItem, tm, category;
-	private TextComponent text, textMoney;
 	Collection<MonsterBall> monsterBalls;
 	Collection<StatItem> statItems;
 	Collection<TM> tms;
@@ -46,24 +24,19 @@ public class BuySellScreen implements IScreen{
 	ArrayList<StatItem> arrStatItem = new ArrayList<StatItem>();
 	ArrayList<TM> arrTM = new ArrayList<TM>();
 	
-	private boolean show = false;
-	
-	private BitmapButton buy, sell, transparent, close;
+	private BitmapButton buy, sell, close;
 	
 	private Player player;
 	
 		public BuySellScreen(Player _player, int screenWidth, int screenHeight){
 			// TODO Auto-generated constructor stub
-			manager = ScreenManager.getInstance();
 			
 			player = _player;
 			
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
-			transparent  = new BitmapButton(BitmapManager.getInstance().get("trans"),0,0);
-			
-			close = new BitmapButton(BitmapManager.getInstance().get("close"),200,150);
+			close = new BitmapButton(BitmapManager.getInstance().get("close"),200,140);
 			close.addTouchListener(new TouchListener() {
 				
 				@Override
@@ -85,7 +58,7 @@ public class BuySellScreen implements IScreen{
 				}
 			});
 			
-			buy = new BitmapButton(BitmapManager.getInstance().get("buybutton"),20,150);
+			buy = new BitmapButton(BitmapManager.getInstance().get("buybutton"),200,60);
 			buy.addTouchListener(new TouchListener() {
 
 				@Override
@@ -107,7 +80,7 @@ public class BuySellScreen implements IScreen{
 					
 				}
 			});
-			sell = new BitmapButton(BitmapManager.getInstance().get("sellbutton"),20,200);
+			sell = new BitmapButton(BitmapManager.getInstance().get("sellbutton"),200,100);
 			sell.addTouchListener(new TouchListener() {
 
 				@Override
