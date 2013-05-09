@@ -3,15 +3,16 @@ package com.pokeranch.game.object;
 import java.io.BufferedWriter;
 import java.util.Scanner;
 
+
 public class Status {
 
-	public enum Effect {POISON, PARLYZ, SLEEP, BURN, NONE, HEALING}
+	public enum Effect {POISON, PARLYZ, SLEEP, BURN, NONE}
 	private int hp, mp, attack, defense;
 	private Effect effect;
 	
 	public Status() {
 		// TODO Auto-generated constructor stub
-		
+		effect = Effect.NONE;
 	}
 	
 	//ctor berparameter
@@ -77,9 +78,7 @@ public class Status {
 		this.mp += mp;
 		this.attack += attack;
 		this.defense += defense;
-		if (effect == Effect.HEALING){
-			this.effect = Effect.NONE;
-		}else if(effect != Effect.NONE){
+		if(effect != Effect.NONE && this.effect == Effect.NONE){
 			this.effect = effect;
 		}
 	}
@@ -90,7 +89,7 @@ public class Status {
 		s.setDefense(s1.getDefense() - s2.getDefense());
 		s.setHP(s1.getHP() - s2.getHP());
 		s.setMP(s1.getMP() - s2.getMP());
-		s.setEffect(Effect.NONE);
+		s.effect = Effect.NONE;
 		return s;
 	}
 	

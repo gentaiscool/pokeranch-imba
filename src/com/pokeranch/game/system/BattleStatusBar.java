@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import com.pokeranch.game.object.Monster;
+import com.pokeranch.game.object.Status.Effect;
 
 public class BattleStatusBar {
 	private Monster monster;
@@ -15,6 +16,7 @@ public class BattleStatusBar {
 	private int displayHP, maxHP;
 	private int displayMP, maxMP;
 	private int displayEXP, maxEXP; 
+	private Effect displayEffect;
 	private int fetchHP, fetchMP, dHP, dMP;
 	private int totalUpdate, tick;
 	private DelayedAction delayAction;
@@ -23,7 +25,6 @@ public class BattleStatusBar {
 	public BattleStatusBar(Monster m, int x, int y){
 		name = new TextComponent("", x + 10, y + 10);
 		hp = new TextComponent("", x + 10, y + 29);
-		//mp = new TextComponent("", x + 10, y + 36);
 		setMonster(m);
 		this.x = x;
 		this.y = y;
@@ -34,14 +35,13 @@ public class BattleStatusBar {
 		
 		totalUpdate = 40 * GameLoop.MAX_FPS / 60;
 		tick = 3 * GameLoop.MAX_FPS / 60;
-		//mp.setColor(Color.WHITE);
 	}
 	
 	public void draw(Canvas canvas){
 		if(!visible) return;
 		
 		paint.setColor(Color.argb(225, 50, 50, 50));
-		canvas.drawRect(x, y, x+120, y+55, paint);
+		canvas.drawRect(x, y, x+120, y+60, paint);
 		name.draw(canvas);
 		
 		int percent = (int) (((float) displayHP /(float) maxHP) * 100);
@@ -54,24 +54,22 @@ public class BattleStatusBar {
 				
 		canvas.drawRect(x+10, y+15, x+10+((int) (per * 100.f)), y+21, paint);
 		hp.draw(canvas);
-		//mp.draw(canvas);
-		//paint.setColor(Color.argb(255, red, green, blue))
 	}
 	
 	public void update(){
 		if(delayAction!=null){
-				delayAction.updateFrequently(tick);
-				
-				if(displayHP == fetchHP && displayMP == fetchMP){
-					delayAction.forceFinish();
-				}
-				
-				if(delayAction.finished()){
-					displayHP = fetchHP;
-					displayMP = fetchMP;
-					delayAction = null;
-				}
-				refreshDisplay();
+			delayAction.updateFrequently(tick);
+			
+			if(displayHP == fetchHP && displayMP == fetchMP){
+				delayAction.forceFinish();
+			}
+			
+			if(delayAction.finished()){
+				displayHP = fetchHP;
+				displayMP = fetchMP;
+				delayAction = null;
+			}
+			refreshDisplay();
 		}
 	}
 	
@@ -109,12 +107,14 @@ public class BattleStatusBar {
 		maxMP = monster.getFullStatus().getMP();
 		displayEXP = monster.getExp();
 		maxEXP = monster.getLvlExp();
+		displayEffect = monster.getStatus().getEffect();
 		refreshDisplay();
 	}
 	
 	public void fetchData(){
 		fetchHP = monster.getStatus().getHP();
 		fetchMP = monster.getStatus().getMP();
+		displayEffect = monster.getStatus().getEffect();
 		dHP = (displayHP - fetchHP) / totalUpdate + 1;
 		dMP = (displayMP - fetchMP) / totalUpdate + 1;
 		
@@ -130,16 +130,17 @@ public class BattleStatusBar {
 	}
 	
 	public void refreshDisplay(){
-		
-		
 		StringBuilder ss = new StringBuilder();
 		ss.append("HP: " + displayHP + "/" + maxHP);
 		ss.append("\nMP: ");
 		ss.append(displayMP +"/" + maxMP);
 		ss.append("\nEXP: ");
 		ss.append(displayEXP + "/" + maxEXP);
+		
+		if(displayEffect != Effect.NONE)
+			ss.append("\n" + displayEffect);
+		
 		hp.setText(ss.toString());
-		//mp.setText(ss.toString());
 	}
 
 	public boolean isVisible() {
