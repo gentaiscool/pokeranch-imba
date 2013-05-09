@@ -2,6 +2,10 @@ package com.pokeranch.game.system;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -32,7 +36,9 @@ public class BattleScreen implements IScreen {
 	
 	//system
 	public enum BattleMode {WILD, STADIUM, PVP};
-	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_OUT, ANIMATING_IN, DELAY, EVO_INFO, MATI, END};
+	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, 
+							ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_OUT, ANIMATING_IN, 
+							DELAY, EVO_INFO, MATI, END};
 	
 	private Player player1, player2, current, enemy;
 	private int turn; //player no berapa yg sedang jalan
@@ -125,6 +131,7 @@ public class BattleScreen implements IScreen {
 		
 		switch(state){
 		case ANIMATING_SKILL:
+			//setelah kena attack
 			animation.update();
 			if(animation.finished()) {
 				enemy.getCurrentMonster().inflictDamage(animation.getSkill(), current.getCurrentMonster());
@@ -135,54 +142,24 @@ public class BattleScreen implements IScreen {
 			}
 		break;
 		case ANIMATING_HEALTH:
+			//setelah animating skill
 			stat1.update();
 			stat2.update();
 			if(stat1.animationFinished() && stat2.animationFinished())
 				if(!cekmati()) nextTurn();
 		break;
 		case MATI:
+			//setelah animating_out
+			Monster m = enemy.getCurrentMonster();
+			message.setText(m.getName() + " fainted.");
 			
-				Monster m = enemy.getCurrentMonster();
-				
-				message.setText(m.getName() + " fainted.");
-				
-				if(turn==1 && mode!=BattleMode.PVP){
-					message.appendText(current.getCurrentMonster().getName() + " get " + m.getBonusExp() + " EXP");
-					
-					int hasil = current.getCurrentMonster().addExp(m.getBonusExp());
-					
-					switch(hasil){
-					case 1:
-						message.appendText(current.getCurrentMonster().getName() + "'s level increased!");
-						stat1.refreshData();
-					break;
-					case 2:
-						message.appendText(current.getCurrentMonster().getName() + " evolves into a " + current.getCurrentMonster().getSpecies().getName() +"!");
-						state = BattleState.EVO_INFO;
-						refreshImage();
-						stat1.refreshData();
-						poke2 = BitmapManager.getInstance().get("trans");
-						stat2.setVisible(false);
-						
-						delayAction = new DelayedAction() {
-							@Override
-							public int getDelay() {
-								return GameLoop.MAX_FPS*4/3;
-							}
-							@Override
-							public void doAction() {
-								stat2.setVisible(true);
-								autochange();								
-							}
-						};
-					break;
-					}
-				}
-				
-				
-				if (state == BattleState.EVO_INFO) return;
-				
-				autochange();
+			if(turn==1 && mode!=BattleMode.PVP){
+				message.appendText(current.getCurrentMonster().getName() + " get " + m.getBonusExp() + " EXP");
+				int hasil = current.getCurrentMonster().addExp(m.getBonusExp());
+				cekLevelAndEvo(hasil);
+			}
+							
+			if (state != BattleState.EVO_INFO) autochange();
 		break;
 		default:
 		}
@@ -226,24 +203,15 @@ public class BattleScreen implements IScreen {
 		current.setCurrentMonster(m);
 		refreshImage();
 		refreshStatBar();
-		state = BattleState.DELAY;
+		
 		
 		if(mode==BattleMode.PVP)
 			message.setText("Player " + turn + " use " + m.getName());
 		else
 			message.setText(((turn==1)? "You use " : "Enemy use ") + m.getName());
 
-		
-		delayAction = new DelayedAction() {
-			@Override
-			public int getDelay() {
-				return GameLoop.MAX_FPS / 2;
-			}
-			@Override
-			public void doAction() {
-				nextTurn();
-			}
-		};
+		state = BattleState.DELAY;
+		delayAction = new DelayerTurn();
 	}
 	
 	private void endBattle(){
@@ -278,6 +246,82 @@ public class BattleScreen implements IScreen {
 			attack(sk);
 		}else{
 			message.setText("Your monster doesn't have\nenough MP!");
+		}
+	}
+	
+	private void cekLevelAndEvo(int hasil){
+		switch(hasil){
+		case 1:
+			message.appendText(current.getCurrentMonster().getName() + "'s level increased!");
+			stat1.refreshData();
+		break;
+		case 2:
+			message.appendText(current.getCurrentMonster().getName() + " evolves into a " + current.getCurrentMonster().getSpecies().getName() +"!");
+			state = BattleState.EVO_INFO;
+			refreshImage();
+			stat1.refreshData();
+			poke2 = BitmapManager.getInstance().get("trans");
+			stat2.setVisible(false);
+			
+			delayAction = new DelayedAction() {
+				@Override
+				public int getDelay() {
+					return GameLoop.MAX_FPS*4/3;
+				}
+				@Override
+				public void doAction() {
+					stat2.setVisible(true);
+					autochange();								
+				}
+			};
+		break;
+		}
+	}
+	
+	private void useItem(int choice){
+		Object[] items = current.getBattleItem().keySet().toArray();	
+		
+		String name = (String) items[choice];
+	
+		try {
+			current.delItem(name, 1);
+			Item item = DBLoader.getInstance().getItem(name);
+			if (item instanceof StatItem){
+				Log.d("POKE ITEM", "STATITEM");
+				useStatItem((StatItem) item);
+			}else{
+				Log.d("POKE ITEM", "MONSTERBALL");
+				useMonsterBall((MonsterBall) item);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void useStatItem(StatItem st){
+		message.setText("Use a " + st.getName() + "!");
+		Log.d("POKE STATITEM" , ""+ current.getCurrentMonster().getStatus().getHP());
+		current.getCurrentMonster().giveItem(st);
+		Log.d("POKE STATITEM" , ""+ current.getCurrentMonster().getStatus().getHP());
+		
+		stat1.fetchData();
+		stat2.fetchData();
+		state = BattleState.ANIMATING_HEALTH;
+	}
+	
+	private void useMonsterBall(MonsterBall mb){
+		if (mode==BattleMode.WILD){
+			message.setText("Use a " + mb.getName() + "!");
+			
+			//TODO blom
+			
+			state = BattleState.DELAY;
+			delayAction = new DelayerTurn();
+		}else{
+			message.setText("Can't use a MonsterBall\non a trainer's pokemon!");
+			state = BattleState.DELAY;
+			delayAction = new DelayerTurn();
 		}
 	}
 	
@@ -338,6 +382,17 @@ public class BattleScreen implements IScreen {
 	}
 	
 	//draw
+	
+	private class DelayerTurn extends DelayedAction{
+		@Override
+		public int getDelay() {
+			return GameLoop.MAX_FPS / 2;
+		}
+		@Override
+		public void doAction() {
+			nextTurn();
+		}
+	}
 	
 	private class PokeOut extends DelayedAction{
 		@Override
@@ -427,7 +482,29 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void selectItem(){
-		Log.d("POKE", "item");
+		HashMap<String, Integer> items = current.getBattleItem();	
+		if (items.size()==0){
+			message.setText("You don't have any usable item!");
+		}else{
+			String [] c = new String[items.size()];
+			int i = 0;
+			for(Map.Entry<String, Integer> s : items.entrySet()){
+				String name = s.getKey();
+				Integer sum = s.getValue();
+				c[i] = name + " (" + sum + " left)";
+				i++;
+			}
+			
+			MessageManager.singleChoice("Choose an item (Status Item or MonsterBall)", c, new Action(){
+				@Override
+				public void proceed(Object o) {
+					useItem(((Integer) o).intValue());
+				}
+				@Override
+				public void cancel() {}
+				
+			});
+		}
 	}
 	
 	private void changeMonster(){
@@ -468,12 +545,16 @@ public class BattleScreen implements IScreen {
 	public void onTouchEvent(MotionEvent e, float magX, float magY) {
 		switch(state){
 		case START:
+			message.setText(current.getCurrentMonster().getName() + ", go!");
 			state = BattleState.WAIT_INPUT;
 		break;
 		
 		case WAIT_INPUT:
 			for(Touchables t : touch) t.onTouchEvent(e, magX, magY);
 		break;	
+		case END:
+			
+		break;
 		default:
 		}
 	}
