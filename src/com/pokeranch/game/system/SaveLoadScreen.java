@@ -19,7 +19,7 @@ public class SaveLoadScreen implements IScreen{
 	int curScreenWidth, curScreenHeight;
 	StringBuilder sbInfo = new StringBuilder();
 	
-	private BitmapButton save,load, close;
+	private BitmapButton save,load, close,sleep;
 	
 	private Player player;
 	private Context curContext;
@@ -33,6 +33,28 @@ public class SaveLoadScreen implements IScreen{
 			
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
+			
+			sleep = new BitmapButton(BitmapManager.getInstance().get("sleep"),50,50);
+			sleep.addTouchListener(new TouchListener() {
+				
+				@Override
+				public void onTouchUp() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchMove() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchDown() {
+					// TODO Auto-generated method stub
+					player.restoreAllMonster();
+				}
+			});
 			
 			close = new BitmapButton(BitmapManager.getInstance().get("close"),200,140);
 			close.addTouchListener(new TouchListener() {
