@@ -164,10 +164,10 @@ public class SplashActivity extends Activity {
 			//battle background
 			BitmapManager.getInstance().put("battle_day_land", R.drawable.battle_day_land);
 			
-			//potong map
-
-			BitmapManager.getInstance().putMap("", R.drawable.spritefull, 45, 43, 1, 16);
-			BitmapManager.getInstance().putMap("b", R.drawable.spritefull2, 11, 15, 0, 16);
+			//map
+			BitmapManager.getInstance().putMap("", R.drawable.spritefull, 45, 43, 1, 16, 16);
+			BitmapManager.getInstance().putMap("b", R.drawable.spritefull2, 11, 15, 0, 16, 16);
+			BitmapManager.getInstance().putMap("monster", R.drawable.monsters, 1, 10, 0, 128, 64);
 			//Log.d("harits1", "berhasil load semua map");
 
 			/******************* OtherScreen **********************/

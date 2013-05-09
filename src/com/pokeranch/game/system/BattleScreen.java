@@ -745,7 +745,8 @@ public class BattleScreen implements IScreen {
 		break;
 		case END:
 			ScreenManager.getInstance().pop();
-			listener.action(result);
+			if(listener != null)
+				listener.action(result);
 		break;
 		default:
 		}

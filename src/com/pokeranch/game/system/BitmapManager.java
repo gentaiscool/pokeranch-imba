@@ -21,7 +21,7 @@ public class BitmapManager {
 		typeface = Typeface.createFromAsset(res.getAssets(), "fonts/Pokemon GB.ttf");
 	}
 	
-	public void putMap(String name, int id, int r, int c, int border, int pixelSize){
+	public void putMap(String name, int id, int r, int c, int border, int pixelRow, int pixelColumn){
 		//untuk tile peta, asumsinya langsung dirotate 90 derajat searah jarum jam
 		//int border = 1;
 		//int pixelSize = 16;
@@ -31,18 +31,13 @@ public class BitmapManager {
 			for(int j=0;j<c;j++){
 				//Log.d("harits1", "motong " + i + " dan " + j);
 				Integer key = i*c+j;	
-				bitmaps.put(name+key.toString(), Bitmap.createBitmap(src, border+((border+pixelSize)*j), border+((border+pixelSize)*i), pixelSize, pixelSize));
+				bitmaps.put(name+key.toString(), Bitmap.createBitmap(src, border+((border+pixelColumn)*j), border+((border+pixelRow)*i), pixelColumn, pixelRow));
 			}
 		}
 		//Log.d("harits", "berhasil motong2 bitmap");
 	}
 	
-	public void putImage(String key, int id, int width, int height){
-		Bitmap src = BitmapFactory.decodeResource(res, id);	
-		bitmaps.put(key.toString(), Bitmap.createScaledBitmap(src, width, height, true));
 
-	}
-	
 	public static void initialize(Resources res){
 		instance = new BitmapManager(res);
 	}

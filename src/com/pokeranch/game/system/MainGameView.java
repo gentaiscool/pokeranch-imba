@@ -57,49 +57,23 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		matrix = new Matrix();
 		
 		matrix.setScale(magnificationX, magnificationY,0,0);
-		curPlayer=new Player();
-
-		Monster monster = new Monster();
-		Monster monster1 = monster.getRandomMonster(5, 1);
-		monster1.setName("Faiz");
-		Monster monster2 = monster.getRandomMonster(15, 1);
-		monster2.setName("Harits");
-		Monster monster3 = monster.getRandomMonster(25, 1);
-		monster3.setName("Aidil");
-		Monster monster4 = monster.getRandomMonster(35, 1);
-		monster4.setName("Furqan");
-		Monster monster5 = monster.getRandomMonster(45, 1);
-		monster5.setName("Habibi");
-		Monster monster6 = monster.getRandomMonster(55, 1);
-		monster6.setName("Haqqi");
-		Monster monster7 = monster.getRandomMonster(65, 1);
-		monster7.setName("Elfahmi");
-		curPlayer.setCurrentMonster("Habibi");
-		curPlayer.setName("FAIZ");
-		curPlayer.addMonster(monster1);
-		curPlayer.addMonster(monster2);
-		curPlayer.addMonster(monster3);
-		curPlayer.addMonster(monster4);
-		curPlayer.addMonster(monster5);
-		curPlayer.addMonster(monster6);
-		curPlayer.addMonster(monster7);
-
-		curPlayer.setMoney(1000);
-
-		Time t=new Time();
-		t.set(100, 1, 2, 3, 40);
-		curPlayer.setPlayingTime(t);
-		curPlayer.setNbattle(10);
-		curPlayer.setNwin(6);
-		curPlayer.setNlose(1);
+		
+		curPlayer = new Player();
+		Monster m1 = new Monster("mybulba", DBLoader.getInstance().getSpecies("Bulba"),7);
+		Monster m4 = new Monster("mybulba2", DBLoader.getInstance().getSpecies("Bulba"),8);
+		Monster m3 = new Monster("mybulba3", DBLoader.getInstance().getSpecies("Bulba"),9);
+		curPlayer.addMonster(m1);
+		curPlayer.addMonster(m4);
+		curPlayer.addMonster(m3);
+		curPlayer.setCurrentMonster(m1);
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
 		am.setPlayerCord(new Point(14,9));
-		//manager.push(am);
+		manager.push(am);
 		
 		MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
-		manager.push(mm);
+		//manager.push(mm);
 		
 		//Log.d("LM", "chek 1");
 		//ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
@@ -148,7 +122,6 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
 		//manager.push(buysellmarket);
 		
-		//Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
 		//manager.push(combi);
 		
 		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
