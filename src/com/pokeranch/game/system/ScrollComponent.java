@@ -121,6 +121,16 @@ public class ScrollComponent {
 			touched = false;
 		}
 	}
+	
+	public void setItem(String[] items){
+		selection = -1;
+		text = new TextComponent[items.length];
+		leftMargin = 5;
+		for(int i = 0; i < items.length; i++){
+			text[i] = new TextComponent(items[i], x + leftMargin, selHeight*i + selHeight/2);
+		}
+		nitem = text.length;	
+	}
 
 	public int getScreenHeight() {
 		return screenHeight;

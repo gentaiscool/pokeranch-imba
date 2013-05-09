@@ -58,42 +58,40 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		matrix.setScale(magnificationX, magnificationY,0,0);
 		curPlayer=new Player();
-		
-		Monster m22 = new Monster("mybulba", DBLoader.getInstance().getSpecies("Bulba"),7);
-		m22.addExp(120);
-		
-		curPlayer.addMonster(m22);
-		curPlayer.setCurrentMonster(m22.getName());
-		
-		StatItem sii;
-		sii = DBLoader.getInstance().getStatItem("Potion");
-		
-		TM tm1 = new TM();
-		tm1.setName("Swim");
-		tm1.setSkill(DBLoader.getInstance().getSkill("Swim"));
-		
-		curPlayer.addItem(tm1, 2);
-		tm1.setName("Push");
-		tm1.setSkill(DBLoader.getInstance().getSkill("Push"));
-		curPlayer.addItem(tm1, 2);
-		tm1.setName("Cut");
-		tm1.setSkill(DBLoader.getInstance().getSkill("Cut"));
-		curPlayer.addItem(tm1, 2);
-		
-		
-		curPlayer.addItem(sii, 1);
-		
-		Player P9 = new Player();
-		Monster monster1 = new Monster();
-		P9.setName("FAIZ");
-		P9.addMonster(monster1.getRandomMonster(5, 1));
-		P9.setMoney(1000);
+
+		Monster monster = new Monster();
+		Monster monster1 = monster.getRandomMonster(5, 1);
+		monster1.setName("Faiz");
+		Monster monster2 = monster.getRandomMonster(15, 1);
+		monster2.setName("Harits");
+		Monster monster3 = monster.getRandomMonster(25, 1);
+		monster3.setName("Aidil");
+		Monster monster4 = monster.getRandomMonster(35, 1);
+		monster4.setName("Furqan");
+		Monster monster5 = monster.getRandomMonster(45, 1);
+		monster5.setName("Habibi");
+		Monster monster6 = monster.getRandomMonster(55, 1);
+		monster6.setName("Haqqi");
+		Monster monster7 = monster.getRandomMonster(65, 1);
+		monster7.setName("Elfahmi");
+		curPlayer.setCurrentMonster("Habibi");
+		curPlayer.setName("FAIZ");
+		curPlayer.addMonster(monster1);
+		curPlayer.addMonster(monster2);
+		curPlayer.addMonster(monster3);
+		curPlayer.addMonster(monster4);
+		curPlayer.addMonster(monster5);
+		curPlayer.addMonster(monster6);
+		curPlayer.addMonster(monster7);
+
+		curPlayer.setMoney(1000);
+
 		Time t=new Time();
 		t.set(100, 1, 2, 3, 40);
-		P9.setPlayingTime(t);
-		P9.setNbattle(10);
-		P9.setNwin(6);
-		P9.setNlose(1);
+		curPlayer.setPlayingTime(t);
+		curPlayer.setNbattle(10);
+		curPlayer.setNwin(6);
+		curPlayer.setNlose(1);
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
@@ -106,9 +104,11 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		Log.d("LM", "chek 1");
 		ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
 		Log.d("LM", "chek 2");
-		PlayerStatus ps = new PlayerStatus(P9);
+
+		PlayerStatus ps = new PlayerStatus(curPlayer);
 		//manager.push(ps);
-		//manager.push(lm);
+		manager.push(lm);
+
 		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
 		//manager.push(lt);
 		
