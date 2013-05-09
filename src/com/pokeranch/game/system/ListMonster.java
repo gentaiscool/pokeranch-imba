@@ -32,13 +32,13 @@ import android.widget.Toast;
 
 
 public class ListMonster implements IScreen{
-	private Bitmap monsterImage;
+	private Bitmap monsterImage, backpack;
 	private BitmapButton dismiss, setmain;
 	private Paint paint;
 	int curScreenWidth, curScreenHeight;
 	private ScrollComponent scroll;
-	private Rect rect1;
-	private RectF rect2;
+	private Rect rect1,rect3;
+	private RectF rect2,rect4;
 	private String[] listMonster;
 	private TextComponent text, textMainMonster;
 	Collection<Monster> monster;
@@ -48,8 +48,6 @@ public class ListMonster implements IScreen{
 	
 	private boolean show = false;
 	
-	private BitmapButton backpack;
-	
 	private Player player;
 	
 	private DelayedAction action;
@@ -57,11 +55,17 @@ public class ListMonster implements IScreen{
 	public ListMonster(Player _player, int screenWidth, int screenHeight){
 		action = null;
 		Log.d("LM", "chek 1");
+		backpack = BitmapManager.getInstance().get("backpack");
 		rect1 = new Rect(0,0,0,0);
 		rect2 = new RectF(0,0,0,0);
+		rect3 = new Rect(0,0,backpack.getWidth(), backpack.getHeight());
+		rect4 = new RectF(50,50,150,190);
 		monsterImage =null;
 		dismiss = new BitmapButton(BitmapManager.getInstance().get("dismiss"), 125, 10);
 		setmain = new BitmapButton(BitmapManager.getInstance().get("setmain"), 125, 45);
+		
+		dismiss.setVisible(false);
+		setmain.setVisible(false);
 		paint = new Paint();
 		//ss = new ScrollComponent(context, 100,0);
 		player = _player;
@@ -74,8 +78,6 @@ public class ListMonster implements IScreen{
 		
 		//trans = BitmapManager.getInstance().get("trans");
 		//panel = trans;
-		
-		backpack = new BitmapButton(BitmapManager.getInstance().get("backpack"),20,50);
 		
 		Log.d("LM", ""+playerMonsters.size());
 		
@@ -225,6 +227,8 @@ public class ListMonster implements IScreen{
 			sb.append(player.getMonster(listMonster[num]).toString());
 			text.setText(sb.toString());
 			show = true;
+			if(!dismiss.isVisible()) dismiss.setVisible(true);
+			if(!setmain.isVisible()) setmain.setVisible(true);
 		}
 		Log.d("LM", "mau keluar dari showMonster");
 		if(listMonster[num].equals(player.getCurrentMonster().getName())) {//kalo yang dipilih sama dengan text
@@ -250,7 +254,7 @@ public class ListMonster implements IScreen{
 		scroll.draw(canvas);
 		//canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(20,90,70,140), null);
 		if(!show){
-			text.setText(sbInfo.toString());
+			canvas.drawBitmap(backpack, rect3,rect4, null);
 		}
 		if(monsterImage!=null){
 			canvas.drawBitmap(monsterImage, rect1, rect2, null);
@@ -262,8 +266,7 @@ public class ListMonster implements IScreen{
 		//Integer it = player.getMoney();
 		//textMoney.setText("Money : " + it.toString());
 		//textMoney.draw(canvas);
-		if(!show)
-			backpack.draw(canvas);
+
 	}
 	
 	@Override
