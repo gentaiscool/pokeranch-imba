@@ -65,6 +65,8 @@ public class ListMonster implements IScreen{
 		setmain = new BitmapButton(BitmapManager.getInstance().get("setmain"), 125, 45);
 		
 		dismiss.setVisible(false);
+		dismiss.setEnable(false);
+		setmain.setVisible(false);
 		setmain.setVisible(false);
 		paint = new Paint();
 		//ss = new ScrollComponent(context, 100,0);
@@ -225,10 +227,19 @@ public class ListMonster implements IScreen{
 			sb.append("Selected Monster : " + listMonster[num] +"\n\n");
 			sb.append("**** POKEMON INFO ****\n");
 			sb.append(player.getMonster(listMonster[num]).toString());
+			sb.append("\nElement : "+player.getMonster(listMonster[num]).getSpecies().getElement().getName());
 			text.setText(sb.toString());
 			show = true;
-			if(!dismiss.isVisible()) dismiss.setVisible(true);
-			if(!setmain.isVisible()) setmain.setVisible(true);
+			if(!dismiss.isVisible()) {
+				dismiss.setVisible(true);
+				if (listMonster.length==2) {//monster tinggal 1
+					dismiss.setEnable(false);
+				} 
+			}
+			if(!setmain.isVisible()) {
+				setmain.setVisible(true);
+				setmain.setEnable(true);
+			}
 		}
 		Log.d("LM", "mau keluar dari showMonster");
 		if(listMonster[num].equals(player.getCurrentMonster().getName())) {//kalo yang dipilih sama dengan text

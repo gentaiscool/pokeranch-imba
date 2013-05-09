@@ -120,14 +120,16 @@ public class WalkingMonster {
 			if(t.first.x < 0 || t.second.x < 0|| t.first.y < 0 || t.second.y < 0 || t.first.x >= am.getCurArea().getRow() || t.second.x >= am.getCurArea().getRow() || t.first.y >= am.getCurArea().getColumn() || t.second.y >= am.getCurArea().getColumn())
 				outOfBounds = true;
 			if(!outOfBounds){
-				if(contains(am.getCurArea().getCurX(), am.getCurArea().getCurX() + 16, curX + 16) && contains(am.getCurArea().getCurY(), am.getCurArea().getCurY() + 16, curY + 16)){
-					am.getCurArea().getTile(curX, curY).setPassable(0);
+				if(contains(am.getCurArea().getCurX() - 16, am.getCurArea().getCurX() + 16, curX + 16) && contains(am.getCurArea().getCurY(), am.getCurArea().getCurY() + 16, curY + 16)){
+					//am.getCurArea().getTile(curX, curY).setPassable(0);
 					Player player2 = new Player();
 					Monster m = Monster.getRandomMonster(5, 5);
 					player2.addMonster(m);
 					player2.setCurrentMonster(m);
 					DialogueBox.getInstance().setMessage("You encountered a wild pokemon!");
+					DialogueBox.setShown(true);
 					ScreenManager.getInstance().push(DialogueBox.getInstance());
+					while(DialogueBox.isShown()){}
 					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD, null));
 					am.resetWalkingMonsters();
 					am.getMonsters().remove(this);
@@ -135,7 +137,7 @@ public class WalkingMonster {
 					if(am.getCurArea().getTile(t.first.x, t.first.y).isSwimmable() && am.getCurArea().getTile(t.second.x, t.second.y).isSwimmable()){
 						//Log.d("monster", "start to move! :D");
 						startMoving = true;
-						am.getCurArea().getTile(curX, curY).setPassable(0);
+						//am.getCurArea().getTile(curX, curY).setPassable(0);
 						
 						if(t.first.x > curX)
 							curX++;
@@ -147,7 +149,7 @@ public class WalkingMonster {
 						else if(t.first.y < curY)
 							curY--;
 						
-						am.getCurArea().getTile(curX, curY).setPassable(1);
+						//am.getCurArea().getTile(curX, curY).setPassable(1);
 						sprite.move(direction, 1);
 					} else {
 						sprite.setDirection(direction);
