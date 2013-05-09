@@ -59,7 +59,7 @@ public class ListMonster implements IScreen{
 		rect1 = new Rect(0,0,0,0);
 		rect2 = new RectF(0,0,0,0);
 		rect3 = new Rect(0,0,backpack.getWidth(), backpack.getHeight());
-		rect4 = new RectF(20,20,200,200);
+		rect4 = new RectF(50,50,150,190);
 		monsterImage =null;
 		dismiss = new BitmapButton(BitmapManager.getInstance().get("dismiss"), 125, 10);
 		setmain = new BitmapButton(BitmapManager.getInstance().get("setmain"), 125, 45);
@@ -105,7 +105,7 @@ public class ListMonster implements IScreen{
 		scroll.setDefaultColor2(Color.argb(255, 17, 240, 166));		
 		Log.d("LM", "Habis scrollcomponent");
 		textMainMonster = new TextComponent("",125,100);
-		text = new TextComponent("", 10, 200);
+		text = new TextComponent("", 10, 120);
 	}
 
 	private void showMonster(final int num){
@@ -254,7 +254,6 @@ public class ListMonster implements IScreen{
 		scroll.draw(canvas);
 		//canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(20,90,70,140), null);
 		if(!show){
-			text.setText(sbInfo.toString());
 			canvas.drawBitmap(backpack, rect3,rect4, null);
 		}
 		if(monsterImage!=null){
