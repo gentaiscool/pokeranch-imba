@@ -91,6 +91,9 @@ public class Stadium implements IScreen{
 						}
 							
 					}
+					else{
+						MessageManager.alert("The input is not a valid number");
+					}
 				}
 				
 				@Override
