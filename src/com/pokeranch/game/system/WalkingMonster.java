@@ -7,6 +7,7 @@ import com.pokeranch.game.object.Monster;
 import com.pokeranch.game.object.Player;
 import com.pokeranch.game.object.Species;
 import com.pokeranch.game.system.BattleScreen.BattleMode;
+import com.pokeranch.game.system.BattleScreen.BattleListener;
 import com.pokeranch.game.system.Sprite.SpriteCounter;
 
 import android.graphics.Canvas;
