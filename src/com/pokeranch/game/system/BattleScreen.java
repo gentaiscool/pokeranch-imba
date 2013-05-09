@@ -50,6 +50,7 @@ public class BattleScreen implements IScreen {
 	private BattleState state;
 	private BattleListener listener;
 	private int result;
+	private boolean countTimeout;
 	
 	public interface BattleListener{
 		public void action(int result);
@@ -211,6 +212,7 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void change(int c){
+		countTimeout = false;
 		Collection<Monster> mons = current.getAllMonster().values();
 		
 		Monster [] monster = new Monster[mons.size() - 1];
@@ -281,6 +283,7 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void attack(Skill sk){
+		countTimeout = false;
 		Monster m = current.getCurrentMonster();
 		
 		if(m.getStatus().getEffect()==Effect.SLEEP){
@@ -344,6 +347,7 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void useItem(int choice){
+		countTimeout = false;
 		Object[] items = current.getBattleItem().keySet().toArray();	
 		
 		String name = (String) items[choice];
@@ -520,6 +524,7 @@ public class BattleScreen implements IScreen {
 		if(turn==2) {
 			if(mode==BattleMode.PVP) {
 				state = BattleState.WAIT_INPUT;
+				
 			}
 			else {
 				state = BattleState.AI_MOVE;
@@ -533,6 +538,11 @@ public class BattleScreen implements IScreen {
 		} else {
 			state = BattleState.WAIT_INPUT;
 		}
+		
+		countTimeout = state == BattleState.WAIT_INPUT;
+		if(countTimeout){
+			delayAction = new Timeout();
+		}
 	}
 	
 	private void player2Turn(){
@@ -540,6 +550,22 @@ public class BattleScreen implements IScreen {
 	}
 	
 	//draw
+	
+	private class Timeout extends DelayedAction{
+		@Override
+		public void doAction() {
+			if(countTimeout){
+				message.appendText("Timeout!!");
+				countTimeout = false;
+				state = BattleState.DELAY;
+				delayAction = new DelayerTurn();
+			}
+		}
+		@Override
+		public int getDelay() {
+			return GameLoop.MAX_FPS * 10;
+		}
+	}
 	
 	private class DelayerTurn extends DelayedAction{
 		@Override
@@ -692,6 +718,7 @@ public class BattleScreen implements IScreen {
 	
 	private void tryEscape(){
 		if(mode == BattleMode.WILD){
+			countTimeout = false;
 			message.setText("Got away safely!");
 			state = BattleState.END;
 		}else{
@@ -705,6 +732,8 @@ public class BattleScreen implements IScreen {
 		case START:
 			message.setText(current.getCurrentMonster().getName() + ", go!");
 			state = BattleState.WAIT_INPUT;
+			countTimeout = true;
+			delayAction = new Timeout();
 		break;
 		
 		case WAIT_INPUT:
