@@ -95,7 +95,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
 		
-		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
+		//manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
 
 		
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
@@ -107,7 +107,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
 		//manager.push(combi);
 		
-		Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
+		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
 		//manager.push(stadium);
 		
 	}
