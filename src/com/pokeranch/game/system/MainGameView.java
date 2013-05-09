@@ -121,7 +121,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		
 		//BuySellScreen buysellmarket = new BuySellScreen(pl, screenWidth, screenHeight);
 		//manager.push(buysellmarket);
-		
+
+		//Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
+		//manager.push(combi);
 		//manager.push(combi);
 		
 		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);

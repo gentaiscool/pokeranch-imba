@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.pokeranch.game.object.Monster;
 import com.pokeranch.game.object.Player;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MainGameView.ButtonClick;
@@ -50,7 +51,7 @@ public class AreaManager implements IScreen{
 		
 		monsters = new CopyOnWriteArrayList<WalkingMonster>();
 		
-		jam= new TextComponent("Day "+curPlayer.getPlayingTime().getDay()+" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute(), 5, 15);
+		jam= new TextComponent(" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute()+" "+AMPM, 5, 15);
 		headGround = new Sprite(32,0, BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
 			@Override
 			public Point getImgPos(int direction, int frame, int width, int height) {
@@ -443,19 +444,22 @@ public class AreaManager implements IScreen{
 		
 		if(getCurArea().getTile(x, y).hasBoulder()){
 			if(getCurArea().getTile(newX, newY).isPassable()){
-				DialogueBox.getInstance().setMessage("[put monster name that used push here] used push!");
-				ScreenManager.getInstance().push(DialogueBox.getInstance());
-				
-				//bisa didorong soalnya gak ada objek
-				
-				//hilangin boulder di koordinat asal
-				getCurArea().getTile(x, y).setSpriteCodeObj(null);
-				//set passability di koordinat asal
-				getCurArea().getTile(x, y).setPassable(0);
-				
-				//kasih boulder di koordinat baru
-				getCurArea().getTile(newX, newY).setSpriteCodeObj("692");
-				getCurArea().getTile(newX, newY).setPassable(1);
+				Monster m = getCurPlayer().getMonsterWithSkill("Cut");
+				if(m != null){
+					DialogueBox.getInstance().setMessage("[put monster name that used push here] used push!");
+					ScreenManager.getInstance().push(DialogueBox.getInstance());
+					
+					//bisa didorong soalnya gak ada objek
+					
+					//hilangin boulder di koordinat asal
+					getCurArea().getTile(x, y).setSpriteCodeObj(null);
+					//set passability di koordinat asal
+					getCurArea().getTile(x, y).setPassable(0);
+					
+					//kasih boulder di koordinat baru
+					getCurArea().getTile(newX, newY).setSpriteCodeObj("692");
+					getCurArea().getTile(newX, newY).setPassable(1);
+				}
 			}
 		}
 	}
@@ -467,13 +471,16 @@ public class AreaManager implements IScreen{
 		if(getCurArea().getTile(x, y).getSpriteCodeObj() == null)
 			return;
 		if(getCurArea().getTile(x, y).hasTree()){
-			DialogueBox.getInstance().setMessage("[put monster name that used cut here] used cut!");
-			ScreenManager.getInstance().push(DialogueBox.getInstance());
-			
-			//hilangin tree
-			getCurArea().getTile(x, y).setSpriteCodeObj(null);
-			//set passability di koordinat tree
-			getCurArea().getTile(x, y).setPassable(0);
+			Monster m = getCurPlayer().getMonsterWithSkill("Cut");
+			if(m != null){
+				DialogueBox.getInstance().setMessage(m.getName() + " used cut!");
+				ScreenManager.getInstance().push(DialogueBox.getInstance());
+				
+				//hilangin tree
+				getCurArea().getTile(x, y).setSpriteCodeObj(null);
+				//set passability di koordinat tree
+				getCurArea().getTile(x, y).setPassable(0);
+			}
 		}
 	}
 	
@@ -509,9 +516,11 @@ public class AreaManager implements IScreen{
 			return;
 		
 		if(getCurArea().getTile(x, y).isSwimmable()){
+			Monster m = getCurPlayer().getMonsterWithSkill("Swim");
+			if(m != null){
+				DialogueBox.getInstance().setMessage(m.getName() + " used swim!");
 				//karena x dan y adalah shore, newX dan newY masih dalam boundary,
 				//maka newX dan newY udah dapat dipastikan merupakan sea
-				DialogueBox.getInstance().setMessage("[put monster name that used swim here] used swim!");
 				ScreenManager.getInstance().push(DialogueBox.getInstance());
 				
 				//ganti mode, biar fin nya keliatan + sprite keganti
@@ -522,6 +531,7 @@ public class AreaManager implements IScreen{
 				
 				//pindahin player ke koordinat baru
 				setPlayerCord(new Point(x, y));
+			}
 		}
 	}
 	
@@ -624,11 +634,11 @@ public class AreaManager implements IScreen{
 			tmp2 = getRandomPassableGroundTile();
 			tmp3 = getRandomPassableGroundTile();
 			if(tmp1 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this, "GROUND"));
 			if(tmp2 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this, "GROUND"));
 			if(tmp3 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND"));
 			
 			Point tmp4,tmp5,tmp6;
 			tmp4 = getRandomPassableSeaTile();
@@ -636,11 +646,11 @@ public class AreaManager implements IScreen{
 			tmp6 = getRandomPassableSeaTile();
 			
 			if(tmp4 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp4, "HOMING", this));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp4, "HOMING", this, "SEA"));
 			if(tmp5 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp5, "FLEE", this));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp5, "FLEE", this, "SEA"));
 			if(tmp6 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp6, "RANDOM", this));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp6, "RANDOM", this, "SEA"));
 		}
 	}
 

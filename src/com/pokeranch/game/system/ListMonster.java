@@ -89,14 +89,14 @@ public class ListMonster implements IScreen{
 			dismiss.setBitmap(BitmapManager.getInstance().get("dismiss"));
 			dismiss.setEnable(true);
 		} else {
-			dismiss.setBitmap(BitmapManager.getInstance().get("di_dismiss"));
+			dismiss.setBitmap(BitmapManager.getInstance().get("disableddismiss"));
 			dismiss.setEnable(false);
 		}
 	
 		scroll = new ScrollComponent(listMonster,220,100,screenHeight,new SelectionListener(){
 			@Override
 			public void selectAction(int selection) {
-				Log.d("LM", Integer.valueOf(selection).toString());
+				Log.d("LM", "selection ="+Integer.valueOf(selection).toString());
 				showMonster(selection);
 			}
 		});

@@ -3,11 +3,25 @@
 # ...element, lalu 4 baseSkill (1 dulu buat test)
 
 #Grass Pokemon A D
-Bulba		1		39 20 53 63 NONE	Ivy		8 Grass Vine Cut Push Flame
-Ivy			3		56 30 70 83 NONE 	NULL 	-1 Grass Vine Cut Push Swim
+Bulba		1		39 20 53 63 NONE	Ivy			8 Grass Vine Cut Push Flame
+Ivy			3		56 30 70 83 NONE 	Venu 		-1 Grass Vine Cut Push Swim
+Venu		5		39 20 53 63 NONE	NULL		8 Grass Vine Cut Push Flame
+Cater		1		56 30 70 83 NONE 	Metapod 	-1 Grass Vine Cut Push Swim
+Metapod		3		39 20 53 63 NONE	Butter		8 Grass Vine Cut Push Flame
+Butter		5		56 30 70 83 NONE 	NULL 		-1 Grass Vine Cut Push Swim
 
 #Fire Pokemon H A
-Charchar	1		43 20 52 50 NONE	NULL	-1 Fire Flame Cut Push Swim
+Charchar	1		43 20 52 50 NONE	Charmeleon	-1 Fire Flame Cut Push Swim
+Charmeleon	3		43 20 52 50 NONE	Charizard	-1 Fire Flame Cut Push Swim
+Charizard	5		43 20 52 50 NONE	NULL		-1 Fire Flame Cut Push Swim
+Pidgey		1		43 20 52 50 NONE	Pidgeotto	-1 Fire Flame Cut Push Swim
+Pidgeotto	3		43 20 52 50 NONE	Pidgeot		-1 Fire Flame Cut Push Swim
+Pidgeot		5		43 20 52 50 NONE	NULL		-1 Fire Flame Cut Push Swim
 
 #Water Pokemon H D	
-Squir		1		44 20 45 65 NONE 	NULL	-1 Water Swim Cut Push Vine
+Squir		1		44 20 45 65 NONE 	Wartotle	-1 Water Swim Cut Push Vine
+Wartotle	3		44 20 45 65 NONE 	Blastoise	-1 Water Swim Cut Push Vine
+Blastoise	5		44 20 45 65 NONE 	NULL		-1 Water Swim Cut Push Vine
+Weedle		1		44 20 45 65 NONE 	Kakuna		-1 Water Swim Cut Push Vine
+Kakuna		3		44 20 45 65 NONE 	Beedril		-1 Water Swim Cut Push Vine
+Beedril		5		44 20 45 65 NONE 	NULL		-1 Water Swim Cut Push Vine
