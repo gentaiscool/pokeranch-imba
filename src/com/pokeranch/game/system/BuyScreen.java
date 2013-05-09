@@ -111,11 +111,12 @@ public class BuyScreen implements IScreen{
 			}
 			tm[i] = "Back";
 			
-			category = new String[4];
+			category = new String[5];
 			category[0] = "Monster Ball";
 			category[1] = "Stat Item";
 			category[2] = "TM";
-			category[3] = "Back";
+			category[3] = "Torch";
+			category[4] = "Back";
 			
 			scroll = new ScrollComponent(category,220,100,screenHeight,new SelectionListener(){
 				@Override
@@ -379,6 +380,41 @@ public class BuyScreen implements IScreen{
 			}
 		}
 		
+		private void showTorch(){
+			StringBuilder sb = new StringBuilder();
+			sb.append("Torch\n");
+			sb.append("Enlight the darkness\n\n\n");
+			sb.append("Price : 100");
+
+			text.setText(sb.toString());
+			show = true;
+			buy.addTouchListener(new TouchListener() {
+				@Override
+				public void onTouchUp() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchMove() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchDown() {
+					// TODO Auto-generated method stub
+					if(player.haveTorch()){
+						MessageManager.alert("You already have one torch");
+					}
+					else{
+						player.setMoney(player.getMoney()-100);
+						player.addItem(DBLoader.getInstance().getItem("Torch"), 1);
+					}
+				}
+			});
+		}
+		
 		private void showCategory(int num){
 			switch(num){
 			case 0:
@@ -412,6 +448,10 @@ public class BuyScreen implements IScreen{
 				});
 				break;
 			case 3:
+				Log.d("Category", " "+num);
+				showTorch();
+				break;
+			case 4: 
 				//terminates
 				ScreenManager.getInstance().pop();
 				break;

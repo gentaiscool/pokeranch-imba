@@ -258,9 +258,9 @@ public class Player {
 	}
 	
 	public boolean haveTorch(){
-		return true;
-	}
-	
+		int i = this.getItemStock("Torch");
+		return i>0;
+	}	
 	public String[] buildArrayMonster() {
 		String[] listMonster = new String[monsters.size()]; 
 		Collection monster = monsters.values();
@@ -282,5 +282,4 @@ public class Player {
 		Log.d("LM", "Habis Iterate2");
 		return listMonster;
 	}
-
 }
