@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 public class Area {
+	private String place;
 	private AreaManager am;
 	private String name;
 	private Tile field[][];
@@ -22,6 +23,7 @@ public class Area {
 	private DelayedAction time;
 	
 	public Area(String n, int r, int c){
+		place = null;
 		name = n;
 		field = new Tile[r][c];
 		row = r;
@@ -252,5 +254,13 @@ public class Area {
 
 	public void setCurY(int curY) {
 		this.curY = curY;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
 	}
 }

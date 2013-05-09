@@ -15,6 +15,7 @@ public class Tile {
 	private String shores[] = {"1683", "1725", "1727", "1769"};
 
 	Tile(String b, String c, int pass){
+		actionName = null;
 		spriteCodeBG = b;
 		spriteCodeObj = c;
 		passable = pass;

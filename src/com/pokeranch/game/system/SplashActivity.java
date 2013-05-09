@@ -86,7 +86,6 @@ public class SplashActivity extends Activity {
 			BitmapManager.getInstance().put("chara", R.drawable.chara);
 			BitmapManager.getInstance().put("chara_swim", R.drawable.chara_swim);
 			BitmapManager.getInstance().put("test", R.drawable.ic_launcher);
-			BitmapManager.getInstance().put("images", R.drawable.images);
 			
 			//button
 			BitmapManager.getInstance().put("up", R.drawable.up);
@@ -144,6 +143,7 @@ public class SplashActivity extends Activity {
 			
 			/********************** Dialogue Box **********************/
 			BitmapManager.getInstance().put("dbox", R.drawable.dbox);
+			BitmapManager.getInstance().put("pmenu", R.drawable.pmenu);
 			
 			//mencegah penambahan resource setelah load
 			BitmapManager.getInstance().lockPut();

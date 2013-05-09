@@ -37,6 +37,7 @@ public class AreaManager implements IScreen{
 		DialogueBox.initialize();
 		screenWidth = scw;
 		screenHeight = sch;
+		PlayerMenu.initialize();
 		context = con;
 		paint = new Paint();
 		paintkotak = new Paint();
@@ -195,11 +196,11 @@ public class AreaManager implements IScreen{
 		roamingMode = "ground";
 		
 		buttons = new ArrayList<BitmapButton>();
-		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 10, 190);
-		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 35, 215);
-		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 35, 165);
-		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 60, 190);
-		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 280, 190);
+		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 10, 166);
+		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 47, 203);
+		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 47, 129);
+		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 84, 166);
+		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 270, 167);
 		//Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
 		buttonA.addTouchListener(new TouchListener(){
 			@Override
@@ -322,7 +323,7 @@ public class AreaManager implements IScreen{
 		// TODO Auto-generated method stub
 		curArea.update();
 		
-		if(getCurPlayer().getPlayingTime().getHour() > 18){ //udah malam ikan bobo
+		if(getCurPlayer().getPlayingTime().getHour() > 18 && getCurArea().getPlace().equals("OUTDOOR")){ //udah malam ikan bobo
 			if(getCurPlayer().haveTorch())
 				paint.setColorFilter(new LightingColorFilter(0x004C4C4C, 0));
 			else
@@ -506,6 +507,8 @@ public class AreaManager implements IScreen{
 		if(!checkBounds(x, y))
 			return;
 		String action = getCurArea().getTile(x, y).getActionName();
+		if(action == null)
+			return;
 		if(action.equals("COMBINATORIUM")){
 			//masukin kode combinatorium disini
 			
