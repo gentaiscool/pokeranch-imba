@@ -32,8 +32,6 @@ import android.widget.Toast;
 
 
 public class ListMonster implements IScreen{
-	private ScreenManager manager;
-
 	private Bitmap monsterImage;
 	private Paint paint;
 	int curScreenWidth, curScreenHeight;
@@ -60,7 +58,6 @@ public class ListMonster implements IScreen{
 		rect2 = new RectF(0,0,0,0);
 		monsterImage =null;
 		paint = new Paint();
-		manager = ScreenManager.getInstance();
 		//ss = new ScrollComponent(context, 100,0);
 		player = _player;
 		playerMonsters = player.getAllMonster();

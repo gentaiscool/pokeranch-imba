@@ -55,10 +55,18 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		matrix = new Matrix();
 		
 		matrix.setScale(magnificationX, magnificationY,0,0);
-		
-		curPlayer = new Player();
+		curPlayer=new Player();
+		Player P9 = new Player();
 		Monster monster1 = new Monster();
-		curPlayer.addMonster(monster1.getRandomMonster(5, 1));
+		P9.setName("FAIZ");
+		P9.addMonster(monster1.getRandomMonster(5, 1));
+		P9.setMoney(1000);
+		Time t=new Time();
+		t.set(100, 1, 2, 3, 40);
+		P9.setPlayingTime(t);
+		P9.setNbattle(10);
+		P9.setNwin(6);
+		P9.setNlose(1);
 		AreaManager am = new AreaManager(context, screenWidth, screenHeight, curPlayer);
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("CITY"));
@@ -71,7 +79,9 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		Log.d("LM", "chek 1");
 		ListMonster lm = new ListMonster(curPlayer, screenWidth, screenHeight);
 		Log.d("LM", "chek 2");
-		manager.push(lm);
+		PlayerStatus ps = new PlayerStatus(P9);
+		manager.push(ps);
+		//manager.push(lm);
 		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
 		//manager.push(lt);
 		
@@ -101,7 +111,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl2.addMonster(m2);
 		pl2.setCurrentMonster(m2.getName());
 		
-		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
+		//manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
 
 		
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);
@@ -113,7 +123,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
 		//manager.push(combi);
 		
-		Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
+		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
 		//manager.push(stadium);
 		
 	}

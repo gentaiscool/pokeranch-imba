@@ -26,6 +26,17 @@ public class Player {
 		monsters = new HashMap<String, Monster>();
 	}
 	
+	public String showStatus(){
+		StringBuilder str = new StringBuilder();
+		str.append(	"***********PLAYER STATS*************\n\n\n"+
+					getName()+"\n\n"+
+					"$"+getMoney()+"\n\n"+
+					"year "+getPlayingTime().getYear()+" month "+getPlayingTime().getMonth()+" day "+getPlayingTime().getDay()+" hour "+getPlayingTime().getHour()+" minute "+getPlayingTime().getMinute()+"\n\n"+
+					getNbattle()+" Battle "+getNwin()+" Win "+getNlose()+" Lose"
+				);
+		return str.toString();
+	}
+	
 	public void addItem(Item item, int n) {
 		String nitem = item.getName();
 		//mencari key yang sesuai, jika tidak ditemukan melakukan throw
