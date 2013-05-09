@@ -3,8 +3,10 @@ package com.pokeranch.game.system;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Random;
 
 import com.pokeranch.game.object.DBLoader;
+import com.pokeranch.game.object.Monster;
 import com.pokeranch.game.object.MonsterBall;
 import com.pokeranch.game.object.Player;
 import com.pokeranch.game.object.Species;
@@ -111,12 +113,13 @@ public class BuyScreen implements IScreen{
 			}
 			tm[i] = "Back";
 			
-			category = new String[5];
+			category = new String[6];
 			category[0] = "Monster Ball";
 			category[1] = "Stat Item";
 			category[2] = "TM";
 			category[3] = "Torch";
-			category[4] = "Back";
+			category[4] = "Monster Egg";
+			category[5] = "Back";
 			
 			scroll = new ScrollComponent(category,220,100,screenHeight,new SelectionListener(){
 				@Override
@@ -155,6 +158,59 @@ public class BuyScreen implements IScreen{
 				if( !Character.isDigit(s.charAt(a)) ) return false;
 			}
 			return true;
+		}
+		
+		private void showMonsterEgg(){
+			StringBuilder sb = new StringBuilder();
+			sb.append("MonsterEgg\n");
+			sb.append("Hatch me if you can\n\n\n");
+			sb.append("Price : 1000");
+
+			text.setText(sb.toString());
+			show = true;
+			buy.addTouchListener(new TouchListener() {
+				@Override
+				public void onTouchUp() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchMove() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchDown() {
+					// TODO Auto-generated method stub
+					MessageManager.prompt("Give a name for your new hatched monster", new Action() {
+						
+						@Override
+						public void proceed(Object o) {
+							// TODO Auto-generated method stub
+							if(o.toString().length()!=0){
+								Monster newMonster = new Monster(o.toString(), DBLoader.getInstance().getRandomSpecies(1), 5);
+								MessageManager.alert("You get "+newMonster.getName()+" (" + newMonster.getSpecies().getName()+")");
+								player.addMonster(newMonster);
+								player.setMoney(player.getMoney()-1000);
+							}
+							else if(o.toString().length() == 0){
+								MessageManager.alert("The input is not valid for a name. Please retry the transaction process");
+							}
+							else{
+								MessageManager.alert("The input is not valid for a name. Please retry the transaction process");
+							}
+						}
+						
+						@Override
+						public void cancel() {
+							// TODO Auto-generated method stub
+							MessageManager.alert("The transaction is aborted");
+						}
+					});
+				}
+			});
 		}
 		
 		private void showMonsterBall(final int num){
@@ -451,7 +507,11 @@ public class BuyScreen implements IScreen{
 				Log.d("Category", " "+num);
 				showTorch();
 				break;
-			case 4: 
+			case 4:
+				Log.d("Category", " "+num);
+				showMonsterEgg();
+				break;
+			case 5: 
 				//terminates
 				ScreenManager.getInstance().pop();
 				break;

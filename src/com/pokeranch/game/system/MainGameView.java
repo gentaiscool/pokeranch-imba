@@ -107,7 +107,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 
 		PlayerStatus ps = new PlayerStatus(curPlayer);
 		//manager.push(ps);
-		manager.push(lm);
+		//manager.push(lm);
 
 		ListItem lt = new ListItem(curPlayer, screenWidth, screenHeight);
 		//manager.push(lt);
