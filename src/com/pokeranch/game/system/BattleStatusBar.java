@@ -15,7 +15,7 @@ public class BattleStatusBar {
 	private int displayMP, maxMP;
 	private int displayEXP, maxEXP; 
 	private int fetchHP, fetchMP, dHP, dMP;
-	private int totalUpdate = 40, tick = 3;
+	private int totalUpdate, tick;
 	private DelayedAction delayAction;
 	private Paint paint;
 	
@@ -30,6 +30,9 @@ public class BattleStatusBar {
 		delayAction = null;
 		name.setColor(Color.WHITE);
 		hp.setColor(Color.WHITE);
+		
+		totalUpdate = 40 * GameLoop.MAX_FPS / 60;
+		tick = 3 * GameLoop.MAX_FPS / 60;
 		//mp.setColor(Color.WHITE);
 	}
 	
