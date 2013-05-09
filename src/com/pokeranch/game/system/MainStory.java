@@ -1,5 +1,6 @@
 package com.pokeranch.game.system;
 
+import com.pokeranch.game.object.PlayerSaveLoader;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MessageManager.Action;
 
@@ -70,7 +71,13 @@ public class MainStory implements IScreen{
 							public void proceed(Object o) {
 								// TODO Auto-generated method stub
 								if(!o.toString().equals("")){
-									selectFrom();
+									//check if the name exists before
+									if(PlayerSaveLoader.getInstance().isPlayerNotExist(o.toString())){
+										selectFrom();
+									}
+									else{
+										MessageManager.alert("Player name exist");
+									}
 									//state=-1;
 								}
 								else{

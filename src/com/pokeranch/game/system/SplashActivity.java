@@ -148,6 +148,9 @@ public class SplashActivity extends Activity {
 			//close
 			BitmapManager.getInstance().put("close", R.drawable.close);
 			
+			//combine
+			BitmapManager.getInstance().put("combine", R.drawable.combine);
+			
 			/********************** Dialogue Box **********************/
 			BitmapManager.getInstance().put("dbox", R.drawable.dbox);
 			BitmapManager.getInstance().put("pmenu", R.drawable.pmenu);
