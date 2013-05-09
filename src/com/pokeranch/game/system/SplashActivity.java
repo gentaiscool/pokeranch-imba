@@ -139,6 +139,9 @@ public class SplashActivity extends Activity {
 			//backpack
 			BitmapManager.getInstance().put("backpack", R.drawable.backpack);
 			
+			//close
+			BitmapManager.getInstance().put("close", R.drawable.close);
+			
 			/********************** Dialogue Box **********************/
 			BitmapManager.getInstance().put("dbox", R.drawable.dbox);
 			BitmapManager.getInstance().put("pmenu", R.drawable.pmenu);
