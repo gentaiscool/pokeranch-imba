@@ -128,9 +128,6 @@ public class WalkingMonster {
 					Monster m = Monster.getRandomMonster(5, 5);
 					player2.addMonster(m);
 					player2.setCurrentMonster(m);
-					DialogueBox.getInstance().setMessage("You encountered a wild pokemon!");
-					DialogueBox.setShown(true);
-					ScreenManager.getInstance().push(DialogueBox.getInstance());
 					while(DialogueBox.isShown()){}
 					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD, new BattleListener() {
 						@Override
@@ -138,11 +135,12 @@ public class WalkingMonster {
 							if(result==-1){
 								am.getCurPlayer().restoreAllMonster();
 								am.setCurArea(DBLoader.getInstance().getArea("HOME"));
+								am.setPlayerCord(new Point(8,5));
 							}
 						}
 					}));
 					am.resetWalkingMonsters();
-					am.getMonsters().remove(this);
+					am.getMonsters().remove(this); 
 				} else if(place.equals("SEA")){ 
 					if(am.getCurArea().getTile(t.first.x, t.first.y).isSwimmable() && am.getCurArea().getTile(t.second.x, t.second.y).isSwimmable()){
 						//Log.d("monster", "start to move! :D");

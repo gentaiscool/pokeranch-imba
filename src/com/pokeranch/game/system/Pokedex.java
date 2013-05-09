@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.Species;
+import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.ScrollComponent.SelectionListener;
 
 import android.annotation.SuppressLint;
@@ -28,6 +29,7 @@ public class Pokedex implements IScreen{
 	private ScrollComponent scroll;
 	private String[] species;
 	private TextComponent text;
+	private BitmapButton close;
 	
 		@SuppressLint("NewApi")
 		public Pokedex(int screenWidth, int screenHeight) {
@@ -38,6 +40,27 @@ public class Pokedex implements IScreen{
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 			
+			close = new BitmapButton(BitmapManager.getInstance().get("close"),70,200);
+			close.addTouchListener(new TouchListener() {
+				
+				@Override
+				public void onTouchUp() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchMove() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onTouchDown() {
+					// TODO Auto-generated method stub
+					ScreenManager.getInstance().pop();
+				}
+			});
 			
 			trans = BitmapManager.getInstance().get("trans");
 			panel = trans;
@@ -113,12 +136,13 @@ public class Pokedex implements IScreen{
 			canvas.drawBitmap(pokedextablet, new Rect(0,0,pokedextablet.getWidth(), pokedextablet.getHeight()), new RectF(2,68,175,240), null);
 			canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(20,90,70,140), null);
 			text.draw(canvas);
+			close.draw(canvas);
 		}
 		
 		@Override
 		public void onTouchEvent(MotionEvent e, float magX, float magY) {
 			// TODO Auto-generated method stub
-			
 			scroll.onTouchEvent(e, magX, magY);
+			close.onTouchEvent(e, magX, magY);
 		}
 }

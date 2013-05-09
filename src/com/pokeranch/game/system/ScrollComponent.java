@@ -112,6 +112,8 @@ public class ScrollComponent {
 							selection = posY / (int)(selHeight);
 							
 							if (selection < 0 || selection >= nitem) selection = -1;
+							
+							if(selection!=-1)
 							listener.selectAction(selection);
 						}
 					}
