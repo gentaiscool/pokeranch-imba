@@ -137,6 +137,7 @@ public class SaveLoadScreen implements IScreen{
 			save.draw(canvas);
 			load.draw(canvas);
 			close.draw(canvas);
+			sleep.draw(canvas);
 		}
 		
 		@Override
@@ -145,5 +146,6 @@ public class SaveLoadScreen implements IScreen{
 			save.onTouchEvent(e, magX, magY);
 			load.onTouchEvent(e, magX, magY);
 			close.onTouchEvent(e, magX, magY);
+			sleep.onTouchEvent(e, magX, magY);
 		}
 }
