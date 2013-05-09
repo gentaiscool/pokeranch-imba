@@ -27,9 +27,7 @@ import android.widget.ImageButton;
 public class MainChooseMonster implements IScreen{
 	
 	private Paint paint = new Paint();
-	private ScreenManager manager;
 	private BitmapButton transparentButton, oak, frame;
-	
 	private Sprite head;
 	private int state = 0;
 	private Matrix matrix = new Matrix();	
@@ -44,17 +42,15 @@ public class MainChooseMonster implements IScreen{
 		public MainChooseMonster(String name, Context context, int screenWidth, int screenHeight) {
 			// TODO Auto-generated constructor stub
 			
-			manager = ScreenManager.getInstance();
-			
 			curName = name;
 			
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
 				
-			BitmapButton charchar = new BitmapButton(BitmapManager.getInstance().get("Charchar"), 0,80);
-			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("Squir"),  100, 80);
-			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("Bulba"), 200, 80);
+			BitmapButton charchar = new BitmapButton(BitmapManager.getInstance().get("Charchar"), 10,50);
+			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("Squir"),  110, 50);
+			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("Bulba"), 220, 50);
 			
 			charchar.addTouchListener(new TouchListener() {
 				@Override
@@ -170,9 +166,9 @@ public class MainChooseMonster implements IScreen{
 			for(BitmapButton b : buttons){
 				b.draw(canvas);
 			}
-			canvas.drawText("Charchar", 0, 50, paint);
-			canvas.drawText("Squir", 100, 50, paint);
-			canvas.drawText("Bulba", 200, 50, paint);
+			canvas.drawText("Charchar", 30, 20, paint);
+			canvas.drawText("Squir", 130, 20, paint);
+			canvas.drawText("Bulba", 240, 20, paint);
 		}
 
 		@Override

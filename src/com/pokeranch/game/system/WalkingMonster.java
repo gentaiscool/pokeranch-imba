@@ -2,8 +2,10 @@ package com.pokeranch.game.system;
 
 import java.util.Random;
 
+import com.pokeranch.game.object.DBLoader;
 import com.pokeranch.game.object.Monster;
 import com.pokeranch.game.object.Player;
+import com.pokeranch.game.system.BattleScreen.BattleListener;
 import com.pokeranch.game.system.BattleScreen.BattleMode;
 import com.pokeranch.game.system.Sprite.SpriteCounter;
 
@@ -130,7 +132,15 @@ public class WalkingMonster {
 					DialogueBox.setShown(true);
 					ScreenManager.getInstance().push(DialogueBox.getInstance());
 					while(DialogueBox.isShown()){}
-					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD, null));
+					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD, new BattleListener() {
+						@Override
+						public void action(int result) {
+							if(result==-1){
+								am.getCurPlayer().restoreAllMonster();
+								am.setCurArea(DBLoader.getInstance().getArea("HOME"));
+							}
+						}
+					}));
 					am.resetWalkingMonsters();
 					am.getMonsters().remove(this);
 				} else if(place.equals("SEA")){ 
