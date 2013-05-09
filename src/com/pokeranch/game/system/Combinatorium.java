@@ -79,7 +79,7 @@ public class Combinatorium implements IScreen{
 			}
 			
 			
-			MessageManager.multiChoice("Choose your first Pokemon", monsters, new Action() {
+			MessageManager.multiChoice("Choose two monsters to be combined!", monsters, new Action() {
 				@Override
 				public void proceed(Object o) {
 					// TODO Auto-generated method stub

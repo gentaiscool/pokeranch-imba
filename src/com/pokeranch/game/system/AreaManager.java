@@ -511,14 +511,16 @@ public class AreaManager implements IScreen{
 			return;
 		if(action.equals("COMBINATORIUM")){
 			//masukin kode combinatorium disini
-			
+			Combinatorium combinatorium = new Combinatorium(curPlayer,screenWidth,screenHeight);
+			ScreenManager.getInstance().push(combinatorium);
 		} else if(action.equals("STORE")){
 			//masukin kode store disini
 			BuySellScreen bss = new BuySellScreen(curPlayer, screenWidth, screenHeight);
 			ScreenManager.getInstance().push(bss);
 		} else if(action.equals("STADIUM")){
 			//masukin kode stadium disini
-			
+			Stadium stadium = new Stadium(curPlayer,screenWidth,screenHeight);
+			ScreenManager.getInstance().push(stadium);
 		}
 	}
 
