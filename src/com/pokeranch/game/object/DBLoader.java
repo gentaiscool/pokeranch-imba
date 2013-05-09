@@ -182,16 +182,24 @@ public class DBLoader {
 					}
 				}
 								
-				//ambil titik2 teleport
+				//ambil titik2 action
 				int k = scan.nextInt();
 				for(int i=0;i<k;i++){
-					int x = scan.nextInt();
-					int y = scan.nextInt();
-					String z = scan.next();
-					int v = scan.nextInt();
-					int w = scan.nextInt();
-					a.getTile(x, y).setTeleportTarget(z);
-					a.getTile(x, y).setArrivalCord(new Point(v, w));
+					String actionType = scan.next();
+					if(actionType.equals("TELEPORT")){
+						int x = scan.nextInt();
+						int y = scan.nextInt();
+						String z = scan.next();
+						int v = scan.nextInt();
+						int w = scan.nextInt();
+						a.getTile(x, y).setActionName(actionType);
+						a.getTile(x, y).setTeleportTarget(z);
+						a.getTile(x, y).setArrivalCord(new Point(v, w));
+					} else {
+						int x = scan.nextInt();
+						int y = scan.nextInt();
+						a.getTile(x, y).setActionName(actionType);
+					}
 				}
 				
 				areas.put(nama, a);
