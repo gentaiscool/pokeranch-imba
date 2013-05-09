@@ -8,9 +8,9 @@ public class GameLoop extends Thread {
 	private boolean running;
 	private SurfaceHolder surfaceHolder;
 	private MainGameView mainGameView;	
-	public final static int MAX_FPS = 30; //fps yang diinginkan	
-	private final static int MAX_FRAME_SKIPS = 5; //maksimum jumlah frame yang bisa diskip
-	private final static int FRAME_PERIOD = 1000/MAX_FPS;	
+	public final static int MAX_FPS = 40; //fps yang diinginkan	
+	public final static int MAX_FRAME_SKIPS = 3; //maksimum jumlah frame yang bisa diskip
+	public final static int FRAME_PERIOD = 1000/MAX_FPS;	
 	
 	public GameLoop(SurfaceHolder surfaceHolder,MainGameView gameView ) {
 		super();

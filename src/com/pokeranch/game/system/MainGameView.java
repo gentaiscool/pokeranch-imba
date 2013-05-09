@@ -58,7 +58,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//Log.d("harits3","di MainGameView, r c: " +  DBLoader.getInstance().getArea("FIELD").getRow() + " " + DBLoader.getInstance().getArea("FIELD").getColumn());
 		am.setCurArea(DBLoader.getInstance().getArea("FIELD"));
 		am.setPlayerCord(new Point(0,4));
-		manager.push(am);
+		//manager.push(am);
 		
 		//MainMenu mm = new MainMenu(context, screenWidth, screenHeight);
 		//manager.push(mm);
@@ -78,14 +78,15 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 
 		pl.setMoney(10000);
 
-		//pl.addMonster(new Monster("myChar", DBLoader.getInstance().getSpecies("Charchar"),10));
+		pl.addMonster(new Monster("myChar", DBLoader.getInstance().getSpecies("Charchar"),10));
+		pl.addMonster(Monster.getRandomMonster(10, 1));
 
 		
 		pl2.addMonster(m2);
-		//pl2.addMonster(Monster.getRandomMonster(3, 1));
+		pl2.addMonster(Monster.getRandomMonster(3, 1));
 		pl2.setCurrentMonster(m2.getName());
 		
-		//manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
+		manager.push(new BattleScreen(pl,pl2, BattleMode.WILD));
 
 		
 		//BuyScreen buymarket = new BuyScreen(pl, screenWidth, screenHeight);

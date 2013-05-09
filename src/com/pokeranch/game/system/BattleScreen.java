@@ -1,6 +1,8 @@
 package com.pokeranch.game.system;
 
 import java.util.ArrayList;
+import java.util.Collection;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -26,17 +28,16 @@ public class BattleScreen implements IScreen {
 	private int geserTop = 58; //buat geser layout background ke atas
 	private TextComponent message;
 	private BattleStatusBar stat1, stat2;
+	private DelayedAction delayAction = null, pokeAnim = null;
 	
 	//system
 	public enum BattleMode {WILD, STADIUM, PVP};
-	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_MATI, EVO_INFO, MATI, END};
+	private enum BattleState {START, WAIT_INPUT, NO_INPUT, AI_MOVE, ANIMATING_SKILL, ANIMATING_HEALTH, ANIMATING_OUT, ANIMATING_IN, DELAY, EVO_INFO, MATI, END};
 	
 	private Player player1, player2, current, enemy;
 	private int turn; //player no berapa yg sedang jalan
 	private BattleMode mode;
 	private BattleState state;
-
-	private DelayedAction delayAction = null, dieAnim = null;
 	
 	public BattleScreen(Player player1, Player player2, BattleMode mode){
 		this.player1 = player1;
@@ -105,15 +106,20 @@ public class BattleScreen implements IScreen {
 			}
 		}
 		
-		if(dieAnim!=null){
-			dieAnim.updateFrequently(3);
-			if (dieAnim.finished()){
-				dieAnim=null;
-				x1=_x1;
-				x2=_x2;
+		if(pokeAnim!=null){
+			pokeAnim.updateFrequently(3 * GameLoop.MAX_FPS / 60);
+			if (pokeAnim.finished()){
+				pokeAnim=null;
 				stat1.setVisible(true);
-				stat2.setVisible(true);				
-				state = BattleState.MATI;
+				stat2.setVisible(true);
+				
+				if(state==BattleState.ANIMATING_IN){
+					x1=_x1;
+					x2=_x2;
+					nextTurn();
+				}else if(state==BattleState.ANIMATING_OUT){
+					state = BattleState.MATI;
+				}
 			}
 		}
 		
@@ -161,12 +167,12 @@ public class BattleScreen implements IScreen {
 						delayAction = new DelayedAction() {
 							@Override
 							public int getDelay() {
-								return 80;
+								return GameLoop.MAX_FPS*4/3;
 							}
 							@Override
 							public void doAction() {
 								stat2.setVisible(true);
-								change();								
+								autochange();								
 							}
 						};
 					break;
@@ -176,42 +182,84 @@ public class BattleScreen implements IScreen {
 				
 				if (state == BattleState.EVO_INFO) return;
 				
-				change();
+				autochange();
 		break;
 		default:
 		}
 	}
 	
-	private void change(){
+	private void autochange(){
 		try{	
 			enemy.setCurrentMonster(enemy.getNextMonster());
+			
+			refreshStatBar();
 			refreshImage();
 			if(turn==1){
-				stat2.setMonster(enemy.getCurrentMonster());
-				stat1.refreshData();
 				message.appendText("Enemy use " + enemy.getCurrentMonster().getName());
 			}else{
-				stat1.setMonster(enemy.getCurrentMonster());
-				stat2.refreshData();
 				message.appendText("You use " + enemy.getCurrentMonster().getName());
 			}
 			
-			nextTurn();
+			state=BattleState.ANIMATING_IN;
+			
+			pokeAnim = new PokeIn();
+			
 		}catch (Exception e){
 			state = BattleState.END;
 			endBattle();
 		}
 	}
 	
+	private void change(int c){
+		Collection<Monster> mons = current.getAllMonster().values();
+		
+		Monster [] monster = new Monster[mons.size() - 1];
+		int n = 0;
+		for(Monster m : mons){
+			if (!m.getName().equals(current.getCurrentMonster().getName())){
+				monster[n] = m;
+				n++;
+			}
+		}
+		
+		Monster m = monster[c];
+		current.setCurrentMonster(m);
+		refreshImage();
+		refreshStatBar();
+		state = BattleState.DELAY;
+		
+		if(mode==BattleMode.PVP)
+			message.setText("Player " + turn + " use " + m.getName());
+		else
+			message.setText(((turn==1)? "You use " : "Enemy use ") + m.getName());
+
+		
+		delayAction = new DelayedAction() {
+			@Override
+			public int getDelay() {
+				return GameLoop.MAX_FPS / 2;
+			}
+			@Override
+			public void doAction() {
+				nextTurn();
+			}
+		};
+	}
+	
 	private void endBattle(){
+		String s1 = mode==BattleMode.PVP ? "Player 1" : "You";
+		String s2 = mode==BattleMode.PVP ? "Player 2" : "Enemy";
+		
 		if(turn==1){ 
-			message.appendText("Enemy lose!");
+			message.appendText(s2 + " lose!");
 			poke2 = BitmapManager.getInstance().get("trans");
 			stat2.setVisible(false);
+			stat1.refreshData();
 		}else{
-			message.appendText("You lose!");
+			message.appendText(s1 + " lose!");
 			poke1 = BitmapManager.getInstance().get("trans");
 			stat1.setVisible(false);
+			stat2.refreshData();
 		}
 	}
 	
@@ -219,7 +267,7 @@ public class BattleScreen implements IScreen {
 		int x = turn==1? x2 : x1;
 		int y = turn==1? y2 : y1;
 		message.appendText(current.getCurrentMonster().getName() + " use " + sk.getName() + "!");
-		animation = new SkillAnimation(sk, 4, x, y, 4);
+		animation = new SkillAnimation(sk, 4*GameLoop.MAX_FPS/60, x, y, 4);
 		state = BattleState.ANIMATING_SKILL;
 	}
 	
@@ -238,7 +286,7 @@ public class BattleScreen implements IScreen {
 	private boolean cekmati(){
 		//mati : currentmonster hpnya 0
 		if( enemy.getCurrentMonster().getStatus().getHP()<=0){
-			state = BattleState.ANIMATING_MATI;
+			state = BattleState.ANIMATING_OUT;
 			
 			if(turn==2){
 				stat1.setVisible(false);
@@ -246,7 +294,7 @@ public class BattleScreen implements IScreen {
 				stat2.setVisible(false);
 			}
 			
-			dieAnim = new PokeOut();
+			pokeAnim = new PokeOut();
 			
 			return true;
 		}else{
@@ -254,35 +302,19 @@ public class BattleScreen implements IScreen {
 		}
 	}
 	
-	private class PokeOut extends DelayedAction{
-		@Override
-		public int getDelay() {
-			return 60;
-		}
-		@Override
-		public void doAction() {
-			if(turn==2){
-				x1-=10;
-			}else{
-				x2+=10;
-			}
-		}
-	}
-	
 	private void nextTurn(){
-		turn = turn==1 ? 2 : 1;
+		if(state!=BattleState.ANIMATING_IN){
+			turn = turn==1 ? 2 : 1;
+			Player temp = current;
+			current = enemy;
+			enemy = temp;
+		}
 		
 		if(mode==BattleMode.PVP)
 			message.setText("Player " + turn + " turn");
 		else
 			message.setText(turn==1? "Your turn" : "Enemy Turn");
 		
-		Player temp = current;
-		current = enemy;
-		enemy = temp;
-		
-		Log.d("POKE",player2.getCurrentMonster().getStatus() + "/" + player2.getCurrentMonster().getFullStatus());
-		Log.d("POKE update", "update");
 		if(turn==2) {
 			if(mode==BattleMode.PVP) {
 				state = BattleState.WAIT_INPUT;
@@ -293,7 +325,7 @@ public class BattleScreen implements IScreen {
 					@Override
 					public void doAction() {player2Turn();}
 					@Override
-					public int getDelay() {return 35;}
+					public int getDelay() {return GameLoop.MAX_FPS/2;}
 				};
 			}
 		} else {
@@ -307,12 +339,45 @@ public class BattleScreen implements IScreen {
 	
 	//draw
 	
+	private class PokeOut extends DelayedAction{
+		@Override
+		public int getDelay() {
+			return GameLoop.MAX_FPS;
+		}
+		@Override
+		public void doAction() {
+			if(turn==2){
+				x1-=10;
+			}else{
+				x2+=10;
+			}
+		}
+	}
+	
+	private class PokeIn extends DelayedAction{
+		@Override
+		public int getDelay() {
+			return GameLoop.MAX_FPS;
+		}
+		@Override
+		public void doAction() {
+			if(turn==2){
+				x1+=10;
+			}else{
+				x2-=10;
+			}
+		}
+	}
+	
 	private void refreshImage(){
 		poke1 = BitmapManager.getInstance().get(player1.getCurrentMonster().getSpecies().getName()+"_back");
 		poke2 = BitmapManager.getInstance().get(player2.getCurrentMonster().getSpecies().getName()+"_front");
 	}
 	
-	
+	private void refreshStatBar(){
+		stat1.setMonster(player1.getCurrentMonster());
+		stat2.setMonster(player2.getCurrentMonster());
+	}
 	
 	@Override
 	public void draw(Canvas canvas) {
@@ -366,11 +431,37 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void changeMonster(){
-		Log.d("POKE", "change");
+		Collection<Monster> mons = current.getAllMonster().values();
+		if (mons.size()==1){
+			message.setText("You only have 1 monster!");
+		}else{
+			String [] monster = new String[mons.size() - 1];
+			int n = 0;
+			for(Monster m : mons){
+				if (!m.getName().equals(current.getCurrentMonster().getName())){
+					monster[n] = m.getName();
+					n++;
+				}
+			}
+			
+			MessageManager.singleChoice("Select a monster to use", monster, new Action(){
+				@Override
+				public void proceed(Object o) {
+					change(((Integer) o).intValue());
+				}
+				@Override
+				public void cancel() {}
+			});
+		}
 	}
 	
 	private void tryEscape(){
-		Log.d("POKE", "escape");
+		if(mode == BattleMode.WILD){
+			message.setText("Got away safely!");
+			state = BattleState.END;
+		}else{
+			message.setText("You can't run from a trainer battle!");
+		}
 	}
 	
 	@Override
