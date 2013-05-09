@@ -1,5 +1,6 @@
 package com.pokeranch.game.object;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
@@ -90,6 +91,8 @@ public class Monster{
 				
 				fullStatus.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
 				status.updateBy(delta.getHP(), delta.getMP(), delta.getAttack(), delta.getDefense(), delta.getEffect());
+				
+				evolveSkill();
 				
 				if (evolve()) return 2;
 				
@@ -250,17 +253,20 @@ public class Monster{
 	
 	public boolean evolveSkill(){
 		boolean found = false;
-		for(int i=0; i<=3; i++){
-			if(skills.get(i).getNextSkillLevel() < level){
-				continue;
-			}
-			else{
+		
+		Skill[] c = new Skill[4];
+		skills.values().toArray(c);
+		
+		for(int i=0; i < 4; i++){
+			int lvl = c[i].getNextSkillLevel();
+			if(lvl!=-1 && lvl <= level){
 				found = true;
-				Skill skill = skills.get(i);
+				Skill skill = c[i];
 				this.delSkill(skill);
 				this.addSkill(skill.getNextSkill());
 			}
 		}
+		
 		return found;
 	}
 

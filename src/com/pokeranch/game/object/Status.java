@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Status {
 
-	public enum Effect {POISON, PARLYZ, SLEEP, BURN, NONE, HEALING}
+	public enum Effect {POISON, PARLYZ, SLEEP, BURN, NONE}
 	private int hp, mp, attack, defense;
 	private Effect effect;
 	
@@ -78,9 +78,7 @@ public class Status {
 		this.mp += mp;
 		this.attack += attack;
 		this.defense += defense;
-		if (effect == Effect.HEALING){
-			this.effect = Effect.NONE;
-		}else if(effect != Effect.NONE){
+		if(effect != Effect.NONE && this.effect == Effect.NONE){
 			this.effect = effect;
 		}
 	}
