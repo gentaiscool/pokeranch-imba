@@ -73,7 +73,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		Player pl2 = new Player();
 		Monster m = new Monster("mybulba", DBLoader.getInstance().getSpecies("Bulba"),7);
 		m.addExp(120);
-		Monster m2 = Monster.getRandomMonster(6, 1);
+		Monster m2 = Monster.getRandomMonster(4, 1);
 		
 		pl.addMonster(m);
 		pl.setCurrentMonster(m.getName());
@@ -83,7 +83,7 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		pl.addItem(DBLoader.getInstance().getItem("Potion"), 2);
 		pl.addItem(DBLoader.getInstance().getItem("Cut"), 1);
 		pl.addItem(DBLoader.getInstance().getItem("Normal_Ball"), 2);
-		pl.addItem(DBLoader.getInstance().getItem("Master_Ball"), 2);
+		pl.addItem(DBLoader.getInstance().getItem("ParalyzCure"), 2);
 
 		pl.addMonster(new Monster("myChar", DBLoader.getInstance().getSpecies("Charchar"),10));
 		pl.addMonster(Monster.getRandomMonster(10, 1));
@@ -104,8 +104,8 @@ public class MainGameView extends SurfaceView implements SurfaceHolder.Callback 
 		//Combinatorium combi = new Combinatorium(pl, screenWidth, screenHeight);
 		//manager.push(combi);
 		
-		Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
-		manager.push(stadium);
+		//Stadium stadium = new Stadium(pl, screenWidth, screenHeight);
+		//manager.push(stadium);
 		
 	}
 	

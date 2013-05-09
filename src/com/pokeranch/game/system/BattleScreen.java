@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.pokeranch.game.object.*;
+import com.pokeranch.game.object.Status.Effect;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
 import com.pokeranch.game.system.MessageManager.Action;
 
@@ -87,7 +88,7 @@ public class BattleScreen implements IScreen {
 		background = BitmapManager.getInstance().get("battle_day_land");
 		bar = BitmapManager.getInstance().get("battle_bar");
 		
-		stat1 = new BattleStatusBar(player1.getCurrentMonster(),(int) MainGameView.standardWidth - 125,(int) MainGameView.standardHeight - 60 - geserTop);
+		stat1 = new BattleStatusBar(player1.getCurrentMonster(),(int) MainGameView.standardWidth - 125,(int) MainGameView.standardHeight - 65 - geserTop);
 		stat2 = new BattleStatusBar(player2.getCurrentMonster(),10,10);
 		
 		touch = new ArrayList<Touchables>();
@@ -218,6 +219,8 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void endBattle(){
+		Log.d("POKE AAA", current.getCurrentMonster().getStatus().toString());
+		
 		String s1 = mode==BattleMode.PVP ? "Player 1" : "You";
 		String s2 = mode==BattleMode.PVP ? "Player 2" : "Enemy";
 		boolean p1win;
@@ -259,6 +262,22 @@ public class BattleScreen implements IScreen {
 	}
 	
 	private void attack(Skill sk){
+		Monster m = current.getCurrentMonster();
+		
+		if(m.getStatus().getEffect()==Effect.SLEEP){
+			message.appendText(m.getName() + " is asleep.");
+			state = BattleState.DELAY;
+			delayAction = new DelayerTurn();
+			return;
+		}else if(m.getStatus().getEffect()==Effect.PARLYZ){
+			if(new Random().nextInt() < 50){
+				message.appendText(m.getName() + " is paralyzed!\n it can't move!");
+				state = BattleState.DELAY;
+				delayAction = new DelayerTurn();
+				return;
+			}
+		}
+		
 		int x = turn==1? x2 : x1;
 		int y = turn==1? y2 : y1;
 		message.appendText(current.getCurrentMonster().getName() + " use " + sk.getName() + "!");
@@ -432,6 +451,7 @@ public class BattleScreen implements IScreen {
 		}
 	}
 	
+	
 	private void nextTurn(){
 		if(state!=BattleState.ANIMATING_IN){
 			turn = turn==1 ? 2 : 1;
@@ -444,6 +464,17 @@ public class BattleScreen implements IScreen {
 			message.setText("Player " + turn + " turn");
 		else
 			message.setText(turn==1? "Your turn" : "Enemy Turn");
+		
+		Monster curr = current.getCurrentMonster();
+		
+		if (curr.getStatus().getEffect()==Effect.SLEEP){
+			Random r = new Random();
+			if (r.nextInt(100) < 30){
+				message.appendText(curr.getName() + " wakes up!");
+				curr.getStatus().setEffect(Effect.NONE);
+				refreshStatBar();
+			}
+		}
 		
 		if(turn==2) {
 			if(mode==BattleMode.PVP) {
@@ -472,7 +503,7 @@ public class BattleScreen implements IScreen {
 	private class DelayerTurn extends DelayedAction{
 		@Override
 		public int getDelay() {
-			return GameLoop.MAX_FPS / 2;
+			return GameLoop.MAX_FPS;
 		}
 		@Override
 		public void doAction() {

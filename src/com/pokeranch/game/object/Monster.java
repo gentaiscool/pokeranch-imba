@@ -9,7 +9,7 @@ import java.util.Set;
 import com.pokeranch.game.object.Status.Effect;
 
 import android.graphics.Point;
-import android.util.Log;
+//import android.util.Log;
 
 public class Monster{
 	private String name;
@@ -161,12 +161,7 @@ public class Monster{
 		float lvl = (10.f / 3.f)* (float) level / (float) lawan.getLevel();
 		float hpcalc = ((float)(damage.getHP()) * ((float)(statlawan.getAttack()) /  (float)(status.getDefense())) * (elmtFactor) * critical + 0.5f) / lvl;
 		status.setHP( (int) (hp + hpcalc));
-		
-		Log.d("POKE inflict", sk.getName());
-		Log.d("POKE damage", Float.valueOf(hpcalc).toString());
-		Log.d("POKE critical", Float.valueOf(critical).toString());
-		Log.d("POKE elmtfactor", Float.valueOf(elmtFactor).toString());
-		
+				
 		if(status.getHP() <= 0)
 			status.setHP(0);
 			
@@ -245,10 +240,8 @@ public class Monster{
 		Species evo = species.getEvoSpecies();
 		Status diffstat = new Status();
 		diffstat.substractStatus(evo.getBaseStat(), species.getBaseStat());
-		
 		status.updateBy(diffstat.getHP(), diffstat.getMP(), diffstat.getAttack(), diffstat.getDefense(), diffstat.getEffect());
 		fullStatus.updateBy(diffstat.getHP(), diffstat.getMP(), diffstat.getAttack(), diffstat.getDefense(), diffstat.getEffect());
-		
 		species = evo;
 		
 		return true;
@@ -276,6 +269,8 @@ public class Monster{
 	
 	public void giveItem(StatItem item){
 		if(item.getPermanent()){
+			if(status.getEffect()==item.getCureStat()) 
+				status.setEffect(Effect.NONE);
 			fullStatus.updateBy(item.getItemEffect().getHP(), item.getItemEffect().getMP(), item.getItemEffect().getAttack(), item.getItemEffect().getDefense(), item.getItemEffect().getEffect());
 			restoreStatus();
 		}else
