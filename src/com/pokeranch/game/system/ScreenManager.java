@@ -3,6 +3,7 @@ package com.pokeranch.game.system;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 
 public class ScreenManager {
@@ -37,12 +38,15 @@ public class ScreenManager {
 	
 	public void draw(Canvas canvas){
 		//semuanya di draw
-			for(IScreen s : screens) 
+			
+			for(IScreen s : screens){
 				s.draw(canvas);
+			}
 	}
 	
 	public void update(){
 		//yg diupdate cuma yg top
+		
 		screens.get(screens.size()-1).update();
 	}
 	

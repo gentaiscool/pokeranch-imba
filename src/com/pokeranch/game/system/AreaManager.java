@@ -446,7 +446,7 @@ public class AreaManager implements IScreen{
 			if(getCurArea().getTile(newX, newY).isPassable()){
 				Monster m = getCurPlayer().getMonsterWithSkill("Cut");
 				if(m != null){
-					DialogueBox.getInstance().setMessage("[put monster name that used push here] used push!");
+					DialogueBox.getInstance().setMessage(m.getName() + " used push!");
 					ScreenManager.getInstance().push(DialogueBox.getInstance());
 					
 					//bisa didorong soalnya gak ada objek
@@ -614,7 +614,7 @@ public class AreaManager implements IScreen{
 		int tries = 0;
 		int x = rand.nextInt(getCurArea().getRow());
 		int y = rand.nextInt(getCurArea().getColumn());
-		while(!getCurArea().getTile(x, y).isPassable()){
+		while(!getCurArea().getTile(x, y).isPassable() && getCurArea().getCurX() != x && getCurArea().getCurY() != y){
 			x = rand.nextInt(getCurArea().getRow());
 			y = rand.nextInt(getCurArea().getColumn());
 			tries++;
@@ -629,17 +629,18 @@ public class AreaManager implements IScreen{
 
 	public void resetWalkingMonsters() {
 		monsters.clear();
+		Random rand = new Random();
 		if(getCurArea().getPlace().equals("OUTDOOR") && !getCurArea().getName().equals("CITY") ){
 			Point tmp1,tmp2,tmp3;
 			tmp1 = getRandomPassableGroundTile();
 			tmp2 = getRandomPassableGroundTile();
 			tmp3 = getRandomPassableGroundTile();
 			if(tmp1 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this, "GROUND"));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this, "GROUND", rand.nextInt(19)));
 			if(tmp2 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this, "GROUND"));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this, "GROUND", rand.nextInt(19)));
 			if(tmp3 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND"));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND", rand.nextInt(19)));
 			
 			Point tmp4,tmp5,tmp6;
 			tmp4 = getRandomPassableSeaTile();
@@ -647,11 +648,11 @@ public class AreaManager implements IScreen{
 			tmp6 = getRandomPassableSeaTile();
 			
 			if(tmp4 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp4, "HOMING", this, "SEA"));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp4, "HOMING", this, "SEA", rand.nextInt(19)));
 			if(tmp5 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp5, "FLEE", this, "SEA"));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp5, "FLEE", this, "SEA", rand.nextInt(19)));
 			if(tmp6 != null)
-				monsters.add(WalkingMonster.createNewWalkingMonster(tmp6, "RANDOM", this, "SEA"));
+				monsters.add(WalkingMonster.createNewWalkingMonster(tmp6, "RANDOM", this, "SEA", rand.nextInt(19)));
 		}
 	}
 

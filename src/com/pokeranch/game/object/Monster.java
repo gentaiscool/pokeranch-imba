@@ -59,7 +59,12 @@ public class Monster{
 		
 		status = new Status(fullStatus);
 	}
-
+	
+	public static Species getSpeciesById(int id){
+		String name[] = {"Bulba","Ivy","Venu","Cater","Charchar","Charmeleon","Charizard","Squir","Wartotle","Blastoise","Metapod","Metapod","Butter"," Weedle","Kakuna","Pidgeot","Beedril","Pidgey","Pidgeotto"};
+		return DBLoader.getInstance().getSpecies(name[id]);
+	}
+	
 	//setter getter
 	public String getName(){
 		return name;
