@@ -2,6 +2,7 @@ package com.pokeranch.game.system;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.pokeranch.game.object.Player;
 import com.pokeranch.game.system.BitmapButton.TouchListener;
@@ -32,7 +33,7 @@ public class AreaManager implements IScreen{
 	public final int dirX[] = {-1, 0, 1, 0};
 	public final int dirY[] = {0, 1, 0, -1};
 	private int screenWidth, screenHeight;
-	private ArrayList<WalkingMonster> monsters;
+	private CopyOnWriteArrayList<WalkingMonster> monsters;
 	
 	AreaManager(Context con, int scw, int sch, Player p){
 		DialogueBox.initialize();
@@ -47,7 +48,7 @@ public class AreaManager implements IScreen{
 		paint.setColorFilter(null);
 		curPlayer = p;
 		
-		monsters = new ArrayList<WalkingMonster>();
+		monsters = new CopyOnWriteArrayList<WalkingMonster>();
 		
 		jam= new TextComponent(" "+curPlayer.getPlayingTime().getHour()+":"+curPlayer.getPlayingTime().getMinute()+" "+AMPM, 5, 15);
 		headGround = new Sprite(32,0, BitmapManager.getInstance().get("chara"), 2,12,3, new SpriteCounter(){
@@ -640,7 +641,7 @@ public class AreaManager implements IScreen{
 		
 	}
 
-	public ArrayList<WalkingMonster> getMonsters() {
+	public CopyOnWriteArrayList<WalkingMonster> getMonsters() {
 		return monsters;
 	}
 	
