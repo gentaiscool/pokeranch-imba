@@ -193,7 +193,8 @@ public class Area {
 							curX = nextX;
 							curY = nextY;
 							am.movePlayer(direction, 2);
-						}
+						} else
+							am.setPlayerDirection(direction);
 					} else if(getTile(nextX, nextY).isPassable()){
 						startMoving = true;
 						curX = nextX;
