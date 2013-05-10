@@ -3,25 +3,25 @@
 # ...element, lalu 4 baseSkill (1 dulu buat test)
 
 #Grass Pokemon A D
-Bulba		1		39 20 53 63 NONE	Ivy			8 Grass Vine Cut Push Flame
-Ivy			3		86 30 70 83 NONE 	Venu 		15 Grass Vine Cut Push Swim
-Venu		5		109 20 53 63 NONE	NULL		-1 Grass Vine Cut Push Flame
-Cater		1		56 30 70 83 NONE 	Metapod 	8 Grass Vine Cut Push Swim
-Metapod		3		79 20 53 63 NONE	Butter		15 Grass Vine Cut Push Flame
-Butter		5		106 30 70 83 NONE 	NULL 		-1 Grass Vine Cut Push Swim
+Bulba		1		39 20 53 63 NONE	Ivy			8 Grass Vine_Whip Slash Sleep_Powder Tackle
+Ivy			3		86 30 70 83 NONE 	Venu 		15 Grass Vine_Whip Razor_Leaf Tackle Sleep_Powder
+Venu		5		109 20 53 63 NONE	NULL		-1 Grass Vine_Whip Razor_Leaf Cut Magical_Leaf
+Cater		1		56 30 70 83 NONE 	Metapod 	8 Grass Vine_Whip Poison_Powder Tackle Quick_Attack
+Metapod		3		79 20 53 63 NONE	Butter		15 Grass Vine_Whip Defense_Curl Poison_Powder Quick_Attack
+Butter		5		106 30 70 83 NONE 	NULL 		-1 Grass Magical_Leaf Poison_Powder Sleep_Powder Wing_Attack
 
 #Fire Pokemon H A
-Charchar	1		43 20 52 50 NONE	Charmeleon	8 Fire Flame Cut Push Swim
-Charmeleon	3		86 40 52 50 NONE	Charizard	15 Fire Flame Cut Push Swim
-Charizard	5		150 50 52 50 NONE	NULL		-1 Fire Flame Cut Push Swim
-Pidgey		1		43 30 52 50 NONE	Pidgeotto	8 Fire Flame Cut Push Swim
-Pidgeotto	3		73 35 52 50 NONE	Pidgeot		15 Fire Flame Cut Push Swim
-Pidgeot		5		120 35 52 50 NONE	NULL		-1 Fire Flame Cut Push Swim
+Charchar	1		43 20 52 50 NONE	Charmeleon	8 Fire Flame Ember Tackle Growl
+Charmeleon	3		86 40 52 50 NONE	Charizard	15 Fire Flame Heat_Wave Fire_Fang Bite
+Charizard	5		150 50 52 50 NONE	NULL		-1 Fire Inferno Flare_Blitz Cut Ember
+Pidgey		1		43 30 52 50 NONE	Pidgeotto	8 Fire Flame Leer Quick_Attack Tackle
+Pidgeotto	3		73 35 52 50 NONE	Pidgeot		15 Fire FireBall Swift Dragon_Claw Wing_Attack
+Pidgeot		5		120 35 52 50 NONE	NULL		-1 Fire FireBall Flame_Charge Wing_Attack Double_Edge
 
 #Water Pokemon H D	
-Squir		1		44 20 45 65 NONE 	Wartotle	8 Water Swim Cut Push Vine
-Wartotle	3		74 30 45 65 NONE 	Blastoise	15 Water Swim Cut Push Vine
-Blastoise	5		104 50 45 65 NONE 	NULL		-1 Water Swim Cut Push Vine
-Weedle		1		24 20 45 65 NONE 	Kakuna		8 Water Swim Cut Push Vine
-Kakuna		3		74 10 45 65 NONE 	Beedril		15 Water Swim Cut Push Vine
-Beedril		5		94 40 45 65 NONE 	NULL		-1 Water Swim Cut Push Vine
+Squir		1		44 20 45 65 NONE 	Wartotle	8 Water Swim Bubble Scratch Water_Gun
+Wartotle	3		74 30 45 65 NONE 	Blastoise	15 Water Swim Water_Pulse Defense_Curl Take_Down
+Blastoise	5		104 50 45 65 NONE 	NULL		-1 Water Hydro_Pump Swim Push Body_Slam
+Weedle		1		24 20 45 65 NONE 	Kakuna		8 Water Swim Bubble Tackle Vine_Whip
+Kakuna		3		74 10 45 65 NONE 	Beedril		15 Water Water_Gun Defense_Curl Poison_Powder Quick_Attack
+Beedril		5		94 40 45 65 NONE 	NULL		-1 Water Double_Edge Sleep_Powder Magical_Leaf Aqua_Tail

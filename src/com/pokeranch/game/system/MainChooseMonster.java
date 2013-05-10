@@ -31,7 +31,7 @@ public class MainChooseMonster implements IScreen{
 	
 	private Paint paint = new Paint();
 	private BitmapButton transparentButton, oak;
-	private Bitmap frame;
+	private Bitmap dbox;
 	private TextComponent message;
 	private Sprite head;
 	private int state = 0;
@@ -52,7 +52,7 @@ public class MainChooseMonster implements IScreen{
 			curContext = context;
 			curScreenWidth = screenWidth;
 			curScreenHeight = screenHeight;
-			frame = BitmapManager.getInstance().get("frame");	
+			dbox = BitmapManager.getInstance().get("dbox");	
 			BitmapButton charchar = new BitmapButton(BitmapManager.getInstance().get("Charchar"), 10,50);
 			BitmapButton squir = new BitmapButton(BitmapManager.getInstance().get("Squir"),  110, 50);
 			BitmapButton bulba = new BitmapButton(BitmapManager.getInstance().get("Bulba"), 220, 50);
@@ -173,7 +173,7 @@ public class MainChooseMonster implements IScreen{
 			canvas.drawText("Charchar", 30, 20, paint);
 			canvas.drawText("Squir", 135, 20, paint);
 			canvas.drawText("Bulba", 240, 20, paint);
-			canvas.drawBitmap(frame, new Rect(0,0, frame.getWidth(),frame.getHeight()),new RectF(0,160,320,240), null);
+			canvas.drawBitmap(dbox, new Rect(0,0, dbox.getWidth(),dbox.getHeight()),new RectF(0,160,320,240), null);
 			message.draw(canvas);
 		}
 

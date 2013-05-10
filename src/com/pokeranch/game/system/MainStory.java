@@ -20,7 +20,7 @@ public class MainStory implements IScreen{
 	private Paint paint = new Paint();
 	private ScreenManager manager;
 	private BitmapButton oak;
-	private Bitmap frame;
+	private Bitmap dbox;
 	
 	private int state = 0;
 	private TextComponent textcomponent;
@@ -45,7 +45,7 @@ public class MainStory implements IScreen{
 			paint.setTypeface(BitmapManager.getInstance().getTypeface());
 			paint.setColor(Color.BLACK);	
 			
-			frame = BitmapManager.getInstance().get("frame");
+			dbox = BitmapManager.getInstance().get("dbox");
 			oak = new BitmapButton(BitmapManager.getInstance().get("professoroak"),19,60);
 			
 			
@@ -113,7 +113,7 @@ public class MainStory implements IScreen{
 			logo.draw(canvas);*/
 		
 			oak.draw(canvas);
-			canvas.drawBitmap(frame, new Rect(0,0, frame.getWidth(),frame.getHeight()),new RectF(65,160,320,240), null);
+			canvas.drawBitmap(dbox, new Rect(0,0, dbox.getWidth(),dbox.getHeight()),new RectF(65,160,320,240), null);
 			canvas.drawText("tap to continue...", 200, 0, paint);
 			if(state == 1){
 				/*canvas.drawText("Welcome to PokeRancher World!. ", 77, 172, paint);
