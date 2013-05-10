@@ -133,7 +133,7 @@ public class Pokedex implements IScreen{
 			canvas.drawColor(Color.WHITE);
 			scroll.draw(canvas);
 			canvas.drawBitmap(pokedexlogo, new Rect(0,0,pokedexlogo.getWidth(), pokedexlogo.getHeight()), new RectF(2,8,132,60), null);
-			canvas.drawBitmap(pokedextablet, new Rect(0,0,pokedextablet.getWidth(), pokedextablet.getHeight()), new RectF(2,68,175,240), null);
+			canvas.drawBitmap(pokedextablet, new Rect(0,0,pokedextablet.getWidth(), pokedextablet.getHeight()), new RectF(2,68,220,240), null);
 			canvas.drawBitmap(panel, new Rect(0,0,panel.getWidth(), panel.getHeight()), new RectF(20,90,70,140), null);
 			text.draw(canvas);
 			close.draw(canvas);

@@ -367,16 +367,16 @@ public class Monster{
 	
 	public String toString(){
 		StringBuilder str = new StringBuilder();
-		str.append( "NamaMonster: "+getName()+"\n"+
-					"Umur: "+getAge().toString()+"\n"+
-					"Spesies: "+getSpecies().getName()+" Level: "+level+"\n"+
+		str.append( "MonsterName: "+getName()+"\n"+
+					"Age: "+getAge().toString()+"\n"+
+					"Species: "+getSpecies().getName()+" Level: "+level+"\n"+
 					"Exp: "+getExp()+" EvoExp: "+getLvlExp()+"\n"+
 					"BonusCash: "+getBonusCash()+" BonusExp: "+getBonusExp()+"\n"+
 					"Status(hp,mp,att,def,eff):\n"+ getStatus().toString()+" /\n"+getFullStatus().toString()+"\n");
 	    Set<String> namaSkill = getAllSkill().keySet();
 	      // Get an iterator
 	    Iterator<String> i = namaSkill.iterator();
-	    str.append("Skill:\n");
+	    str.append("Skills:\n");
 	    while(i.hasNext()) {
 	    	str.append(i.next()+" ");
 	    }

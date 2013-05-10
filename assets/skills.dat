@@ -1,11 +1,56 @@
 # effect: POISON, PARLYZ, SLEEP, BURN, NONE, HEALING
 # format: name, damage(hp,mp,att,def,eff), cost(hp,mp,att,def,eff), elements
 Flame 			-70 0 0 0 BURN		0 -6 0 0 NONE		Fire		5 FireBall
-Swim			-50 0 0 0 NONE		0 -5 0 0 NONE 		Water		-1
-Vine			0 0 0 0 POISON		0 -4 0 0 NONE 		Grass		-1
 FireBall		-80 0 0 0 BURN		0 -6 0 0 NONE		Fire		-1
+Ember			-40 0 0 0 BURN		0 -8 0 0 NONE		Fire		11 Fire_Fang
+Fire_Fang		-65 0 0 0 BURN	    0 -9 0 0 NONE		Fire		15 Inferno
+Inferno			-100 0 0 0 BURN	    0 -20 0 0 NONE		Fire		-1
+Flame_Wheel		-60 0 0 0 BURN		0 -8 0 0 NONE		Fire		7 Heat_Wave
+Flame_Charge	-50 0 0 0 NONE		0 -10 5 0 NONE		Fire		-1	
+Heat_Wave		-100 0 0 0 BURN  	0 -21 0 0 NONE		Fire		16 Flare_Blitz
+Flare_Blitz		-120 0 0 0 BURN 	0 -26 0 0 NONE		Fire		-1
+Swim			-50 0 0 0 NONE		0 -5 0 0 NONE 		Water		-1
 Waterfall		-70 0 0 0 NONE		0 -6 0 0 NONE		Water		7 Swim
-Cut				-60 0 0 0 PARLYZ		0 -6 0 0 NONE		Normal		-1
-Push			-60 0 0 0 PARLYZ		0 -6 0 0 NONE		Normal		-1
+Bubble			-20 0 -5 0 NONE	    0 -5 0 0 NONE		Water		-1
+Water_Gun		-40 0 0 0 NONE		0 -6 0 0 NONE		Water		7 Water_Pulse
+Water_Pulse		-60 0 0 0 PARLYZ	0 -11 0 0 NONE		Water		15 Aqua_Tail
+Aqua_Tail		-90 0 0 0 NONE		0 -19 0 0 NONE		Water		-1
+Hydro_Pump		-120 0 0 0 NONE		0 -25 0 0 NONE 		Water		20 Hydro_Pump
+Tackle			-50 0 0 0 NONE		0 -5 0 0 NONE 		Normal		-1
+Scratch			-40 0 0 0 NONE		0 -4 0 0 NONE		Normal		7 Bite
+Cut				-60 0 0 0 PARLYZ	0 -6 0 0 NONE		Normal		-1
+Push			-60 0 0 0 PARLYZ	0 -6 0 0 NONE		Normal		-1
 POISON			-50 0 0 0 NONE		0 0 0 0 NONE		Normal		-1
 BURN			-10 0 0 0 NONE		0 0 0 0 NONE		Normal		-1
+Slash 			-50 0 0 0 NONE		0 -6 0 0 NONE		Normal		7 Cut
+Poison_Powder	  0 0 0 0 POISON	0 -5 0 0 NONE		Normal		-1
+Growl			  0 0 -10 0 NONE	0 -3 0 0 NONE		Normal		-1
+Double_Edge		-120 0 0 0 NONE	  -40 -15 0 0 NONE		Normal		-1
+Take_Down		-90 0 0 0 NONE	  -30 -15 0 0 NONE		Normal		7 Body_Slam
+Body_Slam		-85 0 0 0 PARLYZ  -35 -10 0 0 NONE		Normal		7 Double_Edge
+Dragon_Rage		-45 0 0 0 NONE		0 -4 0 0 NONE		Normal		7 Dragon_Claw
+Leer			  0 0 0 -10 NONE	0 -3 0 0 NONE		Normal		-1
+Quick_Attack	-50 0 0 0 NONE		0 -3 0 0 NONE		Normal		7 Wing_Attack
+Defense_Curl	  0 0 0 0 NONE		0 -5 0 8 NONE		Normal		7 Iron_Defense
+Swift			-60 0 0 0 NONE		0 -6 0 0 NONE		Normal		-1
+Dragon_Claw		-80 0 0 0 NONE		0 -10 0 0 NONE		Normal		-1
+Wing_Attack		-60 0 0 0 NONE		0 -6 0 0 NONE		Normal		-1
+Iron_Defense	  0 0 0 0 NONE		0 -10 0 10 NONE		Normal		-1
+Bite			-60 0 0 0 PARLYZ	0 -9 0 0 NONE 		Normal		-1
+Tail_Whip		  0 0 0 -10 NONE	0 -3 0 0 NONE		Normal  	-1
+Sleep_Powder  	  0 0 0 0 SLEEP		0 -5 0 0 NONE   	Grass		-1
+Vine_Whip		-35 0 0 0 NONE		0 -4 0 0 NONE		Grass		7 Razor_Leaf
+Razor_Leaf		-55 0 0 0 NONE		0 -5 0 0 NONE		Grass		10 Magical_Leaf
+Magical_Leaf	-60 0 0 0 NONE		0 -6 0 0 NONE		Grass		-1
+
+
+
+
+
+
+
+
+
+
+
+

@@ -214,12 +214,12 @@ public class AreaManager implements IScreen{
 		roamingMode = "ground";
 		
 		buttons = new ArrayList<BitmapButton>();
-		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 10, 166);
+		buttonLeft= new BitmapButton(BitmapManager.getInstance().get("left"), 10, 203);
 		buttonDown = new BitmapButton(BitmapManager.getInstance().get("down"), 47, 203);
-		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 47, 129);
-		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 84, 166);
+		buttonUp = new BitmapButton(BitmapManager.getInstance().get("up"), 47, 166);
+		buttonRight = new BitmapButton(BitmapManager.getInstance().get("right"), 84, 203);
 		buttonA = new BitmapButton(BitmapManager.getInstance().get("a_button"), 270, 167);
-		buttonB = new BitmapButton(BitmapManager.getInstance().get("b_button"), 196, 167);
+		buttonB = new BitmapButton(BitmapManager.getInstance().get("b_button"), 270, 203);
 		//Log.d("harits", "ukuran A: " + buttonA.getX() + " " + buttonA.getY());
 		buttonA.addTouchListener(new TouchListener(){
 			@Override
