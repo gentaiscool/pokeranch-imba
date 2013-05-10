@@ -110,15 +110,27 @@ public class Player {
 		return map;
 	}
 	
-	public void addTime(int minute){
+	public boolean addTime(int minute){
 		//menambah jumlah playingTime, currentTime dan umur monster player
+		boolean die = false;
 		playingTime.addMinute(minute);
 	    Collection<Monster> monster = monsters.values();
 	      // Get an iterator
 	    Iterator<Monster>i = monster.iterator();
 	    while(i.hasNext()) {
-		     i.next().addAgeByMinute(minute);
+	    	Monster m = i.next(); 
+		    m.addAgeByMinute(minute);
+		    if(m.getAge().getDay()>=7){
+		    	Log.d("POKE AGE", m.getLevel()+"");
+		    	die = true;
+		    	String name = new String(m.getName());
+		    	Species s = m.getSpecies();
+		    	
+		    	addMonster(new Monster(name,s,1));
+		    }
 	    }
+	    
+	    return die;
 	}
 	
 	public void addMonster(Monster mon) {

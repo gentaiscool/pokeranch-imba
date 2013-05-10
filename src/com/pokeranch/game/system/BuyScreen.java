@@ -124,6 +124,7 @@ public class BuyScreen implements IScreen{
 			scroll = new ScrollComponent(category,220,100,screenHeight,new SelectionListener(){
 				@Override
 				public void selectAction(int selection) {
+					if(selection!=-1)
 					showCategory(selection);
 				}
 			});
@@ -220,6 +221,7 @@ public class BuyScreen implements IScreen{
 				scroll = new ScrollComponent(category,220,100,curScreenHeight,new SelectionListener(){
 					@Override
 					public void selectAction(int selection) {
+						if(selection!=-1)
 						showCategory(selection);
 					}
 				});
