@@ -106,8 +106,16 @@ public class Stadium implements IScreen{
 						@Override
 						public void proceed(Object o) {
 							// TODO Auto-generated method stub
+							
+							try{
+								Integer.parseInt(o.toString());
+							}catch(Exception e){
+								return;
+							}
+							
 							if(isInt(o.toString())){
 								//check money
+								
 								if(player.getMoney() < Integer.parseInt(o.toString())){
 									//uang ga cukup
 									MessageManager.alert("Your bet is higher than your money");

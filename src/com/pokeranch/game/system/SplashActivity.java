@@ -112,11 +112,44 @@ public class SplashActivity extends Activity {
 			//animasi skill
 			BitmapManager.getInstance().put("Swim", R.drawable.swim);
 			BitmapManager.getInstance().put("Cut", R.drawable.cut);
-			BitmapManager.getInstance().put("Vine", R.drawable.vine);
+			BitmapManager.getInstance().put("Vine_Whip", R.drawable.vine_whip);
 			BitmapManager.getInstance().put("Flame", R.drawable.flame);
 			BitmapManager.getInstance().put("FireBall", R.drawable.fireball);
 			BitmapManager.getInstance().put("Waterfall", R.drawable.waterfall);
 			BitmapManager.getInstance().put("Push", R.drawable.push);
+			BitmapManager.getInstance().put("Body_Slam", R.drawable.body_slam);
+			BitmapManager.getInstance().put("Aqua_Tail", R.drawable.aqua_tail);
+			BitmapManager.getInstance().put("Bite", R.drawable.bite);
+			BitmapManager.getInstance().put("Bubble", R.drawable.bubble);
+			BitmapManager.getInstance().put("Defense_Curl", R.drawable.defense_curl);
+			BitmapManager.getInstance().put("Double_Edge", R.drawable.double_edge);
+			BitmapManager.getInstance().put("Dragon_Claw", R.drawable.dragon_claw);
+			BitmapManager.getInstance().put("Dragon_Rage", R.drawable.dragon_rage);
+			BitmapManager.getInstance().put("Ember", R.drawable.ember);
+			BitmapManager.getInstance().put("Fire_Fang", R.drawable.fire_fang);
+			BitmapManager.getInstance().put("Flame_Charge", R.drawable.flame_charge);
+			BitmapManager.getInstance().put("Flame_Wheel", R.drawable.flame_wheel);
+			BitmapManager.getInstance().put("Flare_Blitz", R.drawable.flare_blitz);
+			BitmapManager.getInstance().put("Growl", R.drawable.growl);
+			BitmapManager.getInstance().put("Heat_Wave", R.drawable.heat_wave);
+			BitmapManager.getInstance().put("Hydro_Pump", R.drawable.hydro_pump);
+			BitmapManager.getInstance().put("Inferno", R.drawable.inferno);
+			BitmapManager.getInstance().put("Iron_Defense", R.drawable.iron_defense);
+			BitmapManager.getInstance().put("Leer", R.drawable.leer);
+			BitmapManager.getInstance().put("Magical_Leaf", R.drawable.magical_leaf);
+			BitmapManager.getInstance().put("Poison_Powder", R.drawable.poison_powder);
+			BitmapManager.getInstance().put("Quick_Attack", R.drawable.quick_attack);
+			BitmapManager.getInstance().put("Razor_Leaf", R.drawable.razor_leaf);
+			BitmapManager.getInstance().put("Scratch", R.drawable.scratch);
+			BitmapManager.getInstance().put("Slash", R.drawable.slash);
+			BitmapManager.getInstance().put("Sleep_Powder", R.drawable.sleep_powder);
+			BitmapManager.getInstance().put("Swift", R.drawable.swift);
+			BitmapManager.getInstance().put("Tackle", R.drawable.tackle);
+			BitmapManager.getInstance().put("Tail_Whip", R.drawable.tail_whip);
+			BitmapManager.getInstance().put("Take_Down", R.drawable.take_down);
+			BitmapManager.getInstance().put("Water_Gun", R.drawable.water_gun);
+			BitmapManager.getInstance().put("Water_Pulse", R.drawable.water_pulse);
+			BitmapManager.getInstance().put("Wing_Attack", R.drawable.wing_attack);
 			
 			//battle avatar
 			BitmapManager.getInstance().put("Squir_back", R.drawable.squir_back);

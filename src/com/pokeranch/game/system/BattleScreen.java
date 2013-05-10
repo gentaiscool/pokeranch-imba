@@ -743,7 +743,7 @@ public class BattleScreen implements IScreen {
 			message.setText("Got away safely!");
 			state = BattleState.END;
 		}else{
-			message.setText("You can't run from a trainer battle!");
+			message.setText("You can't run from \na trainer battle!");
 		}
 	}
 	

@@ -225,7 +225,7 @@ public class ListMonster implements IScreen{
 			
 			monsterImage = BitmapManager.getInstance().get(player.getMonster(listMonster[num]).getSpecies().getName() + "_front");
 			rect1 = new Rect(0,0, monsterImage.getWidth(),monsterImage.getHeight());
-			rect2 = new RectF(10,10,100,100);
+			rect2 = new RectF(10,10,130,120);
 			StringBuilder sb = new StringBuilder();
 			sb.append("Selected Monster : " + listMonster[num] +"\n\n");
 			sb.append("**** POKEMON INFO ****\n");
