@@ -32,6 +32,7 @@ public class WalkingMonster {
 	private int curX, curY;
 	private String mode;
 	private int monsterID;
+	public static boolean inactive;
 	public WalkingMonster(Sprite _sprite, int x, int y, AreaManager _am, String _mode, String _place, int spriteID){
 		monsterID = spriteID;
 		place = _place;
@@ -104,9 +105,7 @@ public class WalkingMonster {
 		}
 	}
 	
-	public boolean contains(int blow, int bhigh, int tested){
-		return (tested >= blow && tested <= bhigh);
-	}
+	
 	
 	public void update(){
 		if(!startMoving){
@@ -124,15 +123,20 @@ public class WalkingMonster {
 			if(t.first.x < 0 || t.second.x < 0|| t.first.y < 0 || t.second.y < 0 || t.first.x >= am.getCurArea().getRow() || t.second.x >= am.getCurArea().getRow() || t.first.y >= am.getCurArea().getColumn() || t.second.y >= am.getCurArea().getColumn())
 				outOfBounds = true;
 			if(!outOfBounds){
-				if(contains(am.getCurArea().getCurX() - 16, am.getCurArea().getCurX() + 16, curX + 16) && contains(am.getCurArea().getCurY(), am.getCurArea().getCurY() + 16, curY + 16)){
+				//Log.d("harits11", "X: " + (am.getCurArea().getCurX() - 16) + " <= " + (curX+16) + " <= " + (am.getCurArea().getCurX() + 16));
+				//Log.d("harits11", "X: " + (am.getCurArea().getCurY()) + " <= " + (curY+16) + " <= " + (am.getCurArea().getCurY() + 16));
+				
+				if(am.contains(am.getCurArea().getCurX() - 16, am.getCurArea().getCurX() + 16, curX + 16) && am.contains(am.getCurArea().getCurY(), am.getCurArea().getCurY() + 16, curY + 16)){
 					//am.getCurArea().getTile(curX, curY).setPassable(0);
+					inactive = true;
 					Player player2 = new Player();
 					Species s = Monster.getSpeciesById(monsterID);
 					s.setCombineRating(1);
-					Monster m = new Monster("Hehe", s, 10);
+					Monster m = new Monster(s.getName(), s, am.getCurPlayer().getCurrentMonster().getLevel());
 					player2.addMonster(m);
 					player2.setCurrentMonster(m);
-					
+					am.getMonsters().remove(this);
+					am.resetWalkingMonsters();
 					ScreenManager.getInstance().push(new BattleScreen(am.getCurPlayer(), player2, BattleMode.WILD, new BattleListener() {
 						@Override
 						public void action(int result) {
@@ -142,8 +146,8 @@ public class WalkingMonster {
 							}
 						}
 					}));
-					am.resetWalkingMonsters();
-					am.getMonsters().remove(this);
+					
+					
 				} else if(place.equals("SEA")){ 
 					if(am.getCurArea().getTile(t.first.x, t.first.y).isSwimmable() && am.getCurArea().getTile(t.second.x, t.second.y).isSwimmable()){
 						//Log.d("monster", "start to move! :D");
