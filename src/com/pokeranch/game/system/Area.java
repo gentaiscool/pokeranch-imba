@@ -31,7 +31,8 @@ public class Area {
 		time = new DelayedAction(){
 			@Override
 			public void doAction() {
-				am.getCurPlayer().addTime(1);
+				if(am.getCurPlayer().addTime(1))
+					am.notifyDie();
 			}
 
 			@Override

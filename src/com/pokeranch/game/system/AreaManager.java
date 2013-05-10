@@ -11,11 +11,14 @@ import com.pokeranch.game.system.MainGameView.ButtonClick;
 import com.pokeranch.game.system.Sprite.SpriteCounter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -31,10 +34,13 @@ public class AreaManager implements IScreen{
 	private String AMPM="";
 	private Paint paint;
 	private Paint paintkotak;
+	private boolean die = false;
 	public final int dirX[] = {-1, 0, 1, 0};
 	public final int dirY[] = {0, 1, 0, -1};
 	private int screenWidth, screenHeight;
 	private CopyOnWriteArrayList<WalkingMonster> monsters;
+	private Bitmap frame;
+	private TextComponent info;
 	
 	AreaManager(Context con, int scw, int sch, Player p){
 		PlayerMenu.initialize(p);
@@ -47,6 +53,10 @@ public class AreaManager implements IScreen{
 		paintkotak.setColor(Color.WHITE);
 		paint.setColorFilter(null);
 		curPlayer = p;
+		
+		
+		frame = BitmapManager.getInstance().get("dbox");
+		info = new TextComponent("One of your monster has died \nand reborn into a level 1 monster", 20, 200);
 		
 		monsters = new CopyOnWriteArrayList<WalkingMonster>();
 		
@@ -376,6 +386,12 @@ public class AreaManager implements IScreen{
 		curArea.drawObj(canvas);
 		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch()))
 			curHead.draw(canvas, paint);
+		
+		if(die){
+			canvas.drawBitmap(frame, new Rect(0,0, frame.getWidth(),frame.getHeight()),new RectF(0,160,320,240), null);
+			info.draw(canvas);
+		}
+		
 		for(BitmapButton b : buttons){
 			b.draw(canvas);
 		}
@@ -395,6 +411,10 @@ public class AreaManager implements IScreen{
 		for(BitmapButton b : buttons){
 			b.onTouchEvent(e, magX, magY);
 		}
+
+		if(die){
+			die = false;
+		}
 	}
 	
 	public Area getCurArea(){
@@ -406,6 +426,10 @@ public class AreaManager implements IScreen{
 		curArea.setAreaManager(this);
 		resetWalkingMonsters();
 		
+	}
+	
+	public void notifyDie(){
+		die = true;
 	}
 
 	public Player getCurPlayer() {
