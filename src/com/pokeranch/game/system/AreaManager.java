@@ -19,7 +19,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 
 public class AreaManager implements IScreen{
@@ -378,21 +377,19 @@ public class AreaManager implements IScreen{
 //		p.addCircle(getCurArea().getCurX()*16 + 8, getCurArea().getCurY()*16 + 8, 12, Path.Direction.CCW);
 //		canvas.clipPath(p);
 //		canvas.drawBitmap(shade, null, new Rect(0,0,240,320), null);
-		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch())){
-			curBody.draw(canvas, paint);
-			if(roamingMode.equals("swim")){
-				leftFinSwim.draw(canvas, paint);
-				leftFinSwim.draw(canvas, paint);
-				rightFinSwim.draw(canvas, paint);
-				rightFinSwim.draw(canvas, paint);
-			}
+		curBody.draw(canvas, paint);
+		if(roamingMode.equals("swim")){
+			leftFinSwim.draw(canvas, paint);
+			leftFinSwim.draw(canvas, paint);
+			rightFinSwim.draw(canvas, paint);
+			rightFinSwim.draw(canvas, paint);
 		}
-		curArea.drawObj(canvas);
-		
 		for(WalkingMonster m:monsters)
 			m.draw(canvas, paint);
-		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch()))
-			curHead.draw(canvas, paint);
+		curArea.drawObj(canvas);
+		
+		
+		curHead.draw(canvas, paint);
 		
 		if(die){
 			canvas.drawBitmap(frame, new Rect(0,0, frame.getWidth(),frame.getHeight()),new RectF(0,160,320,240), null);
@@ -542,10 +539,10 @@ public class AreaManager implements IScreen{
 		
 		//salah satu dari koord shore/koordinat laut ga valid,
 		//gagal
-		Log.d("harits99", "trySwim invoked");
+		//Log.d("harits99", "trySwim invoked");
 		if(!checkBounds(x, y) || !checkBounds(newX, newY))
 			return;
-		Log.d("harits99", "tile in your direction: " + getCurArea().getTile(x, y).isSwimmable() + ". currently in " + getRoamingMode() + " mode");
+		//Log.d("harits99", "tile in your direction: " + getCurArea().getTile(x, y).isSwimmable() + ". currently in " + getRoamingMode() + " mode");
 		if(getCurArea().getTile(x, y).isSwimmable() && getRoamingMode().equals("ground")){
 			Monster m = getCurPlayer().getMonsterWithSkill("Swim");
 			if(m != null){
@@ -635,7 +632,7 @@ public class AreaManager implements IScreen{
 		int tries = 0;
 		int x = rand.nextInt(getCurArea().getRow());
 		int y = rand.nextInt(getCurArea().getColumn());
-		while(!getCurArea().getTile(x, y).isSwimmable()){
+		while(!isSeaMonsterPlacable(x, y)){
 			x = rand.nextInt(getCurArea().getRow());
 			y = rand.nextInt(getCurArea().getColumn());
 			tries++;
@@ -652,12 +649,33 @@ public class AreaManager implements IScreen{
 		return (tested >= blow && tested <= bhigh);
 	}
 	
+	public boolean isSeaMonsterPlacable(int x, int y){
+		//ngecek bujur sangkar yg sisinya 2 tile yg ujung kiri atasnya adalah x, y apakah tilenya passable semua
+		if(!checkBounds(x, y) || !checkBounds(x+1, y) || !checkBounds(x, y+1) || !checkBounds(x+1, y+1))
+			return false;
+			
+		if(getCurArea().getTile(x, y).isSwimmable() && getCurArea().getTile(x+1, y).isSwimmable() && getCurArea().getTile(x, y+1).isSwimmable() && getCurArea().getTile(x+1, y+1).isSwimmable()){
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean isGroundMonsterPlacable(int x, int y){
+		//ngecek bujur sangkar yg sisinya 2 tile yg ujung kiri atasnya adalah x, y apakah tilenya passable semua
+		if(!checkBounds(x+1, y) || !checkBounds(x, y+1) || !checkBounds(x+1, y+1))
+			return false;
+			
+		if(getCurArea().getTile(x, y).isPassable() && getCurArea().getTile(x+1, y).isPassable() && getCurArea().getTile(x, y+1).isPassable() && getCurArea().getTile(x+1, y+1).isPassable()){
+			return true;
+		} else
+			return false;
+	}
 	public Point getRandomPassableGroundTile(){
 		Random rand = new Random();
 		int tries = 0;
 		int x = rand.nextInt(getCurArea().getRow());
 		int y = rand.nextInt(getCurArea().getColumn());
-		while(!getCurArea().getTile(x, y).isPassable() || (contains(getCurArea().getCurX() - 1, getCurArea().getCurX() + 1, x+1) && contains(getCurArea().getCurY(), getCurArea().getCurY() + 1, y + 1))){
+		while(!isGroundMonsterPlacable(x, y) || (contains(getCurArea().getCurX() - 1, getCurArea().getCurX() + 1, x+1) && contains(getCurArea().getCurY(), getCurArea().getCurY() + 1, y + 1))){
 			x = rand.nextInt(getCurArea().getRow());
 			y = rand.nextInt(getCurArea().getColumn());
 			tries++;
