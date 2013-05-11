@@ -542,9 +542,10 @@ public class AreaManager implements IScreen{
 		
 		//salah satu dari koord shore/koordinat laut ga valid,
 		//gagal
+		Log.d("harits99", "trySwim invoked");
 		if(!checkBounds(x, y) || !checkBounds(newX, newY))
 			return;
-
+		Log.d("harits99", "tile in your direction: " + getCurArea().getTile(x, y).isSwimmable() + ". currently in " + getRoamingMode() + " mode");
 		if(getCurArea().getTile(x, y).isSwimmable() && getRoamingMode().equals("ground")){
 			Monster m = getCurPlayer().getMonsterWithSkill("Swim");
 			if(m != null){
@@ -554,10 +555,7 @@ public class AreaManager implements IScreen{
 				ScreenManager.getInstance().push(DialogueBox.getInstance());
 				
 				//ganti mode, biar fin nya keliatan + sprite keganti
-				if(roamingMode.equals("swim")){
-					changeRoamingMode("ground");
-				} else
-					changeRoamingMode("swim");
+				changeRoamingMode("swim");
 				
 				//pindahin player ke koordinat baru
 				setPlayerCord(new Point(x, y));
@@ -566,10 +564,8 @@ public class AreaManager implements IScreen{
 			Monster m = getCurPlayer().getMonsterWithSkill("Swim");
 			if(m != null){
 				//ganti mode, biar fin nya keliatan + sprite keganti
-				if(roamingMode.equals("swim")){
-					changeRoamingMode("ground");
-				} else
-					changeRoamingMode("swim");
+				changeRoamingMode("ground");
+				
 				
 				//pindahin player ke koordinat baru
 				setPlayerCord(new Point(x, y));

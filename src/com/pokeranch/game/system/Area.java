@@ -150,7 +150,7 @@ public class Area {
 		time.update();
 		if(time.finished()) 
 			time.reset();
-		
+		Log.d("harits99", "move " + move);
 		if(move){
 			if(!startMoving){
 				direction = newDirection;
@@ -193,8 +193,10 @@ public class Area {
 							curX = nextX;
 							curY = nextY;
 							am.movePlayer(direction, 2);
-						} else
+						} else {
 							am.setPlayerDirection(direction);
+							move = false;
+						}
 					} else if(getTile(nextX, nextY).isPassable()){
 						startMoving = true;
 						curX = nextX;
@@ -221,6 +223,7 @@ public class Area {
 			am.setPlayerDirection(direction);
 			//aksi2 gajelas kayak swim, dorong batu, dkk disini
 			if(isActionA){
+				Log.d("harits99", "button A pushed");
 				am.pushBoulder(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				am.cutTree(curX + am.dirX[direction], curY + am.dirY[direction], direction);
 				am.trySwim(curX + am.dirX[direction], curY + am.dirY[direction], direction);
