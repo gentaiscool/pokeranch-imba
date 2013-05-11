@@ -691,11 +691,11 @@ public class AreaManager implements IScreen{
 					monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND", rand.nextInt(7)));
 			} else {
 				if(tmp1 != null)
-					monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this, "GROUND", 15 + rand.nextInt(8)));
+					monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this, "GROUND", 10 + rand.nextInt(9)));
 				if(tmp2 != null)
-					monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this, "GROUND", 15 + rand.nextInt(8)));
+					monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this, "GROUND", 10 + rand.nextInt(9)));
 				if(tmp3 != null)
-					monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND", 15 + rand.nextInt(8)));
+					monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND", 10 + rand.nextInt(9)));
 			}
 			Point tmp4,tmp5,tmp6;
 			tmp4 = getRandomPassableSeaTile();
