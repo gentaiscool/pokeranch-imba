@@ -25,6 +25,10 @@ public class BitmapButton implements Touchables {
 		this.bitmap = bitmap;
 	}
 	
+	public Bitmap getBitmap () {
+		return bitmap;
+	}
+	
 	public void setBitmap (Bitmap _bitmap) {
 		bitmap = _bitmap;
 	}

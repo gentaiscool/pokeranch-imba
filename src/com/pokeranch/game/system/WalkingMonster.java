@@ -13,6 +13,7 @@ import com.pokeranch.game.system.Sprite.SpriteCounter;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
 
 public class WalkingMonster {
@@ -32,11 +33,12 @@ public class WalkingMonster {
 	private int curX, curY;
 	private String mode;
 	private int monsterID;
-	public static boolean inactive;
+	public boolean fighting;
 	public WalkingMonster(Sprite _sprite, int x, int y, AreaManager _am, String _mode, String _place, int spriteID){
 		monsterID = spriteID;
 		place = _place;
 		sprite = _sprite;
+		fighting = false;
 		curX = x;
 		curY = y;
 		rand = new Random();
@@ -44,7 +46,6 @@ public class WalkingMonster {
 		am = _am;
 		startMoving = false;
 		mode = _mode;
-		monsterID = rand.nextInt(10);
 	}
 	
 	public static WalkingMonster createNewWalkingMonster(Point p, String mode, AreaManager _am, String _place, int spriteID){
@@ -125,10 +126,18 @@ public class WalkingMonster {
 			if(!outOfBounds){
 				//Log.d("harits11", "X: " + (am.getCurArea().getCurX() - 16) + " <= " + (curX+16) + " <= " + (am.getCurArea().getCurX() + 16));
 				//Log.d("harits11", "X: " + (am.getCurArea().getCurY()) + " <= " + (curY+16) + " <= " + (am.getCurArea().getCurY() + 16));
+				Rect playerBoundary = new Rect(am.getCurBody().getY(), am.getCurBody().getX()-8,am.getCurBody().getY()+16, am.getCurBody().getX()+16);
+				Rect monsterBoundary = new Rect(sprite.getY()+8, sprite.getX()+8, sprite.getY()+24, sprite.getX()+24);
 				
-				if(am.contains(am.getCurArea().getCurX() - 16, am.getCurArea().getCurX() + 16, curX + 16) && am.contains(am.getCurArea().getCurY(), am.getCurArea().getCurY() + 16, curY + 16)){
-					//am.getCurArea().getTile(curX, curY).setPassable(0);
-					inactive = true;
+			
+				
+				if(playerBoundary.intersect(monsterBoundary) && !fighting){
+//					Log.d("harits99", "monster with ferocious type of " + mode + " is fighting!");
+//					Log.d("harits99", "playerbound: " + playerBoundary.left + " " + playerBoundary.top + " " + playerBoundary.right + " " + playerBoundary.bottom);
+//					Log.d("harits99", "monsterbound: " + monsterBoundary.left + " " + monsterBoundary.top + " " + monsterBoundary.right + " " + monsterBoundary.bottom);
+//					Log.d("harits99", "lokasi logika: " + curX + " " + curY);
+//					Log.d("harits99", "lokasi sprite: " + sprite.getX() + " " + sprite.getY());
+//					fighting = true;
 					Player player2 = new Player();
 					Species s = Monster.getSpeciesById(monsterID);
 					s.setCombineRating(1);

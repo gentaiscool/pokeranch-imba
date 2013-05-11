@@ -62,6 +62,7 @@ public class Monster{
 	
 	public static Species getSpeciesById(int id){
 		String name[] = {"Bulba","Ivy","Venu","Cater","Charchar","Charmeleon","Charizard","Squir","Wartotle","Blastoise","Metapod","Metapod","Butter"," Weedle","Kakuna","Pidgeot","Beedril","Pidgey","Pidgeotto"};
+		Log.d("harits99", "id: " + id + ", monster name: " + name[id]);
 		return DBLoader.getInstance().getSpecies(name[id]);
 	}
 	

@@ -55,7 +55,6 @@ public class MainMenu implements IScreen{
 			exitbutton = new BitmapButton(BitmapManager.getInstance().get("exitbutton"), 20, 150);
 			pokeball = new BitmapButton(BitmapManager.getInstance().get("pokeball"),80,60);
 			logo = new BitmapButton(BitmapManager.getInstance().get("logo"),20,32);
-			 
 			logo.addTouchListener(new TouchListener() {
 				@Override
 				public void onTouchUp() {
@@ -158,7 +157,6 @@ public class MainMenu implements IScreen{
 			});
 			
 			//Log.d("hehe",newgame.toString());
-			BitmapButton buttonLeft = new BitmapButton(BitmapManager.getInstance().get("left"), 25,180);
 			buttons = new ArrayList<BitmapButton>();
 			buttons.add(newgame);
 			buttons.add(loadgame);

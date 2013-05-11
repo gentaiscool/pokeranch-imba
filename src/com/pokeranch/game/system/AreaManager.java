@@ -355,11 +355,9 @@ public class AreaManager implements IScreen{
 	@Override
 	public void update() {
 		curArea.update();
-		for(WalkingMonster m:monsters){
-			if(!WalkingMonster.inactive)
+		for(WalkingMonster m:monsters)
 				m.update();
-		}
-		WalkingMonster.inactive = false;
+		
 		if((getCurPlayer().getPlayingTime().getHour() >= 18 || getCurPlayer().getPlayingTime().getHour() < 6) && getCurArea().getPlace().equals("OUTDOOR")){ //udah malam ikan bobo
 			dayLightTime = "NIGHT";
 			if(getCurPlayer().haveTorch())
@@ -381,8 +379,6 @@ public class AreaManager implements IScreen{
 //		canvas.clipPath(p);
 //		canvas.drawBitmap(shade, null, new Rect(0,0,240,320), null);
 		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch())){
-			for(WalkingMonster m:monsters)
-				m.draw(canvas, paint);
 			curBody.draw(canvas, paint);
 			if(roamingMode.equals("swim")){
 				leftFinSwim.draw(canvas, paint);
@@ -392,6 +388,9 @@ public class AreaManager implements IScreen{
 			}
 		}
 		curArea.drawObj(canvas);
+		
+		for(WalkingMonster m:monsters)
+			m.draw(canvas, paint);
 		if(paint.getColorFilter() == null || (paint.getColorFilter() != null && getCurPlayer().haveTorch()))
 			curHead.draw(canvas, paint);
 		
@@ -662,7 +661,7 @@ public class AreaManager implements IScreen{
 		int tries = 0;
 		int x = rand.nextInt(getCurArea().getRow());
 		int y = rand.nextInt(getCurArea().getColumn());
-		while(!getCurArea().getTile(x, y).isPassable() || (contains(getCurArea().getCurX() - 16, getCurArea().getCurX() + 16, x + 16) && contains(getCurArea().getCurY(), getCurArea().getCurY() + 16, y + 16))){
+		while(!getCurArea().getTile(x, y).isPassable() || (contains(getCurArea().getCurX() - 1, getCurArea().getCurX() + 1, x+1) && contains(getCurArea().getCurY(), getCurArea().getCurY() + 1, y + 1))){
 			x = rand.nextInt(getCurArea().getRow());
 			y = rand.nextInt(getCurArea().getColumn());
 			tries++;
@@ -685,18 +684,18 @@ public class AreaManager implements IScreen{
 			tmp3 = getRandomPassableGroundTile();
 			if(dayLightTime.equals("DAY")){
 				if(tmp1 != null)
-					monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this, "GROUND", 0));
+					monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this, "GROUND", rand.nextInt(7)));
 				if(tmp2 != null)
-					monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this, "GROUND", 0));
+					monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this, "GROUND", rand.nextInt(7)));
 				if(tmp3 != null)
-					monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND", 0));
+					monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND", rand.nextInt(7)));
 			} else {
 				if(tmp1 != null)
-					monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this, "GROUND", 15));
+					monsters.add(WalkingMonster.createNewWalkingMonster(tmp1, "HOMING", this, "GROUND", 15 + rand.nextInt(8)));
 				if(tmp2 != null)
-					monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this, "GROUND", 15));
+					monsters.add(WalkingMonster.createNewWalkingMonster(tmp2, "FLEE", this, "GROUND", 15 + rand.nextInt(8)));
 				if(tmp3 != null)
-					monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND", 15));
+					monsters.add(WalkingMonster.createNewWalkingMonster(tmp3, "RANDOM", this, "GROUND", 15 + rand.nextInt(8)));
 			}
 			Point tmp4,tmp5,tmp6;
 			tmp4 = getRandomPassableSeaTile();
