@@ -43,6 +43,11 @@ public class BitmapManager {
 	}
 	
 	public static void release(){
+		
+		for(Bitmap b : instance.bitmaps.values()){
+			b.recycle();
+		}
+		
 		instance.bitmaps.clear();
 		instance = null;
 	}
