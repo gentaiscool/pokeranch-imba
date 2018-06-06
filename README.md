@@ -15,3 +15,6 @@
 This project is a school project and intended for educational purpose only.
 Images are ripped from http://www.spriters-resource.com/ds/pokeheartgoldsoulsilver/index.html.  
 Pokemon and Monster Rancher are owned by their respective publisher. We do not declare any ownership on both franchises.
+
+## Note:
+Object Oriented Programming Course Project in Institut Teknologi Bandung
