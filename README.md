@@ -1,4 +1,7 @@
-# POKERANCH FOR ANDROID
+# PokeRanch
+
+## Requirement
+- Android 4.2 - Jelly Bean (or later)
 
 ## Team: PokeRancher Imba
 - Genta Indra Winata
